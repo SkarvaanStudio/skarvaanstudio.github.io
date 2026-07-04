@@ -152,7 +152,7 @@
     font-size:1.05rem;
     margin:1.1em 0 2.2em;
   }
-  .hero-actions{display:flex; gap:1rem; flex-wrap:wrap;}
+  .hero-actions{display:flex; gap:.7rem; flex-wrap:wrap;}
 
   .hero-logo{
   display:block;
