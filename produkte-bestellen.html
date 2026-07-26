@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motive & Produkte auf Anfrage — BG Naturfotografie</title>
+<meta name="description" content="Postkarten, Fine-Art-Prints, Sticker und Merch mit deinem Lieblingsmotiv — auf Anfrage, transparent gefertigt.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .shop-hero{ padding:8.5rem 0 1rem; }
+  .shop-hero h1{ font-size:clamp(2rem,4.4vw,3rem); max-width:20ch; margin-bottom:1rem; }
+  .shop-hero h1 em{ color:var(--accent-soft); font-style:italic; font-weight:420; }
+  .shop-hero p.lead{ color:var(--text-muted); max-width:60ch; font-size:1.02rem; }
+
+  .origin-legend{
+    display:flex; flex-wrap:wrap; gap:1rem;
+    margin:2rem 0 0; padding:1.2rem 1.4rem;
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); font-size:.85rem;
+  }
+  .origin-legend .item{ display:flex; align-items:center; gap:.5rem; color:var(--text-muted); }
+  .origin-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .origin-dot.selbst{ background:#7fae86; }
+  .origin-dot.printful{ background:var(--accent); }
+  .origin-dot.gelato{ background:var(--frost); }
+
+  /* ---- Ablauf-Erklärung ---- */
+  .ablauf-section{ background:var(--bg-panel); }
+  .ablauf-steps{
+    display:grid; grid-template-columns:repeat(5, 1fr); gap:1.2rem;
+    margin-top:2rem;
+  }
+  @media (max-width:900px){ .ablauf-steps{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:560px){ .ablauf-steps{ grid-template-columns:1fr; } }
+  .ablauf-step{
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); padding:1.3rem 1.2rem;
+  }
+  .ablauf-step .num{
+    font-family:'JetBrains Mono', monospace; font-size:.75rem;
+    color:var(--accent-soft); letter-spacing:.08em; display:block; margin-bottom:.5rem;
+  }
+  .ablauf-step h3{ font-size:1rem; margin-bottom:.4rem; }
+  .ablauf-step p{ font-size:.85rem; color:var(--text-muted); margin:0; }
+  .ablauf-note{
+    margin-top:1.6rem; padding:1rem 1.2rem;
+    background:rgba(159,184,201,0.09); border-left:3px solid var(--frost);
+    border-radius:var(--radius); font-size:.88rem; color:var(--text-light); max-width:70ch;
+  }
+
+  /* ---- Kategorie-Blöcke ---- */
+  .cat-block-shop{ margin:4.5rem 0; scroll-margin-top:90px; }
+  .cat-block-shop h2{ font-size:1.7rem; margin-bottom:.3rem; }
+  .cat-block-shop .cat-sub{ color:var(--text-muted); font-size:.92rem; max-width:60ch; margin-bottom:.6rem; }
+  .origin-badge{
+    display:inline-flex; align-items:center; gap:.4rem;
+    font-family:'JetBrains Mono', monospace; font-size:.7rem; letter-spacing:.04em;
+    color:var(--text-light); background:var(--bg-panel); border:1px solid var(--line);
+    padding:.35rem .75rem; border-radius:20px; margin-bottom:1.6rem;
+  }
+  .widerruf-note{ font-size:.82rem; color:var(--text-muted); margin:0 0 1.8rem; max-width:60ch; }
+
+  .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:var(--gap); }
+  .pick-card{
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .pick-card .frame{
+    position:relative; aspect-ratio:4/5; overflow:hidden;
+    background:repeating-linear-gradient(135deg, var(--bg-panel) 0 14px, var(--bg-panel-2) 14px 28px);
+  }
+  .pick-card .frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .pick-card .body{ padding:.9rem 1rem 1.1rem; display:flex; flex-direction:column; gap:.55rem; flex-grow:1; }
+  .pick-card .body b{ font-family:'Fraunces', serif; font-weight:500; font-size:1rem; }
+  .pick-card select{
+    width:100%; background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:var(--radius); color:var(--text-light);
+    padding:.55em .7em; font-family:'Work Sans', sans-serif; font-size:.85rem;
+  }
+  .pick-card .add-btn{
+    margin-top:auto; font-family:'JetBrains Mono', monospace; font-size:.78rem;
+    background:transparent; border:1px solid var(--accent); color:var(--accent-soft);
+    padding:.6em 1em; border-radius:var(--radius); cursor:pointer;
+    transition:background .2s, color .2s;
+  }
+  .pick-card .add-btn:hover{ background:var(--accent); color:var(--bg-deep); }
+  .pick-card .add-btn.added{ background:#7fae86; border-color:#7fae86; color:var(--bg-deep); }
+
+  /* ---- Auswahl-Leiste ---- */
+  .selection-bar{
+    position:sticky; bottom:0; z-index:40;
+    background:rgba(27,33,22,0.96); backdrop-filter:blur(8px);
+    border-top:1px solid var(--accent); padding:1rem 0; display:none;
+  }
+  .selection-bar.visible{ display:block; }
+  .selection-bar .wrap{ display:flex; align-items:center; justify-content:space-between; gap:1.2rem; flex-wrap:wrap; }
+  .selection-summary{ font-size:.88rem; color:var(--text-light); }
+  .selection-summary b{ color:var(--accent-soft); }
+  .selection-list{ list-style:none; margin:.4rem 0 0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem; }
+  .selection-list li{
+    font-family:'JetBrains Mono', monospace; font-size:.74rem;
+    background:var(--bg-panel); border:1px solid var(--line);
+    padding:.3rem .7rem; border-radius:20px; display:flex; align-items:center; gap:.4rem;
+  }
+  .selection-list button{ background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:.9rem; line-height:1; padding:0; }
+  .selection-list button:hover{ color:var(--accent); }
+
+  /* ---- Formular ---- */
+  #anfrage-form-section{ background:var(--bg-panel); }
+  .shop-form-wrap form{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:2rem; }
+  .shop-form-wrap h2{ font-size:1.4rem; margin-bottom:.3rem; }
+  .shop-form-wrap .form-lead{ color:var(--text-muted); font-size:.92rem; margin:0 0 1.8rem; }
+  fieldset{ border:none; padding:0; margin:0 0 1.6rem; }
+  fieldset legend{
+    font-family:'JetBrains Mono', monospace; font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.12em; color:var(--accent-soft); padding:0 0 1rem;
+  }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .field-row.thirds{ grid-template-columns:1.4fr .7fr 1fr; }
+  @media (max-width:700px){ .field-row, .field-row.thirds{ grid-template-columns:1fr; } }
+  .checkbox-row{ display:flex; align-items:center; gap:.6rem; margin:.3rem 0 1rem; }
+  .checkbox-row input{ width:auto; }
+  .checkbox-row label{ margin:0; color:var(--text-light); font-size:.9rem; }
+  #lieferadresse-felder{ display:none; margin-top:.8rem; padding:1rem 1.1rem; background:var(--bg-panel); border-radius:var(--radius); }
+  #lieferadresse-felder.active{ display:block; }
+  textarea#auswahl-uebersicht{ min-height:80px; font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
+  .after-submit-note{ font-size:.8rem; color:var(--text-muted); margin-top:.6rem; }
+  .legal-note{
+    margin-top:1.4rem; padding:1rem 1.2rem;
+    background:rgba(201,124,61,0.09); border-left:3px solid var(--accent);
+    border-radius:var(--radius); font-size:.85rem; color:var(--text-light);
+  }
+</style>
+</head>
+<script>
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') { e.preventDefault(); }
+  });
+</script>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html#top"><img src="bilder/logo.png" alt="BG Naturfotografie Logo" class="brand-logo">
+      <b>BG</b> Naturfotografie</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+    <ul class="nav-links">
+      <li><a href="index.html#galerie">Galerie</a></li>
+      <li><a href="index.html#erhaeltlich-als">Produkte</a></li>
+      <li><a href="index.html#ueber-mich">Über mich</a></li>
+      <li><a href="index.html#termine">Termine</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="shop-hero">
+  <div class="wrap">
+    <span class="eyebrow">Auf Anfrage · transparent gefertigt</span>
+    <h1>Wähl dein Motiv, <em>wähl dein Produkt.</em></h1>
+    <p class="lead">Alle Designs stammen von mir. Manches fertige ich selbst zu Hause in Halstenbek, anderes über spezialisierte Partner — wer was macht, steht bei jedem Produkt direkt dabei.</p>
+
+    <div class="origin-legend">
+      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt in Halstenbek</span>
+      <span class="item"><span class="origin-dot printful"></span> Produktion: Printful (EU)</span>
+      <span class="item"><span class="origin-dot gelato"></span> Produktion: Gelato (EU)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABLAUF-ERKLÄRUNG ============ -->
+<section class="ablauf-section">
+  <div class="wrap">
+    <span class="eyebrow">Wichtig zu wissen</span>
+    <h2 style="font-size:1.5rem;">So läuft eine Bestellung bei mir ab</h2>
+    <p style="color:var(--text-muted); max-width:60ch;">Das hier ist kein automatischer Shop mit Sofort-Checkout — bei mir läuft's etwas persönlicher. So funktioniert's:</p>
+
+    <div class="ablauf-steps">
+      <div class="ablauf-step">
+        <span class="num">01</span>
+        <h3>Auswählen</h3>
+        <p>Du klickst dich durch die Motive und legst an, was dich interessiert.</p>
+      </div>
+      <div class="ablauf-step">
+        <span class="num">02</span>
+        <h3>Anfrage senden</h3>
+        <p>Du schickst mir deine Auswahl zusammen mit deinen Daten — noch unverbindlich.</p>
+      </div>
+      <div class="ablauf-step">
+        <span class="num">03</span>
+        <h3>Angebot per Mail</h3>
+        <p>Ich melde mich mit Preis, Lieferzeit und Rechnung — meist innerhalb von 2–3 Tagen.</p>
+      </div>
+      <div class="ablauf-step">
+        <span class="num">04</span>
+        <h3>Du bezahlst</h3>
+        <p>Bist du einverstanden, überweist du den Betrag auf mein Geschäftskonto.</p>
+      </div>
+      <div class="ablauf-step">
+        <span class="num">05</span>
+        <h3>Fertigung &amp; Versand</h3>
+        <p>Nach Zahlungseingang setze ich alles in Bewegung — Fertigung, dann Versand an dich.</p>
+      </div>
+    </div>
+
+    <div class="ablauf-note">
+      Der Grund für diesen Ablauf: Als kleiner, regionaler Ein-Personen-Betrieb kalkuliere
+      ich jeden Preis noch persönlich statt automatisiert, und manche Artikel fertige ich
+      selbst von Hand. Dafür bekommst du aber auch ein wirklich individuelles Ergebnis
+      statt Massenware. Fragen dazu? Einfach in der Nachricht am Ende erwähnen.
+    </div>
+  </div>
+</section>
+
+<!-- Kategorie-Container: werden per JS aus produkte-daten.js befüllt -->
+<div id="kategorie-container"></div>
+
+<!-- ============ ANFRAGEFORMULAR ============ -->
+<section id="anfrage-form-section">
+  <div class="wrap shop-form-wrap">
+    <!--
+      FORMSPREE-SETUP: Ersetze YOUR_FORM_ID unten durch eine EIGENE,
+      neue Formspree-Endpoint-ID (separates Formular).
+    -->
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="anfrage-form">
+      <h2 id="kontakt-anfrage">Anfrage abschicken</h2>
+      <p class="form-lead">Ich melde mich meist innerhalb von 2–3 Tagen mit einem Angebot zurück — unverbindlich, bis du bestätigst.</p>
+
+      <fieldset>
+        <legend>Deine Auswahl</legend>
+        <label for="auswahl-uebersicht">Ausgewählte Artikel (automatisch befüllt — du kannst auch von Hand ergänzen)</label>
+        <textarea id="auswahl-uebersicht" name="Ausgewaehlte Artikel" placeholder="Noch nichts ausgewählt — nutze oben die Buttons 'Zur Auswahl hinzufügen', oder beschreibe deinen Wunsch einfach hier direkt."></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Deine Daten</legend>
+        <div class="field-row">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="Name" required>
+          </div>
+          <div>
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" name="E-Mail" required>
+          </div>
+        </div>
+        <div class="field-row thirds" style="margin-top:1rem;">
+          <div>
+            <label for="strasse">Straße &amp; Hausnummer (Rechnungsadresse)</label>
+            <input type="text" id="strasse" name="Rechnungsadresse - Strasse" required>
+          </div>
+          <div>
+            <label for="plz">PLZ</label>
+            <input type="text" id="plz" name="Rechnungsadresse - PLZ" required>
+          </div>
+          <div>
+            <label for="ort">Ort</label>
+            <input type="text" id="ort" name="Rechnungsadresse - Ort" required>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="abweichend" onchange="document.getElementById('lieferadresse-felder').classList.toggle('active', this.checked)">
+          <label for="abweichend">Lieferadresse weicht ab (z. B. Geschenk für jemand anderen)</label>
+        </div>
+
+        <div id="lieferadresse-felder">
+          <div class="field-row thirds">
+            <div>
+              <label for="l-strasse">Straße &amp; Hausnummer (Lieferadresse)</label>
+              <input type="text" id="l-strasse" name="Lieferadresse - Strasse">
+            </div>
+            <div>
+              <label for="l-plz">PLZ</label>
+              <input type="text" id="l-plz" name="Lieferadresse - PLZ">
+            </div>
+            <div>
+              <label for="l-ort">Ort</label>
+              <input type="text" id="l-ort" name="Lieferadresse - Ort">
+            </div>
+          </div>
+          <div style="margin-top:1rem;">
+            <label for="empfaenger">Name des Empfängers</label>
+            <input type="text" id="empfaenger" name="Lieferadresse - Empfaenger Name">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sonstiges</legend>
+        <label for="nachricht">Nachricht / weitere Anmerkungen</label>
+        <textarea id="nachricht" name="Nachricht" placeholder="z. B. gewünschte Größe, Farbe, Anlass, Liefertermin ..."></textarea>
+      </fieldset>
+
+      <div class="legal-note">
+        <strong>Gut zu wissen:</strong> Je nach Artikel gilt entweder das normale 14-tägige Widerrufsrecht (Postkarten, Sticker/Lesezeichen/Geschenkanhänger — vorgefertigte Standardware) oder es ist ausgeschlossen, weil individuell mit deinem Motiv gefertigt wird (Fine-Art-Prints via Gelato, Merch via Printful). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.
+      </div>
+
+      <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1.4rem;">Anfrage senden</button>
+      <p class="after-submit-note">Du bekommst danach von mir eine E-Mail mit einem konkreten, unverbindlichen Angebot.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ AUSWAHL-LEISTE (sticky) ============ -->
+<div class="selection-bar" id="selection-bar">
+  <div class="wrap">
+    <div class="selection-summary">
+      <span><b id="selection-count">0</b> Artikel ausgewählt</span>
+      <ul class="selection-list" id="selection-list"></ul>
+    </div>
+    <a href="#kontakt-anfrage" class="btn btn-fill">Weiter zur Anfrage →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 BG Naturfotografie</span>
+    <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="agb.html">AGB &amp; Widerruf</a></span>
+  </div>
+</footer>
+
+<script src="produkte-daten.js"></script>
+<script>
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  function pickCard(bild, motiv, selectHtml, dataAttrs) {
+    return '<div class="pick-card">' +
+      '<div class="frame"><img src="' + escapeHtml(bild) + '" alt="' + escapeHtml(motiv) + '"></div>' +
+      '<div class="body"><b>' + escapeHtml(motiv) + '</b>' + selectHtml +
+      '<button type="button" class="add-btn" ' + dataAttrs + '>Zur Auswahl hinzufügen</button>' +
+      '</div></div>';
+  }
+
+  function buildSimpleSelect(optionen) {
+    return '<select class="motiv-produkt-select">' +
+      optionen.map(function (o) { return '<option value="' + escapeHtml(o) + '">' + escapeHtml(o) + '</option>'; }).join('') +
+      '</select>';
+  }
+
+  function renderKategorien() {
+    var container = document.getElementById('kategorie-container');
+    var html = '';
+
+    var postkarten = MOTIVE.filter(function (m) { return m.verfuegbar.postkarte; });
+    html += '<section class="cat-block-shop" id="postkarten"><div class="wrap">' +
+      '<h2>Postkarten</h2>' +
+      '<p class="cat-sub">Gedruckt in größerer Auflage bei WirmachenDruck, von mir persönlich verpackt und aus Halstenbek verschickt.</p>' +
+      '<span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>' +
+      '<p class="widerruf-note">Vorgefertigte Standardware — für diese Artikel gilt das gesetzliche 14-tägige Widerrufsrecht ganz normal (siehe <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>).</p>' +
+      '<div class="pick-grid">' +
+      postkarten.map(function (m) {
+        return pickCard(m.bild, m.motiv, buildSimpleSelect(['Postkarte, einzeln', 'Postkarten-Set (3 Stück)']),
+          'data-motiv="' + escapeHtml(m.motiv) + '" data-kategorie="Postkarte" data-herkunft="Selbst gefertigt"');
+      }).join('') +
+      '</div></div></section>';
+
+    var sticker = MOTIVE.filter(function (m) { return m.verfuegbar.sticker; });
+    var extrasSticker = EXTRAS.filter(function (e) { return e.typ === 'sticker' || e.typ === 'geschenkanhaenger'; });
+    html += '<section class="cat-block-shop" id="sticker" style="background:var(--bg-panel); padding:4rem 0;"><div class="wrap">' +
+      '<h2>Sticker, Lesezeichen &amp; Geschenkanhänger</h2>' +
+      '<p class="cat-sub">Handgeplottet mit meinem Silhouette Cameo, zugeschnitten und verpackt bei mir zu Hause. Lesezeichen gibt es nur zu Motiven, die im Hochformat gut funktionieren.</p>' +
+      '<span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>' +
+      '<p class="widerruf-note">Vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt normal. Nur bei individuellen Sonderwünschen (eigener Text) kann das abweichen — steht dann im Angebot.</p>' +
+      '<div class="pick-grid">' +
+      sticker.map(function (m) {
+        var optionen = ['Sticker, einzeln'];
+        if (m.verfuegbar.lesezeichen) { optionen.push('Lesezeichen'); }
+        return pickCard(m.bild, m.motiv, buildSimpleSelect(optionen),
+          'data-motiv="' + escapeHtml(m.motiv) + '" data-kategorie="Sticker/Lesezeichen" data-herkunft="Selbst gefertigt"');
+      }).join('') +
+      extrasSticker.map(function (e) {
+        return pickCard(e.bild, e.motiv, buildSimpleSelect(e.varianten),
+          'data-motiv="' + escapeHtml(e.motiv) + '" data-kategorie="Sticker/Lesezeichen" data-herkunft="Selbst gefertigt"');
+      }).join('') +
+      '<div class="pick-card"><div class="frame"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:\'Fraunces\',serif;font-style:italic;font-size:2.4rem;color:var(--accent-soft);opacity:.5;">✎</span></div>' +
+      '<div class="body"><b>Eigener Sonderwunsch</b>' + buildSimpleSelect(['Sticker (Sonderwunsch)', 'Lesezeichen (Sonderwunsch)']) +
+      '<button type="button" class="add-btn" data-motiv="Sonderwunsch — Details in Nachricht" data-kategorie="Sticker/Lesezeichen" data-herkunft="Selbst gefertigt">Zur Auswahl hinzufügen</button></div></div>' +
+      '</div></div></section>';
+
+    var fineart = MOTIVE.filter(function (m) { return m.verfuegbar.fineart; });
+    html += '<section class="cat-block-shop" id="fineart"><div class="wrap">' +
+      '<h2>Fine-Art-Prints</h2>' +
+      '<p class="cat-sub">Hochwertiger Druck in Galerie-Qualität über meinen Print-Partner Gelato, direkt an dich versendet.</p>' +
+      '<span class="origin-badge"><span class="origin-dot gelato"></span> Produktion: Gelato</span>' +
+      '<p class="widerruf-note">Individuell für dich in deinem gewählten Format gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>' +
+      '<div class="pick-grid">' +
+      fineart.map(function (m) {
+        return pickCard(m.bild, m.motiv, buildSimpleSelect(['Format A4', 'Format A3']),
+          'data-motiv="' + escapeHtml(m.motiv) + '" data-kategorie="Fine-Art-Print" data-herkunft="Gelato"');
+      }).join('') +
+      '</div></div></section>';
+
+    var merch = MOTIVE.filter(function (m) { return m.verfuegbar.merch; });
+    var produktTypen = Object.keys(MERCH_FARBEN);
+    html += '<section class="cat-block-shop" id="merch" style="background:var(--bg-panel); padding:4rem 0;"><div class="wrap">' +
+      '<h2>Merch</h2>' +
+      '<p class="cat-sub">Tasse, Shirt, Kissen &amp; Co. — Design von mir, Produktion und Versand über Printful.</p>' +
+      '<span class="origin-badge"><span class="origin-dot printful"></span> Produktion: Printful</span>' +
+      '<p class="widerruf-note">Individuell mit deinem gewählten Motiv gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>' +
+      '<div class="pick-grid">' +
+      merch.map(function (m, i) {
+        var produktSelectId = 'merch-produkt-' + i;
+        var farbeSelectId = 'merch-farbe-' + i;
+        var produktOptions = produktTypen.map(function (p) { return '<option value="' + escapeHtml(p) + '">' + escapeHtml(p) + '</option>'; }).join('');
+        return '<div class="pick-card">' +
+          '<div class="frame"><img src="' + escapeHtml(m.bild) + '" alt="' + escapeHtml(m.motiv) + '"></div>' +
+          '<div class="body"><b>' + escapeHtml(m.motiv) + '</b>' +
+          '<select id="' + produktSelectId + '" class="merch-produkt-select" onchange="updateMerchFarben(\'' + produktSelectId + '\',\'' + farbeSelectId + '\')">' + produktOptions + '</select>' +
+          '<select id="' + farbeSelectId + '" class="merch-farbe-select"></select>' +
+          '<button type="button" class="add-btn merch-add-btn" data-motiv="' + escapeHtml(m.motiv) + '" data-produkt-select="' + produktSelectId + '" data-farbe-select="' + farbeSelectId + '" data-kategorie="Merch" data-herkunft="Printful">Zur Auswahl hinzufügen</button>' +
+          '</div></div>';
+      }).join('') +
+      '</div></div></section>';
+
+    container.innerHTML = html;
+
+    document.querySelectorAll('.merch-produkt-select').forEach(function (sel) {
+      var farbeId = sel.id.replace('produkt-', 'farbe-');
+      updateMerchFarben(sel.id, farbeId);
+    });
+
+    document.querySelectorAll('.add-btn:not(.merch-add-btn)').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.pick-card');
+        var select = card.querySelector('.motiv-produkt-select');
+        var produkt = select ? select.options[select.selectedIndex].text : '';
+        addToAuswahl(btn.dataset.motiv + ' — ' + produkt + ' (' + btn.dataset.kategorie + ' · ' + btn.dataset.herkunft + ')', btn);
+      });
+    });
+
+    document.querySelectorAll('.merch-add-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var produktSel = document.getElementById(btn.dataset.produktSelect);
+        var farbeSel = document.getElementById(btn.dataset.farbeSelect);
+        var produkt = produktSel.options[produktSel.selectedIndex].text;
+        var farbe = farbeSel.options[farbeSel.selectedIndex] ? farbeSel.options[farbeSel.selectedIndex].text : '';
+        var label = btn.dataset.motiv + ' — ' + produkt + ', Farbe: ' + farbe + ' (Merch · Printful)';
+        addToAuswahl(label, btn);
+      });
+    });
+  }
+
+  function updateMerchFarben(produktSelectId, farbeSelectId) {
+    var produktSel = document.getElementById(produktSelectId);
+    var farbeSel = document.getElementById(farbeSelectId);
+    var produkt = produktSel.value;
+    var farben = MERCH_FARBEN[produkt] || [];
+    farbeSel.innerHTML = farben.map(function (f) { return '<option value="' + escapeHtml(f) + '">' + escapeHtml(f) + '</option>'; }).join('');
+  }
+
+  var auswahl = [];
+
+  function renderAuswahl() {
+    var listEl = document.getElementById('selection-list');
+    var countEl = document.getElementById('selection-count');
+    var barEl = document.getElementById('selection-bar');
+    var textareaEl = document.getElementById('auswahl-uebersicht');
+
+    listEl.innerHTML = '';
+    auswahl.forEach(function (item, index) {
+      var li = document.createElement('li');
+      li.textContent = item;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Entfernen');
+      btn.textContent = '×';
+      btn.addEventListener('click', function () {
+        auswahl.splice(index, 1);
+        renderAuswahl();
+      });
+      li.appendChild(btn);
+      listEl.appendChild(li);
+    });
+
+    countEl.textContent = auswahl.length;
+    barEl.classList.toggle('visible', auswahl.length > 0);
+    textareaEl.value = auswahl.map(function (item) { return '- ' + item; }).join('\n');
+  }
+
+  function addToAuswahl(label, btn) {
+    auswahl.push(label);
+    renderAuswahl();
+    var original = 'Zur Auswahl hinzufügen';
+    btn.textContent = 'Hinzugefügt ✓';
+    btn.classList.add('added');
+    setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove('added');
+    }, 1400);
+  }
+
+  renderKategorien();
+</script>
+
+</body>
+</html>
