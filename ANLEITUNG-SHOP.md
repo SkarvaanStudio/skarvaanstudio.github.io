@@ -4,67 +4,65 @@ Diese Anleitung ist NUR für dich (Bene) — Kunden sehen das nicht.
 
 ## Das Prinzip
 
-Die Datei `produkte-daten.js` ist die EINZIGE Stelle, die du bearbeiten musst.
-`produkte-bestellen.html` liest diese Daten aus und baut die komplette Shop-Seite
-automatisch zusammen — Postkarten, Sticker/Lesezeichen, Fine-Art-Prints und Merch.
+`produkte-daten.js` ist die EINZIGE Datei, die du bearbeiten musst.
+`produkte-bestellen.html` baut die komplette Shop-Seite automatisch daraus auf.
 
-Du musst also NIE HTML von Hand anpassen, um ein neues Motiv oder Produkt
-hinzuzufügen. Nur `produkte-daten.js` bearbeiten, speichern, hochladen — fertig.
+**Wichtig:** Beide Listen (`MOTIVE` und `EXTRAS`) sind bewusst leer. Es
+erscheint auf der Seite nichts, bis du selbst Einträge ergänzt — es gibt
+keine Beispiel- oder Platzhalter-Motive. Was du einträgst, ist das, was
+Kunden sehen.
 
-## Neues Foto aus der Galerie als Produkt anbieten
+## Mockups & Karussell
 
-1. Foto in den passenden Unterordner legen, z. B. `bilder/waldleben/eichhoernchen4.jpg`
-   (gleiche Ordnerstruktur wie bei Teichleben/Gartenleben nutzen — siehe Hinweis unten).
-2. In `produkte-daten.js` im Abschnitt `MOTIVE` einen neuen Block kopieren
-   (z. B. den letzten Eintrag) und anpassen:
-   - `id`: eindeutiger Name, z. B. `"waldleben-eichhoernchen4"`
-   - `motiv`: Anzeigename für Kunden, z. B. `"Eichhörnchen · im Sprung"`
-   - `bild`: Pfad zum Foto
-   - `kategorie`: `"Teichleben"`, `"Gartenleben"`, `"Waldleben"` oder `"Reduktion"`
-   - `ausrichtung`: `"hoch"` (Hochformat) oder `"quer"` (Querformat)
-3. Bei `verfuegbar` einzeln auf `true`/`false` setzen, wo das Motiv angeboten
-   werden soll: `postkarte`, `sticker`, `lesezeichen`, `fineart`, `merch`.
+Jede Variante (z. B. "Postkarte, einzeln" oder eine Farbe bei Merch) hat
+eine eigene `mockups`-Liste mit Bildpfaden:
+- **Ein Bild** → wird einfach angezeigt.
+- **Mehrere Bilder** → werden automatisch zum Karussell mit Pfeilen und
+  Punkte-Anzeige.
+- **Leere Liste `[]`** → zeigt "Noch kein Mockup hinterlegt" statt eines
+  kaputten Bildes. Du kannst ein Motiv also schon anlegen und die Mockups
+  später nachreichen.
 
-   **Wichtig bei `lesezeichen`:** Nur auf `true` setzen, wenn du dir das Foto
-   tatsächlich angeschaut hast und der Bildausschnitt im schmalen
-   Lesezeichen-Format (lang, schmal) noch gut funktioniert — meistens nur bei
-   Hochformat-Fotos mit zentriertem Motiv der Fall.
+Bei **Merch** wechseln die Mockups automatisch mit der gewählten Farbe —
+du hinterlegst pro Farbe eine eigene `mockups`-Liste.
 
-4. Datei speichern, ins Repository hochladen (GitHub), fertig — das Motiv
-   erscheint jetzt automatisch überall, wo du es freigegeben hast, inkl.
-   Vorschaubild.
+Bei **Sticker/Lesezeichen** entscheidest du komplett selbst: Ein Motiv
+bekommt nur dann eine "Lesezeichen"-Variante, wenn du sie explizit
+einträgst (siehe Beispiel unten) — es gibt keine automatische Annahme
+mehr über Hoch-/Querformat.
 
-## Neuen Artikel hinzufügen, der NICHT an ein Foto gebunden ist
+## Neues Motiv anlegen — so gehst du vor
 
-(z. B. ein fertiges Sticker-Design, das nicht aus der Foto-Galerie stammt,
-oder Geschenkanhänger)
+1. Mockup-Fotos erstellen (z. B. über den Printful- oder Gelato-
+   Mockup-Generator, oder eigene Fotos deiner Postkarten/Sticker) und in
+   `bilder/mockups/` ablegen.
+2. In `produkte-daten.js` das auskommentierte Beispiel oben in der Datei
+   kopieren, in die `MOTIVE`-Liste einfügen und anpassen:
+   - `id`, `motiv` (Anzeigename), `kategorie`
+   - Nur die Kategorien eintragen, die du wirklich anbieten willst
+     (`postkarte`, `stickerLesezeichen`, `fineart`, `merch`) — fehlt eine
+     Kategorie komplett, taucht das Motiv dort auch nicht auf.
+   - Pro Kategorie: `varianten`-Liste mit `name` + `mockups`.
+   - Bei `merch`: zusätzlich pro Produkttyp eine `farben`-Liste mit
+     `farbe` + eigener `mockups`-Liste.
+3. Datei speichern, hochladen — fertig.
 
-→ Im Abschnitt `EXTRAS` einen neuen Eintrag ergänzen: `motiv`, `bild`
-(Vorschaubild), `typ` (`"sticker"` oder `"geschenkanhaenger"`), `varianten`
-(Liste der wählbaren Ausführungen, z. B. `["3er-Set", "6er-Set"]`).
+## Neuen Artikel ohne Foto-Bezug anlegen (Extras)
 
-## Neue Merch-Produktart oder Farbe ergänzen
-
-→ Im Abschnitt `MERCH_FARBEN` entweder eine neue Zeile (= neue Produktart,
-z. B. `"Beanie": ["Schwarz", "Grau"]`) oder bei einer bestehenden Produktart
-eine weitere Farbe in die Liste ergänzen. Erscheint automatisch bei jedem
-Merch-Motiv als Auswahloption.
+Für fertige Sticker-Designs oder Geschenkanhänger, die nicht an ein
+Galerie-Foto gebunden sind: in `EXTRAS` nach demselben Muster (siehe
+Beispiel in der Datei) einen neuen Eintrag ergänzen.
 
 ## Offene Punkte, die dir noch auffallen sollten
 
-- **Bildpfade vereinheitlichen:** Deine Startseite nutzt aktuell flache Pfade
-  wie `bilder/teichleben-01.jpg`, während die vollständigen Galerien
-  Unterordner nutzen (`bilder/teichleben/entchen1.jpg`). Für den Shop-Katalog
-  habe ich die Unterordner-Variante übernommen (mehr echte Motive vorhanden).
-  Langfristig lohnt es sich, dich für EIN Schema zu entscheiden.
-- **alt-Texte in galerie-gartenleben.html prüfen:** Mir ist aufgefallen, dass
-  einige alt-Texte nicht zum jeweiligen Foto passen (z. B. `blaumeise1.jpg`
-  mit `alt="Buntspecht am Stamm"`). Für den Katalog habe ich stattdessen die
-  Namen aus den Dateinamen abgeleitet — bitte einmal in Ruhe mit den echten
-  Fotos abgleichen, unabhängig vom Shop.
-- **Waldleben / Reduktion:** Diese Galerie-Unterseiten sind bei dir aktuell
-  noch Platzhalter ("FOTO ERSETZEN"). Sobald du dort echte Fotos einpflegst,
-  einfach nach demselben Muster in `produkte-daten.js` ergänzen.
+- **Bildpfade vereinheitlichen:** Deine Startseite nutzt aktuell flache
+  Pfade wie `bilder/teichleben-01.jpg`, deine vollständigen Galerien
+  nutzen Unterordner (`bilder/teichleben/entchen1.jpg`). Für die
+  Mockup-Bilder empfehle ich einen eigenen, dritten Ordner
+  `bilder/mockups/`, damit nichts durcheinanderkommt.
+- **Waldleben / Reduktion:** Diese Galerie-Unterseiten sind bei dir noch
+  Platzhalter. Sobald du dort echte Fotos einpflegst, kannst du sie hier
+  nach demselben Muster ergänzen.
 
 ## Formspree nicht vergessen
 
