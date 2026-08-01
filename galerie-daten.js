@@ -30,8 +30,9 @@
                bekommt im Shop ein ★ ("sofort versandfertig").
      - false → Motiv gibt's noch nicht als Postkarte gedruckt; wird
                bei Bestellung erst in Auftrag gegeben (etwas längere
-               Lieferzeit). Für Poster/Fine-Art-Print über Gelato ist
-               das ohnehin bei jedem Motiv gleich (Print on Demand).
+               Lieferzeit). Für Poster/Fine-Art-Print bei WirmachenDruck
+               ist das ohnehin bei jedem Motiv gleich (wird für dich
+               in deinem gewählten Format gedruckt).
 
    WICHTIG FÜR DICH GERADE JETZT: Du hast 26 Motive bereits als
    Postkarte auf Lager. Unten steht erstmal bei ALLEN Motiven

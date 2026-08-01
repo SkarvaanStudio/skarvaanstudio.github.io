@@ -26,7 +26,6 @@
   .origin-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
   .origin-dot.selbst{ background:#7fae86; }
   .origin-dot.printful{ background:var(--accent); }
-  .origin-dot.gelato{ background:var(--frost); }
 
   .ablauf-section{ background:var(--bg-panel); }
   .ablauf-steps{ display:grid; grid-template-columns:repeat(5, 1fr); gap:1.2rem; margin-top:2rem; }
@@ -71,6 +70,18 @@
   .gp-btn:hover:not(.active){ border-color:var(--accent-soft); color:var(--accent-soft); }
   .gp-card select{ margin-top:-.15rem; }
   .gp-herkunft{ font-size:.72rem; color:var(--text-muted); }
+
+  .gp-card .carousel{ background:var(--bg-panel); }
+  .gp-card .carousel img{ object-fit:contain; }
+  .gp-zoom{
+    position:absolute; top:8px; right:8px; z-index:2;
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(17,20,15,0.65); border:1px solid rgba(237,231,214,0.25);
+    color:var(--text-light); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; padding:0; transition:background .2s, border-color .2s;
+  }
+  .gp-zoom:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
+  .gp-zoom svg{ width:15px; height:15px; }
 
   .idea-note{
     margin:1.4rem 0 0; padding:1rem 1.2rem;
@@ -207,9 +218,8 @@
     <h1>Wähl dein Motiv, <em>wähl dein Produkt.</em></h1>
     <p class="lead">Alle Designs stammen von mir. Manches fertige ich selbst zu Hause in Halstenbek, anderes über spezialisierte Partner — wer was macht, steht bei jedem Produkt direkt dabei.</p>
     <div class="origin-legend">
-      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt in Halstenbek</span>
+      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt & versendet aus Halstenbek</span>
       <span class="item"><span class="origin-dot printful"></span> Produktion: Printful (EU)</span>
-      <span class="item"><span class="origin-dot gelato"></span> Produktion: Gelato (EU)</span>
     </div>
   </div>
 </section>
@@ -286,7 +296,7 @@
       </fieldset>
 
       <div class="legal-note">
-        <strong>Gut zu wissen:</strong> Je nach Artikel gilt entweder das normale 14-tägige Widerrufsrecht (Postkarten, Sticker/Lesezeichen/Geschenkanhänger — vorgefertigte Standardware) oder es ist ausgeschlossen, weil individuell mit deinem Motiv gefertigt wird (Fine-Art-Prints via Gelato, Merch via Printful). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.
+        <strong>Gut zu wissen:</strong> Je nach Artikel gilt entweder das normale 14-tägige Widerrufsrecht (Postkarten, Sticker/Lesezeichen/Geschenkanhänger — vorgefertigte Standardware) oder es ist ausgeschlossen, weil individuell mit deinem Motiv gefertigt wird (Fine-Art-Prints via WirmachenDruck, Merch via Printful). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.
       </div>
 
       <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1.4rem;">Anfrage senden</button>
@@ -304,6 +314,14 @@
     </div>
     <a href="#kontakt-anfrage" class="btn btn-fill">Weiter zur Anfrage →</a>
   </div>
+</div>
+
+<div class="lightbox" id="gp-lightbox">
+  <button class="lightbox-close" aria-label="Schließen" onclick="closeGpLightbox()">&times;</button>
+  <figure>
+    <img src="" alt="">
+    <figcaption></figcaption>
+  </figure>
 </div>
 
 <footer>
@@ -404,6 +422,33 @@
     addToAuswahl(motivName + ' — ' + produkt + ' (' + kategorieLabel + ' · ' + herkunft + ')', btn);
   }
 
+  /* ---------- Lightbox (Bild-Vergrößerung für Poster/Postkarten) ---------- */
+  function openGpLightbox(src, caption) {
+    var lb = document.getElementById('gp-lightbox');
+    var img = lb.querySelector('img');
+    var cap = lb.querySelector('figcaption');
+    img.src = src;
+    img.alt = caption;
+    cap.textContent = caption;
+    lb.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGpLightbox() {
+    var lb = document.getElementById('gp-lightbox');
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+    lb.querySelector('img').src = '';
+  }
+
+  document.getElementById('gp-lightbox').addEventListener('click', function (e) {
+    if (e.target === this) { closeGpLightbox(); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeGpLightbox(); }
+  });
+
   /* ---------- Poster & Postkarten (automatisch aus galerie-daten.js) ---------- */
   function stripHtml(str) {
     return String(str || '').replace(/<[^>]*>/g, '').trim();
@@ -420,15 +465,17 @@
       window['gpVorraetig_' + cid] = !!b.bereitsPostkarte;
       var starHtml = b.bereitsPostkarte ? '<span class="gp-star">★ vorrätig</span>' : '';
 
+      var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild vergrößern" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>';
+
       return '<div class="pick-card gp-card">' +
-        '<div class="carousel">' + starHtml + '<img class="active" src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
+        '<div class="carousel">' + starHtml + zoomHtml + '<img class="active" src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
         '<div class="gp-toggle" id="' + cid + '-toggle">' +
           '<button type="button" class="gp-btn active" onclick="setGpMode(\'' + cid + '\',\'postkarte\',this)">Postkarte</button>' +
           '<button type="button" class="gp-btn" onclick="setGpMode(\'' + cid + '\',\'poster\',this)">Poster</button>' +
         '</div>' +
         '<select id="' + cid + '-format" style="display:none;"><option>A6</option><option>A5</option><option>A4</option></select>' +
-        '<span class="gp-herkunft" id="' + cid + '-herkunft">Selbst gefertigt in Halstenbek' + (b.bereitsPostkarte ? ' · sofort versandfertig' : '') + '</span>' +
+        '<span class="gp-herkunft" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet' + (b.bereitsPostkarte ? ' · sofort versandfertig' : ' · wird für dich nachgedruckt') + '</span>' +
         '<button type="button" class="add-btn" onclick="addGp(this,\'' + cid + '\')">Zur Auswahl hinzufügen</button>' +
         '</div></div>';
     }).join('');
@@ -442,10 +489,10 @@
     var herkunft = document.getElementById(cardId + '-herkunft');
     if (mode === 'poster') {
       select.style.display = 'block';
-      herkunft.textContent = 'Fine-Art-Druck über Gelato (EU)';
+      herkunft.textContent = 'Gedruckt bei WirmachenDruck · individuell in deinem Format · aus Halstenbek versendet';
     } else {
       select.style.display = 'none';
-      herkunft.textContent = 'Selbst gefertigt in Halstenbek' + (window['gpVorraetig_' + cardId] ? ' · sofort versandfertig' : '');
+      herkunft.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet' + (window['gpVorraetig_' + cardId] ? ' · sofort versandfertig' : ' · wird für dich nachgedruckt');
     }
     window['gpMode_' + cardId] = mode;
   }
@@ -457,9 +504,9 @@
     if (mode === 'poster') {
       var select = document.getElementById(cardId + '-format');
       var format = select.options[select.selectedIndex].text;
-      label = motiv + ' — Poster, Format ' + format + ' (Fine-Art-Print · Gelato)';
+      label = motiv + ' — Poster, Format ' + format + ' (Fine-Art-Print · WirmachenDruck)';
     } else {
-      label = motiv + ' — Postkarte (Selbst gefertigt' + (window['gpVorraetig_' + cardId] ? ', vorrätig' : '') + ')';
+      label = motiv + ' — Postkarte (WirmachenDruck' + (window['gpVorraetig_' + cardId] ? ', vorrätig' : '') + ')';
     }
     addToAuswahl(label, btn);
   }
@@ -525,8 +572,7 @@
       '<h2>Poster &amp; Postkarten</h2>' +
       '<p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es sowohl als Postkarte als auch als Fine-Art-Poster — wähl unter dem Bild einfach, was du möchtest.</p>' +
       '<div class="origin-legend" style="margin:0 0 1.6rem;">' +
-        '<span class="item"><span class="origin-dot selbst"></span> Postkarte: selbst gefertigt &amp; versendet</span>' +
-        '<span class="item"><span class="origin-dot gelato"></span> Poster: Fine-Art-Druck über Gelato</span>' +
+        '<span class="item"><span class="origin-dot selbst"></span> Gedruckt bei WirmachenDruck, von mir verpackt &amp; aus Halstenbek versendet</span>' +
         '<span class="item"><span class="star-dot">★</span> = schon als Postkarte auf Lager, sofort versandfertig</span>' +
       '</div>' +
       '<p class="widerruf-note">Postkarten sind vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt ganz normal. Poster werden individuell in deinem Format gedruckt, dafür ist das Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>' +
