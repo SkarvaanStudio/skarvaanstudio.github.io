@@ -54,6 +54,32 @@
   .widerruf-note{ font-size:.82rem; color:var(--text-muted); margin:0 0 1.8rem; max-width:60ch; }
   .empty-note{ font-size:.85rem; color:var(--text-muted); font-style:italic; padding:1rem 0; }
 
+  .star-dot{ color:#f2c14e; font-size:.9rem; line-height:1; }
+  .gp-star{
+    position:absolute; top:8px; left:8px; z-index:2;
+    background:rgba(17,20,15,0.72); color:#f2c14e;
+    font-size:.72rem; letter-spacing:.03em; font-family:'JetBrains Mono', monospace;
+    padding:.2rem .5rem; border-radius:20px; display:flex; align-items:center; gap:.25rem;
+  }
+  .gp-toggle{ display:flex; gap:.4rem; margin:.2rem 0 .1rem; }
+  .gp-btn{
+    flex:1; background:transparent; border:1px solid var(--line); color:var(--text-muted);
+    font-family:'JetBrains Mono', monospace; font-size:.72rem; letter-spacing:.02em;
+    padding:.5em .4em; border-radius:20px; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
+  }
+  .gp-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
+  .gp-btn:hover:not(.active){ border-color:var(--accent-soft); color:var(--accent-soft); }
+  .gp-card select{ margin-top:-.15rem; }
+  .gp-herkunft{ font-size:.72rem; color:var(--text-muted); }
+
+  .idea-note{
+    margin:1.4rem 0 0; padding:1rem 1.2rem;
+    background:rgba(159,184,201,0.09); border-left:3px solid var(--accent-soft);
+    border-radius:var(--radius); font-size:.86rem; color:var(--text-light); max-width:70ch;
+  }
+  .section-idea-note{ font-size:.82rem; color:var(--text-muted); margin:.2rem 0 1.4rem; }
+  .section-idea-note a{ color:var(--accent-soft); }
+
   .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:var(--gap); }
   .pick-card{
     background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
@@ -214,9 +240,13 @@
 <section id="anfrage-form-section">
   <div class="wrap shop-form-wrap">
     <!-- FORMSPREE-SETUP: YOUR_FORM_ID durch eigene, neue Formspree-ID ersetzen -->
-    <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form">
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="anfrage-form">
       <h2 id="kontakt-anfrage">Anfrage abschicken</h2>
-      <p class="form-lead">Ich melde mich meist innerhalb von 1–3 Tagen mit einem Angebot zurück — unverbindlich, bis du bestätigst.</p>
+      <p class="form-lead">Ich melde mich meist innerhalb von 2–3 Tagen mit einem Angebot zurück — unverbindlich, bis du bestätigst.</p>
+
+      <div class="idea-note">
+        <strong>Dein Wunschmotiv, eine besondere Größe oder Variante ist nicht dabei?</strong> Kein Problem — beschreib unten einfach, was dir vorschwebt. Ich melde mich, ob und wie sich das umsetzen lässt.
+      </div>
 
       <fieldset>
         <legend>Deine Auswahl</legend>
@@ -283,6 +313,7 @@
   </div>
 </footer>
 
+<script src="galerie-daten.js"></script>
 <script src="produkte-daten.js"></script>
 <script>
   var cardMockupState = {};
@@ -373,6 +404,66 @@
     addToAuswahl(motivName + ' — ' + produkt + ' (' + kategorieLabel + ' · ' + herkunft + ')', btn);
   }
 
+  /* ---------- Poster & Postkarten (automatisch aus galerie-daten.js) ---------- */
+  function stripHtml(str) {
+    return String(str || '').replace(/<[^>]*>/g, '').trim();
+  }
+
+  function renderPosterPostkartenKarten() {
+    if (typeof GALERIE_BILDER === 'undefined') { return ''; }
+    return GALERIE_BILDER.map(function (b) {
+      var cid = 'gp-' + (cardCounter++);
+      var motivPlain = stripHtml(b.beschriftung || b.alt);
+      var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
+      window['gpMotiv_' + cid] = motivPlain;
+      window['gpMode_' + cid] = 'postkarte';
+      window['gpVorraetig_' + cid] = !!b.bereitsPostkarte;
+      var starHtml = b.bereitsPostkarte ? '<span class="gp-star">★ vorrätig</span>' : '';
+
+      return '<div class="pick-card gp-card">' +
+        '<div class="carousel">' + starHtml + '<img class="active" src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
+        '<div class="body"><b>' + titelHtml + '</b>' +
+        '<div class="gp-toggle" id="' + cid + '-toggle">' +
+          '<button type="button" class="gp-btn active" onclick="setGpMode(\'' + cid + '\',\'postkarte\',this)">Postkarte</button>' +
+          '<button type="button" class="gp-btn" onclick="setGpMode(\'' + cid + '\',\'poster\',this)">Poster</button>' +
+        '</div>' +
+        '<select id="' + cid + '-format" style="display:none;"><option>A6</option><option>A5</option><option>A4</option></select>' +
+        '<span class="gp-herkunft" id="' + cid + '-herkunft">Selbst gefertigt in Halstenbek' + (b.bereitsPostkarte ? ' · sofort versandfertig' : '') + '</span>' +
+        '<button type="button" class="add-btn" onclick="addGp(this,\'' + cid + '\')">Zur Auswahl hinzufügen</button>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  function setGpMode(cardId, mode, btn) {
+    var wrap = document.getElementById(cardId + '-toggle');
+    Array.prototype.forEach.call(wrap.querySelectorAll('.gp-btn'), function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var select = document.getElementById(cardId + '-format');
+    var herkunft = document.getElementById(cardId + '-herkunft');
+    if (mode === 'poster') {
+      select.style.display = 'block';
+      herkunft.textContent = 'Fine-Art-Druck über Gelato (EU)';
+    } else {
+      select.style.display = 'none';
+      herkunft.textContent = 'Selbst gefertigt in Halstenbek' + (window['gpVorraetig_' + cardId] ? ' · sofort versandfertig' : '');
+    }
+    window['gpMode_' + cardId] = mode;
+  }
+
+  function addGp(btn, cardId) {
+    var mode = window['gpMode_' + cardId] || 'postkarte';
+    var motiv = window['gpMotiv_' + cardId] || '';
+    var label;
+    if (mode === 'poster') {
+      var select = document.getElementById(cardId + '-format');
+      var format = select.options[select.selectedIndex].text;
+      label = motiv + ' — Poster, Format ' + format + ' (Fine-Art-Print · Gelato)';
+    } else {
+      label = motiv + ' — Postkarte (Selbst gefertigt' + (window['gpVorraetig_' + cardId] ? ', vorrätig' : '') + ')';
+    }
+    addToAuswahl(label, btn);
+  }
+
   /* ---------- Merch (Produkt + Farbe, mit farbabhängigen Mockups) ---------- */
   function renderMerchKarten() {
     var html = '';
@@ -429,13 +520,17 @@
     var container = document.getElementById('kategorie-container');
     var html = '';
 
-    var postkartenHtml = renderEinfacheKarte(null, 'postkarte', 'Postkarte', 'Selbst gefertigt');
-    html += '<section class="cat-block-shop" id="postkarten"><div class="wrap">' +
-      '<h2>Postkarten</h2>' +
-      '<p class="cat-sub">Gedruckt in größerer Auflage bei WirmachenDruck, von mir persönlich verpackt und aus Halstenbek verschickt.</p>' +
-      '<span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>' +
-      '<p class="widerruf-note">Vorgefertigte Standardware — für diese Artikel gilt das gesetzliche 14-tägige Widerrufsrecht ganz normal (siehe <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>).</p>' +
-      (postkartenHtml ? '<div class="pick-grid">' + postkartenHtml + '</div>' : '<p class="empty-note">Noch keine Postkarten-Motive freigegeben.</p>') +
+    var posterPostkartenHtml = renderPosterPostkartenKarten();
+    html += '<section class="cat-block-shop" id="poster-postkarten"><div class="wrap">' +
+      '<h2>Poster &amp; Postkarten</h2>' +
+      '<p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es sowohl als Postkarte als auch als Fine-Art-Poster — wähl unter dem Bild einfach, was du möchtest.</p>' +
+      '<div class="origin-legend" style="margin:0 0 1.6rem;">' +
+        '<span class="item"><span class="origin-dot selbst"></span> Postkarte: selbst gefertigt &amp; versendet</span>' +
+        '<span class="item"><span class="origin-dot gelato"></span> Poster: Fine-Art-Druck über Gelato</span>' +
+        '<span class="item"><span class="star-dot">★</span> = schon als Postkarte auf Lager, sofort versandfertig</span>' +
+      '</div>' +
+      '<p class="widerruf-note">Postkarten sind vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt ganz normal. Poster werden individuell in deinem Format gedruckt, dafür ist das Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>' +
+      (posterPostkartenHtml ? '<div class="pick-grid">' + posterPostkartenHtml + '</div>' : '<p class="empty-note">Noch keine Galerie-Motive hinterlegt.</p>') +
       '</div></section>';
 
     var stickerHtml = renderEinfacheKarte(null, 'stickerLesezeichen', 'Sticker/Lesezeichen', 'Selbst gefertigt');
@@ -445,15 +540,7 @@
       '<span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>' +
       '<p class="widerruf-note">Vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt normal. Nur bei individuellen Sonderwünschen kann das abweichen — steht dann im Angebot.</p>' +
       (stickerHtml ? '<div class="pick-grid">' + stickerHtml + '</div>' : '<p class="empty-note">Noch keine Sticker/Lesezeichen freigegeben.</p>') +
-      '</div></section>';
-
-    var fineartHtml = renderEinfacheKarte(null, 'fineart', 'Fine-Art-Print', 'Gelato');
-    html += '<section class="cat-block-shop" id="fineart"><div class="wrap">' +
-      '<h2>Fine-Art-Prints</h2>' +
-      '<p class="cat-sub">Hochwertiger Druck in Galerie-Qualität über meinen Print-Partner Gelato, direkt an dich versendet.</p>' +
-      '<span class="origin-badge"><span class="origin-dot gelato"></span> Produktion: Gelato</span>' +
-      '<p class="widerruf-note">Individuell für dich in deinem gewählten Format gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>' +
-      (fineartHtml ? '<div class="pick-grid">' + fineartHtml + '</div>' : '<p class="empty-note">Noch keine Fine-Art-Motive freigegeben.</p>') +
+      '<p class="section-idea-note">Dein Wunschmotiv ist noch nicht als Sticker oder Lesezeichen dabei? Beschreib es einfach unten in der <a href="#kontakt-anfrage">Nachricht</a> — ich schaue, ob sich das umsetzen lässt.</p>' +
       '</div></section>';
 
     var merchHtml = renderMerchKarten();
@@ -463,6 +550,7 @@
       '<span class="origin-badge"><span class="origin-dot printful"></span> Produktion: Printful</span>' +
       '<p class="widerruf-note">Individuell mit deinem gewählten Motiv gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>' +
       (merchHtml ? '<div class="pick-grid">' + merchHtml + '</div>' : '<p class="empty-note">Noch keine Merch-Motive freigegeben.</p>') +
+      '<p class="section-idea-note">Motiv, Produkt oder Farbe fehlt dir hier? Kurz unten in der <a href="#kontakt-anfrage">Nachricht</a> beschreiben — ich melde mich, ob das machbar ist.</p>' +
       '</div></section>';
 
     container.innerHTML = html;

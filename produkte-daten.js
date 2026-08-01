@@ -1,21 +1,26 @@
 /* ============================================================
-   PRODUKT-KATALOG — einzige Datei, die du pflegen musst!
+   PRODUKT-KATALOG — für Sticker/Lesezeichen & Merch
    ============================================================
 
-   WICHTIG: Diese Listen sind bewusst LEER. Es erscheint auf der
-   Shop-Seite NICHTS, bis du hier selbst Einträge ergänzt. Du
-   entscheidest pro Motiv und pro Variante (z.B. pro Farbe), ob und
-   mit welchen Mockup-Fotos es angezeigt wird.
+   WICHTIG — was sich geändert hat: Poster & Postkarten kommen
+   jetzt NICHT mehr aus dieser Datei, sondern automatisch aus
+   galerie-daten.js — jedes Bild, das dort in einer Kategorie
+   steht, taucht automatisch im Shop unter "Poster & Postkarten"
+   auf. Du musst dafür hier nichts mehr eintragen.
+
+   Diese Datei ist jetzt nur noch zuständig für die Artikel, die
+   du wirklich individuell und pro Motiv freigeben willst:
+   Sticker/Lesezeichen und Merch. Beide Listen sind bewusst LEER —
+   es erscheint nichts, bis du selbst Einträge ergänzst.
 
    SCHEMA — SO IST EIN EINTRAG AUFGEBAUT:
 
-   Jedes Motiv kann in bis zu 4 Kategorien auftauchen: postkarte,
-   stickerLesezeichen, fineart, merch. Du legst nur die Kategorien
-   an, in denen das Motiv wirklich angeboten werden soll — fehlt
-   z.B. "merch" komplett, taucht das Motiv dort auch nicht auf.
+   Jedes Motiv kann in bis zu 2 Kategorien auftauchen:
+   stickerLesezeichen, merch. Du legst nur die Kategorien an, in
+   denen das Motiv wirklich angeboten werden soll.
 
    Jede Kategorie hat "varianten" — jede Variante hat einen Namen
-   (z.B. "Postkarte, einzeln") und eine eigene "mockups"-Liste
+   (z.B. "Sticker, einzeln") und eine eigene "mockups"-Liste
    (ein oder mehrere Bildpfade → wird automatisch zum Karussell,
    wenn mehr als ein Bild angegeben ist).
 
@@ -31,25 +36,11 @@
      motiv: "Eichhörnchen · im Sprung",
      kategorie: "Waldleben",
 
-     postkarte: {
-       varianten: [
-         { name: "Postkarte, einzeln", mockups: ["bilder/mockups/eichhoernchen-postkarte-1.jpg"] },
-         { name: "Postkarten-Set (3 Stück)", mockups: ["bilder/mockups/eichhoernchen-postkarte-set.jpg"] }
-       ]
-     },
-
      stickerLesezeichen: {
        varianten: [
          { name: "Sticker, einzeln", mockups: ["bilder/mockups/eichhoernchen-sticker-1.jpg", "bilder/mockups/eichhoernchen-sticker-2.jpg"] }
          // Lesezeichen nur ergänzen, wenn du das Motiv dafür freigibst:
          // { name: "Lesezeichen", mockups: ["bilder/mockups/eichhoernchen-lesezeichen-1.jpg"] }
-       ]
-     },
-
-     fineart: {
-       varianten: [
-         { name: "Format A4", mockups: ["bilder/mockups/eichhoernchen-a4.jpg"] },
-         { name: "Format A3", mockups: ["bilder/mockups/eichhoernchen-a3.jpg"] }
        ]
      },
 
@@ -76,9 +67,9 @@
 
    -------------------------------------------------------------
    NEUES MOTIV FREIGEBEN — SO GEHST DU VOR:
-   1. Mockup-Fotos erstellen/exportieren (z.B. über Printful/Gelato-
-      Mockup-Generator oder eigene Fotos deiner Postkarten/Sticker)
-      und in bilder/mockups/ ablegen.
+   1. Mockup-Fotos erstellen/exportieren (z.B. über Printful-
+      Mockup-Generator oder eigene Fotos deiner Sticker) und in
+      bilder/mockups/ ablegen.
    2. Oben stehendes Beispiel kopieren, in MOTIVE einfügen, anpassen.
    3. Nur die Kategorien/Varianten/Farben eintragen, die du wirklich
       freigeben willst — alles andere einfach weglassen.

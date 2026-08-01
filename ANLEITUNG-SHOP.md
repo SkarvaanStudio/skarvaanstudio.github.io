@@ -2,70 +2,96 @@
 
 Diese Anleitung ist NUR für dich (Bene) — Kunden sehen das nicht.
 
-## Das Prinzip
+## Das Prinzip — jetzt zwei Datenquellen statt einer
 
-`produkte-daten.js` ist die EINZIGE Datei, die du bearbeiten musst.
-`produkte-bestellen.html` baut die komplette Shop-Seite automatisch daraus auf.
+Der Shop besteht jetzt aus zwei Bausteinen mit klar getrennter Aufgabe:
 
-**Wichtig:** Beide Listen (`MOTIVE` und `EXTRAS`) sind bewusst leer. Es
-erscheint auf der Seite nichts, bis du selbst Einträge ergänzt — es gibt
-keine Beispiel- oder Platzhalter-Motive. Was du einträgst, ist das, was
-Kunden sehen.
+1. **`galerie-daten.js`** — deine Fotos. Jedes Bild, das hier steht,
+   erscheint automatisch sowohl auf der passenden Galerie-Unterseite
+   als auch im Shop unter **"Poster & Postkarten"**. Du musst ein
+   Motiv nur EINMAL eintragen — nicht mehr getrennt für Galerie und
+   Shop.
+2. **`produkte-daten.js`** — alles, was NICHT automatisch aus der
+   Galerie kommt: **Sticker/Lesezeichen** und **Merch**. Hier
+   entscheidest du weiterhin pro Motiv einzeln, ob und mit welchen
+   Mockup-Fotos es angezeigt wird.
 
-## Mockups & Karussell
+`produkte-bestellen.html` baut die komplette Shop-Seite automatisch
+aus beiden Dateien zusammen — die Seite selbst musst du dafür nicht
+anfassen.
 
-Jede Variante (z. B. "Postkarte, einzeln" oder eine Farbe bei Merch) hat
-eine eigene `mockups`-Liste mit Bildpfaden:
+## Poster & Postkarten pflegen → `galerie-daten.js`
+
+**Neues Foto zur Galerie hinzufügen:**
+1. Bilddatei in den passenden Ordner legen, z. B.
+   `bilder/teichleben/neuesbild.jpg`.
+2. In `galerie-daten.js` eine neue Zeile in der passenden Kategorie
+   ergänzen: `id`, `kategorie`, `bild`-Pfad, `alt`-Text, `beschriftung`.
+3. Speichern, hochladen — fertig. Taucht automatisch in der
+   Galerie-Unterseite UND im Shop als Postkarte + Poster auf, ganz
+   ohne eigenes Mockup-Foto.
+
+**Das Feld `beschriftung`** ist die kurze Bildunterschrift (darf `<b>`
+enthalten, z. B. `"<b>Rotkehlchen</b> · Ast"`) — sie erscheint sowohl
+als Figcaption in der Galerie als auch als Produktname im Shop.
+
+**Das Feld `bereitsPostkarte`:**
+- `true` → Motiv ist schon als gedruckte Postkarte auf Lager, bekommt
+  im Shop automatisch ein ★ mit "sofort versandfertig".
+- `false` → wird bei Bestellung erst gedruckt (normale Lieferzeit).
+
+👉 **Noch offen:** Aktuell steht bei allen 28 Motiven `false`, weil ich
+nicht weiß, welche 26 deiner vorhandenen Postkarten das genau sind.
+Einmal durchgehen und bei den passenden Zeilen auf `true` umstellen.
+
+Im Shop wählt die Kundschaft pro Bild selbst zwischen "Postkarte" und
+"Poster" (mit A6/A5/A4-Auswahl) — dafür musst du nichts extra pflegen.
+
+**Waldleben & Reduktion:** Diese beiden Galerien sind bei dir noch
+unfertige Platzhalter (altes Branding, keine echten Fotos, nicht
+verlinkt) und deshalb bewusst noch nicht an `galerie-daten.js`
+angeschlossen. Sobald du sie mit echten Fotos aufbaust, sag Bescheid
+oder ergänze sie nach demselben Muster wie Teichleben/Gartenleben.
+
+## Sticker/Lesezeichen & Merch pflegen → `produkte-daten.js`
+
+Hier hat sich nichts am Prinzip geändert — nur `postkarte` und
+`fineart` sind als Kategorien entfallen (die laufen jetzt über die
+Galerie). Übrig bleiben `stickerLesezeichen` und `merch`.
+
+**Mockups & Karussell:**
 - **Ein Bild** → wird einfach angezeigt.
-- **Mehrere Bilder** → werden automatisch zum Karussell mit Pfeilen und
+- **Mehrere Bilder** → automatisch Karussell mit Pfeilen und
   Punkte-Anzeige.
-- **Leere Liste `[]`** → zeigt "Noch kein Mockup hinterlegt" statt eines
-  kaputten Bildes. Du kannst ein Motiv also schon anlegen und die Mockups
-  später nachreichen.
+- **Leere Liste `[]`** → zeigt "Noch kein Mockup hinterlegt" statt
+  eines kaputten Bildes.
 
-Bei **Merch** wechseln die Mockups automatisch mit der gewählten Farbe —
-du hinterlegst pro Farbe eine eigene `mockups`-Liste.
+Bei **Merch** wechseln die Mockups automatisch mit der gewählten
+Farbe — pro Farbe eine eigene `mockups`-Liste.
 
-Bei **Sticker/Lesezeichen** entscheidest du komplett selbst: Ein Motiv
-bekommt nur dann eine "Lesezeichen"-Variante, wenn du sie explizit
-einträgst (siehe Beispiel unten) — es gibt keine automatische Annahme
-mehr über Hoch-/Querformat.
-
-## Neues Motiv anlegen — so gehst du vor
-
-1. Mockup-Fotos erstellen (z. B. über den Printful- oder Gelato-
-   Mockup-Generator, oder eigene Fotos deiner Postkarten/Sticker) und in
-   `bilder/mockups/` ablegen.
-2. In `produkte-daten.js` das auskommentierte Beispiel oben in der Datei
-   kopieren, in die `MOTIVE`-Liste einfügen und anpassen:
-   - `id`, `motiv` (Anzeigename), `kategorie`
-   - Nur die Kategorien eintragen, die du wirklich anbieten willst
-     (`postkarte`, `stickerLesezeichen`, `fineart`, `merch`) — fehlt eine
-     Kategorie komplett, taucht das Motiv dort auch nicht auf.
-   - Pro Kategorie: `varianten`-Liste mit `name` + `mockups`.
-   - Bei `merch`: zusätzlich pro Produkttyp eine `farben`-Liste mit
-     `farbe` + eigener `mockups`-Liste.
+**Neues Motiv anlegen:**
+1. Mockup-Fotos erstellen (Printful-Mockup-Generator oder eigene
+   Fotos deiner Sticker) und in `bilder/mockups/` ablegen.
+2. In `produkte-daten.js` das auskommentierte Beispiel oben in der
+   Datei kopieren, in die `MOTIVE`-Liste einfügen und anpassen.
 3. Datei speichern, hochladen — fertig.
 
-## Neuen Artikel ohne Foto-Bezug anlegen (Extras)
-
-Für fertige Sticker-Designs oder Geschenkanhänger, die nicht an ein
-Galerie-Foto gebunden sind: in `EXTRAS` nach demselben Muster (siehe
-Beispiel in der Datei) einen neuen Eintrag ergänzen.
-
-## Offene Punkte, die dir noch auffallen sollten
-
-- **Bildpfade vereinheitlichen:** Deine Startseite nutzt aktuell flache
-  Pfade wie `bilder/teichleben-01.jpg`, deine vollständigen Galerien
-  nutzen Unterordner (`bilder/teichleben/entchen1.jpg`). Für die
-  Mockup-Bilder empfehle ich einen eigenen, dritten Ordner
-  `bilder/mockups/`, damit nichts durcheinanderkommt.
-- **Waldleben / Reduktion:** Diese Galerie-Unterseiten sind bei dir noch
-  Platzhalter. Sobald du dort echte Fotos einpflegst, kannst du sie hier
-  nach demselben Muster ergänzen.
+**Extras** (Artikel ohne Foto-Bezug, z. B. fertige Sticker-Designs):
+in `EXTRAS` nach demselben Muster ergänzen.
 
 ## Formspree nicht vergessen
 
 In `produkte-bestellen.html` steht `YOUR_FORM_ID` als Platzhalter im
-Formular — durch deine eigene, neue Formspree-Endpoint-ID ersetzen, bevor
-die Seite live geht.
+Formular — durch deine eigene, neue Formspree-Endpoint-ID ersetzen,
+bevor die Seite live geht.
+
+## Offene Punkte, die dir noch auffallen sollten
+
+- **Alt-Texte prüfen:** In ein paar Gartenleben-Motiven (z. B. Katze,
+  Goldammer, Dorngrasmücke) steht als `alt`-Text noch versehentlich
+  "Rotkehlchen auf einem Ast" (Copy-Paste-Rest). Die `beschriftung`
+  ist überall korrekt, aber der `alt`-Text lohnt sich für
+  Barrierefreiheit/SEO zu bereinigen.
+- **Bildpfade vereinheitlichen:** Die Startseite nutzt weiterhin flache
+  Pfade wie `bilder/teichleben-01.jpg`, die Galerien nutzen Unterordner
+  (`bilder/teichleben/entchen1.jpg`).

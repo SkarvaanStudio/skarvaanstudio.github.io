@@ -1,3 +1,27 @@
+/* ============ GALERIE AUS galerie-daten.js AUFBAUEN ============
+   Sucht eine .masonry mit data-galerie-kategorie und füllt sie mit
+   allen passenden Bildern aus GALERIE_BILDER. So pflegst du neue
+   Fotos nur noch an EINER Stelle (galerie-daten.js) — sie tauchen
+   automatisch hier UND im Shop unter Poster/Postkarten auf. */
+(function renderGalerieAusDaten() {
+  var masonry = document.querySelector('.masonry[data-galerie-kategorie]');
+  if (!masonry || typeof GALERIE_BILDER === 'undefined') return;
+
+  var kategorie = masonry.getAttribute('data-galerie-kategorie');
+  var bilder = GALERIE_BILDER.filter(function (b) { return b.kategorie === kategorie; });
+
+  function escapeAttr(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  masonry.innerHTML = bilder.map(function (b) {
+    var cap = b.beschriftung ? '<figcaption>' + b.beschriftung + '</figcaption>' : '';
+    return '<figure class="m-item"><img src="' + escapeAttr(b.bild) + '" alt="' + escapeAttr(b.alt) + '" loading="lazy">' + cap + '</figure>';
+  }).join('');
+})();
+
 /* ============ ZUFÄLLIGE REIHENFOLGE BEI JEDEM AUFRUF ============ */
 (function shuffleMasonry() {
   var masonry = document.querySelector('.masonry');
