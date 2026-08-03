@@ -96,7 +96,7 @@
     scroll-margin-top:90px;
   }
   .pick-card .frame{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--bg-panel); }
-  .pick-card .frame img{ width:100%; height:100%; object-fit:contain; }
+  .pick-card .frame img{ width:100%; height:100%; object-fit:cover; }
   .pick-card .body{ padding:.9rem 1rem 1.1rem; display:flex; flex-direction:column; gap:.5rem; flex-grow:1; }
   .pick-card .body b{ font-family:'Fraunces', serif; font-weight:500; font-size:1rem; }
 
@@ -394,7 +394,7 @@
         '<select id="' + cid + '-format" style="display:none;"><option value="A5">A5</option><option value="A4">A4</option><option value="A3">A3</option></select>' +
         '<span class="price-line" id="' + cid + '-price">' + euro(PREISE.postkarte) + '</span>' +
         '<span class="stock-line ' + stock.cls + '" id="' + cid + '-stock">' + stock.html + '</span>' +
-        '<span class="herkunft-line">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
+        '<span class="herkunft-line" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
         '<div id="' + cid + '-kauf">' + renderKaufSlot(motivPlain + ' — Postkarte') + '</div>' +
         '</div></div>';
     }).join('');
@@ -408,6 +408,7 @@
       var formatSel = document.getElementById(cid + '-format');
       var priceEl = document.getElementById(cid + '-price');
       var stockEl = document.getElementById(cid + '-stock');
+      var herkunftEl = document.getElementById(cid + '-herkunft');
       var kaufEl = document.getElementById(cid + '-kauf');
 
       function updatePoster() {
@@ -428,14 +429,19 @@
             stockEl.style.display = '';
             stockEl.className = 'stock-line ' + stock.cls;
             stockEl.textContent = stock.html;
+            herkunftEl.style.display = '';
+            herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
             kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Postkarte');
           } else if (fmt === 'poster') {
             formatSel.style.display = 'block';
             stockEl.style.display = 'none';
+            herkunftEl.style.display = '';
+            herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
             updatePoster();
           } else {
             formatSel.style.display = 'none';
             stockEl.style.display = 'none';
+            herkunftEl.style.display = 'none';
             priceEl.textContent = euro(PREISE.download);
             kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Download');
           }
