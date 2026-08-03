@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Motive & Produkte auf Anfrage — BG Naturfotografie</title>
-<meta name="description" content="Postkarten, Fine-Art-Prints, Sticker und Merch mit deinem Lieblingsmotiv — auf Anfrage, transparent gefertigt.">
+<title>Shop — Postkarten, Poster, Sticker &amp; Merch — BG Naturfotografie</title>
+<meta name="description" content="Postkarten, Poster, Sticker und Merch mit deinem Lieblingsmotiv — direkt bestellbar.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,18 +28,25 @@
   .origin-dot.printful{ background:var(--accent); }
 
   .ablauf-section{ background:var(--bg-panel); }
-  .ablauf-steps{ display:grid; grid-template-columns:repeat(5, 1fr); gap:1.2rem; margin-top:2rem; }
-  @media (max-width:900px){ .ablauf-steps{ grid-template-columns:repeat(2, 1fr); } }
-  @media (max-width:560px){ .ablauf-steps{ grid-template-columns:1fr; } }
+  .ablauf-steps{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1.2rem; margin-top:2rem; }
+  @media (max-width:700px){ .ablauf-steps{ grid-template-columns:1fr; } }
   .ablauf-step{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.3rem 1.2rem; }
   .ablauf-step .num{ font-family:'JetBrains Mono', monospace; font-size:.75rem; color:var(--accent-soft); letter-spacing:.08em; display:block; margin-bottom:.5rem; }
   .ablauf-step h3{ font-size:1rem; margin-bottom:.4rem; }
   .ablauf-step p{ font-size:.85rem; color:var(--text-muted); margin:0; }
-  .ablauf-note{
-    margin-top:1.6rem; padding:1rem 1.2rem;
-    background:rgba(159,184,201,0.09); border-left:3px solid var(--frost);
-    border-radius:var(--radius); font-size:.88rem; color:var(--text-light); max-width:70ch;
+
+  /* ---- Haupt-Tabs (Postkarten & Poster / Sticker / Merch) ---- */
+  .shop-tabs{
+    display:inline-flex; gap:.3rem; padding:.3rem;
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:30px; margin:2rem 0 0; flex-wrap:wrap;
   }
+  .shop-tabs a{
+    font-family:'JetBrains Mono', monospace; font-size:.78rem;
+    color:var(--text-muted); padding:.5rem 1.1rem; border-radius:20px;
+    text-decoration:none; transition:background .2s, color .2s;
+  }
+  .shop-tabs a:hover{ color:var(--accent-soft); }
 
   .cat-block-shop{ margin:4.5rem 0; scroll-margin-top:90px; }
   .cat-block-shop h2{ font-size:1.7rem; margin-bottom:.3rem; }
@@ -52,6 +59,18 @@
   }
   .widerruf-note{ font-size:.82rem; color:var(--text-muted); margin:0 0 1.8rem; max-width:60ch; }
   .empty-note{ font-size:.85rem; color:var(--text-muted); font-style:italic; padding:1rem 0; }
+  .section-idea-note{ font-size:.82rem; color:var(--text-muted); margin:1.4rem 0 0; }
+  .section-idea-note a{ color:var(--accent-soft); }
+
+  .filter-row{ display:flex; flex-wrap:wrap; gap:.6rem; margin:0 0 1.8rem; }
+  .filter-chip{
+    font-family:'JetBrains Mono', monospace; font-size:.76rem;
+    color:var(--text-muted); background:var(--bg-panel-2); border:1px solid var(--line);
+    padding:.45rem .9rem; border-radius:20px; cursor:pointer;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .filter-chip:hover{ border-color:var(--accent); color:var(--accent-soft); }
+  .filter-chip.active{ border-color:var(--accent); color:var(--accent-soft); background:rgba(201,124,61,0.14); }
 
   .star-dot{ color:#f2c14e; font-size:.9rem; line-height:1; }
   .gp-star{
@@ -60,19 +79,6 @@
     font-size:.72rem; letter-spacing:.03em; font-family:'JetBrains Mono', monospace;
     padding:.2rem .5rem; border-radius:20px; display:flex; align-items:center; gap:.25rem;
   }
-  .gp-toggle{ display:flex; gap:.4rem; margin:.2rem 0 .1rem; }
-  .gp-btn{
-    flex:1; background:transparent; border:1px solid var(--line); color:var(--text-muted);
-    font-family:'JetBrains Mono', monospace; font-size:.72rem; letter-spacing:.02em;
-    padding:.5em .4em; border-radius:20px; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
-  }
-  .gp-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
-  .gp-btn:hover:not(.active){ border-color:var(--accent-soft); color:var(--accent-soft); }
-  .gp-card select{ margin-top:-.15rem; }
-  .gp-herkunft{ font-size:.72rem; color:var(--text-muted); }
-
-  .gp-card .carousel{ background:var(--bg-panel); }
-  .gp-card .carousel img{ object-fit:contain; }
   .gp-zoom{
     position:absolute; top:8px; right:8px; z-index:2;
     width:30px; height:30px; border-radius:50%;
@@ -83,109 +89,53 @@
   .gp-zoom:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
   .gp-zoom svg{ width:15px; height:15px; }
 
-  .idea-note{
-    margin:1.4rem 0 0; padding:1rem 1.2rem;
-    background:rgba(159,184,201,0.09); border-left:3px solid var(--accent-soft);
-    border-radius:var(--radius); font-size:.86rem; color:var(--text-light); max-width:70ch;
-  }
-  .section-idea-note{ font-size:.82rem; color:var(--text-muted); margin:.2rem 0 1.4rem; }
-  .section-idea-note a{ color:var(--accent-soft); }
-
-  .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:var(--gap); }
+  .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:var(--gap); }
   .pick-card{
     background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
-    overflow:hidden; display:flex; flex-direction:column;
+    overflow:hidden; display:flex; flex-direction:column; position:relative;
   }
-
-  /* Karussell */
-  .carousel{ position:relative; aspect-ratio:4/5; overflow:hidden; background:repeating-linear-gradient(135deg, var(--bg-panel) 0 14px, var(--bg-panel-2) 14px 28px); }
-  .carousel img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
-  .carousel img.active{ display:block; }
-  .carousel .empty-mockup{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--text-muted); text-align:center; padding:1rem; }
-  .carousel .car-btn{
-    position:absolute; top:50%; transform:translateY(-50%);
-    background:rgba(17,20,15,0.55); color:var(--text-light); border:none;
-    width:26px; height:26px; border-radius:50%; cursor:pointer; font-size:1rem; line-height:1;
-  }
-  .carousel .car-prev{ left:8px; }
-  .carousel .car-next{ right:8px; }
-  .carousel .car-dots{ position:absolute; bottom:8px; left:0; right:0; display:flex; justify-content:center; gap:5px; }
-  .carousel .car-dots span{ width:6px; height:6px; border-radius:50%; background:rgba(237,231,214,0.35); }
-  .carousel .car-dots span.active{ background:var(--accent-soft); }
-
-  .pick-card .body{ padding:.9rem 1rem 1.1rem; display:flex; flex-direction:column; gap:.55rem; flex-grow:1; }
+  .pick-card .frame{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--bg-panel); }
+  .pick-card .frame img{ width:100%; height:100%; object-fit:contain; }
+  .pick-card .body{ padding:.9rem 1rem 1.1rem; display:flex; flex-direction:column; gap:.5rem; flex-grow:1; }
   .pick-card .body b{ font-family:'Fraunces', serif; font-weight:500; font-size:1rem; }
+
+  .fmt-pills{ display:flex; gap:.4rem; flex-wrap:wrap; margin:.1rem 0; }
+  .fmt-pill{
+    flex:1; min-width:80px; background:transparent; border:1px solid var(--line); color:var(--text-muted);
+    font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.02em; text-align:center;
+    padding:.5em .4em; border-radius:20px; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
+  }
+  .fmt-pill.active{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
+  .fmt-pill:hover:not(.active){ border-color:var(--accent-soft); color:var(--accent-soft); }
   .pick-card select{
     width:100%; background:var(--bg-panel); border:1px solid var(--line);
     border-radius:var(--radius); color:var(--text-light);
     padding:.55em .7em; font-family:'Work Sans', sans-serif; font-size:.85rem;
   }
-  .pick-card .add-btn{
-    margin-top:auto; font-family:'JetBrains Mono', monospace; font-size:.78rem;
-    background:transparent; border:1px solid var(--accent); color:var(--accent-soft);
-    padding:.6em 1em; border-radius:var(--radius); cursor:pointer;
-    transition:background .2s, color .2s;
-  }
-  .pick-card .add-btn:hover{ background:var(--accent); color:var(--bg-deep); }
-  .pick-card .add-btn.added{ background:#7fae86; border-color:#7fae86; color:var(--bg-deep); }
+  .price-line{ font-family:'JetBrains Mono', monospace; font-size:.85rem; color:var(--accent-soft); }
+  .stock-line{ font-size:.76rem; }
+  .stock-line.ok{ color:#7fae86; }
+  .stock-line.low{ color:var(--accent-soft); }
+  .stock-line.back{ color:var(--text-muted); }
+  .herkunft-line{ font-size:.7rem; color:var(--text-muted); }
 
-  /* Kompakte Auswahl-Leiste */
-  .selection-bar{
-    position:sticky; bottom:0; z-index:40;
-    background:rgba(27,33,22,0.96); backdrop-filter:blur(8px);
-    border-top:1px solid var(--accent); padding:.8rem 0; display:none;
+  .shopify-slot{
+    margin-top:.2rem; padding:.7rem .8rem; border:1px dashed var(--line); border-radius:var(--radius);
+    font-family:'JetBrains Mono', monospace; font-size:.7rem; color:var(--text-muted); text-align:center;
+    background:var(--bg-panel);
   }
-  .selection-bar.visible{ display:block; }
-  .selection-bar .wrap{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
-  .selection-summary{ display:flex; align-items:center; gap:.7rem; font-size:.88rem; color:var(--text-light); }
-  .selection-summary b{ color:var(--accent-soft); }
-  .toggle-auswahl{
-    background:none; border:1px solid var(--line); color:var(--text-muted);
-    font-family:'JetBrains Mono', monospace; font-size:.72rem;
-    padding:.3rem .7rem; border-radius:20px; cursor:pointer;
-  }
-  .toggle-auswahl:hover{ border-color:var(--accent); color:var(--accent-soft); }
-  .selection-panel{
-    position:absolute; bottom:100%; left:0; right:0;
-    max-height:220px; overflow-y:auto;
-    background:var(--bg-panel-2); border:1px solid var(--line); border-bottom:none;
-    border-radius:var(--radius) var(--radius) 0 0;
-    padding:.8rem 1rem; display:none; margin-bottom:.8rem;
-  }
-  .selection-panel.open{ display:block; }
-  .selection-panel ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
-  .selection-panel li{
-    font-size:.8rem; color:var(--text-light);
-    display:flex; align-items:center; justify-content:space-between; gap:.6rem;
-    border-bottom:1px dashed var(--line); padding-bottom:.4rem;
-  }
-  .selection-panel li button{ background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:.95rem; line-height:1; flex-shrink:0; }
-  .selection-panel li button:hover{ color:var(--accent); }
 
-  #anfrage-form-section{ background:var(--bg-panel); }
-  .shop-form-wrap form{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:2rem; }
+  .idea-note{
+    margin:1.4rem 0 0; padding:1rem 1.2rem;
+    background:rgba(159,184,201,0.09); border-left:3px solid var(--accent-soft);
+    border-radius:var(--radius); font-size:.86rem; color:var(--text-light); max-width:70ch;
+  }
+
+  #kontakt-anfrage-section{ background:var(--bg-panel); }
+  .shop-form-wrap form{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:2rem; max-width:640px; }
   .shop-form-wrap h2{ font-size:1.4rem; margin-bottom:.3rem; }
-  .shop-form-wrap .form-lead{ color:var(--text-muted); font-size:.92rem; margin:0 0 1.8rem; }
-  fieldset{ border:none; padding:0; margin:0 0 1.6rem; }
-  fieldset legend{
-    font-family:'JetBrains Mono', monospace; font-size:.72rem; text-transform:uppercase;
-    letter-spacing:.12em; color:var(--accent-soft); padding:0 0 1rem;
-  }
-  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-  .field-row.thirds{ grid-template-columns:1.4fr .7fr 1fr; }
-  @media (max-width:700px){ .field-row, .field-row.thirds{ grid-template-columns:1fr; } }
-  .checkbox-row{ display:flex; align-items:center; gap:.6rem; margin:.3rem 0 1rem; }
-  .checkbox-row input{ width:auto; }
-  .checkbox-row label{ margin:0; color:var(--text-light); font-size:.9rem; }
-  #lieferadresse-felder{ display:none; margin-top:.8rem; padding:1rem 1.1rem; background:var(--bg-panel); border-radius:var(--radius); }
-  #lieferadresse-felder.active{ display:block; }
-  textarea#auswahl-uebersicht{ min-height:80px; font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
+  .shop-form-wrap .form-lead{ color:var(--text-muted); font-size:.92rem; margin:0 0 1.6rem; }
   .after-submit-note{ font-size:.8rem; color:var(--text-muted); margin-top:.6rem; }
-  .legal-note{
-    margin-top:1.4rem; padding:1rem 1.2rem;
-    background:rgba(201,124,61,0.09); border-left:3px solid var(--accent);
-    border-radius:var(--radius); font-size:.85rem; color:var(--text-light);
-  }
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 </head>
@@ -204,7 +154,7 @@
     <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
     <ul class="nav-links">
       <li><a href="index.html#galerie">Galerie</a></li>
-      <li><a href="index.html#erhaeltlich-als">Produkte</a></li>
+      <li><a href="index.html#erhaeltlich-als">Shop</a></li>
       <li><a href="index.html#ueber-mich">Über mich</a></li>
       <li><a href="index.html#termine">Termine</a></li>
       <li><a href="index.html#kontakt">Kontakt</a></li>
@@ -214,13 +164,18 @@
 
 <section class="shop-hero">
   <div class="wrap">
-    <span class="eyebrow">Auf Anfrage · transparent gefertigt</span>
+    <span class="eyebrow">Direkt bestellbar</span>
     <h1>Wähl dein Motiv, <em>wähl dein Produkt.</em></h1>
-    <p class="lead">Alle Designs stammen von mir. Manches fertige ich selbst zu Hause in Halstenbek, anderes über spezialisierte Partner — wer was macht, steht bei jedem Produkt direkt dabei.</p>
+    <p class="lead">Alle Designs stammen von mir. Postkarten, Sticker und Poster fertige ich selbst zu Hause in Halstenbek, Merch entsteht über Printful — wer was macht, steht bei jedem Produkt direkt dabei.</p>
     <div class="origin-legend">
-      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt & versendet aus Halstenbek</span>
+      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet aus Halstenbek</span>
       <span class="item"><span class="origin-dot printful"></span> Produktion: Printful (EU)</span>
     </div>
+    <nav class="shop-tabs" aria-label="Produktkategorien">
+      <a href="#motive">Postkarten &amp; Poster</a>
+      <a href="#sticker">Sticker</a>
+      <a href="#merch">Merch</a>
+    </nav>
   </div>
 </section>
 
@@ -228,93 +183,93 @@
   <div class="wrap">
     <span class="eyebrow">Wichtig zu wissen</span>
     <h2 style="font-size:1.5rem;">So läuft eine Bestellung bei mir ab</h2>
-    <p style="color:var(--text-muted); max-width:60ch;">Das hier ist kein automatischer Shop mit Sofort-Checkout — bei mir läuft's etwas persönlicher. So funktioniert's:</p>
     <div class="ablauf-steps">
-      <div class="ablauf-step"><span class="num">01</span><h3>Auswählen</h3><p>Du klickst dich durch die Motive und legst an, was dich interessiert.</p></div>
-      <div class="ablauf-step"><span class="num">02</span><h3>Anfrage senden</h3><p>Du schickst mir deine Auswahl zusammen mit deinen Daten — noch unverbindlich.</p></div>
-      <div class="ablauf-step"><span class="num">03</span><h3>Angebot per Mail</h3><p>Ich melde mich mit Preis, Lieferzeit und Rechnung — meist innerhalb von 2–3 Tagen.</p></div>
-      <div class="ablauf-step"><span class="num">04</span><h3>Du bezahlst</h3><p>Bist du einverstanden, überweist du den Betrag auf mein Geschäftskonto.</p></div>
-      <div class="ablauf-step"><span class="num">05</span><h3>Fertigung &amp; Versand</h3><p>Nach Zahlungseingang setze ich alles in Bewegung — Fertigung, dann Versand an dich.</p></div>
+      <div class="ablauf-step"><span class="num">01</span><h3>Motiv &amp; Format wählen</h3><p>Postkarte, Poster im gewünschten Format, Sticker oder Merch — direkt bei jedem Produkt.</p></div>
+      <div class="ablauf-step"><span class="num">02</span><h3>Direkt bezahlen</h3><p>Der Kauf-Button führt dich zur sicheren Kasse — Karte, PayPal oder Klarna, kein Warten auf ein Angebot.</p></div>
+      <div class="ablauf-step"><span class="num">03</span><h3>Versand</h3><p>Postkarten, Sticker &amp; Poster verschicke ich aus Halstenbek, Merch direkt über Printful.</p></div>
     </div>
-    <div class="ablauf-note">
-      Der Grund für diesen Ablauf: Als kleiner, regionaler Ein-Personen-Betrieb kalkuliere
-      ich jeden Preis noch persönlich statt automatisiert, und manche Artikel fertige ich
-      selbst von Hand. Dafür bekommst du aber auch ein wirklich individuelles Ergebnis
-      statt Massenware. Fragen dazu? Einfach in der Nachricht am Ende erwähnen.
+    <div class="idea-note">
+      <strong>Bildlizenz, eine Anfrage für einen Markt oder ein Motiv, das hier noch fehlt?</strong> Dafür gibt es unten ein kurzes, eigenes <a href="#kontakt-anfrage" style="color:var(--accent-soft);">Anfrageformular</a> — ganz ohne den Bestellweg oben.
     </div>
   </div>
 </section>
 
-<div id="kategorie-container"></div>
+<!-- ============ POSTKARTEN & POSTER (aus galerie-daten.js) ============ -->
+<section class="cat-block-shop" id="motive">
+  <div class="wrap">
+    <h2>Postkarten &amp; Poster</h2>
+    <p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es als Postkarte, als Poster in drei Formaten oder als digitalen Download — wähl einfach unter dem Bild.</p>
+    <div class="origin-legend" style="margin:0 0 1.6rem;">
+      <span class="item"><span class="origin-dot selbst"></span> Gedruckt bei WirmachenDruck, von mir verpackt &amp; aus Halstenbek versendet</span>
+      <span class="item"><span class="star-dot">★</span> = schon als Postkarte auf Lager</span>
+    </div>
+    <p class="widerruf-note">Postkarten sind vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt ganz normal. Poster werden individuell in deinem Format gedruckt, dafür ist das Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>
 
-<section id="anfrage-form-section">
+    <div class="filter-row" id="motiv-filter"></div>
+    <div class="pick-grid" id="motiv-grid"></div>
+  </div>
+</section>
+
+<!-- ============ STICKER ============ -->
+<section class="cat-block-shop" id="sticker" style="background:var(--bg-panel); padding:4rem 0;">
+  <div class="wrap">
+    <h2>Sticker &amp; Lesezeichen</h2>
+    <p class="cat-sub">Handgeplottet mit meinem Silhouette Cameo, zugeschnitten und verpackt bei mir zu Hause.</p>
+    <span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>
+    <p class="widerruf-note">Vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt normal.</p>
+    <div class="pick-grid" id="sticker-grid"></div>
+    <p class="section-idea-note">Dein Wunschmotiv ist noch nicht als Sticker dabei? Schreib es einfach ins <a href="#kontakt-anfrage">Anfrageformular</a> unten — ich schaue, ob sich das umsetzen lässt.</p>
+  </div>
+</section>
+
+<!-- ============ MERCH ============ -->
+<section class="cat-block-shop" id="merch" style="padding:4rem 0;">
+  <div class="wrap">
+    <h2>Merch</h2>
+    <p class="cat-sub">Shirts, Tassen &amp; mehr — Design von mir, Produktion und Versand über Printful.</p>
+    <span class="origin-badge"><span class="origin-dot printful"></span> Produktion: Printful</span>
+    <p class="widerruf-note">Individuell mit deinem gewählten Motiv gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>
+    <div class="filter-row" id="merch-filter"></div>
+    <div class="pick-grid" id="merch-grid"></div>
+    <p class="section-idea-note">Motiv, Produkt oder Farbe fehlt dir hier? Kurz im <a href="#kontakt-anfrage">Anfrageformular</a> unten beschreiben — ich melde mich, ob das machbar ist.</p>
+  </div>
+</section>
+
+<!-- ============ ANFRAGEFORMULAR (Markt / Lizenz / Motivwunsch / Sonstiges) ============ -->
+<section id="kontakt-anfrage-section">
   <div class="wrap shop-form-wrap">
-    <!-- FORMSPREE-SETUP: YOUR_FORM_ID durch eigene, neue Formspree-ID ersetzen -->
+    <!-- FORMSPREE-SETUP: eigene Formspree-ID eintragen -->
     <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form">
-      <h2 id="kontakt-anfrage">Anfrage abschicken</h2>
-      <p class="form-lead">Ich melde mich meist innerhalb von 2–3 Tagen mit einem Angebot zurück — unverbindlich, bis du bestätigst.</p>
+      <h2 id="kontakt-anfrage">Kurze Anfrage</h2>
+      <p class="form-lead">Für Marktanfragen, Bildlizenzen oder ein Motiv, das es hier noch nicht gibt — kein Bestellformular, nur eine kurze Nachricht an mich.</p>
 
-      <div class="idea-note">
-        <strong>Dein Wunschmotiv, eine besondere Größe oder Variante ist nicht dabei?</strong> Kein Problem — beschreib unten einfach, was dir vorschwebt. Ich melde mich, ob und wie sich das umsetzen lässt.
+      <div class="chips" id="anliegen-chips">
+        <button type="button" class="chip" data-text="Marktanfrage" data-key="markt">Marktanfrage</button>
+        <button type="button" class="chip" data-text="Bildlizenz" data-key="lizenz">Bildlizenz</button>
+        <button type="button" class="chip" data-text="Motivwunsch" data-key="motivwunsch">Motivwunsch</button>
+        <button type="button" class="chip" data-text="Sonstiges" data-key="sonstiges">Sonstiges</button>
       </div>
 
-      <fieldset>
-        <legend>Deine Auswahl</legend>
-        <label for="auswahl-uebersicht">Ausgewählte Artikel (automatisch befüllt — du kannst auch von Hand ergänzen)</label>
-        <textarea id="auswahl-uebersicht" name="Ausgewaehlte Artikel" placeholder="Noch nichts ausgewählt — nutze oben die Buttons 'Zur Auswahl hinzufügen', oder beschreibe deinen Wunsch einfach hier direkt."></textarea>
-      </fieldset>
+      <input type="hidden" name="_subject" id="anfrage-subject" value="[Shop-Anfrage] Sonstiges — BG Naturfotografie">
 
-      <fieldset>
-        <legend>Deine Daten</legend>
-        <div class="field-row">
-          <div><label for="name">Name</label><input type="text" id="name" name="Name" required></div>
-          <div><label for="email">E-Mail</label><input type="email" id="email" name="E-Mail" required></div>
-        </div>
-        <div class="field-row thirds" style="margin-top:1rem;">
-          <div><label for="strasse">Straße &amp; Hausnummer (Rechnungsadresse)</label><input type="text" id="strasse" name="Rechnungsadresse - Strasse" required></div>
-          <div><label for="plz">PLZ</label><input type="text" id="plz" name="Rechnungsadresse - PLZ" required></div>
-          <div><label for="ort">Ort</label><input type="text" id="ort" name="Rechnungsadresse - Ort" required></div>
-        </div>
-        <div class="checkbox-row">
-          <input type="checkbox" id="abweichend" onchange="document.getElementById('lieferadresse-felder').classList.toggle('active', this.checked)">
-          <label for="abweichend">Lieferadresse weicht ab (z. B. Geschenk für jemand anderen)</label>
-        </div>
-        <div id="lieferadresse-felder">
-          <div class="field-row thirds">
-            <div><label for="l-strasse">Straße &amp; Hausnummer (Lieferadresse)</label><input type="text" id="l-strasse" name="Lieferadresse - Strasse"></div>
-            <div><label for="l-plz">PLZ</label><input type="text" id="l-plz" name="Lieferadresse - PLZ"></div>
-            <div><label for="l-ort">Ort</label><input type="text" id="l-ort" name="Lieferadresse - Ort"></div>
-          </div>
-          <div style="margin-top:1rem;"><label for="empfaenger">Name des Empfängers</label><input type="text" id="empfaenger" name="Lieferadresse - Empfaenger Name"></div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Sonstiges</legend>
-        <label for="nachricht">Nachricht / weitere Anmerkungen</label>
-        <textarea id="nachricht" name="Nachricht" placeholder="z. B. gewünschte Größe, Farbe, Anlass, Liefertermin ..."></textarea>
-      </fieldset>
-
-      <div class="legal-note">
-        <strong>Gut zu wissen:</strong> Je nach Artikel gilt entweder das normale 14-tägige Widerrufsrecht (Postkarten, Sticker/Lesezeichen/Geschenkanhänger — vorgefertigte Standardware) oder es ist ausgeschlossen, weil individuell mit deinem Motiv gefertigt wird (Fine-Art-Prints via WirmachenDruck, Merch via Printful). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.
+      <div>
+        <label for="af-name">Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="af-name" name="Name" required>
+      </div>
+      <div>
+        <label for="af-email">E-Mail <span aria-hidden="true">*</span></label>
+        <input type="email" id="af-email" name="E-Mail" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@beispiel.de)">
+      </div>
+      <div>
+        <label for="af-nachricht">Nachricht <span aria-hidden="true">*</span></label>
+        <textarea id="af-nachricht" name="Nachricht" required placeholder="z. B. Datum &amp; Ort des Markts, gewünschte Bildlizenz-Nutzung oder das Motiv, das dir fehlt ..."></textarea>
       </div>
 
-      <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1.4rem;">Anfrage senden</button>
-      <p class="after-submit-note">Du bekommst danach von mir eine E-Mail mit einem konkreten, unverbindlichen Angebot.</p>
+      <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1rem;">Anfrage senden</button>
+      <p class="after-submit-note">Antwort meist innerhalb von 2–3 Tagen · <span aria-hidden="true">*</span> Pflichtfeld</p>
     </form>
   </div>
 </section>
-
-<div class="selection-bar" id="selection-bar">
-  <div class="wrap">
-    <div class="selection-panel" id="selection-panel"><ul id="selection-list"></ul></div>
-    <div class="selection-summary">
-      <span><b id="selection-count">0</b> Artikel ausgewählt</span>
-      <button type="button" class="toggle-auswahl" id="toggle-auswahl">Auswahl anzeigen ▾</button>
-    </div>
-    <a href="#kontakt-anfrage" class="btn btn-fill">Weiter zur Anfrage →</a>
-  </div>
-</div>
 
 <div class="lightbox" id="gp-lightbox">
   <button class="lightbox-close" aria-label="Schließen" onclick="closeGpLightbox()">&times;</button>
@@ -334,318 +289,271 @@
 <script src="galerie-daten.js"></script>
 <script src="produkte-daten.js"></script>
 <script>
-  var cardMockupState = {};
-  var cardCounter = 0;
-
+  /* ---------- Hilfsfunktionen ---------- */
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
       return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
     });
   }
+  function stripHtml(str) { return String(str || '').replace(/<[^>]*>/g, '').trim(); }
+  function euro(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
-  function renderCarouselHtml(cardId, images) {
-    cardMockupState[cardId] = { images: images || [], idx: 0 };
-    if (!images || images.length === 0) {
-      return '<div class="carousel" id="carousel-' + cardId + '"><div class="empty-mockup">Noch kein Mockup hinterlegt</div></div>';
+  /* ---------- Shopify-Kaufen-Button (Platzhalter) ----------
+     ANLEITUNG: Sobald dein Shopify-Store läuft (siehe
+     ANLEITUNG-SHOP.md), ersetzt du diese Funktion durch den
+     echten Shopify Buy-Button-Code für die jeweilige
+     productId/variantId. Bis dahin zeigt sie einen klar
+     erkennbaren Platzhalter, damit nichts "heimlich" kaputt ist. */
+  function renderKaufSlot(produktLabel) {
+    if (SHOPIFY_CONFIG.aktiv) {
+      // Hier kommt später der echte Shopify Buy Button rein.
+      return '<div class="shopify-slot">Kauf-Button lädt …</div>';
     }
-    var imgsHtml = images.map(function (src, i) {
-      return '<img src="' + escapeHtml(src) + '" class="' + (i === 0 ? 'active' : '') + '">';
-    }).join('');
-    var navHtml = '';
-    if (images.length > 1) {
-      navHtml = '<button type="button" class="car-btn car-prev" onclick="carouselNav(\'' + cardId + '\',-1)">&lsaquo;</button>' +
-        '<button type="button" class="car-btn car-next" onclick="carouselNav(\'' + cardId + '\',1)">&rsaquo;</button>' +
-        '<div class="car-dots">' + images.map(function (_, i) { return '<span class="' + (i === 0 ? 'active' : '') + '"></span>'; }).join('') + '</div>';
-    }
-    return '<div class="carousel" id="carousel-' + cardId + '">' + imgsHtml + navHtml + '</div>';
+    return '<div class="shopify-slot">Kaufen-Button folgt hier<br>(' + escapeHtml(produktLabel) + ')</div>';
   }
 
-  function carouselNav(cardId, dir) {
-    var state = cardMockupState[cardId];
-    if (!state || state.images.length < 2) { return; }
-    state.idx = (state.idx + dir + state.images.length) % state.images.length;
-    updateCarouselDom(cardId);
-  }
-
-  function setCarouselImages(cardId, images) {
-    var el = document.getElementById('carousel-' + cardId);
-    if (!el) { return; }
-    el.outerHTML = renderCarouselHtml(cardId, images);
-  }
-
-  function updateCarouselDom(cardId) {
-    var state = cardMockupState[cardId];
-    var el = document.getElementById('carousel-' + cardId);
-    if (!el || !state) { return; }
-    el.querySelectorAll('img').forEach(function (img, i) { img.classList.toggle('active', i === state.idx); });
-    el.querySelectorAll('.car-dots span').forEach(function (dot, i) { dot.classList.toggle('active', i === state.idx); });
-  }
-
-  function buildSelect(id, optionen, onchange) {
-    return '<select id="' + id + '"' + (onchange ? ' onchange="' + onchange + '"' : '') + '>' +
-      optionen.map(function (o) { return '<option value="' + escapeHtml(o) + '">' + escapeHtml(o) + '</option>'; }).join('') +
-      '</select>';
-  }
-
-  /* ---------- Einfache Kategorien (Postkarte, Sticker/Lesezeichen, Fine-Art) ---------- */
-  function renderEinfacheKarte(motivName, kategorieKey, kategorieLabel, herkunft) {
-    var cardId = 'card-' + (cardCounter++);
-    var eintraege = [];
-    MOTIVE.forEach(function (m) { if (m[kategorieKey]) { eintraege.push({ motiv: m.motiv, varianten: m[kategorieKey].varianten }); } });
-    if (kategorieKey === 'stickerLesezeichen') {
-      EXTRAS.forEach(function (e) { if (e.typ === 'sticker' || e.typ === 'geschenkanhaenger') { eintraege.push({ motiv: e.motiv, varianten: e.varianten }); } });
-    }
-    return eintraege.map(function (eintrag) {
-      var cid = 'card-' + (cardCounter++);
-      var selectId = cid + '-variante';
-      var varianten = eintrag.varianten;
-      var initialImages = varianten.length ? varianten[0].mockups : [];
-      window['varianten_' + cid] = varianten;
-      return '<div class="pick-card">' +
-        renderCarouselHtml(cid, initialImages) +
-        '<div class="body"><b>' + escapeHtml(eintrag.motiv) + '</b>' +
-        buildSelect(selectId, varianten.map(function (v) { return v.name; }), 'onVarianteChange(\'' + cid + '\',\'' + selectId + '\', varianten_' + cid + ')') +
-        '<button type="button" class="add-btn" onclick="addSimple(this,\'' + escapeHtml(eintrag.motiv) + '\',\'' + selectId + '\',\'' + kategorieLabel + '\',\'' + herkunft + '\')">Zur Auswahl hinzufügen</button>' +
-        '</div></div>';
-    }).join('');
-  }
-
-  function onVarianteChange(cardId, selectId, varianten) {
-    var sel = document.getElementById(selectId);
-    var v = varianten[sel.selectedIndex];
-    setCarouselImages(cardId, v ? v.mockups : []);
-  }
-
-  function addSimple(btn, motivName, selectId, kategorieLabel, herkunft) {
-    var sel = document.getElementById(selectId);
-    var produkt = sel.options[sel.selectedIndex].text;
-    addToAuswahl(motivName + ' — ' + produkt + ' (' + kategorieLabel + ' · ' + herkunft + ')', btn);
-  }
-
-  /* ---------- Lightbox (Bild-Vergrößerung für Poster/Postkarten) ---------- */
+  /* ---------- Lightbox ---------- */
   function openGpLightbox(src, caption) {
     var lb = document.getElementById('gp-lightbox');
     var img = lb.querySelector('img');
     var cap = lb.querySelector('figcaption');
-    img.src = src;
-    img.alt = caption;
-    cap.textContent = caption;
+    img.src = src; img.alt = caption; cap.textContent = caption;
     lb.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
-
   function closeGpLightbox() {
     var lb = document.getElementById('gp-lightbox');
     lb.classList.remove('is-open');
     document.body.style.overflow = '';
     lb.querySelector('img').src = '';
   }
+  document.getElementById('gp-lightbox').addEventListener('click', function (e) { if (e.target === this) { closeGpLightbox(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeGpLightbox(); } });
 
-  document.getElementById('gp-lightbox').addEventListener('click', function (e) {
-    if (e.target === this) { closeGpLightbox(); }
-  });
+  /* ---------- Postkarten & Poster ---------- */
+  var MOTIV_THEMEN = ['Teichleben', 'Gartenleben', 'Waldleben', 'Reduktion'];
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeGpLightbox(); }
-  });
-
-  /* ---------- Poster & Postkarten (automatisch aus galerie-daten.js) ---------- */
-  function stripHtml(str) {
-    return String(str || '').replace(/<[^>]*>/g, '').trim();
+  function stockInfo(b) {
+    if (!b.bereitsPostkarte) {
+      return { html: 'Wird für dich gedruckt · ca. 1–2 Wochen', cls: 'back' };
+    }
+    if (b.bestand === 0) {
+      return { html: 'Wird nachbestellt · ca. 1–2 Wochen', cls: 'back' };
+    }
+    if (typeof b.bestand === 'number') {
+      return { html: (b.bestand <= 3 ? 'Nur noch ' + b.bestand + ' auf Lager' : 'Noch ' + b.bestand + ' auf Lager'), cls: (b.bestand <= 3 ? 'low' : 'ok') };
+    }
+    return { html: 'Vorrätig', cls: 'ok' };
   }
 
-  function renderPosterPostkartenKarten() {
-    if (typeof GALERIE_BILDER === 'undefined') { return ''; }
-    return GALERIE_BILDER.map(function (b) {
-      var cid = 'gp-' + (cardCounter++);
+  function renderMotivFilter() {
+    var el = document.getElementById('motiv-filter');
+    var html = '<button type="button" class="filter-chip active" data-kategorie="alle">Alle</button>';
+    MOTIV_THEMEN.forEach(function (t) {
+      html += '<button type="button" class="filter-chip" data-kategorie="' + t + '">' + t + '</button>';
+    });
+    el.innerHTML = html;
+    el.querySelectorAll('.filter-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        el.querySelectorAll('.filter-chip').forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        var k = chip.getAttribute('data-kategorie');
+        document.querySelectorAll('#motiv-grid .pick-card').forEach(function (card) {
+          card.style.display = (k === 'alle' || card.getAttribute('data-kategorie') === k) ? '' : 'none';
+        });
+      });
+    });
+  }
+
+  function renderMotivGrid() {
+    var grid = document.getElementById('motiv-grid');
+    if (typeof GALERIE_BILDER === 'undefined' || !GALERIE_BILDER.length) {
+      grid.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive hinterlegt.</p>';
+      return;
+    }
+    var html = GALERIE_BILDER.map(function (b, i) {
+      var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
-      window['gpMotiv_' + cid] = motivPlain;
-      window['gpMode_' + cid] = 'postkarte';
-      window['gpVorraetig_' + cid] = !!b.bereitsPostkarte;
       var starHtml = b.bereitsPostkarte ? '<span class="gp-star">★ vorrätig</span>' : '';
-
+      var stock = stockInfo(b);
       var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild vergrößern" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>';
 
-      return '<div class="pick-card gp-card">' +
-        '<div class="carousel">' + starHtml + zoomHtml + '<img class="active" src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
+      return '<div class="pick-card" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
+        '<div class="frame">' + starHtml + zoomHtml + '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
-        '<div class="gp-toggle" id="' + cid + '-toggle">' +
-          '<button type="button" class="gp-btn active" onclick="setGpMode(\'' + cid + '\',\'postkarte\',this)">Postkarte</button>' +
-          '<button type="button" class="gp-btn" onclick="setGpMode(\'' + cid + '\',\'poster\',this)">Poster</button>' +
+        '<div class="fmt-pills" id="' + cid + '-pills">' +
+          '<button type="button" class="fmt-pill active" data-fmt="postkarte">Postkarte</button>' +
+          '<button type="button" class="fmt-pill" data-fmt="poster">Poster</button>' +
+          '<button type="button" class="fmt-pill" data-fmt="download">Download</button>' +
         '</div>' +
-        '<select id="' + cid + '-format" style="display:none;"><option>A6</option><option>A5</option><option>A4</option></select>' +
-        '<span class="gp-herkunft" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet' + (b.bereitsPostkarte ? ' · sofort versandfertig' : ' · wird für dich nachgedruckt') + '</span>' +
-        '<button type="button" class="add-btn" onclick="addGp(this,\'' + cid + '\')">Zur Auswahl hinzufügen</button>' +
+        '<select id="' + cid + '-format" style="display:none;"><option value="A5">A5</option><option value="A4">A4</option><option value="A3">A3</option></select>' +
+        '<span class="price-line" id="' + cid + '-price">' + euro(PREISE.postkarte) + '</span>' +
+        '<span class="stock-line ' + stock.cls + '" id="' + cid + '-stock">' + stock.html + '</span>' +
+        '<span class="herkunft-line">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
+        '<div id="' + cid + '-kauf">' + renderKaufSlot(motivPlain + ' — Postkarte') + '</div>' +
+        '</div></div>';
+    }).join('');
+    grid.innerHTML = html;
+
+    GALERIE_BILDER.forEach(function (b, i) {
+      var cid = 'mot-' + i;
+      var motivPlain = stripHtml(b.beschriftung || b.alt);
+      var stock = stockInfo(b);
+      var pillsEl = document.getElementById(cid + '-pills');
+      var formatSel = document.getElementById(cid + '-format');
+      var priceEl = document.getElementById(cid + '-price');
+      var stockEl = document.getElementById(cid + '-stock');
+      var kaufEl = document.getElementById(cid + '-kauf');
+
+      function updatePoster() {
+        var fmt = formatSel.value;
+        var preis = fmt === 'A3' ? PREISE.posterA3 : (fmt === 'A4' ? PREISE.posterA4 : PREISE.posterA5);
+        priceEl.textContent = euro(preis);
+        kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Poster ' + fmt);
+      }
+
+      pillsEl.querySelectorAll('.fmt-pill').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          pillsEl.querySelectorAll('.fmt-pill').forEach(function (p) { p.classList.remove('active'); });
+          pill.classList.add('active');
+          var fmt = pill.getAttribute('data-fmt');
+          if (fmt === 'postkarte') {
+            formatSel.style.display = 'none';
+            priceEl.textContent = euro(PREISE.postkarte);
+            stockEl.style.display = '';
+            stockEl.className = 'stock-line ' + stock.cls;
+            stockEl.textContent = stock.html;
+            kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Postkarte');
+          } else if (fmt === 'poster') {
+            formatSel.style.display = 'block';
+            stockEl.style.display = 'none';
+            updatePoster();
+          } else {
+            formatSel.style.display = 'none';
+            stockEl.style.display = 'none';
+            priceEl.textContent = euro(PREISE.download);
+            kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Download');
+          }
+        });
+      });
+      formatSel.addEventListener('change', updatePoster);
+    });
+  }
+
+  /* ---------- Sticker ---------- */
+  function renderStickerGrid() {
+    var grid = document.getElementById('sticker-grid');
+    if (typeof STICKER === 'undefined' || !STICKER.length) {
+      grid.innerHTML = '<p class="empty-note">Noch keine Sticker freigegeben.</p>';
+      return;
+    }
+    grid.innerHTML = STICKER.map(function (s) {
+      var img = (s.mockups && s.mockups[0]) ? '<img src="' + escapeHtml(s.mockups[0]) + '" alt="' + escapeHtml(s.motiv) + '">' : '';
+      return '<div class="pick-card"><div class="frame">' + img + '</div>' +
+        '<div class="body"><b>' + escapeHtml(s.motiv) + '</b>' +
+        '<span class="price-line">' + euro(s.preis) + '</span>' +
+        renderKaufSlot(s.motiv + ' — Sticker') +
         '</div></div>';
     }).join('');
   }
 
-  function setGpMode(cardId, mode, btn) {
-    var wrap = document.getElementById(cardId + '-toggle');
-    Array.prototype.forEach.call(wrap.querySelectorAll('.gp-btn'), function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    var select = document.getElementById(cardId + '-format');
-    var herkunft = document.getElementById(cardId + '-herkunft');
-    if (mode === 'poster') {
-      select.style.display = 'block';
-      herkunft.textContent = 'Gedruckt bei WirmachenDruck · individuell in deinem Format · aus Halstenbek versendet';
-    } else {
-      select.style.display = 'none';
-      herkunft.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet' + (window['gpVorraetig_' + cardId] ? ' · sofort versandfertig' : ' · wird für dich nachgedruckt');
-    }
-    window['gpMode_' + cardId] = mode;
+  /* ---------- Merch ---------- */
+  var MERCH_TYPEN = { shirts: 'Shirts', tassen: 'Tassen', weiteres: 'Weiteres' };
+
+  function renderMerchFilter() {
+    var el = document.getElementById('merch-filter');
+    var html = '<button type="button" class="filter-chip active" data-typ="alle">Alle</button>';
+    Object.keys(MERCH_TYPEN).forEach(function (k) {
+      html += '<button type="button" class="filter-chip" data-typ="' + k + '">' + MERCH_TYPEN[k] + '</button>';
+    });
+    el.innerHTML = html;
+    el.querySelectorAll('.filter-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        el.querySelectorAll('.filter-chip').forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        var t = chip.getAttribute('data-typ');
+        document.querySelectorAll('#merch-grid .pick-card').forEach(function (card) {
+          card.style.display = (t === 'alle' || card.getAttribute('data-typ') === t) ? '' : 'none';
+        });
+      });
+    });
   }
 
-  function addGp(btn, cardId) {
-    var mode = window['gpMode_' + cardId] || 'postkarte';
-    var motiv = window['gpMotiv_' + cardId] || '';
-    var label;
-    if (mode === 'poster') {
-      var select = document.getElementById(cardId + '-format');
-      var format = select.options[select.selectedIndex].text;
-      label = motiv + ' — Poster, Format ' + format + ' (Fine-Art-Print · WirmachenDruck)';
-    } else {
-      label = motiv + ' — Postkarte (WirmachenDruck' + (window['gpVorraetig_' + cardId] ? ', vorrätig' : '') + ')';
+  function renderMerchGrid() {
+    var grid = document.getElementById('merch-grid');
+    if (typeof MERCH === 'undefined' || !MERCH.length) {
+      grid.innerHTML = '<p class="empty-note">Noch keine Merch-Motive freigegeben.</p>';
+      return;
     }
-    addToAuswahl(label, btn);
-  }
-
-  /* ---------- Merch (Produkt + Farbe, mit farbabhängigen Mockups) ---------- */
-  function renderMerchKarten() {
-    var html = '';
-    MOTIVE.forEach(function (m) {
-      if (!m.merch) { return; }
-      var cid = 'card-' + (cardCounter++);
-      var produktSelectId = cid + '-produkt';
-      var farbeSelectId = cid + '-farbe';
-      window['merch_' + cid] = m.merch.varianten;
-
-      var produktOptions = m.merch.varianten.map(function (v) { return v.name; });
-      var ersteFarben = m.merch.varianten[0] ? m.merch.varianten[0].farben : [];
-      var initialImages = ersteFarben[0] ? ersteFarben[0].mockups : [];
-
-      html += '<div class="pick-card">' +
-        renderCarouselHtml(cid, initialImages) +
+    grid.innerHTML = MERCH.map(function (m, i) {
+      var cid = 'merch-' + i;
+      var farben = m.farben || [];
+      var img = (farben[0] && farben[0].mockups && farben[0].mockups[0]) ? farben[0].mockups[0] : '';
+      var farbOptions = farben.map(function (f) { return '<option>' + escapeHtml(f.farbe) + '</option>'; }).join('');
+      return '<div class="pick-card" data-typ="' + escapeHtml(m.typ) + '">' +
+        '<div class="frame" id="' + cid + '-frame">' + (img ? '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(m.motiv) + '">' : '') + '</div>' +
         '<div class="body"><b>' + escapeHtml(m.motiv) + '</b>' +
-        buildSelect(produktSelectId, produktOptions, 'onMerchProduktChange(\'' + cid + '\',\'' + produktSelectId + '\',\'' + farbeSelectId + '\')') +
-        buildSelect(farbeSelectId, ersteFarben.map(function (f) { return f.farbe; }), 'onMerchFarbeChange(\'' + cid + '\',\'' + produktSelectId + '\',\'' + farbeSelectId + '\')') +
-        '<button type="button" class="add-btn" onclick="addMerch(this,\'' + escapeHtml(m.motiv) + '\',\'' + produktSelectId + '\',\'' + farbeSelectId + '\',\'' + cid + '\')">Zur Auswahl hinzufügen</button>' +
+        (farben.length > 1 ? '<select id="' + cid + '-farbe">' + farbOptions + '</select>' : '') +
+        '<span class="price-line">' + euro(m.preis) + '</span>' +
+        '<div id="' + cid + '-kauf">' + renderKaufSlot(m.motiv + ' — ' + MERCH_TYPEN[m.typ]) + '</div>' +
         '</div></div>';
+    }).join('');
+
+    MERCH.forEach(function (m, i) {
+      var cid = 'merch-' + i;
+      var farben = m.farben || [];
+      if (farben.length > 1) {
+        var sel = document.getElementById(cid + '-farbe');
+        var frame = document.getElementById(cid + '-frame');
+        sel.addEventListener('change', function () {
+          var f = farben[sel.selectedIndex];
+          var img = (f.mockups && f.mockups[0]) ? f.mockups[0] : '';
+          frame.innerHTML = img ? '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(m.motiv) + '">' : '';
+        });
+      }
     });
-    return html;
   }
 
-  function onMerchProduktChange(cardId, produktSelectId, farbeSelectId) {
-    var varianten = window['merch_' + cardId];
-    var produktSel = document.getElementById(produktSelectId);
-    var farben = varianten[produktSel.selectedIndex].farben;
-    var farbeSel = document.getElementById(farbeSelectId);
-    farbeSel.innerHTML = farben.map(function (f) { return '<option>' + escapeHtml(f.farbe) + '</option>'; }).join('');
-    setCarouselImages(cardId, farben[0] ? farben[0].mockups : []);
-  }
+  /* ---------- Anfrageformular: Anliegen-Chips + Subject-Prefix ---------- */
+  function setupAnfrageForm() {
+    var chipsWrap = document.getElementById('anliegen-chips');
+    var subjectEl = document.getElementById('anfrage-subject');
+    var nachrichtEl = document.getElementById('af-nachricht');
 
-  function onMerchFarbeChange(cardId, produktSelectId, farbeSelectId) {
-    var varianten = window['merch_' + cardId];
-    var produktSel = document.getElementById(produktSelectId);
-    var farbeSel = document.getElementById(farbeSelectId);
-    var farben = varianten[produktSel.selectedIndex].farben;
-    var farbe = farben[farbeSel.selectedIndex];
-    setCarouselImages(cardId, farbe ? farbe.mockups : []);
-  }
+    function activate(chip) {
+      chipsWrap.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      subjectEl.value = '[Shop-Anfrage] ' + chip.dataset.text + ' — BG Naturfotografie';
+      var prefix = 'Anliegen: ' + chip.dataset.text + ' — ';
+      if (!nachrichtEl.value || /^Anliegen: .* — $/.test(nachrichtEl.value)) {
+        nachrichtEl.value = prefix;
+      }
+    }
 
-  function addMerch(btn, motivName, produktSelectId, farbeSelectId, cardId) {
-    var produktSel = document.getElementById(produktSelectId);
-    var farbeSel = document.getElementById(farbeSelectId);
-    var produkt = produktSel.options[produktSel.selectedIndex].text;
-    var farbe = farbeSel.options[farbeSel.selectedIndex] ? farbeSel.options[farbeSel.selectedIndex].text : '';
-    addToAuswahl(motivName + ' — ' + produkt + ', Farbe: ' + farbe + ' (Merch · Printful)', btn);
-  }
-
-  /* ---------- Gesamt-Rendering ---------- */
-  function renderKategorien() {
-    var container = document.getElementById('kategorie-container');
-    var html = '';
-
-    var posterPostkartenHtml = renderPosterPostkartenKarten();
-    html += '<section class="cat-block-shop" id="poster-postkarten"><div class="wrap">' +
-      '<h2>Poster &amp; Postkarten</h2>' +
-      '<p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es sowohl als Postkarte als auch als Fine-Art-Poster — wähl unter dem Bild einfach, was du möchtest.</p>' +
-      '<div class="origin-legend" style="margin:0 0 1.6rem;">' +
-        '<span class="item"><span class="origin-dot selbst"></span> Gedruckt bei WirmachenDruck, von mir verpackt &amp; aus Halstenbek versendet</span>' +
-        '<span class="item"><span class="star-dot">★</span> = schon als Postkarte auf Lager, sofort versandfertig</span>' +
-      '</div>' +
-      '<p class="widerruf-note">Postkarten sind vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt ganz normal. Poster werden individuell in deinem Format gedruckt, dafür ist das Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>' +
-      (posterPostkartenHtml ? '<div class="pick-grid">' + posterPostkartenHtml + '</div>' : '<p class="empty-note">Noch keine Galerie-Motive hinterlegt.</p>') +
-      '</div></section>';
-
-    var stickerHtml = renderEinfacheKarte(null, 'stickerLesezeichen', 'Sticker/Lesezeichen', 'Selbst gefertigt');
-    html += '<section class="cat-block-shop" id="sticker" style="background:var(--bg-panel); padding:4rem 0;"><div class="wrap">' +
-      '<h2>Sticker, Lesezeichen &amp; Geschenkanhänger</h2>' +
-      '<p class="cat-sub">Handgeplottet mit meinem Silhouette Cameo, zugeschnitten und verpackt bei mir zu Hause.</p>' +
-      '<span class="origin-badge"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet</span>' +
-      '<p class="widerruf-note">Vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt normal. Nur bei individuellen Sonderwünschen kann das abweichen — steht dann im Angebot.</p>' +
-      (stickerHtml ? '<div class="pick-grid">' + stickerHtml + '</div>' : '<p class="empty-note">Noch keine Sticker/Lesezeichen freigegeben.</p>') +
-      '<p class="section-idea-note">Dein Wunschmotiv ist noch nicht als Sticker oder Lesezeichen dabei? Beschreib es einfach unten in der <a href="#kontakt-anfrage">Nachricht</a> — ich schaue, ob sich das umsetzen lässt.</p>' +
-      '</div></section>';
-
-    var merchHtml = renderMerchKarten();
-    html += '<section class="cat-block-shop" id="merch" style="background:var(--bg-panel); padding:4rem 0;"><div class="wrap">' +
-      '<h2>Merch</h2>' +
-      '<p class="cat-sub">Tasse, Shirt, Kissen &amp; Co. — Design von mir, Produktion und Versand über Printful.</p>' +
-      '<span class="origin-badge"><span class="origin-dot printful"></span> Produktion: Printful</span>' +
-      '<p class="widerruf-note">Individuell mit deinem gewählten Motiv gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>' +
-      (merchHtml ? '<div class="pick-grid">' + merchHtml + '</div>' : '<p class="empty-note">Noch keine Merch-Motive freigegeben.</p>') +
-      '<p class="section-idea-note">Motiv, Produkt oder Farbe fehlt dir hier? Kurz unten in der <a href="#kontakt-anfrage">Nachricht</a> beschreiben — ich melde mich, ob das machbar ist.</p>' +
-      '</div></section>';
-
-    container.innerHTML = html;
-  }
-
-  /* ---------- Auswahl (kompakt, klappbar) ---------- */
-  var auswahl = [];
-
-  function renderAuswahl() {
-    var listEl = document.getElementById('selection-list');
-    var countEl = document.getElementById('selection-count');
-    var barEl = document.getElementById('selection-bar');
-    var textareaEl = document.getElementById('auswahl-uebersicht');
-
-    listEl.innerHTML = '';
-    auswahl.forEach(function (item, index) {
-      var li = document.createElement('li');
-      var span = document.createElement('span');
-      span.textContent = item;
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.textContent = '× entfernen';
-      btn.addEventListener('click', function () { auswahl.splice(index, 1); renderAuswahl(); });
-      li.appendChild(span);
-      li.appendChild(btn);
-      listEl.appendChild(li);
+    chipsWrap.querySelectorAll('.chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        activate(chip);
+        nachrichtEl.focus();
+        nachrichtEl.setSelectionRange(nachrichtEl.value.length, nachrichtEl.value.length);
+      });
     });
 
-    countEl.textContent = auswahl.length;
-    barEl.classList.toggle('visible', auswahl.length > 0);
-    textareaEl.value = auswahl.map(function (item) { return '- ' + item; }).join('\n');
+    // Vorauswahl über ?anliegen=markt|lizenz|motivwunsch|sonstiges in der URL
+    var params = new URLSearchParams(window.location.search);
+    var vorauswahl = params.get('anliegen');
+    if (vorauswahl) {
+      var match = chipsWrap.querySelector('[data-key="' + vorauswahl + '"]');
+      if (match) { activate(match); }
+    }
   }
 
-  function addToAuswahl(label, btn) {
-    auswahl.push(label);
-    renderAuswahl();
-    var original = 'Zur Auswahl hinzufügen';
-    btn.textContent = 'Hinzugefügt ✓';
-    btn.classList.add('added');
-    setTimeout(function () { btn.textContent = original; btn.classList.remove('added'); }, 1400);
-  }
-
-  document.getElementById('toggle-auswahl').addEventListener('click', function () {
-    var panel = document.getElementById('selection-panel');
-    var open = panel.classList.toggle('open');
-    this.textContent = open ? 'Auswahl verbergen ▴' : 'Auswahl anzeigen ▾';
-  });
-
-  renderKategorien();
+  renderMotivFilter();
+  renderMotivGrid();
+  renderStickerGrid();
+  renderMerchFilter();
+  renderMerchGrid();
+  setupAnfrageForm();
 </script>
 
 </body>

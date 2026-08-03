@@ -1,102 +1,100 @@
 /* ============================================================
-   PRODUKT-KATALOG — für Sticker/Lesezeichen & Merch
+   PRODUKT-KATALOG & PREISE — für Sticker & Merch
    ============================================================
 
-   WICHTIG — was sich geändert hat: Poster & Postkarten kommen
-   jetzt NICHT mehr aus dieser Datei, sondern automatisch aus
-   galerie-daten.js — jedes Bild, das dort in einer Kategorie
-   steht, taucht automatisch im Shop unter "Poster & Postkarten"
-   auf. Du musst dafür hier nichts mehr eintragen.
+   Poster & Postkarten kommen weiterhin automatisch aus
+   galerie-daten.js — jedes Bild, das dort steht, taucht im Shop
+   unter der passenden Themen-Kategorie auf. Hier trägst du nur
+   Sticker und Merch ein, plus die Basis-Preise für alles.
 
-   Diese Datei ist jetzt nur noch zuständig für die Artikel, die
-   du wirklich individuell und pro Motiv freigeben willst:
-   Sticker/Lesezeichen und Merch. Beide Listen sind bewusst LEER —
-   es erscheint nichts, bis du selbst Einträge ergänzst.
+   ------------------------------------------------------------
+   SHOPIFY-ANBINDUNG (Platzhalter):
+   Sobald dein Shopify-Store steht, ersetzt du unten in
+   SHOPIFY_CONFIG die Platzhalter-Werte durch deine echten Daten
+   (siehe ANLEITUNG-SHOP.md). Bis dahin zeigt der Shop an jeder
+   Kaufen-Stelle einen deutlich sichtbaren Platzhalter-Kasten,
+   nichts ist "heimlich" halb-fertig.
+   ============================================================= */
 
-   SCHEMA — SO IST EIN EINTRAG AUFGEBAUT:
+const SHOPIFY_CONFIG = {
+  // ERSETZEN: deine Shopify-Domain, z. B. "bg-naturfotografie.myshopify.com"
+  domain: 'ERSETZEN-mein-shop.myshopify.com',
+  // ERSETZEN: dein Storefront-Access-Token aus Shopify (Buy Button Kanal)
+  storefrontAccessToken: 'ERSETZEN-storefront-token',
+  // Ist die Anbindung schon aktiv? Auf true stellen, sobald echte
+  // Produkt-IDs unten eingetragen sind — dann verschwinden die
+  // Platzhalter-Kästen automatisch.
+  aktiv: false
+};
 
-   Jedes Motiv kann in bis zu 2 Kategorien auftauchen:
-   stickerLesezeichen, merch. Du legst nur die Kategorien an, in
-   denen das Motiv wirklich angeboten werden soll.
+/* ------------------------------------------------------------
+   BASIS-PREISE — gelten für alle Motive gleich. Einzelnes Motiv
+   kann über "preisUeberschreibung" im jeweiligen Eintrag
+   abweichen (z. B. ein aufwendigeres Sonderformat) — normalerweise
+   brauchst du das aber nicht.
+   ------------------------------------------------------------- */
+const PREISE = {
+  postkarte: 2.50,
+  posterA5: 16.99,
+  posterA4: 24.99,
+  posterA3: 34.99,
+  download: 4.00
+};
 
-   Jede Kategorie hat "varianten" — jede Variante hat einen Namen
-   (z.B. "Sticker, einzeln") und eine eigene "mockups"-Liste
-   (ein oder mehrere Bildpfade → wird automatisch zum Karussell,
-   wenn mehr als ein Bild angegeben ist).
-
-   Bei "merch" gibt es zusätzlich eine Ebene für Farben, weil du
-   passend zur gewählten Farbe unterschiedliche Mockups zeigen willst:
-   varianten -> [ { name: "Tasse", farben: [ {farbe, mockups}, ... ] } ]
-
-   -------------------------------------------------------------
-   BEISPIEL ZUM KOPIEREN (auskommentiert, wird nicht angezeigt):
-
+/* ------------------------------------------------------------
+   STICKER & LESEZEICHEN
+   Schema pro Eintrag:
    {
-     id: "waldleben-eichhoernchen-sprung",
-     motiv: "Eichhörnchen · im Sprung",
-     kategorie: "Waldleben",
-
-     stickerLesezeichen: {
-       varianten: [
-         { name: "Sticker, einzeln", mockups: ["bilder/mockups/eichhoernchen-sticker-1.jpg", "bilder/mockups/eichhoernchen-sticker-2.jpg"] }
-         // Lesezeichen nur ergänzen, wenn du das Motiv dafür freigibst:
-         // { name: "Lesezeichen", mockups: ["bilder/mockups/eichhoernchen-lesezeichen-1.jpg"] }
-       ]
-     },
-
-     merch: {
-       varianten: [
-         {
-           name: "Tasse",
-           farben: [
-             { farbe: "Weiß", mockups: ["bilder/mockups/eichhoernchen-tasse-weiss-1.jpg", "bilder/mockups/eichhoernchen-tasse-weiss-2.jpg"] },
-             { farbe: "Schwarz", mockups: ["bilder/mockups/eichhoernchen-tasse-schwarz.jpg"] }
-           ]
-         },
-         {
-           name: "Shirt",
-           farben: [
-             { farbe: "Weiß", mockups: ["bilder/mockups/eichhoernchen-shirt-weiss.jpg"] },
-             { farbe: "Schwarz", mockups: ["bilder/mockups/eichhoernchen-shirt-schwarz.jpg"] },
-             { farbe: "Natur meliert", mockups: ["bilder/mockups/eichhoernchen-shirt-natur.jpg"] }
-           ]
-         }
-       ]
-     }
+     id: "eindeutige-id",
+     motiv: "Anzeigename",
+     kategorie: "Teichleben" | "Gartenleben" | "Waldleben" | "Reduktion" | null,
+     preis: 3.00,
+     mockups: ["bilder/mockups/....jpg"],
+     shopifyVariantId: "ERSETZEN-sobald-shopify-steht"
    }
+   ------------------------------------------------------------- */
+const STICKER = [
 
-   -------------------------------------------------------------
-   NEUES MOTIV FREIGEBEN — SO GEHST DU VOR:
-   1. Mockup-Fotos erstellen/exportieren (z.B. über Printful-
-      Mockup-Generator oder eigene Fotos deiner Sticker) und in
-      bilder/mockups/ ablegen.
-   2. Oben stehendes Beispiel kopieren, in MOTIVE einfügen, anpassen.
-   3. Nur die Kategorien/Varianten/Farben eintragen, die du wirklich
-      freigeben willst — alles andere einfach weglassen.
-   4. Datei speichern, hochladen — fertig.
-============================================================= */
-
-const MOTIVE = [
+  // BEISPIEL ZUM KOPIEREN (auskommentiert):
+  // {
+  //   id: 'sticker-eichhoernchen',
+  //   motiv: 'Eichhörnchen · im Sprung',
+  //   kategorie: 'Waldleben',
+  //   preis: 3.00,
+  //   mockups: ['bilder/mockups/eichhoernchen-sticker-1.jpg'],
+  //   shopifyVariantId: 'ERSETZEN'
+  // }
 
 ];
 
-/* ============================================================
-   EXTRAS — Artikel ohne Foto-Motiv-Bezug (z.B. ein fertiges
-   Sticker-Design, Geschenkanhänger). Auch hier: leer, bis du
-   selbst etwas einträgst.
+/* ------------------------------------------------------------
+   MERCH — in drei feste Unterkategorien einsortiert:
+   "shirts", "tassen", "weiteres" (für alles Neue, was noch keine
+   eigene Kategorie verdient — Kissen, Beutel, etc.)
 
-   BEISPIEL ZUM KOPIEREN:
+   Schema pro Eintrag:
    {
-     id: "extra-sticker-vogelset",
-     motiv: "Vogel-Silhouetten-Set",
-     typ: "sticker", // oder "geschenkanhaenger"
-     varianten: [
-       { name: "Sticker, einzeln", mockups: ["bilder/mockups/vogelset-1.jpg"] },
-       { name: "Sticker-Set", mockups: ["bilder/mockups/vogelset-set-1.jpg", "bilder/mockups/vogelset-set-2.jpg"] }
-     ]
+     id: "eindeutige-id",
+     motiv: "Anzeigename",
+     typ: "shirts" | "tassen" | "weiteres",
+     preis: 24.00,
+     farben: [ { farbe: "Weiß", mockups: [...] }, ... ],
+     shopifyProductId: "ERSETZEN-sobald-shopify-steht"
    }
-============================================================= */
+   ------------------------------------------------------------- */
+const MERCH = [
 
-const EXTRAS = [
+  // BEISPIEL ZUM KOPIEREN (auskommentiert):
+  // {
+  //   id: 'merch-eichhoernchen-shirt',
+  //   motiv: 'Eichhörnchen · im Sprung',
+  //   typ: 'shirts',
+  //   preis: 24.00,
+  //   farben: [
+  //     { farbe: 'Weiß', mockups: ['bilder/mockups/eichhoernchen-shirt-weiss.jpg'] },
+  //     { farbe: 'Schwarz', mockups: ['bilder/mockups/eichhoernchen-shirt-schwarz.jpg'] }
+  //   ],
+  //   shopifyProductId: 'ERSETZEN'
+  // }
 
 ];

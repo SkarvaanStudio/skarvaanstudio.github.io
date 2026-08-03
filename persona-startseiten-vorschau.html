@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vorschau: Persona-Startseiten — BG Naturfotografie</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .demo-bar{
+    position:sticky; top:0; z-index:50; background:var(--bg-deep);
+    border-bottom:1px solid var(--line); padding:1rem 1.4rem;
+    display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;
+  }
+  .demo-bar span{ font-family:'JetBrains Mono', monospace; font-size:.72rem; color:var(--text-muted); margin-right:.4rem; }
+  .demo-btn{
+    font-family:'JetBrains Mono', monospace; font-size:.76rem; color:var(--text-muted);
+    background:var(--bg-panel-2); border:1px solid var(--line); padding:.5rem .95rem;
+    border-radius:20px; cursor:pointer;
+  }
+  .demo-btn.active{ border-color:var(--accent); color:var(--accent-soft); background:rgba(201,124,61,0.14); }
+  .persona-hero{ padding:6rem 0 5rem; }
+  .persona-hero .wrap{ max-width:760px; }
+  .persona-hero .eyebrow{ display:block; margin-bottom:.8rem; }
+  .persona-hero h1{ font-size:clamp(2rem,4.6vw,3.2rem); margin-bottom:1rem; max-width:18ch; }
+  .persona-hero h1 em{ color:var(--accent-soft); font-style:italic; font-weight:420; }
+  .persona-hero p.lead{ color:var(--text-muted); max-width:56ch; font-size:1.05rem; margin-bottom:1.6rem; }
+  .persona-note{
+    margin:2.5rem 0 0; padding:1.1rem 1.3rem; max-width:56ch;
+    background:var(--bg-panel-2); border-left:3px solid var(--accent-soft);
+    border-radius:var(--radius); font-size:.85rem; color:var(--text-light);
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-bar">
+  <span>Vorschau (nur zur Ansicht, nicht live auf der Website):</span>
+  <button type="button" class="demo-btn active" data-p="instagram">Instagram-Besucher</button>
+  <button type="button" class="demo-btn" data-p="postkarte">QR-Code / Postkarte</button>
+  <button type="button" class="demo-btn" data-p="markt">Kommt vom Markt</button>
+  <button type="button" class="demo-btn" data-p="standard">Standard (heutige Startseite)</button>
+</div>
+
+<header class="persona-hero" id="hero">
+  <div class="wrap" id="hero-content"></div>
+</header>
+
+<div class="wrap">
+  <div class="persona-note" id="hero-erklaerung"></div>
+</div>
+
+<script>
+  var VARIANTEN = {
+    instagram: {
+      eyebrow: 'Schön, dass du von Instagram da bist',
+      h1: 'Noch mehr <em>wildes Leben</em><br>als im Feed.',
+      lead: 'Hier findest du die volle Galerie, alle Motive als Postkarte, Poster oder Sticker — und ein bisschen mehr über die Geschichte hinter den Bildern.',
+      cta: 'Zur Galerie',
+      ctaHref: '#galerie',
+      erklaerung: 'Erkennung z. B. über den Linkin-Bio-Link mit Parameter <code>?von=instagram</code>, oder simpler über den HTTP-Referrer (falls Instagram ihn mitschickt — das ist nicht immer zuverlässig, ein expliziter Link-Parameter ist robuster).'
+    },
+    postkarte: {
+      eyebrow: 'Du hast eine Postkarte von mir bekommen?',
+      h1: 'Schön, dass du <em>hier</em> gelandet bist.',
+      lead: 'Genau dieses Motiv — und alle anderen — gibt es auch als Poster, Sticker oder digitalen Download. Und falls du magst: ein Blick hinter die Kulissen, wie diese Bilder entstehen.',
+      cta: 'Motiv wiederfinden',
+      ctaHref: '#galerie',
+      erklaerung: 'Erkennung über einen QR-Code auf der Postkarte selbst, der auf <code>bg-naturfotografie.de/?von=postkarte</code> führt. Der Parameter schaltet oben diesen Begrüßungstext frei, der Rest der Seite bleibt gleich.'
+    },
+    markt: {
+      eyebrow: 'Schön, dass du am Stand warst',
+      h1: 'Hier findest du <em>alles</em>, was du gesehen hast.',
+      lead: 'Alle Motive vom Stand gibt es auch online — plus ein paar, die auf dem Markt keinen Platz mehr hatten. Und falls du magst: folg mir auf Instagram, dort zeige ich, wo als Nächstes ein Stand steht.',
+      cta: 'Zum Shop',
+      ctaHref: 'produkte-bestellen.html',
+      erklaerung: 'Erkennung über einen QR-Code auf der Standkarte/Visitenkarte mit Parameter <code>?von=markt</code>. Praktischer Nebeneffekt: du siehst in Umami, wie viele Marktbesucher später wirklich online weiterstöbern.'
+    },
+    standard: {
+      eyebrow: 'Naturfotografie · Schleswig-Holstein · Hamburg',
+      h1: 'Wildes Leben<br><em>vor der Haustür.</em>',
+      lead: 'Heimische Vögel, Eichhörnchen und die Natur. Fotografiert im natürlichen Licht von Garten, Wald und Teich. Natürlich oder kunstvoll interpretiert.',
+      cta: 'Zur Galerie',
+      ctaHref: '#galerie',
+      erklaerung: 'Das ist die heutige, generische Startseite — sie bleibt der Standard für jeden, der ohne erkennbare Herkunft (z. B. über Google) auf der Seite landet.'
+    }
+  };
+
+  function render(key) {
+    var v = VARIANTEN[key];
+    document.getElementById('hero-content').innerHTML =
+      '<span class="eyebrow">' + v.eyebrow + '</span>' +
+      '<h1>' + v.h1 + '</h1>' +
+      '<p class="lead">' + v.lead + '</p>' +
+      '<a class="btn btn-fill" href="' + v.ctaHref + '">' + v.cta + '</a>';
+    document.getElementById('hero-erklaerung').innerHTML = '<strong>Technische Umsetzung:</strong> ' + v.erklaerung;
+    document.querySelectorAll('.demo-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.p === key); });
+  }
+
+  document.querySelectorAll('.demo-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { render(btn.dataset.p); });
+  });
+
+  render('instagram');
+</script>
+
+</body>
+</html>
