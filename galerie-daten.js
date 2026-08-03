@@ -73,7 +73,8 @@ const GALERIE_BILDER = [
   { id: 'teichleben-reiher2', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher.jpg', alt: 'Reiher im Wasser stehend mit Grünschimmer', beschriftung: '<b>Reiher</b> · Frühlingsgrün', bestand: null, bereitsPostkarte: true, imShop: true },
   { id: 'teichleben-blaesshuhn1', kategorie: 'Teichleben', bild: 'bilder/teichleben/blaesshuhn1.jpg', alt: 'Blässhuhn frontal schwimmend', beschriftung: '<b>Blässhuhn</b> · schwimmend', bestand: 0, bereitsPostkarte: false, imShop: true },
   { id: 'teichleben-puffin', kategorie: 'Teichleben', bild: 'bilder/teichleben/puffin.jpg', alt: 'Papageientaucher auf Felsvorsprung', beschriftung: '<b>Papageientaucher</b> · Brutkolonie Schottland', bestand: null, bereitsPostkarte: true, imShop: true },
-  // ---- Gartenleben ----
+  
+   // ---- Gartenleben ----
   { id: 'gartenleben-rotkehlchen1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Ast', bestand: 0, bereitsPostkarte: false, imShop: true },
   { id: 'gartenleben-kohlmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kohlmeise1.jpg', alt: 'Kohlmeise im Grünen', beschriftung: '<b>Kohlmeise</b> · im Grünen', bestand: null, bereitsPostkarte: true, imShop: true },
   { id: 'gartenleben-blaumeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/blaumeise1.jpg', alt: 'Buntspecht am Stamm', beschriftung: '<b>Blaumeise</b> · Ausguck', bestand: 0, bereitsPostkarte: false, imShop: true },
@@ -99,7 +100,19 @@ const GALERIE_BILDER = [
   { id: 'gartenleben-kornblume', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kornblume.jpg', alt: 'Kornblume im Getreidefeld', beschriftung: '<b>Kornblume</b> · farblicher Akzent', bestand: null, bereitsPostkarte: true, imShop: true },
    
   // ---- Waldleben ---- (noch keine Fotos — Unterseite galerie-waldleben.html ist technisch bereit)
-  // ---- Reduktion ---- (noch keine Fotos — Unterseite galerie-reduktion.html ist technisch bereit)
+{ id: 'waldleben-mission_impossible', kategorie: 'Waldleben', bild: 'bilder/waldleben/mission_impossible.jpg', alt: 'Eichhörnchen hängend vom Baum', beschriftung: '<b>Eichhörnchen</b> · Mission Impossible', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'waldleben-planning_squirrel', kategorie: 'Waldleben', bild: 'bilder/waldleben/planning_squirrel.jpg', alt: 'Eichhörnchen mysteriös auf Baum schauend', beschriftung: '<b>Eichhörnchen</b> · plant es etwas?', bestand: 25, bereitsPostkarte: true, imShop: true },    
+{ id: 'waldleben-sleepy_squirrel', kategorie: 'Waldleben', bild: 'bilder/waldleben/sleepy_squirrel.jpg', alt: 'Eichhörnchen müde auf Baum sitzend', beschriftung: '<b>Eichhörnchen</b> · entspannt und müde', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'waldleben-specht', kategorie: 'Waldleben', bild: 'bilder/waldleben/specht.jpg', alt: 'Specht aus Baumhöhle schauend', beschriftung: '<b>Specht</b> · Hausbesichtigung', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'waldleben-baum', kategorie: 'Waldleben', bild: 'bilder/waldleben/baum.jpg', alt: 'Birkenbaum im Moor', beschriftung: '<b>Birke</b> · kräftig im Moor', bestand: 25, bereitsPostkarte: true, imShop: true },
+  
+// ---- Reduktion ---- (noch keine Fotos — Unterseite galerie-reduktion.html ist technisch bereit)
+{ id: 'reduktion-silhouette_robin', kategorie: 'Reduktion', bild: 'bilder/Reduktion/silhouette_robin.jpg', alt: 'schwarz-weiß Silhouette eines Rotkehlchens', beschriftung: '<b>Rotkehlchen</b> · Michael Jackson', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'reduktion-silhouette_singdrossel', kategorie: 'Reduktion', bild: 'bilder/Reduktion/silhouette_singdrossel.jpg', alt: 'schwarz-weiß Silhouette einer Singdrossel', beschriftung: '<b>Singdrossel</b> · Blick nach rechts', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'reduktion-silhouette_stare', kategorie: 'Reduktion', bild: 'bilder/Reduktion/silhouette_stare.jpg', alt: 'schwarz-weiß Silhouette zweier Stare auf einem Ast', beschriftung: '<b>Stare</b> · minimalistischer Ast-Kampf', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'reduktion-silhouette_zaunkönig', kategorie: 'Reduktion', bild: 'bilder/Reduktion/silhouette_zaunkönig.jpg', alt: 'schwarz-weiß Silhouette eines flügelschlagenden Zaunkönigs', beschriftung: '<b>Zaunkönig</b> · kraftvolle Silhouette', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'reduktion-singdrossel_art', kategorie: 'Reduktion', bild: 'bilder/Reduktion/singdrossel_art.jpg', alt: 'Singdrossel im Apfelbaum mit verdortem Apfel', beschriftung: '<b>Singdrossel</b> · Apfel Dilemma', bestand: 25, bereitsPostkarte: true, imShop: true },
+{ id: 'reduktion-Blaesshuhn', kategorie: 'Reduktion', bild: 'bilder/Reduktion/Blaesshuhn.jpg', alt: 'Blsshuhn auf dunklem See', beschriftung: '<b>Blässhuhn</b> · dunkle Aura', bestand: 25, bereitsPostkarte: true, imShop: true },
   // Sobald du diese beiden Galerien mit echten Fotos aufbaust, hier nach
   // demselben Muster ergänzen: { id: ..., kategorie: 'Waldleben', bild: ...,
   // alt: ..., beschriftung: ..., bestand: 0, bereitsPostkarte: false, imShop: true }
