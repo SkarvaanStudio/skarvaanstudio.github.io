@@ -44,6 +44,14 @@
        einfach "Vorrätig" ohne Zahl.
      - 0 → ist zwar als Postkarte im Sortiment, aber gerade
        ausverkauft. Shop zeigt "Wird nachbestellt · ca. 1–2 Wochen".
+   - imShop: steuert, ob dieses Motiv im Shop als Postkarte/Poster/
+     Download auftaucht. Standard ist true (also automatisch drin,
+     wie bisher). Auf false stellen, wenn ein Foto zwar in der
+     Galerie gezeigt werden soll, aber (noch) nicht als Produkt
+     verkauft werden soll — z. B. ein sehr neues oder ein bewusst
+     nur redaktionell genutztes Bild. Die Galerie zeigt es trotzdem
+     ganz normal, nur eben ohne den kleinen "Im Shop erhältlich"-
+     Hinweis (siehe unten) und ohne Eintrag im Shop selbst.
 
    WICHTIG FÜR DICH GERADE JETZT: Du hast 26 Motive bereits als
    Postkarte auf Lager. Unten steht erstmal bei ALLEN Motiven
@@ -57,43 +65,43 @@
 const GALERIE_BILDER = [
 
   // ---- Teichleben ----
-  { id: 'teichleben-entchen1', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen1.jpg', alt: 'Entchen Nahaufnahme frontal', beschriftung: '<b>Entenküken</b> · Nahaufnahme', bestand: null, bereitsPostkarte: true },
-  { id: 'teichleben-entchen2', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen2.jpg', alt: 'schlafendes Gänseküken neben Gänseblümchen', beschriftung: '<b>Gänseküken</b> · schlafend bei Gänseblümchen', bestand: null, bereitsPostkarte: true },
-  { id: 'teichleben-entchen3', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen3.jpg', alt: 'zwei Entenküken am Ufer eines Teichs', beschriftung: '<b>Entenküken</b> · Sonnenbaden', bestand: null, bereitsPostkarte: true },
-  { id: 'teichleben-ente1', kategorie: 'Teichleben', bild: 'bilder/teichleben/ente1.jpg', alt: 'Stockente breitet die Flügel auf dem Wasser aus', beschriftung: '<b>Stockente</b> · Flügelzauber', bestand: null, bereitsPostkarte: true },
-  { id: 'teichleben-reiher1', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher1.jpg', alt: 'Reiher im Winter im Wasser stehend', beschriftung: '<b>Reiher</b> · Winterkälte', bestand: 0, bereitsPostkarte: false },
-  { id: 'teichleben-reiher2', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher.jpg', alt: 'Reiher im Wasser stehend mit Grünschimmer', beschriftung: '<b>Reiher</b> · Frühlingsgrün', bestand: null, bereitsPostkarte: true },
-  { id: 'teichleben-blaesshuhn1', kategorie: 'Teichleben', bild: 'bilder/teichleben/blaesshuhn1.jpg', alt: 'Blässhuhn frontal schwimmend', beschriftung: '<b>Blässhuhn</b> · schwimmend', bestand: 0, bereitsPostkarte: false },
-  { id: 'teichleben-puffin', kategorie: 'Teichleben', bild: 'bilder/teichleben/puffin.jpg', alt: 'Papageientaucher auf Felsvorsprung', beschriftung: '<b>Papageientaucher</b> · Brutkolonie Schottland', bestand: null, bereitsPostkarte: true },
+  { id: 'teichleben-entchen1', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen1.jpg', alt: 'Entchen Nahaufnahme frontal', beschriftung: '<b>Entenküken</b> · Nahaufnahme', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'teichleben-entchen2', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen2.jpg', alt: 'schlafendes Gänseküken neben Gänseblümchen', beschriftung: '<b>Gänseküken</b> · schlafend bei Gänseblümchen', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'teichleben-entchen3', kategorie: 'Teichleben', bild: 'bilder/teichleben/entchen3.jpg', alt: 'zwei Entenküken am Ufer eines Teichs', beschriftung: '<b>Entenküken</b> · Sonnenbaden', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'teichleben-ente1', kategorie: 'Teichleben', bild: 'bilder/teichleben/ente1.jpg', alt: 'Stockente breitet die Flügel auf dem Wasser aus', beschriftung: '<b>Stockente</b> · Flügelzauber', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'teichleben-reiher1', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher1.jpg', alt: 'Reiher im Winter im Wasser stehend', beschriftung: '<b>Reiher</b> · Winterkälte', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'teichleben-reiher2', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher.jpg', alt: 'Reiher im Wasser stehend mit Grünschimmer', beschriftung: '<b>Reiher</b> · Frühlingsgrün', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'teichleben-blaesshuhn1', kategorie: 'Teichleben', bild: 'bilder/teichleben/blaesshuhn1.jpg', alt: 'Blässhuhn frontal schwimmend', beschriftung: '<b>Blässhuhn</b> · schwimmend', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'teichleben-puffin', kategorie: 'Teichleben', bild: 'bilder/teichleben/puffin.jpg', alt: 'Papageientaucher auf Felsvorsprung', beschriftung: '<b>Papageientaucher</b> · Brutkolonie Schottland', bestand: null, bereitsPostkarte: true, imShop: true },
   // ---- Gartenleben ----
-  { id: 'gartenleben-rotkehlchen1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Ast', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-kohlmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kohlmeise1.jpg', alt: 'Kohlmeise im Grünen', beschriftung: '<b>Kohlmeise</b> · im Grünen', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-blaumeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/blaumeise1.jpg', alt: 'Buntspecht am Stamm', beschriftung: '<b>Blaumeise</b> · Ausguck', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-blaumeise2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/blaumeise2.jpg', alt: 'Gimpel im Raureif', beschriftung: '<b>Blaumeise</b> · Frühlingsknospen', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-eichelhaeher1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/eichelhaeher1.jpg', alt: 'Porträt eines Eichelhähers', beschriftung: '<b>Eichelhäher</b> · Fressen knacken', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-schwanzmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise1.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> ·auf Nahrungsjagd', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-schwanzmeise2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise2.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> · in Zweigen', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-schwanzmeise3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise3.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> · neugierig', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-zaunkoenig1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/zaunkoenig1.jpg', alt: 'Zaunkönig im Gebüsch', beschriftung: '<b>Zaunkönig</b> · Höhen-Spagat', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-sumpfmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/sumpfmeise1.jpg', alt: 'Amsel im Frühling', beschriftung: '<b>Sumpfmeise</b> · Wurzelwerk', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-schmetterling1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schmetterling1.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Tagpfauenauge</b> · ruhiger Snack', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-schmetterling2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schmetterling2.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Tagpfauenauge</b> · Farbenspiel', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-rotkehlchen2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen2.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Blattgesang', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-rotkehlchen3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen3.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · unschuldig', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-katze1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/katze1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>schwarze Katze</b> · dunkles Versteck', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-goldammer1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/goldammer1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Goldammer</b> · Solo Gesang', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-dorngrasmuecke1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/dorngrasmuecke1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Dorngrasmücke</b> · singend', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-schwanzmeise4', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise4.jpg', alt: 'Schwanzmeise im Flug frontal in Kamera schauend', beschriftung: '<b>Schwanzmeise</b> · Moment im Flug', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-gimpel3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/gimpel3.jpg', alt: 'Gimpel auf einem Zweig im Winter', beschriftung: '<b>Gimpel</b> · Winterstimmung', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-gimpel2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/gimpel2.jpg', alt: 'Gimpel auf einem Zweig im Winter, aussehnd wie Elvis', beschriftung: '<b>Gimpel</b> · Elvis Look', bestand: 0, bereitsPostkarte: false },
-  { id: 'gartenleben-singdrossel1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/singdrossel1.jpg', alt: 'singende Singdrossel auf Tannengrün', beschriftung: '<b>Singdrossel</b> · grüner Gesang', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-buchfink', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/buchfink.jpg', alt: 'Buchfink in Wiesengras', beschriftung: '<b>schottischer Buchfink</b> · natürlicher Look', bestand: null, bereitsPostkarte: true },
-  { id: 'gartenleben-kornblume', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kornblume.jpg', alt: 'Kornblume im Getreidefeld', beschriftung: '<b>Kornblume</b> · farblicher Akzent', bestand: null, bereitsPostkarte: true },
+  { id: 'gartenleben-rotkehlchen1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Ast', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-kohlmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kohlmeise1.jpg', alt: 'Kohlmeise im Grünen', beschriftung: '<b>Kohlmeise</b> · im Grünen', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-blaumeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/blaumeise1.jpg', alt: 'Buntspecht am Stamm', beschriftung: '<b>Blaumeise</b> · Ausguck', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-blaumeise2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/blaumeise2.jpg', alt: 'Gimpel im Raureif', beschriftung: '<b>Blaumeise</b> · Frühlingsknospen', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-eichelhaeher1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/eichelhaeher1.jpg', alt: 'Porträt eines Eichelhähers', beschriftung: '<b>Eichelhäher</b> · Fressen knacken', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-schwanzmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise1.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> ·auf Nahrungsjagd', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-schwanzmeise2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise2.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> · in Zweigen', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-schwanzmeise3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise3.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Schwanzmeise</b> · neugierig', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-zaunkoenig1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/zaunkoenig1.jpg', alt: 'Zaunkönig im Gebüsch', beschriftung: '<b>Zaunkönig</b> · Höhen-Spagat', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-sumpfmeise1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/sumpfmeise1.jpg', alt: 'Amsel im Frühling', beschriftung: '<b>Sumpfmeise</b> · Wurzelwerk', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-schmetterling1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schmetterling1.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Tagpfauenauge</b> · ruhiger Snack', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-schmetterling2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schmetterling2.jpg', alt: 'Schwanzmeise auf einem Zweig', beschriftung: '<b>Tagpfauenauge</b> · Farbenspiel', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-rotkehlchen2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen2.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Blattgesang', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-rotkehlchen3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen3.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · unschuldig', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-katze1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/katze1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>schwarze Katze</b> · dunkles Versteck', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-goldammer1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/goldammer1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Goldammer</b> · Solo Gesang', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-dorngrasmuecke1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/dorngrasmuecke1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Dorngrasmücke</b> · singend', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-schwanzmeise4', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/schwanzmeise4.jpg', alt: 'Schwanzmeise im Flug frontal in Kamera schauend', beschriftung: '<b>Schwanzmeise</b> · Moment im Flug', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-gimpel3', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/gimpel3.jpg', alt: 'Gimpel auf einem Zweig im Winter', beschriftung: '<b>Gimpel</b> · Winterstimmung', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-gimpel2', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/gimpel2.jpg', alt: 'Gimpel auf einem Zweig im Winter, aussehnd wie Elvis', beschriftung: '<b>Gimpel</b> · Elvis Look', bestand: 0, bereitsPostkarte: false, imShop: true },
+  { id: 'gartenleben-singdrossel1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/singdrossel1.jpg', alt: 'singende Singdrossel auf Tannengrün', beschriftung: '<b>Singdrossel</b> · grüner Gesang', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-buchfink', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/buchfink.jpg', alt: 'Buchfink in Wiesengras', beschriftung: '<b>schottischer Buchfink</b> · natürlicher Look', bestand: null, bereitsPostkarte: true, imShop: true },
+  { id: 'gartenleben-kornblume', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/kornblume.jpg', alt: 'Kornblume im Getreidefeld', beschriftung: '<b>Kornblume</b> · farblicher Akzent', bestand: null, bereitsPostkarte: true, imShop: true },
    
   // ---- Waldleben ---- (noch keine Fotos — Unterseite galerie-waldleben.html ist technisch bereit)
   // ---- Reduktion ---- (noch keine Fotos — Unterseite galerie-reduktion.html ist technisch bereit)
   // Sobald du diese beiden Galerien mit echten Fotos aufbaust, hier nach
   // demselben Muster ergänzen: { id: ..., kategorie: 'Waldleben', bild: ...,
-  // alt: ..., beschriftung: ..., bestand: 0, bereitsPostkarte: false }
+  // alt: ..., beschriftung: ..., bestand: 0, bereitsPostkarte: false, imShop: true }
 
 ];

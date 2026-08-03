@@ -90,9 +90,10 @@
   .gp-zoom svg{ width:15px; height:15px; }
 
   .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:var(--gap); }
-  .pick-card{
+  .pick-card.hervorgehoben{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
     background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
     overflow:hidden; display:flex; flex-direction:column; position:relative;
+    scroll-margin-top:90px;
   }
   .pick-card .frame{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--bg-panel); }
   .pick-card .frame img{ width:100%; height:100%; object-fit:contain; }
@@ -283,7 +284,7 @@
 <footer>
   <div class="wrap">
     <span>© 2026 BG Naturfotografie</span>
-    <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="agb.html">AGB &amp; Widerruf</a></span>
+    <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="agb.html">AGB &amp; Widerruf</a> · <a href="produkte-bestellen.html?anliegen=lizenz#kontakt-anfrage">Bildlizenz anfragen</a></span>
   </div>
 </footer>
 
@@ -368,11 +369,13 @@
 
   function renderMotivGrid() {
     var grid = document.getElementById('motiv-grid');
-    if (typeof GALERIE_BILDER === 'undefined' || !GALERIE_BILDER.length) {
-      grid.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive hinterlegt.</p>';
+    var alleBilder = (typeof GALERIE_BILDER === 'undefined') ? [] : GALERIE_BILDER;
+    var bilder = alleBilder.filter(function (b) { return b.imShop !== false; });
+    if (!bilder.length) {
+      grid.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive im Shop freigegeben.</p>';
       return;
     }
-    var html = GALERIE_BILDER.map(function (b, i) {
+    var html = bilder.map(function (b, i) {
       var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
@@ -380,7 +383,7 @@
       var stock = stockInfo(b);
       var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild vergrößern" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>';
 
-      return '<div class="pick-card" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
+      return '<div class="pick-card" id="motiv-' + escapeHtml(b.id) + '" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
         '<div class="frame">' + starHtml + zoomHtml + '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
         '<div class="fmt-pills" id="' + cid + '-pills">' +
@@ -397,7 +400,7 @@
     }).join('');
     grid.innerHTML = html;
 
-    GALERIE_BILDER.forEach(function (b, i) {
+    bilder.forEach(function (b, i) {
       var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var stock = stockInfo(b);
@@ -549,12 +552,22 @@
     }
   }
 
+  function hervorhebenBeiSprungmarke() {
+    var id = window.location.hash.replace('#', '');
+    if (!id) { return; }
+    var el = document.getElementById(id);
+    if (!el || !el.classList.contains('pick-card')) { return; }
+    el.classList.add('hervorgehoben');
+    setTimeout(function () { el.classList.remove('hervorgehoben'); }, 2600);
+  }
+
   renderMotivFilter();
   renderMotivGrid();
   renderStickerGrid();
   renderMerchFilter();
   renderMerchGrid();
   setupAnfrageForm();
+  hervorhebenBeiSprungmarke();
 </script>
 
 </body>

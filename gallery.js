@@ -18,7 +18,13 @@
 
   masonry.innerHTML = bilder.map(function (b) {
     var cap = b.beschriftung ? '<figcaption>' + b.beschriftung + '</figcaption>' : '';
-    return '<figure class="m-item"><img src="' + escapeAttr(b.bild) + '" alt="' + escapeAttr(b.alt) + '" loading="lazy">' + cap + '</figure>';
+    var imShop = b.imShop !== false; // Standard: true, außer explizit auf false gesetzt
+    var badge = imShop
+      ? '<a class="shop-badge" href="produkte-bestellen.html#motiv-' + escapeAttr(b.id) + '" title="Im Shop erhältlich" aria-label="Im Shop erhältlich — springt zum Motiv im Shop">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8h12l-1 12H7L6 8z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>' +
+        '</a>'
+      : '';
+    return '<figure class="m-item">' + badge + '<img src="' + escapeAttr(b.bild) + '" alt="' + escapeAttr(b.alt) + '" loading="lazy">' + cap + '</figure>';
   }).join('');
 })();
 

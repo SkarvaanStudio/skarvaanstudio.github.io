@@ -443,6 +443,16 @@
   }
   .m-item figcaption b{color:var(--accent-soft); font-weight:500;}
 
+  .shop-badge{
+    position:absolute; top:8px; right:8px; z-index:2;
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(17,20,15,0.65); border:1px solid rgba(237,231,214,0.25);
+    color:var(--text-light); display:flex; align-items:center; justify-content:center;
+    transition:background .2s, border-color .2s, color .2s;
+  }
+  .shop-badge:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
+  .shop-badge svg{ width:13px; height:13px; }
+
   @media (max-width:900px){
     .masonry{column-count:3;}
   }
