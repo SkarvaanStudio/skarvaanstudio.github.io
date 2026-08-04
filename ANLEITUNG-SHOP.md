@@ -12,33 +12,42 @@ zusammen. Du musst dafür nur Daten pflegen, nicht HTML anfassen:
    "Postkarten & Poster", inklusive Format-Auswahl (Postkarte / Poster
    in A5-A4-A3 / Download) und Lagerbestand.
 2. **`produkte-daten.js`** — Sticker (Liste `STICKER`) und Merch
-   (Liste `MERCH`), plus die zentrale Preistabelle `PREISE` und die
-   Shopify-Zugangsdaten in `SHOPIFY_CONFIG`.
-3. Die Shopify-Kaufen-Buttons selbst — siehe Abschnitt "Shopify
-   anschließen" unten.
+   (Liste `MERCH`), plus die zentrale Preistabelle `PREISE`.
+3. Der Bestellweg: kein Shop-Checkout, sondern eine Anfrage — siehe
+   Abschnitt "Wie eine Bestellung abläuft" unten.
 
-## WICHTIGSTER OFFENER PUNKT: Shopify ist noch nicht angeschlossen
+## Wie eine Bestellung abläuft (aktuell: Anfrage statt Sofortkauf)
 
-Solange `SHOPIFY_CONFIG.aktiv` in `produkte-daten.js` auf `false`
-steht, zeigt jedes Produkt im Shop einen deutlich sichtbaren
-Platzhalter-Kasten ("Kaufen-Button folgt hier") statt eines echten
-Kaufen-Buttons. Das ist Absicht — nichts wirkt halb-fertig oder
-kaputt, aber es kann natürlich noch niemand etwas kaufen.
+Es gibt bewusst **keinen** Shopify- oder sonstigen Kauf-Button. Bei
+jedem Produkt steht stattdessen ein Button "+ Zur Anfrage
+hinzufügen". Klickt jemand darauf:
 
-**So schließt du Shopify an, sobald dein Store steht:**
-1. In Shopify: Vertriebskanal "Buy Button" aktivieren, für jedes
-   Produkt (Postkarte, Poster, Sticker, jeden Merch-Artikel) einen
-   Buy Button erzeugen und den generierten Code kopieren.
-2. In `produkte-daten.js`: `SHOPIFY_CONFIG.domain` und
-   `.storefrontAccessToken` mit deinen echten Werten füllen.
-3. In `produkte-bestellen.html`: die Funktion `renderKaufSlot(...)`
-   im `<script>`-Block ist der einzige Ort, den du anfassen musst —
-   dort ersetzt du den Platzhalter-`return` durch den echten Shopify
-   Buy-Button-Einbettungscode für das jeweilige Produkt.
-4. `SHOPIFY_CONFIG.aktiv` auf `true` stellen.
+- Das Produkt landet in einer kleinen Auswahl-Liste (rechts unten
+  taucht ein Badge mit der Anzahl auf, verlinkt zum Formular weiter
+  unten).
+- Im Anfrageformular ("Kurze Anfrage") erscheint die Auswahl
+  nochmal übersichtlich, mit der Möglichkeit, einzelne Produkte
+  wieder zu entfernen.
+- Klickt die Person auf "Anfrage senden", wird die Auswahl
+  automatisch vorne in die Nachricht eingefügt und als Mail über
+  Formspree an dich geschickt (technisch über das versteckte Feld
+  `Ausgewählte Produkte` sowie den Nachrichtentext).
+- Du meldest dich dann manuell per Mail mit Preis, Versand- bzw.
+  Abholoption und Zahlungsweg zurück — genau wie bisher beim
+  Anfrageformular für Marktanfragen/Bildlizenzen.
 
-Das ist bewusst an einer einzigen Stelle im Code gebündelt, damit du
-nicht 50+ Stellen einzeln anfassen musst.
+**Das gilt jetzt für alles im Shop** (Postkarten, Poster, Sticker,
+Merch) — nicht nur für die drei Sonderfälle wie vorher. Die AGB und
+Datenschutzerklärung wurden entsprechend angepasst (Vertragsschluss
+über Anfrage → individuelles Angebot → Bestätigung/Zahlung).
+
+**Falls ihr später doch auf einen echten Shop mit Sofortkauf
+umsteigen wollt** (Shopify, o. ä.): Das ist ein bewusst separater
+Umbauschritt. Kurzfassung, falls du später danach suchst: Die
+Funktion `renderKaufSlot(...)` im `<script>`-Block von
+`produkte-bestellen.html` ist die einzige Stelle, die du dafür
+anfassen müsstest — dort müsste statt des "Zur Anfrage
+hinzufügen"-Buttons der jeweilige Shop-Checkout-Code rein.
 
 ## Postkarten & Poster pflegen → `galerie-daten.js`
 
@@ -58,7 +67,9 @@ nicht 50+ Stellen einzeln anfassen musst.
   dich gedruckt · ca. 1–2 Wochen".
 
 **Das Feld `bestand`** (nur relevant, wenn `bereitsPostkarte: true`):
-- Zahl (z. B. `8`) → Shop zeigt "Noch 8 auf Lager".
+- Zahl (z. B. `8`) → Shop zeigt "Noch 8 auf Lager". Da es keinen
+  automatischen Checkout gibt, zählst du das manuell runter, wenn du
+  eine Bestellung bestätigst.
 - `null` → Shop zeigt einfach "Vorrätig" ohne genaue Zahl.
 - `0` → Shop zeigt "Wird nachbestellt · ca. 1–2 Wochen".
 
@@ -80,30 +91,37 @@ bereit für echte Fotos — einfach nach demselben Muster in
 ## Sticker pflegen → `produkte-daten.js` → `STICKER`
 
 Jeder Eintrag: `id`, `motiv`, `kategorie` (optional), `preis`,
-`mockups` (Bildliste), `shopifyVariantId`. Ein auskommentiertes
-Beispiel steht direkt in der Datei zum Kopieren.
+`mockups` (Bildliste). Ein auskommentiertes Beispiel steht direkt in
+der Datei zum Kopieren.
 
 ## Merch pflegen → `produkte-daten.js` → `MERCH`
 
-Jetzt mit festem Feld `typ`: `"shirts"`, `"tassen"` oder `"weiteres"`
-— darüber filtert die Merch-Seite automatisch. Pro Eintrag: `id`,
-`motiv`, `typ`, `preis`, `farben` (Liste mit `farbe` + `mockups`),
-`shopifyProductId`. Beispiel zum Kopieren steht in der Datei.
+Mit festem Feld `typ`: `"shirts"`, `"tassen"` oder `"weiteres"` —
+darüber filtert die Merch-Seite automatisch. Pro Eintrag: `id`,
+`motiv`, `typ`, `preis`, `farben` (Liste mit `farbe` + `mockups`).
+Beispiel zum Kopieren steht in der Datei.
 
-## Das Anfrageformular (Markt / Lizenz / Motivwunsch / Sonstiges)
+## Das Anfrageformular (jetzt: alles läuft hier zusammen)
 
-Das ist NICHT der Kaufweg — Postkarten, Poster, Sticker und Merch
-laufen über die Shopify-Buttons. Dieses Formular ist nur für die drei
-Sonderfälle, die keinen Shop-Eintrag haben: Marktanfragen,
-Bildlizenzen, Motivwünsche. Es fragt bewusst nur Name, E-Mail und
-Nachricht ab — keine Adresse.
+Ein einziges Formular für zwei Fälle:
+1. **Produktauswahl** — Person hat Produkte über "Zur Anfrage
+   hinzufügen" gesammelt, sendet sie mit Name/E-Mail/Nachricht ab.
+2. **Reine Anfrage ohne Produkt** — über die Chips Marktanfrage /
+   Bildlizenz / Motivwunsch / Sonstiges, wie bisher.
+
+Es fragt bewusst nur Name, E-Mail und Nachricht ab — keine Adresse,
+keine Zahlungsdaten. Die kommen erst ins Spiel, wenn du der Person
+nach deiner Rückmeldung ein Angebot machst.
 
 Der Betreff der Formspree-Mail passt sich automatisch an, je
-nachdem welcher Chip (Marktanfrage/Bildlizenz/Motivwunsch/Sonstiges)
-angeklickt wurde. Über einen Link mit `?anliegen=markt` (oder
-`lizenz`, `motivwunsch`, `sonstiges`) am Ende der URL kannst du den
-passenden Chip auch automatisch vorauswählen lassen — genau das nutzt
-z. B. der "Termin anfragen"-Button im Termine-Bereich der Startseite.
+nachdem welcher Chip (Bestellanfrage/Marktanfrage/Bildlizenz/
+Motivwunsch/Sonstiges) angeklickt wurde — bei vorhandener
+Produktauswahl ohne manuelle Chip-Wahl wird automatisch
+"Bestellanfrage" gesetzt. Über einen Link mit `?anliegen=markt`
+(oder `lizenz`, `motivwunsch`, `sonstiges`) am Ende der URL kannst du
+den passenden Chip auch automatisch vorauswählen lassen — genau das
+nutzt z. B. der "Termin anfragen"-Button im Termine-Bereich der
+Startseite.
 
 **Formspree nicht vergessen:** In `produkte-bestellen.html` steht bei
 `<form action="https://formspree.io/f/xvzejbje">` noch die alte
@@ -123,12 +141,10 @@ Anfrageformular).
 
 ## Offene Punkte, die dir noch auffallen sollten
 
-- **AGB/Widerrufsbelehrung:** Der Abschnitt zum Vertragsschluss
-  ("Anfrage → Angebot per Mail → Überweisung") passt jetzt nur noch
-  auf die drei Sonderfälle im Anfrageformular, nicht mehr auf den
-  Shopify-Sofortkauf. Diesen Teil sollte einmal jemand mit
-  Rechtskenntnis für den neuen Ablauf nachziehen, bevor der Shop live
-  geht — das habe ich bewusst nicht selbst umformuliert.
+- **AGB/Datenschutz:** Der Abschnitt zum Vertragsschluss bzw. zur
+  Datenverarbeitung bei Bestellanfragen wurde inhaltlich an das
+  Anfrage-Modell angepasst, aber nicht anwaltlich geprüft — vor dem
+  Live-Gang einmal von jemandem mit Rechtskenntnis gegenlesen lassen.
 - **Alt-Texte prüfen:** In ein paar Gartenleben-Motiven (z. B. Katze,
   Goldammer, Dorngrasmücke) steht als `alt`-Text noch versehentlich
   "Rotkehlchen auf einem Ast" (Copy-Paste-Rest).

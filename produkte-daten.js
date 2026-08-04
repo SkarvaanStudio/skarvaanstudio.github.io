@@ -8,24 +8,15 @@
    Sticker und Merch ein, plus die Basis-Preise für alles.
 
    ------------------------------------------------------------
-   SHOPIFY-ANBINDUNG (Platzhalter):
-   Sobald dein Shopify-Store steht, ersetzt du unten in
-   SHOPIFY_CONFIG die Platzhalter-Werte durch deine echten Daten
-   (siehe ANLEITUNG-SHOP.md). Bis dahin zeigt der Shop an jeder
-   Kaufen-Stelle einen deutlich sichtbaren Platzhalter-Kasten,
-   nichts ist "heimlich" halb-fertig.
+   BESTELLWEG: Anfrage statt Sofortkauf.
+   Der Shop zeigt bei jedem Produkt einen "Zur Anfrage
+   hinzufügen"-Button. Ausgewählte Produkte landen gesammelt im
+   Anfrageformular unten auf der Seite (Formspree) und werden dir
+   als Mail zugeschickt — du meldest dich danach mit einem
+   Angebot/einer Rechnung zurück. Kein Shopify, kein Sofort-
+   Checkout nötig. Wenn ihr später doch auf einen echten Shop
+   umstellt, ist das ein separater Umbauschritt.
    ============================================================= */
-
-const SHOPIFY_CONFIG = {
-  // ERSETZEN: deine Shopify-Domain, z. B. "bg-naturfotografie.myshopify.com"
-  domain: 'ERSETZEN-mein-shop.myshopify.com',
-  // ERSETZEN: dein Storefront-Access-Token aus Shopify (Buy Button Kanal)
-  storefrontAccessToken: 'ERSETZEN-storefront-token',
-  // Ist die Anbindung schon aktiv? Auf true stellen, sobald echte
-  // Produkt-IDs unten eingetragen sind — dann verschwinden die
-  // Platzhalter-Kästen automatisch.
-  aktiv: false
-};
 
 /* ------------------------------------------------------------
    BASIS-PREISE — gelten für alle Motive gleich. Einzelnes Motiv
@@ -49,8 +40,7 @@ const PREISE = {
      motiv: "Anzeigename",
      kategorie: "Teichleben" | "Gartenleben" | "Waldleben" | "Reduktion" | null,
      preis: 3.00,
-     mockups: ["bilder/mockups/....jpg"],
-     shopifyVariantId: "ERSETZEN-sobald-shopify-steht"
+     mockups: ["bilder/mockups/....jpg"]
    }
    ------------------------------------------------------------- */
 const STICKER = [
@@ -61,8 +51,7 @@ const STICKER = [
   //   motiv: 'Eichhörnchen · im Sprung',
   //   kategorie: 'Waldleben',
   //   preis: 3.00,
-  //   mockups: ['bilder/mockups/eichhoernchen-sticker-1.jpg'],
-  //   shopifyVariantId: 'ERSETZEN'
+  //   mockups: ['bilder/mockups/eichhoernchen-sticker-1.jpg']
   // }
 
 ];
@@ -78,8 +67,7 @@ const STICKER = [
      motiv: "Anzeigename",
      typ: "shirts" | "tassen" | "weiteres",
      preis: 24.00,
-     farben: [ { farbe: "Weiß", mockups: [...] }, ... ],
-     shopifyProductId: "ERSETZEN-sobald-shopify-steht"
+     farben: [ { farbe: "Weiß", mockups: [...] }, ... ]
    }
    ------------------------------------------------------------- */
 const MERCH = [
@@ -93,8 +81,7 @@ const MERCH = [
   //   farben: [
   //     { farbe: 'Weiß', mockups: ['bilder/mockups/eichhoernchen-shirt-weiss.jpg'] },
   //     { farbe: 'Schwarz', mockups: ['bilder/mockups/eichhoernchen-shirt-schwarz.jpg'] }
-  //   ],
-  //   shopifyProductId: 'ERSETZEN'
+  //   ]
   // }
 
 ];

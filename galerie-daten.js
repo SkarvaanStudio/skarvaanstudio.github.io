@@ -37,9 +37,9 @@
    - bestand: die genaue Stückzahl, die du gerade als fertige
      Postkarte zu Hause liegen hast. Nur relevant, wenn
      bereitsPostkarte true ist.
-     - Zahl (z. B. 8) → Shop zeigt "Noch 8 auf Lager", zählt bei
-       jedem Verkauf automatisch runter (sobald Shopify-Anbindung
-       steht).
+     - Zahl (z. B. 8) → Shop zeigt "Noch 8 auf Lager". Da es keinen
+       automatischen Checkout gibt, zählst du diese Zahl selbst
+       manuell runter, wenn du eine Bestellung bestätigst.
      - null → du kennst die genaue Zahl noch nicht, Shop zeigt
        einfach "Vorrätig" ohne Zahl.
      - 0 → ist zwar als Postkarte im Sortiment, aber gerade

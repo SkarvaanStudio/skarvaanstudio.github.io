@@ -91,6 +91,7 @@
 
   .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:var(--gap); }
   .pick-card.hervorgehoben{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
+  .pick-card{
     background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
     overflow:hidden; display:flex; flex-direction:column; position:relative;
     scroll-margin-top:90px;
@@ -120,11 +121,44 @@
   .stock-line.back{ color:var(--text-muted); }
   .herkunft-line{ font-size:.7rem; color:var(--text-muted); }
 
-  .shopify-slot{
-    margin-top:.2rem; padding:.7rem .8rem; border:1px dashed var(--line); border-radius:var(--radius);
-    font-family:'JetBrains Mono', monospace; font-size:.7rem; color:var(--text-muted); text-align:center;
-    background:var(--bg-panel);
+  .btn-hinzufuegen{
+    margin-top:.2rem; width:100%; padding:.6rem .8rem; border:1px solid var(--accent); border-radius:var(--radius);
+    font-family:'JetBrains Mono', monospace; font-size:.72rem; letter-spacing:.02em; text-align:center;
+    background:transparent; color:var(--accent-soft); cursor:pointer; transition:background .2s, color .2s;
   }
+  .btn-hinzufuegen:hover{ background:var(--accent); color:var(--bg-deep); }
+  .btn-hinzufuegen.ist-drin{ background:var(--accent); color:var(--bg-deep); border-color:var(--accent); }
+  .btn-hinzufuegen.ist-drin::before{ content:"✓ "; }
+
+  /* ---- Schwebende Auswahl-Anzeige ---- */
+  .auswahl-badge{
+    position:fixed; right:1.2rem; bottom:1.2rem; z-index:40;
+    display:none; align-items:center; gap:.5rem;
+    background:var(--accent); color:var(--bg-deep); border:none;
+    font-family:'JetBrains Mono', monospace; font-size:.8rem; font-weight:500;
+    padding:.75rem 1.2rem; border-radius:30px; cursor:pointer;
+    box-shadow:0 4px 18px rgba(0,0,0,0.35); text-decoration:none;
+  }
+  .auswahl-badge.sichtbar{ display:inline-flex; }
+  .auswahl-badge:hover{ background:var(--accent-soft); }
+
+  /* ---- "Deine Auswahl"-Liste im Anfrageformular ---- */
+  .auswahl-liste-wrap{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:1rem 1.2rem; margin-bottom:1.6rem;
+  }
+  .auswahl-liste-wrap h3{ font-size:.85rem; margin:0 0 .6rem; color:var(--text-light); }
+  .auswahl-liste{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
+  .auswahl-liste li{
+    display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+    font-size:.85rem; color:var(--text-muted);
+  }
+  .auswahl-liste li button{
+    background:none; border:none; color:var(--text-muted); cursor:pointer;
+    font-size:.9rem; line-height:1; padding:0 .2rem;
+  }
+  .auswahl-liste li button:hover{ color:var(--accent-soft); }
+  .auswahl-leer{ font-size:.84rem; color:var(--text-muted); font-style:italic; margin:0; }
 
   .idea-note{
     margin:1.4rem 0 0; padding:1rem 1.2rem;
@@ -163,21 +197,26 @@
   </div>
 </nav>
 
+<a href="#kontakt-anfrage" class="auswahl-badge" id="auswahl-badge">
+  <span id="auswahl-badge-text">0 ausgewählt</span> · Zur Anfrage ↓
+</a>
+
 <section class="shop-hero">
   <div class="wrap">
-    <span class="eyebrow">Direkt bestellbar</span>
-    <h1>Wähl dein Motiv, <em>wähl dein Produkt.</em></h1>
+    <span class="eyebrow">Auf Anfrage</span>
+    <h1>Wähl dein Motiv, <em>frag dein Produkt an.</em></h1>
     <p class="lead">Alle Designs stammen von mir. Postkarten, Sticker und Poster fertige ich selbst zu Hause in Halstenbek, Merch entsteht über Printful — wer was macht, steht bei jedem Produkt direkt dabei.</p>
     <div class="origin-legend">
       <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet aus Halstenbek</span>
       <span class="item"><span class="origin-dot printful"></span> Produktion: Printful (EU)</span>
     </div>
-    <p style="color:var(--text-muted); font-size:.82rem; margin:.9rem 0 0;">Alle angezeigten Preise verstehen sich zzgl. Versandkosten, die dir im Bestellvorgang vor Abschluss angezeigt werden. Digitale Downloads sind versandkostenfrei.</p>
+    <p style="color:var(--text-muted); font-size:.82rem; margin:.9rem 0 0;">Alle angezeigten Preise verstehen sich zzgl. Versandkosten. Du bezahlst nichts direkt hier — nach deiner Anfrage bekommst du von mir eine kurze Rückmeldung mit Preis, Versand/Abholung und Zahlungsweg. Digitale Downloads sind versandkostenfrei.</p>
     <nav class="shop-tabs" aria-label="Produktkategorien">
       <a href="#motive">Postkarten &amp; Poster</a>
       <a href="#sticker">Sticker</a>
       <a href="#merch">Merch</a>
     </nav>
+    <p style="color:var(--text-muted); font-size:.8rem; margin:.9rem 0 0;">Aktuell fest im Sortiment: Postkarten &amp; Poster. Sticker/Lesezeichen und Merch folgen nach und nach.</p>
   </div>
 </section>
 
@@ -187,8 +226,8 @@
     <h2 style="font-size:1.5rem;">So läuft eine Bestellung bei mir ab</h2>
     <div class="ablauf-steps">
       <div class="ablauf-step"><span class="num">01</span><h3>Motiv &amp; Format wählen</h3><p>Postkarte, Poster im gewünschten Format, Sticker oder Merch — direkt bei jedem Produkt.</p></div>
-      <div class="ablauf-step"><span class="num">02</span><h3>Direkt bezahlen</h3><p>Der Kauf-Button führt dich zur sicheren Kasse — Karte, PayPal oder Klarna, kein Warten auf ein Angebot.</p></div>
-      <div class="ablauf-step"><span class="num">03</span><h3>Versand</h3><p>Postkarten, Sticker &amp; Poster verschicke ich aus Halstenbek, Merch direkt über Printful.</p></div>
+      <div class="ablauf-step"><span class="num">02</span><h3>Zur Anfrage hinzufügen</h3><p>Alles, was dich interessiert, landet in deiner Auswahl unten im Anfrageformular — du schickst mir eine Nachricht, kein Kauf-Button, keine Kasse.</p></div>
+      <div class="ablauf-step"><span class="num">03</span><h3>Ich melde mich</h3><p>Du bekommst von mir Preis, Versand- bzw. Abholoption und Zahlungsweg per Mail — danach schicke ich Postkarten &amp; Sticker aus Halstenbek los, Merch läuft über Printful.</p></div>
     </div>
     <div class="idea-note">
       <strong>Bildlizenz, eine Anfrage für einen Markt oder ein Motiv, das hier noch fehlt?</strong> Dafür gibt es unten ein kurzes, eigenes <a href="#kontakt-anfrage" style="color:var(--accent-soft);">Anfrageformular</a> — ganz ohne den Bestellweg oben.
@@ -243,9 +282,17 @@
     <!-- FORMSPREE-SETUP: eigene Formspree-ID eintragen -->
     <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form">
       <h2 id="kontakt-anfrage">Kurze Anfrage</h2>
-      <p class="form-lead">Für Marktanfragen, Bildlizenzen oder ein Motiv, das es hier noch nicht gibt — kein Bestellformular, nur eine kurze Nachricht an mich.</p>
+      <p class="form-lead">Egal ob Bestellwunsch, Marktanfrage, Bildlizenz oder ein Motiv, das es hier noch nicht gibt — kein Bestellformular, nur eine kurze Nachricht an mich. Ich melde mich mit Preis, Versand-/Abholoption und Zahlungsweg zurück.</p>
+
+      <div class="auswahl-liste-wrap">
+        <h3>Deine Auswahl</h3>
+        <ul class="auswahl-liste" id="auswahl-liste"></ul>
+        <p class="auswahl-leer" id="auswahl-leer">Noch nichts ausgewählt — klick bei den Produkten oben auf „+ Zur Anfrage hinzufügen“, oder schreib direkt unten dein Anliegen.</p>
+      </div>
+      <input type="hidden" name="Ausgewählte Produkte" id="auswahl-hidden-field" value="">
 
       <div class="chips" id="anliegen-chips">
+        <button type="button" class="chip" data-text="Bestellanfrage" data-key="bestellung">Bestellanfrage</button>
         <button type="button" class="chip" data-text="Marktanfrage" data-key="markt">Marktanfrage</button>
         <button type="button" class="chip" data-text="Bildlizenz" data-key="lizenz">Bildlizenz</button>
         <button type="button" class="chip" data-text="Motivwunsch" data-key="motivwunsch">Motivwunsch</button>
@@ -300,19 +347,75 @@
   function stripHtml(str) { return String(str || '').replace(/<[^>]*>/g, '').trim(); }
   function euro(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
-  /* ---------- Shopify-Kaufen-Button (Platzhalter) ----------
-     ANLEITUNG: Sobald dein Shopify-Store läuft (siehe
-     ANLEITUNG-SHOP.md), ersetzt du diese Funktion durch den
-     echten Shopify Buy-Button-Code für die jeweilige
-     productId/variantId. Bis dahin zeigt sie einen klar
-     erkennbaren Platzhalter, damit nichts "heimlich" kaputt ist. */
+  /* ---------- "Zur Anfrage hinzufügen"-Button ----------
+     Kein Sofortkauf: Klick fügt das Produkt zur Auswahl hinzu
+     (siehe auswahl-Array weiter unten), die gesammelt im
+     Anfrageformular landet. Nochmal klicken entfernt es wieder. */
   function renderKaufSlot(produktLabel) {
-    if (SHOPIFY_CONFIG.aktiv) {
-      // Hier kommt später der echte Shopify Buy Button rein.
-      return '<div class="shopify-slot">Kauf-Button lädt …</div>';
-    }
-    return '<div class="shopify-slot">Kaufen-Button folgt hier<br>(' + escapeHtml(produktLabel) + ')</div>';
+    return '<button type="button" class="btn-hinzufuegen" data-produkt="' + escapeHtml(produktLabel) + '">+ Zur Anfrage hinzufügen</button>';
   }
+
+  /* ---------- Auswahl-Verwaltung ---------- */
+  var auswahl = [];
+
+  function istAusgewaehlt(label) { return auswahl.indexOf(label) !== -1; }
+
+  function toggleAuswahl(label, btn) {
+    var idx = auswahl.indexOf(label);
+    if (idx === -1) {
+      auswahl.push(label);
+    } else {
+      auswahl.splice(idx, 1);
+    }
+    syncHinzufuegenButtons();
+    renderAuswahlListe();
+  }
+
+  function syncHinzufuegenButtons() {
+    document.querySelectorAll('.btn-hinzufuegen').forEach(function (btn) {
+      var label = btn.getAttribute('data-produkt');
+      var drin = istAusgewaehlt(label);
+      btn.classList.toggle('ist-drin', drin);
+      btn.textContent = drin ? 'Ausgewählt – entfernen' : '+ Zur Anfrage hinzufügen';
+    });
+  }
+
+  function renderAuswahlListe() {
+    var liste = document.getElementById('auswahl-liste');
+    var leer = document.getElementById('auswahl-leer');
+    var badge = document.getElementById('auswahl-badge');
+    var badgeText = document.getElementById('auswahl-badge-text');
+    var hiddenField = document.getElementById('auswahl-hidden-field');
+
+    if (!auswahl.length) {
+      liste.innerHTML = '';
+      leer.style.display = '';
+      badge.classList.remove('sichtbar');
+    } else {
+      leer.style.display = 'none';
+      liste.innerHTML = auswahl.map(function (label) {
+        return '<li><span>' + escapeHtml(label) + '</span><button type="button" data-produkt="' + escapeHtml(label) + '" aria-label="Entfernen">&times;</button></li>';
+      }).join('');
+      badge.classList.add('sichtbar');
+      badgeText.textContent = auswahl.length + (auswahl.length === 1 ? ' ausgewählt' : ' ausgewählt');
+    }
+    hiddenField.value = auswahl.join('\n');
+  }
+
+  // Event-Delegation: ein Listener für alle "Hinzufügen"-Buttons
+  // (Motive, Sticker, Merch werden erst später/dynamisch gerendert)
+  // und für die Entfernen-Buttons in der Auswahl-Liste selbst.
+  document.addEventListener('click', function (e) {
+    var addBtn = e.target.closest('.btn-hinzufuegen');
+    if (addBtn) {
+      toggleAuswahl(addBtn.getAttribute('data-produkt'), addBtn);
+      return;
+    }
+    var removeBtn = e.target.closest('#auswahl-liste button');
+    if (removeBtn) {
+      toggleAuswahl(removeBtn.getAttribute('data-produkt'), removeBtn);
+    }
+  });
 
   /* ---------- Lightbox ---------- */
   function openGpLightbox(src, caption) {
@@ -556,6 +659,22 @@
       var match = chipsWrap.querySelector('[data-key="' + vorauswahl + '"]');
       if (match) { activate(match); }
     }
+
+    // Beim Absenden: falls eine Auswahl besteht, aber noch kein Chip
+    // aktiv gewählt wurde, automatisch "Bestellanfrage" setzen und
+    // die ausgewählten Produkte oben in die Nachricht einfügen.
+    document.getElementById('anfrage-form').addEventListener('submit', function () {
+      var hatAktivenChip = chipsWrap.querySelector('.chip.active');
+      if (auswahl.length && !hatAktivenChip) {
+        activate(chipsWrap.querySelector('[data-key="bestellung"]'));
+      }
+      if (auswahl.length) {
+        var block = 'Ausgewählte Produkte:\n- ' + auswahl.join('\n- ') + '\n\n';
+        if (nachrichtEl.value.indexOf('Ausgewählte Produkte:') === -1) {
+          nachrichtEl.value = block + nachrichtEl.value;
+        }
+      }
+    });
   }
 
   function hervorhebenBeiSprungmarke() {
@@ -572,6 +691,7 @@
   renderStickerGrid();
   renderMerchFilter();
   renderMerchGrid();
+  renderAuswahlListe();
   setupAnfrageForm();
   hervorhebenBeiSprungmarke();
 </script>
