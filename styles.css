@@ -525,6 +525,14 @@
     background:var(--bg-panel);
   }
 
+  /* Kachel-Einfärbung: zieht die Karte von "bunt" auf dein Creme-/Waldgrün-Schema.
+     Reines CSS, bleibt beim Drucken erhalten. Zum Feintuning einfach die
+     Werte anpassen: hue-rotate dreht den Farbton (Grün <-> Orange),
+     brightness/contrast steuern, wie hell/dunkel es insgesamt wirkt. */
+  .karte-kacheln{
+    filter: sepia(.35) saturate(.55) hue-rotate(25deg) brightness(1.03) contrast(.95);
+  }
+
   /* Punkte: schlichte kleine Kreise im Akzentton */
   .karte-punkt{
     fill:var(--accent);
