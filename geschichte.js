@@ -1,10 +1,17 @@
-/* ============ GESCHICHTE-SEITE AUS galerie-daten.js BEFÜLLEN ============
-   Liest ?id=... aus der URL, sucht das passende Motiv in GALERIE_BILDER
-   und füllt Bild, Titel, Geschichte, Ort und QR-Code automatisch.
-   So brauchst du für jedes neue Motiv KEINE neue HTML-Seite —
-   die Geschichte lebt komplett in galerie-daten.js. */
+/* ============ GESCHICHTE-SEITE BEFÜLLEN ============
+   Bild, Titel, Ort etc. kommen weiter aus galerie-daten.js (?id=...).
+   Der Geschichte-TEXT kommt jetzt primär aus einer Google-Tabelle
+   (Spalten: id, geschichte) — damit du Texte bequem in einer Tabelle
+   schreibst statt in einer einzigen HTML/JS-Zeile auf GitHub.
+   Falls die Tabelle mal nicht erreichbar ist oder für ein Motiv noch
+   keine Zeile hat, greift ersatzweise motiv.geschichte aus
+   galerie-daten.js (falls dort was steht), sonst der Platzhaltertext. */
 
 (function () {
+  // ---- HIER die veröffentlichte CSV-URL deiner Google-Tabelle eintragen ----
+  // Anleitung dazu unten in diesem Chat / in der Kurzanleitung.
+  var GESCHICHTEN_TABELLE_URL = 'HIER_DEINE_VEROEFFENTLICHTE_CSV_URL_EINSETZEN';
+
   // ---- Zuordnung Kategorie -> Galerie-Unterseite (für den "Zurück"-Link) ----
   var KATEGORIE_ZU_SEITE = {
     'Teichleben': 'galerie-teichleben.html',
@@ -25,6 +32,53 @@
       '<p style="color:var(--text-muted);">' + text + '</p>' +
       '<a href="index.html#galerie" class="btn btn-outline" style="margin-top:1rem; display:inline-block;">&larr; Zur Galerie</a>' +
       '</div>';
+  }
+
+  // ---- Sehr einfacher CSV-Parser: kommt mit Kommas/Zeilenumbrüchen
+  // innerhalb von "..."-Feldern klar, wie Google Sheets sie exportiert.
+  function parseCsv(text) {
+    var zeilen = [];
+    var feld = '', zeile = [], inQuotes = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i], next = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { feld += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { feld += c; }
+      } else {
+        if (c === '"') { inQuotes = true; }
+        else if (c === ',') { zeile.push(feld); feld = ''; }
+        else if (c === '\r') { /* ignorieren */ }
+        else if (c === '\n') { zeile.push(feld); zeilen.push(zeile); zeile = []; feld = ''; }
+        else { feld += c; }
+      }
+    }
+    if (feld.length || zeile.length) { zeile.push(feld); zeilen.push(zeile); }
+    return zeilen.filter(function (z) { return z.length && z.some(function (f) { return f.trim() !== ''; }); });
+  }
+
+  function holeGeschichteAusTabelle(id) {
+    if (!GESCHICHTEN_TABELLE_URL || GESCHICHTEN_TABELLE_URL.indexOf('HIER_DEINE') === 0) {
+      return Promise.resolve(null); // Tabelle noch nicht eingerichtet
+    }
+    return fetch(GESCHICHTEN_TABELLE_URL)
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function (csvText) {
+        var zeilen = parseCsv(csvText);
+        if (!zeilen.length) return null;
+        var kopf = zeilen[0].map(function (h) { return h.trim().toLowerCase(); });
+        var idxId = kopf.indexOf('id');
+        var idxGeschichte = kopf.indexOf('geschichte');
+        if (idxId === -1 || idxGeschichte === -1) return null;
+        for (var i = 1; i < zeilen.length; i++) {
+          if ((zeilen[i][idxId] || '').trim() === id) {
+            var wert = (zeilen[i][idxGeschichte] || '').trim();
+            return wert || null;
+          }
+        }
+        return null;
+      })
+      .catch(function () { return null; }); // still, kein Absturz — Fallback greift
   }
 
   if (typeof GALERIE_BILDER === 'undefined') {
@@ -66,13 +120,21 @@
   var zurueckSeite = KATEGORIE_ZU_SEITE[motiv.kategorie] || 'index.html#galerie';
   document.getElementById('zurueck-link').href = zurueckSeite;
 
-  // ---- Geschichte-Text ----
+  // ---- Geschichte-Text: erst Tabelle versuchen, sonst galerie-daten.js, sonst Platzhalter ----
   var textEl = document.getElementById('geschichte-text-inhalt');
-  if (motiv.geschichte) {
-    textEl.textContent = motiv.geschichte;
-  } else {
-    textEl.innerHTML = '<em>Zu diesem Foto schreibe ich die Geschichte noch auf — schau bald wieder vorbei.</em>';
+  textEl.innerHTML = '<em>Lädt …</em>';
+
+  function zeigeGeschichte(text) {
+    if (text) {
+      textEl.textContent = text; // textContent erhält Zeilenumbrüche via CSS white-space
+    } else {
+      textEl.innerHTML = '<em>Zu diesem Foto schreibe ich die Geschichte noch auf — schau bald wieder vorbei.</em>';
+    }
   }
+
+  holeGeschichteAusTabelle(motiv.id).then(function (ausTabelle) {
+    zeigeGeschichte(ausTabelle || motiv.geschichte);
+  });
 
   // ---- Ort (nur anzeigen, wenn hinterlegt) ----
   if (motiv.ort && motiv.ort.lat && motiv.ort.lng) {
