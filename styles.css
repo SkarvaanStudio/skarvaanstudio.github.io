@@ -566,7 +566,11 @@
     color:var(--bg-deep);
     text-align:center;
     padding:.3em 0 0;
-    max-width:90px;
+    width:90px;
+    white-space:normal;
+    overflow-wrap:break-word;
+    word-break:break-word;
+    line-height:1.3;
   }
   .karte-tooltip{
     background:#fff;
@@ -574,6 +578,7 @@
     border-radius:2px;
     padding:5px;
     box-shadow:0 6px 16px rgba(0,0,0,.2);
+    white-space:normal;
   }
   .karte-tooltip .karte-marker-label{color:var(--bg-deep);}
   .karte-tooltip::before{display:none;}
