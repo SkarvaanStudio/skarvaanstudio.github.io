@@ -484,14 +484,31 @@
   .geschichte-ort{
     margin-top:2.4rem;
     padding-top:2rem;
+    padding-bottom:2rem;
     border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
   }
   .geschichte-teilen-box{
     margin-top:2.4rem;
-    padding-top:2rem;
-    border-top:1px solid var(--line);
+    padding-top:.4rem;
   }
-  #teilen-btn{background:none;}
+  #teilen-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background:transparent;
+    background-color:transparent;
+    color:var(--text-light);
+    border:1px solid var(--line);
+    box-shadow:none;
+    font-family:'Work Sans', sans-serif;
+  }
+  #teilen-btn:hover{
+    border-color:var(--accent);
+    color:var(--accent-soft);
+    background:transparent;
+  }
+  #teilen-btn:focus{outline:2px solid var(--accent-soft); outline-offset:2px;}
   @media (max-width:800px){
     .geschichte-layout{grid-template-columns:1fr; gap:2rem;}
     .geschichte-bild{position:static;}
