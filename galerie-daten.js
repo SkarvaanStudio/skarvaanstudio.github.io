@@ -73,12 +73,19 @@
 
      2. Gebiet (ungefähre Gegend, z. B. "Hamburger Westen" oder
         "Schottische Küste" — wenn du keinen exakten Punkt setzen
-        willst): einfach "bereich: true" ergänzen, dazu optional
-        "radius" in Metern (Standard 4000, wenn weggelassen):
-        ort: { lat: 53.65, lng: 9.75, label: 'Hamburger Westen', bereich: true, radius: 6000 }
-        lat/lng sind hier nur der ungefähre Mittelpunkt der Gegend —
-        die Karte zeigt dafür einen weichen, unscharfen Kreis statt
-        eines Pins.
+        willst). Zwei Varianten:
+
+        a) Einfacher Kreis:
+           ort: { lat: 53.65, lng: 9.75, label: 'Hamburger Westen', bereich: true, radius: 6000 }
+           lat/lng sind hier nur der ungefähre Mittelpunkt, radius
+           in Metern bestimmt die Größe des weichen Kreises.
+
+        b) Frei gezeichnete Fläche (z. B. entlang eines Stadtteils):
+           ort: { label: 'Schenefeld', bereich: true, polygon: [[53.65,9.79],[53.66,9.81], ...] }
+           Diesen Code musst du nicht von Hand schreiben — öffne
+           gebiet-zeichnen.html (nicht verlinkt, nur für dich),
+           zeichne dort die Fläche mit der Maus ein, und kopiere
+           den fertig erzeugten Code direkt hier hinein.
 
    WICHTIG FÜR DICH GERADE JETZT: Du hast 26 Motive bereits als
    Postkarte auf Lager. Unten steht erstmal bei ALLEN Motiven

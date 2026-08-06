@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gebiet zeichnen (intern)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-draw/1.0.4/leaflet.draw.css">
+</head>
+<body>
+
+<header style="padding-top:3rem; padding-bottom:1rem;">
+  <div class="wrap">
+    <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);">Gebiet zeichnen (intern)</h1>
+    <p style="color:var(--text-muted); max-width:68ch; font-size:.95rem;">
+      Diese Seite ist nicht verlinkt und nicht für Besucher gedacht. Zeichne links auf der Karte
+      mit dem Sechseck-Werkzeug (oben links am Kartenrand) einen Umriss — z. B. entlang eines
+      Stadtteils. Wenn du fertig bist, klick den letzten Punkt nochmal an, um die Form zu schließen.
+      Rechts erscheint dann fertiger Code zum Einfügen in <code>galerie-daten.js</code>.
+      Der Kreis-Button daneben funktioniert genauso, falls dir ein einfacher Kreis lieber ist.
+    </p>
+  </div>
+</header>
+
+<section style="padding-top:.5rem;">
+  <div class="wrap gebiet-werkzeug-layout">
+
+    <div id="zeichen-karte"></div>
+
+    <div class="gebiet-ergebnisse">
+      <span class="eyebrow" style="margin-bottom:.6em;">Erzeugter Code</span>
+      <p id="gebiet-leer-hinweis" style="color:var(--text-muted); font-size:.85rem;">Noch nichts gezeichnet. Sobald du eine Form abschließt, taucht hier der passende Code auf.</p>
+      <div id="gebiet-liste"></div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-draw/1.0.4/leaflet.draw.js"></script>
+<script src="gebiet-zeichnen.js" defer></script>
+</body>
+</html>
