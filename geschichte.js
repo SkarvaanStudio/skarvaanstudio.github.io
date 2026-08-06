@@ -81,28 +81,24 @@
     document.getElementById('geschichte-karte-link').href = 'karte.html?motiv=' + encodeURIComponent(motiv.id);
   }
 
-  // ---- QR-Code für diese Seite selbst erzeugen ----
-  var qrContainer = document.getElementById('qr-code-canvas');
+  // ---- Teilen-Button: nutzt das native Teilen-Menü (Handy), sonst Link kopieren ----
+  var teilenBtn = document.getElementById('teilen-btn');
+  var teilenBtnText = document.getElementById('teilen-btn-text');
   var seitenUrl = window.location.origin + window.location.pathname + '?id=' + encodeURIComponent(motiv.id);
 
-  if (typeof QRCode !== 'undefined' && qrContainer) {
-    new QRCode(qrContainer, {
-      text: seitenUrl,
-      width: 220,
-      height: 220,
-      colorDark: '#11140F',
-      colorLight: '#EDE7D6',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-
-    // Download-Button: wartet kurz, bis QRCode.js das <canvas> erzeugt hat
-    document.getElementById('qr-download-btn').addEventListener('click', function () {
-      var canvas = qrContainer.querySelector('canvas');
-      if (!canvas) return;
-      var link = document.createElement('a');
-      link.download = 'qr-' + motiv.id + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
-  }
+  teilenBtn.addEventListener('click', function () {
+    if (navigator.share) {
+      navigator.share({
+        title: titelText + ' — BG Naturfotografie',
+        text: 'Die Geschichte hinter diesem Foto:',
+        url: seitenUrl
+      }).catch(function () { /* Abbruch durch Nutzer:in — kein Fehler */ });
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(seitenUrl).then(function () {
+        var original = teilenBtnText.textContent;
+        teilenBtnText.textContent = 'Link kopiert!';
+        setTimeout(function () { teilenBtnText.textContent = original; }, 2000);
+      });
+    }
+  });
 })();

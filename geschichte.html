@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <script>
   document.addEventListener('contextmenu', function(e) {
@@ -72,11 +71,10 @@
           <a id="geschichte-karte-link" href="karte.html" class="btn btn-outline" style="font-size:.85rem; padding:.6em 1.2em;">Auf der Karte ansehen &rarr;</a>
         </div>
 
-        <div class="geschichte-qr-box">
-          <span class="eyebrow" style="margin-bottom:.3em;">QR-Code für den Druck</span>
-          <p style="color:var(--text-muted); font-size:.9rem; margin:0 0 1rem;">Dieser QR-Code führt genau zu dieser Geschichte — zum Beispiel für die Rückseite einer Postkarte.</p>
-          <div id="qr-code-canvas"></div>
-          <button id="qr-download-btn" class="btn btn-fill" style="margin-top:1rem; font-size:.85rem; padding:.6em 1.2em; cursor:pointer;">QR-Code als PNG herunterladen</button>
+        <div class="geschichte-teilen-box">
+          <button id="teilen-btn" class="btn btn-outline" style="font-size:.85rem; padding:.6em 1.2em; cursor:pointer;">
+            <span id="teilen-btn-text">Diese Geschichte teilen</span>
+          </button>
         </div>
       </div>
 

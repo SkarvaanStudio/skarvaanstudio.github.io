@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR-Werkzeug (intern)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<header style="padding-top:3rem; padding-bottom:1rem;">
+  <div class="wrap">
+    <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);">QR-Werkzeug (intern)</h1>
+    <p style="color:var(--text-muted); max-width:64ch; font-size:.95rem;">
+      Diese Seite ist nicht verlinkt und nicht für Besucher gedacht — nur für dich, zum Erzeugen der
+      QR-Codes für den Postkarten-Druck. Jeder Code führt zur Geschichte des jeweiligen Motivs
+      (<code>geschichte.html?id=...</code>). Klick auf "Herunterladen", um die PNG-Datei zu speichern
+      und in Affinity Publisher auf die Kartenrückseite zu ziehen.
+    </p>
+    <p style="color:var(--text-muted); max-width:64ch; font-size:.85rem;">
+      <b>Filter:</b>
+      <button id="filter-alle" class="btn btn-outline" style="font-size:.78rem; padding:.4em .9em; margin-right:.5em;">Alle Motive</button>
+      <button id="filter-postkarte" class="btn btn-outline" style="font-size:.78rem; padding:.4em .9em;">Nur aktuelle Postkarten (★)</button>
+    </p>
+  </div>
+</header>
+
+<section style="padding-top:1rem;">
+  <div class="wrap">
+    <div id="qr-raster" class="qr-raster"></div>
+  </div>
+</section>
+
+<script src="galerie-daten.js" defer></script>
+<script src="qr-werkzeug.js" defer></script>
+</body>
+</html>

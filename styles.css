@@ -481,18 +481,17 @@
     top:5.5rem;
   }
   .geschichte-bild img{width:100%; height:auto;}
-  .geschichte-ort, .geschichte-qr-box{
+  .geschichte-ort{
     margin-top:2.4rem;
     padding-top:2rem;
     border-top:1px solid var(--line);
   }
-  #qr-code-canvas{
-    display:inline-block;
-    padding:12px;
-    background:var(--text-light);
-    border-radius:var(--radius);
-    line-height:0;
+  .geschichte-teilen-box{
+    margin-top:2.4rem;
+    padding-top:2rem;
+    border-top:1px solid var(--line);
   }
+  #teilen-btn{background:none;}
   @media (max-width:800px){
     .geschichte-layout{grid-template-columns:1fr; gap:2rem;}
     .geschichte-bild{position:static;}
@@ -536,6 +535,39 @@
     box-shadow:0 8px 22px rgba(0,0,0,.4);
   }
   .karte-tooltip::before{display:none;}
+
+  /* ============ QR-WERKZEUG (intern) ============ */
+  .qr-raster{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+    gap:1.5rem;
+    padding-bottom:4rem;
+  }
+  .qr-karte{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1rem;
+    text-align:center;
+  }
+  .qr-karte-code{
+    display:inline-block;
+    padding:8px;
+    background:var(--text-light);
+    border-radius:2px;
+    line-height:0;
+  }
+  .qr-karte-titel{
+    font-family:'Fraunces', serif;
+    font-size:.95rem;
+    margin:.8em 0 0;
+  }
+  .qr-karte-id{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.68rem;
+    color:var(--text-muted);
+    margin:.2em 0 .8em;
+  }
 
   @media (max-width:900px){
     .masonry{column-count:3;}
