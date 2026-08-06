@@ -507,34 +507,76 @@
     border:1px solid var(--line);
     background:var(--bg-panel);
   }
+
+  /* Punkte: schlichte kleine Kreise im Akzentton */
+  .karte-punkt{
+    fill:var(--accent);
+    stroke:var(--text-light);
+    stroke-width:1.5;
+    fill-opacity:0.95;
+    cursor:pointer;
+    transition:fill-opacity .15s;
+  }
+  .karte-punkt:hover{fill-opacity:1;}
+
+  /* Gebiete: weicher, unscharfer Fleck statt exaktem Pin */
+  .karte-gebiet{
+    fill:var(--accent);
+    fill-opacity:.22;
+    cursor:pointer;
+    filter:blur(6px);
+    transition:fill-opacity .15s;
+  }
+  .karte-gebiet:hover{fill-opacity:.32;}
+
   .karte-marker-thumb{
-    width:110px; height:110px;
+    width:90px; height:90px;
     object-fit:cover;
     display:block;
     border-radius:2px;
   }
   .karte-marker-label{
     font-family:'JetBrains Mono', monospace;
-    font-size:.7rem;
+    font-size:.66rem;
     color:var(--bg-deep);
     text-align:center;
     padding:.3em 0 0;
+    max-width:90px;
   }
-  .leaflet-popup-content-wrapper{
-    background:var(--bg-panel);
-    color:var(--text-light);
-    border-radius:var(--radius);
-  }
-  .leaflet-popup-tip{background:var(--bg-panel);}
-  .leaflet-popup-content a{color:var(--accent-soft);}
   .karte-tooltip{
     background:var(--text-light);
     border:none;
     border-radius:2px;
-    padding:6px;
-    box-shadow:0 8px 22px rgba(0,0,0,.4);
+    padding:5px;
+    box-shadow:0 6px 16px rgba(0,0,0,.35);
   }
   .karte-tooltip::before{display:none;}
+
+  /* Ruhigere Zoom-Buttons statt weißer Leaflet-Standardboxen */
+  .leaflet-control-zoom{
+    border:none !important;
+    box-shadow:none !important;
+  }
+  .leaflet-control-zoom a{
+    width:30px !important; height:30px !important; line-height:30px !important;
+    background:rgba(27,33,22,0.85) !important;
+    color:var(--text-light) !important;
+    border:1px solid var(--line) !important;
+    border-radius:var(--radius) !important;
+    margin-bottom:4px;
+    font-weight:400 !important;
+  }
+  .leaflet-control-zoom a:hover{
+    background:var(--accent) !important;
+    color:var(--bg-deep) !important;
+    border-color:var(--accent) !important;
+  }
+  .leaflet-control-attribution{
+    background:rgba(17,20,15,0.7) !important;
+    color:var(--text-muted) !important;
+    font-size:.65rem !important;
+  }
+  .leaflet-control-attribution a{color:var(--text-muted) !important;}
 
   /* ============ QR-WERKZEUG (intern) ============ */
   .qr-raster{

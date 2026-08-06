@@ -63,10 +63,22 @@
    - ort: der Ort, an dem das Foto entstanden ist, für die Karte
      (karte.html). null, wenn (noch) kein Ort hinterlegt ist —
      das Motiv taucht dann einfach nicht auf der Karte auf.
-     Format: { lat: 53.7297, lng: 9.7975, label: 'Kurzer Ortsname' }
-     So findest du Koordinaten: Google Maps öffnen, gewünschte
-     Stelle mit Rechtsklick anklicken → die erste Zeile im
-     Kontextmenü zeigt "lat, lng" zum Kopieren an.
+
+     ZWEI MODI:
+     1. Punkt (genauer Ort):
+        ort: { lat: 53.7297, lng: 9.7975, label: 'Teich in Halstenbek' }
+        So findest du Koordinaten: Google Maps öffnen, gewünschte
+        Stelle mit Rechtsklick anklicken → die erste Zeile im
+        Kontextmenü zeigt "lat, lng" zum Kopieren an.
+
+     2. Gebiet (ungefähre Gegend, z. B. "Hamburger Westen" oder
+        "Schottische Küste" — wenn du keinen exakten Punkt setzen
+        willst): einfach "bereich: true" ergänzen, dazu optional
+        "radius" in Metern (Standard 4000, wenn weggelassen):
+        ort: { lat: 53.65, lng: 9.75, label: 'Hamburger Westen', bereich: true, radius: 6000 }
+        lat/lng sind hier nur der ungefähre Mittelpunkt der Gegend —
+        die Karte zeigt dafür einen weichen, unscharfen Kreis statt
+        eines Pins.
 
    WICHTIG FÜR DICH GERADE JETZT: Du hast 26 Motive bereits als
    Postkarte auf Lager. Unten steht erstmal bei ALLEN Motiven
@@ -87,7 +99,7 @@ const GALERIE_BILDER = [
   { id: 'teichleben-reiher1', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher1.jpg', alt: 'Reiher im Winter im Wasser stehend', beschriftung: '<b>Reiher</b> · Winterkälte', bestand: 0, bereitsPostkarte: false, imShop: true, geschichte: null, ort: null },
   { id: 'teichleben-reiher2', kategorie: 'Teichleben', bild: 'bilder/teichleben/reiher.jpg', alt: 'Reiher im Wasser stehend mit Grünschimmer', beschriftung: '<b>Reiher</b> · Frühlingsgrün', bestand: null, bereitsPostkarte: true, imShop: true, geschichte: null, ort: null },
   { id: 'teichleben-blaesshuhn1', kategorie: 'Teichleben', bild: 'bilder/teichleben/blaesshuhn1.jpg', alt: 'Blässhuhn frontal schwimmend', beschriftung: '<b>Blässhuhn</b> · schwimmend', bestand: 0, bereitsPostkarte: false, imShop: true, geschichte: null, ort: null },
-  { id: 'teichleben-puffin', kategorie: 'Teichleben', bild: 'bilder/teichleben/puffin.jpg', alt: 'Papageientaucher auf Felsvorsprung', beschriftung: '<b>Papageientaucher</b> · Brutkolonie Schottland', bestand: null, bereitsPostkarte: true, imShop: true, geschichte: null, ort: null },
+  { id: 'teichleben-puffin', kategorie: 'Teichleben', bild: 'bilder/teichleben/puffin.jpg', alt: 'Papageientaucher auf Felsvorsprung', beschriftung: '<b>Papageientaucher</b> · Brutkolonie Schottland', bestand: null, bereitsPostkarte: true, imShop: true, geschichte: null, ort: { lat: 56.34, lng: -2.7, label: 'Schottische Küste', bereich: true, radius: 25000 } },
   
    // ---- Gartenleben ----
   { id: 'gartenleben-rotkehlchen1', kategorie: 'Gartenleben', bild: 'bilder/gartenleben/rotkehlchen1.jpg', alt: 'Rotkehlchen auf einem Ast', beschriftung: '<b>Rotkehlchen</b> · Ast', bestand: 0, bereitsPostkarte: false, imShop: true, geschichte: 'Dieses Rotkehlchen hat im letzten Winter fast täglich am selben Ast gesessen, kaum zwei Meter von meiner Terrassentür entfernt. Irgendwann kannte es mich wohl schon und ließ sich vom Objektiv nicht mehr stören – so ist dieses ruhige, fast schon vertraute Porträt entstanden.', ort: { lat: 53.7297, lng: 9.7975, label: 'Garten in Halstenbek' } },

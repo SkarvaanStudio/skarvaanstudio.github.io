@@ -1,9 +1,13 @@
 /* ============ KARTE AUS galerie-daten.js AUFBAUEN ============
    Liest alle Motive mit hinterlegtem "ort" aus GALERIE_BILDER und
-   setzt dafür Marker auf eine Leaflet-Karte (OpenStreetMap-Kacheln,
-   kostenlos, kein API-Key nötig). Beim Hover über einen Marker
-   erscheint eine kleine Bildvorschau, ein Klick führt zur
-   Geschichte des jeweiligen Motivs. */
+   setzt dafür Punkte bzw. Gebiete auf eine Leaflet-Karte (kostenlos,
+   kein API-Key nötig). Beim Hover erscheint eine kleine Bildvorschau,
+   ein Klick führt direkt zur Geschichte des jeweiligen Motivs.
+
+   ZWEI ARTEN VON ORTEN (siehe galerie-daten.js):
+   - Punkt:  ort.bereich fehlt/false → schlichter kleiner Punkt
+   - Gebiet: ort.bereich = true      → weicher, unscharfer Kreis
+             (für ungefähre Gegenden wie "Hamburger Westen") */
 (function () {
   var kartenElement = document.getElementById('foto-karte');
   if (!kartenElement || typeof L === 'undefined' || typeof GALERIE_BILDER === 'undefined') return;
@@ -18,20 +22,23 @@
     return b.ort && typeof b.ort.lat === 'number' && typeof b.ort.lng === 'number';
   });
 
-  // ---- Basis-Zentrum: Halstenbek / Kreis Pinneberg, falls (noch) keine Orte da sind ----
-  var startZentrum = [53.7297, 9.7975];
+  var startZentrum = [53.7297, 9.7975]; // Halstenbek / Kreis Pinneberg
   var startZoom = 10;
 
   var karte = L.map(kartenElement, {
-    scrollWheelZoom: false // verhindert versehentliches Zoomen beim Scrollen der Seite
+    scrollWheelZoom: false,
+    zoomControl: false // eigene, ruhigere Zoom-Buttons unten
   }).setView(startZentrum, startZoom);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende',
+  L.control.zoom({ position: 'bottomright' }).addTo(karte);
+
+  // ---- Ruhige, dunkle Kacheln statt bunter Standardkarte ----
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+    subdomains: 'abcd',
     maxZoom: 18
   }).addTo(karte);
 
-  // Klick auf die Karte aktiviert Scroll-Zoom, Klick daneben deaktiviert ihn wieder
   karte.on('focus', function () { karte.scrollWheelZoom.enable(); });
   karte.on('blur', function () { karte.scrollWheelZoom.disable(); });
 
@@ -40,13 +47,10 @@
     return;
   }
 
-  // ---- Eigenes Marker-Icon im Seiten-Look ----
-  var punktIcon = L.divIcon({
-    className: 'karte-punkt-icon',
-    html: '<span style="display:block; width:14px; height:14px; border-radius:50%; background:#C97C3D; border:2px solid #EDE7D6; box-shadow:0 0 0 3px rgba(201,124,61,0.35);"></span>',
-    iconSize: [14, 14],
-    iconAnchor: [7, 7]
-  });
+  function tooltipHtml(motiv, titel) {
+    return '<img class="karte-marker-thumb" src="' + escapeAttr(motiv.bild) + '" alt="' + escapeAttr(motiv.alt || titel) + '">' +
+      '<div class="karte-marker-label">' + escapeAttr(titel) + '</div>';
+  }
 
   var grenzen = [];
 
@@ -55,45 +59,51 @@
     grenzen.push(punkt);
 
     var titel = motiv.beschriftung ? motiv.beschriftung.replace(/<[^>]+>/g, '') : motiv.id;
+    var ziel = 'geschichte.html?id=' + encodeURIComponent(motiv.id);
+    var element;
 
-    var marker = L.marker(punkt, { icon: punktIcon }).addTo(karte);
+    if (motiv.ort.bereich) {
+      // ---- Gebiet: weicher, unscharfer Kreis ohne exakten Punkt ----
+      element = L.circle(punkt, {
+        radius: motiv.ort.radius || 4000,
+        className: 'karte-gebiet',
+        stroke: false,
+        fillOpacity: 1
+      }).addTo(karte);
+    } else {
+      // ---- Punkt: schlichter kleiner Kreis ----
+      element = L.circleMarker(punkt, {
+        radius: 5,
+        className: 'karte-punkt'
+      }).addTo(karte);
+    }
 
-    // Hover-Vorschau: kleines Bild + Titel als Tooltip
-    var vorschauHtml =
-      '<img class="karte-marker-thumb" src="' + escapeAttr(motiv.bild) + '" alt="' + escapeAttr(motiv.alt || titel) + '">' +
-      '<div class="karte-marker-label">' + escapeAttr(titel) + '</div>';
-
-    marker.bindTooltip(vorschauHtml, {
+    element.bindTooltip(tooltipHtml(motiv, titel), {
       direction: 'top',
-      offset: [0, -10],
+      offset: [0, motiv.ort.bereich ? -10 : -8],
       className: 'karte-tooltip',
-      opacity: 1
+      opacity: 1,
+      sticky: true
     });
 
-    // Klick führt zur Geschichte des Motivs
-    var popupHtml = '<div style="font-family:\'Work Sans\',sans-serif; font-size:.85rem;">' +
-      '<b style="font-family:\'Fraunces\',serif;">' + escapeAttr(titel) + '</b><br>' +
-      '<span style="color:#93A085; font-size:.78rem;">' + escapeAttr(motiv.ort.label || '') + '</span><br>' +
-      '<a href="geschichte.html?id=' + escapeAttr(motiv.id) + '" style="display:inline-block; margin-top:.5rem;">Geschichte lesen &rarr;</a>' +
-      '</div>';
-    marker.bindPopup(popupHtml);
+    element.on('click', function () {
+      window.location.href = ziel;
+    });
   });
 
-  // ---- Auf alle Marker zoomen, mit etwas Rand ----
   if (grenzen.length > 1) {
-    karte.fitBounds(grenzen, { padding: [40, 40], maxZoom: 13 });
+    karte.fitBounds(grenzen, { padding: [50, 50], maxZoom: 12 });
   } else if (grenzen.length === 1) {
-    karte.setView(grenzen[0], 13);
+    karte.setView(grenzen[0], 12);
   }
 
-  // ---- Falls über die URL ein bestimmtes Motiv verlinkt wurde (?motiv=id), dessen Popup direkt öffnen ----
+  // ---- Falls über die URL ein bestimmtes Motiv verlinkt wurde (?motiv=id), dorthin zentrieren ----
   var params = new URLSearchParams(window.location.search);
   var zielId = params.get('motiv');
   if (zielId) {
-    var zielIndex = motiveMitOrt.map(function (m) { return m.id; }).indexOf(zielId);
-    if (zielIndex !== -1) {
-      var zielMotiv = motiveMitOrt[zielIndex];
-      karte.setView([zielMotiv.ort.lat, zielMotiv.ort.lng], 14);
+    var zielMotiv = motiveMitOrt.filter(function (m) { return m.id === zielId; })[0];
+    if (zielMotiv) {
+      karte.setView([zielMotiv.ort.lat, zielMotiv.ort.lng], 13);
     }
   }
 })();
