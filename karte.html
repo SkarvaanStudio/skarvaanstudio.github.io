@@ -3,21 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teichleben — BG Naturfotografie</title>
-<meta name="description" content="Vollständige Galerie: Teichleben – Naturfotografie von BG Naturfotografie.">
+<title>Karte — Wo die Fotos entstanden sind — BG Naturfotografie</title>
+<meta name="description" content="Eine Karte durch Hamburg und Schleswig-Holstein: wo jedes Foto von BG Naturfotografie entstanden ist.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 </head>
-<script>
-  document.addEventListener('contextmenu', function(e) {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-    }
-  });
-</script>
 <body>
 
 <!-- ============ NAVIGATION ============ -->
@@ -36,32 +30,22 @@
   </div>
 </nav>
 
-<!-- ============ KATEGORIE-KOPF ============ -->
+<!-- ============ KOPF ============ -->
 <header style="padding-top:9rem; padding-bottom:1rem;">
   <div class="wrap">
     <a href="index.html#galerie" style="font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;">&larr; Zur&uuml;ck zur Galerie</a>
-    <h1 style="margin-top:1.2rem; font-size:clamp(2rem,4.2vw,3.2rem);">Teichleben</h1>
-    <p style="color:var(--text-muted); max-width:56ch; font-size:1.05rem;">Schwimmend, putzend, schlafend – das Leben am kühlen Gewässer nebenan.</p>
-    <p style="color:var(--text-muted); max-width:56ch; font-size:1.05rem;"><b>Hinweis:</b> Die Galerie zeigt weboptimierte Vorschaubilder. Für eine flüssige Darstellung und den Schutz der Werke werden keine Originaldateien angezeigt.</p>
+    <h1 style="margin-top:1.2rem; font-size:clamp(2rem,4.2vw,3.2rem);">Wo die Fotos entstanden sind</h1>
+    <p style="color:var(--text-muted); max-width:56ch; font-size:1.05rem;">Jeder Punkt ist ein Ort in und um Hamburg &amp; Schleswig-Holstein. Fahr mit der Maus über einen Punkt für eine Vorschau, klick darauf für die Geschichte.</p>
   </div>
 </header>
 
-<!-- ============ VOLLSTÄNDIGE GALERIE ============ -->
-<section style="padding-top:1.5rem;">
+<!-- ============ KARTE ============ -->
+<section style="padding-top:1rem;">
   <div class="wrap">
-   <div class="masonry" data-galerie-kategorie="Teichleben">
-      <!-- wird automatisch aus galerie-daten.js befüllt (siehe gallery.js) -->
+    <div id="foto-karte"></div>
+    <p id="karte-leer-hinweis" style="display:none; color:var(--text-muted); margin-top:1.5rem; font-size:.9rem;">Noch sind keine Fotostandorte hinterlegt — die Karte füllt sich nach und nach.</p>
   </div>
 </section>
-
-<!-- ============ LIGHTBOX (gleiches Markup auf jeder Galerie-Unterseite) ============ -->
-<div class="lightbox">
-  <button class="lightbox-close" aria-label="Schließen">&times;</button>
-  <figure>
-    <img src="" alt="">
-    <figcaption></figcaption>
-  </figure>
-</div>
 
 <footer>
   <div class="wrap">
@@ -70,7 +54,8 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="galerie-daten.js" defer></script>
-<script src="gallery.js" defer></script>
+<script src="karte.js" defer></script>
 </body>
 </html>

@@ -24,7 +24,10 @@
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8h12l-1 12H7L6 8z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>' +
         '</a>'
       : '';
-    return '<figure class="m-item">' + badge + '<img src="' + escapeAttr(b.bild) + '" alt="' + escapeAttr(b.alt) + '" loading="lazy">' + cap + '</figure>';
+    var story = '<a class="story-badge" href="geschichte.html?id=' + escapeAttr(b.id) + '" title="Geschichte lesen" aria-label="Geschichte zu diesem Foto lesen">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>' +
+      '</a>';
+    return '<figure class="m-item">' + badge + story + '<img src="' + escapeAttr(b.bild) + '" alt="' + escapeAttr(b.alt) + '" loading="lazy">' + cap + '</figure>';
   }).join('');
 })();
 

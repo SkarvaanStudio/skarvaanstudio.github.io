@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Die Geschichte hinter dem Foto — BG Naturfotografie</title>
+<meta name="description" content="Die Geschichte hinter diesem Foto von BG Naturfotografie.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<script>
+  document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') {
+      e.preventDefault();
+    }
+  });
+</script>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html#top"><b>BG</b> Naturfotografie</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+    <ul class="nav-links">
+      <li><a href="index.html#galerie">Galerie</a></li>
+      <li><a href="karte.html">Karte</a></li>
+      <li><a href="index.html#ueber-mich">Über mich</a></li>
+      <li><a href="index.html#termine">Termine</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ GESCHICHTE (wird per JS aus galerie-daten.js befüllt) ============ -->
+<header id="geschichte-lade-hinweis" style="padding-top:9rem; padding-bottom:2rem;">
+  <div class="wrap">
+    <p style="color:var(--text-muted);">Lädt …</p>
+  </div>
+</header>
+
+<div id="geschichte-inhalt" style="display:none;">
+
+  <header style="padding-top:9rem; padding-bottom:.5rem;">
+    <div class="wrap">
+      <a id="zurueck-link" href="index.html#galerie" style="font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;">&larr; Zur&uuml;ck zur Galerie</a>
+      <span class="eyebrow" id="geschichte-kategorie" style="display:block; margin-top:1.6rem;"></span>
+      <h1 id="geschichte-titel" style="font-size:clamp(2rem,4.2vw,3.2rem);"></h1>
+    </div>
+  </header>
+
+  <section style="padding-top:1rem;">
+    <div class="wrap geschichte-layout">
+
+      <figure class="geschichte-bild">
+        <img id="geschichte-img" src="" alt="">
+      </figure>
+
+      <div class="geschichte-text">
+        <h2 style="font-size:1.3rem;">Die Geschichte dahinter</h2>
+        <p id="geschichte-text-inhalt" style="color:var(--text-light); font-size:1.05rem; line-height:1.75;"></p>
+
+        <div id="geschichte-ort-box" class="geschichte-ort" style="display:none;">
+          <span class="eyebrow" style="margin-bottom:.3em;">Aufnahmeort</span>
+          <p id="geschichte-ort-text" style="color:var(--text-muted); margin:0 0 .8em;"></p>
+          <a id="geschichte-karte-link" href="karte.html" class="btn btn-outline" style="font-size:.85rem; padding:.6em 1.2em;">Auf der Karte ansehen &rarr;</a>
+        </div>
+
+        <div class="geschichte-qr-box">
+          <span class="eyebrow" style="margin-bottom:.3em;">QR-Code für den Druck</span>
+          <p style="color:var(--text-muted); font-size:.9rem; margin:0 0 1rem;">Dieser QR-Code führt genau zu dieser Geschichte — zum Beispiel für die Rückseite einer Postkarte.</p>
+          <div id="qr-code-canvas"></div>
+          <button id="qr-download-btn" class="btn btn-fill" style="margin-top:1rem; font-size:.85rem; padding:.6em 1.2em; cursor:pointer;">QR-Code als PNG herunterladen</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 BG Naturfotografie</span>
+    <span><a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+  </div>
+</footer>
+
+<script src="galerie-daten.js" defer></script>
+<script src="geschichte.js" defer></script>
+</body>
+</html>
