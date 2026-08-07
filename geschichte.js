@@ -1,17 +1,14 @@
 /* ============ GESCHICHTE-SEITE BEFÜLLEN ============
    Bild, Titel, Ort etc. kommen weiter aus galerie-daten.js (?id=...).
-   Der Geschichte-TEXT kommt jetzt primär aus einer Google-Tabelle
-   (Spalten: id, geschichte) — damit du Texte bequem in einer Tabelle
-   schreibst statt in einer einzigen HTML/JS-Zeile auf GitHub.
-   Falls die Tabelle mal nicht erreichbar ist oder für ein Motiv noch
-   keine Zeile hat, greift ersatzweise motiv.geschichte aus
-   galerie-daten.js (falls dort was steht), sonst der Platzhaltertext. */
+   Der Geschichte-TEXT kommt aus der Google-Tabelle (Spalten: id,
+   geschichte) über das gemeinsame Modul geschichten-tabelle.js —
+   damit du Texte bequem in einer Tabelle schreibst statt in einer
+   einzigen HTML/JS-Zeile auf GitHub. Falls die Tabelle mal nicht
+   erreichbar ist oder für ein Motiv noch keine Zeile hat, greift
+   ersatzweise motiv.geschichte aus galerie-daten.js (falls dort noch
+   etwas steht), sonst der Platzhaltertext. */
 
 (function () {
-  // ---- HIER die veröffentlichte CSV-URL deiner Google-Tabelle eintragen ----
-  // Anleitung dazu unten in diesem Chat / in der Kurzanleitung.
-  var GESCHICHTEN_TABELLE_URL = 'HIER_DEINE_VEROEFFENTLICHTE_CSV_URL_EINSETZEN';
-
   // ---- Zuordnung Kategorie -> Galerie-Unterseite (für den "Zurück"-Link) ----
   var KATEGORIE_ZU_SEITE = {
     'Teichleben': 'galerie-teichleben.html',
@@ -34,51 +31,9 @@
       '</div>';
   }
 
-  // ---- Sehr einfacher CSV-Parser: kommt mit Kommas/Zeilenumbrüchen
-  // innerhalb von "..."-Feldern klar, wie Google Sheets sie exportiert.
-  function parseCsv(text) {
-    var zeilen = [];
-    var feld = '', zeile = [], inQuotes = false;
-    for (var i = 0; i < text.length; i++) {
-      var c = text[i], next = text[i + 1];
-      if (inQuotes) {
-        if (c === '"' && next === '"') { feld += '"'; i++; }
-        else if (c === '"') { inQuotes = false; }
-        else { feld += c; }
-      } else {
-        if (c === '"') { inQuotes = true; }
-        else if (c === ',') { zeile.push(feld); feld = ''; }
-        else if (c === '\r') { /* ignorieren */ }
-        else if (c === '\n') { zeile.push(feld); zeilen.push(zeile); zeile = []; feld = ''; }
-        else { feld += c; }
-      }
-    }
-    if (feld.length || zeile.length) { zeile.push(feld); zeilen.push(zeile); }
-    return zeilen.filter(function (z) { return z.length && z.some(function (f) { return f.trim() !== ''; }); });
-  }
-
   function holeGeschichteAusTabelle(id) {
-    if (!GESCHICHTEN_TABELLE_URL || GESCHICHTEN_TABELLE_URL.indexOf('HIER_DEINE') === 0) {
-      return Promise.resolve(null); // Tabelle noch nicht eingerichtet
-    }
-    return fetch(GESCHICHTEN_TABELLE_URL)
-      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
-      .then(function (csvText) {
-        var zeilen = parseCsv(csvText);
-        if (!zeilen.length) return null;
-        var kopf = zeilen[0].map(function (h) { return h.trim().toLowerCase(); });
-        var idxId = kopf.indexOf('id');
-        var idxGeschichte = kopf.indexOf('geschichte');
-        if (idxId === -1 || idxGeschichte === -1) return null;
-        for (var i = 1; i < zeilen.length; i++) {
-          if ((zeilen[i][idxId] || '').trim() === id) {
-            var wert = (zeilen[i][idxGeschichte] || '').trim();
-            return wert || null;
-          }
-        }
-        return null;
-      })
-      .catch(function () { return null; }); // still, kein Absturz — Fallback greift
+    if (!window.GeschichtenTabelle) return Promise.resolve(null);
+    return window.GeschichtenTabelle.holeGeschichteAusTabelle(id);
   }
 
   if (typeof GALERIE_BILDER === 'undefined') {
