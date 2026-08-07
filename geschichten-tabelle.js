@@ -22,7 +22,7 @@
    nicht erreichbar ist). */
 (function (global) {
   // ---- HIER die veröffentlichte CSV-URL deiner Google-Tabelle eintragen ----
-  var GESCHICHTEN_TABELLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX6NJb2qa-jyx29imIn47l7sjM1130W_PxaNiNhdv206vnv3DbPOgvTIZx8ORVW1hXaxAEuC0W3R39/pubhtml';
+  var GESCHICHTEN_TABELLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX6NJb2qa-jyx29imIn47l7sjM1130W_PxaNiNhdv206vnv3DbPOgvTIZx8ORVW1hXaxAEuC0W3R39/pub?gid=0&single=true&output=csv';
 
   // ---- Sehr einfacher CSV-Parser: kommt mit Kommas/Zeilenumbrüchen
   // innerhalb von "..."-Feldern klar, wie Google Sheets sie exportiert.
