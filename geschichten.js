@@ -42,7 +42,8 @@
     // der übergangsweise mitgenommen.
     var motive = GALERIE_BILDER
       .map(function (b) {
-        var text = (geschichtenMap[b.id] || b.geschichte || '').trim();
+        var ausTabelle = geschichtenMap[b.id];
+        var text = ((ausTabelle && ausTabelle.geschichte) || b.geschichte || '').trim();
         return { motiv: b, text: text };
       })
       .filter(function (e) { return e.text !== ''; });

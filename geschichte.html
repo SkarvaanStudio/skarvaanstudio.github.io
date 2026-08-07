@@ -10,6 +10,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  #geschichte-fussblock{
+    margin:1.6rem 0 0; padding:1rem 1.2rem;
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
+    font-family:'JetBrains Mono', monospace; font-size:.82rem; color:var(--text-muted);
+  }
+  .fussblock-zeile{ padding:.2rem 0; }
+  .fussblock-label{
+    display:inline-block; min-width:6.5rem;
+    color:var(--accent-soft); letter-spacing:.04em; text-transform:uppercase; font-size:.72rem;
+  }
+</style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 </head>
 <script>
@@ -65,6 +77,8 @@
       <div class="geschichte-text">
         <h2 style="font-size:1.3rem;">Die Geschichte dahinter</h2>
         <p id="geschichte-text-inhalt" style="color:var(--text-light); font-size:1.05rem; line-height:1.75; white-space:pre-line;"></p>
+
+        <div id="geschichte-fussblock" style="display:none;"></div>
 
         <div id="geschichte-ort-box" class="geschichte-ort" style="display:none;">
           <span class="eyebrow" style="margin-bottom:.3em;">Aufnahmeort</span>

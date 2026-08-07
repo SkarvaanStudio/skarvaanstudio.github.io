@@ -31,7 +31,7 @@
       '</div>';
   }
 
-  function holeGeschichteAusTabelle(id) {
+  function holeZeileAusTabelle(id) {
     if (!window.GeschichtenTabelle) return Promise.resolve(null);
     return window.GeschichtenTabelle.holeGeschichteAusTabelle(id);
   }
@@ -75,7 +75,7 @@
   var zurueckSeite = KATEGORIE_ZU_SEITE[motiv.kategorie] || 'index.html#galerie';
   document.getElementById('zurueck-link').href = zurueckSeite;
 
-  // ---- Geschichte-Text: erst Tabelle versuchen, sonst galerie-daten.js, sonst Platzhalter ----
+  // ---- Geschichte-Text + Fußblock: erst Tabelle versuchen, sonst galerie-daten.js, sonst Platzhalter ----
   var textEl = document.getElementById('geschichte-text-inhalt');
   textEl.innerHTML = '<em>Lädt …</em>';
 
@@ -87,8 +87,31 @@
     }
   }
 
-  holeGeschichteAusTabelle(motiv.id).then(function (ausTabelle) {
-    zeigeGeschichte(ausTabelle || motiv.geschichte);
+  function zeigeFussblock(eintrag) {
+    var box = document.getElementById('geschichte-fussblock');
+    if (!eintrag) { box.style.display = 'none'; return; }
+
+    var zeilen = [];
+    if (eintrag.datum) zeilen.push(['Datum', eintrag.datum]);
+    if (eintrag.ort) zeilen.push(['Ort', eintrag.ort]);
+    if (eintrag.tier_de || eintrag.tier_lat) {
+      var tier = [eintrag.tier_de, eintrag.tier_lat ? '(' + eintrag.tier_lat + ')' : '']
+        .filter(Boolean).join(' ');
+      zeilen.push(['Tier', tier]);
+    }
+    if (eintrag.gefaehrdung) zeilen.push(['Gefährdung', eintrag.gefaehrdung]);
+
+    if (!zeilen.length) { box.style.display = 'none'; return; }
+
+    box.innerHTML = zeilen.map(function (z) {
+      return '<div class="fussblock-zeile"><span class="fussblock-label">' + z[0] + '</span>' + z[1] + '</div>';
+    }).join('');
+    box.style.display = '';
+  }
+
+  holeZeileAusTabelle(motiv.id).then(function (ausTabelle) {
+    zeigeGeschichte((ausTabelle && ausTabelle.geschichte) || motiv.geschichte);
+    zeigeFussblock(ausTabelle);
   });
 
   // ---- Ort (nur anzeigen, wenn hinterlegt) ----

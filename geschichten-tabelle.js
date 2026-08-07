@@ -4,14 +4,25 @@
    pro Motiv) UND geschichten.js (Übersichtsseite) genutzt — so
    pflegst du die URL nur hier, nicht doppelt.
 
-   Spalten in der Tabelle: id, geschichte
+   Spalten in der Tabelle:
+   - id          (Pflicht, muss zur id in galerie-daten.js passen)
+   - geschichte  (Pflicht, der persönliche Text)
+   - datum       (optional, z.B. "14.05.2025")
+   - ort         (optional, z.B. "Schenefeld/Halstenbek")
+   - tier_de     (optional, deutscher Artname, z.B. "Stockente")
+   - tier_lat    (optional, lateinischer Artname, z.B. "Anas platyrhynchos")
+   - gefaehrdung (optional, z.B. "Die Stockente ist nicht gefährdet.")
+   Die letzten fünf Spalten erscheinen automatisch als sachlicher
+   Fußblock unter der Geschichte auf geschichte.html — getrennt von
+   der persönlichen Erzählung. Leere Spalten werden einfach ausgelassen.
+
    Die Tabelle ist jetzt die EINZIGE Quelle für Geschichten-Texte.
    Das geschichte-Feld in galerie-daten.js wird nicht mehr gebraucht
    (bleibt aber als Rückfallebene erhalten, falls die Tabelle mal
    nicht erreichbar ist). */
 (function (global) {
   // ---- HIER die veröffentlichte CSV-URL deiner Google-Tabelle eintragen ----
-  var GESCHICHTEN_TABELLE_URL = 'HIER_DEINE_VEROEFFENTLICHTE_CSV_URL_EINSETZEN';
+  var GESCHICHTEN_TABELLE_URL = 'https://example.com/test-geschichten.csv';
 
   // ---- Sehr einfacher CSV-Parser: kommt mit Kommas/Zeilenumbrüchen
   // innerhalb von "..."-Feldern klar, wie Google Sheets sie exportiert.
@@ -39,8 +50,10 @@
   var cachePromise = null;
 
   // Lädt die komplette Tabelle EINMAL pro Seitenaufruf und liefert eine
-  // Map { id: geschichte-text }. Weitere Aufrufe bekommen das bereits
-  // geladene Ergebnis zurück (kein zweiter Netzwerk-Request nötig).
+  // Map { id: { geschichte, datum, ort, tier_de, tier_lat, gefaehrdung, ... } } —
+  // also ALLE Spalten deiner Tabelle, nicht nur den Geschichte-Text.
+  // Weitere Aufrufe bekommen das bereits geladene Ergebnis zurück (kein
+  // zweiter Netzwerk-Request nötig).
   function holeAlleGeschichten() {
     if (cachePromise) return cachePromise;
 
@@ -57,12 +70,15 @@
         if (!zeilen.length) return map;
         var kopf = zeilen[0].map(function (h) { return h.trim().toLowerCase(); });
         var idxId = kopf.indexOf('id');
-        var idxGeschichte = kopf.indexOf('geschichte');
-        if (idxId === -1 || idxGeschichte === -1) return map;
+        if (idxId === -1) return map;
         for (var i = 1; i < zeilen.length; i++) {
           var id = (zeilen[i][idxId] || '').trim();
-          var wert = (zeilen[i][idxGeschichte] || '').trim();
-          if (id && wert) map[id] = wert;
+          if (!id) continue;
+          var eintrag = {};
+          kopf.forEach(function (spalte, idx) {
+            eintrag[spalte] = (zeilen[i][idx] || '').trim();
+          });
+          if (eintrag.geschichte) map[id] = eintrag;
         }
         return map;
       })
@@ -72,6 +88,7 @@
   }
 
   // Bequemer Einzel-Abruf für die Geschichte-Seite (?id=...).
+  // Liefert das GANZE Tabellen-Objekt für diese Zeile (nicht nur den Text).
   function holeGeschichteAusTabelle(id) {
     return holeAlleGeschichten().then(function (map) {
       return map[id] || null;
