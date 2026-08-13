@@ -43,32 +43,36 @@ const PREISE = {
 };
 
 /* ------------------------------------------------------------
-   STAFFELPREISE — Mengenrabatte.
+   STAFFELPREISE — Mengenrabatt als STÜCKPREIS.
 
-   Postkarten:  1 = 2,50 EUR  |  3 = 6,00 EUR  |  5 = 9,00 EUR
-   Poster (A4): 1 = 15,00 EUR |  2 = 20,00 EUR
+   Postkarten:  ab 1 Stück 2,50 EUR | ab 3 Stück 2,00 EUR | ab 5 Stück 1,80 EUR
+   Poster (A4): ab 1 Stück 15,00 EUR | ab 2 Stück 10,00 EUR
 
-   So änderst du das: einfach Zahlen unten anpassen oder eine
-   weitere Stufe ergänzen, z. B. { menge: 10, preis: 16.00 }.
-   Der Shop baut die Mengen-Auswahl daraus automatisch.
+   WICHTIG — so wird gezählt: Es zählt die GESAMTZAHL über alle
+   Motive hinweg, nicht pro Motiv. Wer 2 Entchen-Postkarten und
+   1 Reiher-Postkarte nimmt, hat 3 Karten und zahlt damit 2,00 EUR
+   pro Karte = 6,00 EUR. Postkarten und Poster werden dabei
+   getrennt gezählt.
+
+   So änderst du es: Zahlen anpassen oder eine Stufe ergänzen,
+   z. B. { abMenge: 10, proStueck: 1.60 }. Stufen bitte aufsteigend
+   nach abMenge sortiert lassen — der Shop nimmt automatisch die
+   höchste Stufe, die erreicht ist.
    ------------------------------------------------------------- */
 const STAFFEL = {
   postkarte: [
-    { menge: 1, preis: 2.50 },
-    { menge: 3, preis: 6.00 },
-    { menge: 5, preis: 9.00 }
+    { abMenge: 1, proStueck: 2.50 },
+    { abMenge: 3, proStueck: 2.00 },
+    { abMenge: 5, proStueck: 1.80 }
   ],
   poster: [
-    { menge: 1, preis: 15.00 },
-    { menge: 2, preis: 20.00 }
+    { abMenge: 1, proStueck: 15.00 },
+    { abMenge: 2, proStueck: 10.00 }
   ]
 };
 
-/* Dürfen für einen Staffelpreis auch verschiedene Motive
-   gemischt werden? (z. B. 3 Postkarten = 3 unterschiedliche)
-   true  -> Shop weist darauf hin, dass Motive mischbar sind.
-   false -> Staffelpreis gilt nur pro identischem Motiv. */
-const STAFFEL_MISCHBAR = true;
+/* Höchstmenge, die pro Position im Anfrageformular wählbar ist. */
+const MAX_MENGE = 50;
 
 /* ------------------------------------------------------------
    STICKER & LESEZEICHEN

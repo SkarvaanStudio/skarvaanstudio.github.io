@@ -18,22 +18,50 @@
 
   .origin-legend{
     display:flex; flex-wrap:wrap; gap:1rem;
-    margin:2rem 0 0; padding:1.2rem 1.4rem;
+    margin:0 0 1.4rem; padding:1rem 1.2rem;
     background:var(--bg-panel-2); border:1px solid var(--line);
-    border-radius:var(--radius); font-size:.85rem;
+    border-radius:var(--radius); font-size:.84rem;
   }
   .origin-legend .item{ display:flex; align-items:center; gap:.5rem; color:var(--text-muted); }
   .origin-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
   .origin-dot.selbst{ background:#7fae86; }
-  .origin-dot.printful{ background:var(--accent); }
 
-  .ablauf-section{ background:var(--bg-panel); }
-  .ablauf-steps{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1.2rem; margin-top:2rem; }
-  @media (max-width:700px){ .ablauf-steps{ grid-template-columns:1fr; } }
-  .ablauf-step{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.3rem 1.2rem; }
-  .ablauf-step .num{ font-family:'JetBrains Mono', monospace; font-size:.75rem; color:var(--accent-soft); letter-spacing:.08em; display:block; margin-bottom:.5rem; }
-  .ablauf-step h3{ font-size:1rem; margin-bottom:.4rem; }
-  .ablauf-step p{ font-size:.85rem; color:var(--text-muted); margin:0; }
+  /* ---- Aufklappbare Info-Bereiche statt Textwand ---- */
+  .info-folds{ margin:2.2rem 0 0; max-width:74ch; display:flex; flex-direction:column; gap:.5rem; }
+  .info-fold{
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); overflow:hidden;
+    transition:border-color .2s;
+  }
+  .info-fold[open]{ border-color:rgba(227,165,107,0.4); }
+  .info-fold summary{
+    cursor:pointer; list-style:none; padding:.85rem 1.2rem;
+    font-family:'JetBrains Mono', monospace; font-size:.78rem; letter-spacing:.02em;
+    color:var(--text-light); display:flex; align-items:center; gap:.7rem;
+    transition:color .2s, background .2s;
+  }
+  .info-fold summary::-webkit-details-marker{ display:none; }
+  .info-fold summary::before{
+    content:"+"; color:var(--accent-soft); font-size:1rem; line-height:1;
+    width:1ch; flex-shrink:0; transition:transform .2s;
+  }
+  .info-fold[open] summary::before{ content:"–"; }
+  .info-fold summary:hover{ color:var(--accent-soft); background:rgba(201,124,61,0.06); }
+  .fold-body{ padding:0 1.2rem 1.2rem; border-top:1px solid var(--line); padding-top:1.1rem; }
+  .fold-body p{ font-size:.88rem; color:var(--text-muted); margin:0 0 .8rem; max-width:64ch; }
+  .fold-body p:last-child{ margin-bottom:0; }
+  .fold-body b{ color:var(--text-light); font-weight:500; }
+  .fold-body a{ color:var(--accent-soft); }
+  .fold-note{ font-size:.82rem !important; }
+  .fold-steps{ margin:0; padding:0 0 0 1.2rem; display:flex; flex-direction:column; gap:.6rem; }
+  .fold-steps li{ font-size:.88rem; color:var(--text-muted); padding-left:.3rem; }
+  .fold-steps li::marker{ color:var(--accent-soft); font-family:'JetBrains Mono', monospace; font-size:.8rem; }
+
+  .staffel-cols{ display:flex; flex-wrap:wrap; gap:2.4rem; margin:0 0 1rem; }
+  .staffel-titel{ font-size:.82rem; color:var(--text-light); display:block; margin-bottom:.4rem; }
+  .staffel-cols ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.25rem; }
+  .staffel-cols li{ font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
+  .staffel-cols li b{ color:var(--text-light); font-weight:500; }
 
   /* ---- Haupt-Tabs (Postkarten & Poster / Sticker / Merch) ---- */
   .shop-tabs{
@@ -73,23 +101,54 @@
   .filter-chip.active{ border-color:var(--accent); color:var(--accent-soft); background:rgba(201,124,61,0.14); }
 
   .star-dot{ color:#f2c14e; font-size:.9rem; line-height:1; }
+  /* ---- Overlays auf dem Bild ----
+     Wichtig: Stern (oben links) und Zoom-Button (unten rechts)
+     liegen bewusst auf gegenüberliegenden Ecken. Vorher standen
+     beide oben nebeneinander und haben sich auf schmalen Karten
+     überlappt — die Karten sind nur ~230px breit, allein die
+     beiden Beschriftungen brauchten aber schon mehr Platz. */
+  .frame{ position:relative; }
+
   .gp-star{
-    position:absolute; top:8px; left:8px; z-index:2;
-    background:rgba(17,20,15,0.72); color:#f2c14e;
-    font-size:.72rem; letter-spacing:.03em; font-family:'JetBrains Mono', monospace;
-    padding:.2rem .5rem; border-radius:20px; display:flex; align-items:center; gap:.25rem;
+    position:absolute; top:8px; left:8px; z-index:3;
+    background:rgba(17,20,15,0.82); color:#f2c14e;
+    font-size:.7rem; letter-spacing:.03em; font-family:'JetBrains Mono', monospace;
+    padding:.22rem .55rem; border-radius:20px;
+    display:inline-flex; align-items:center; gap:.25rem;
+    max-width:calc(100% - 16px); white-space:nowrap;
+    backdrop-filter:blur(4px); pointer-events:none;
   }
+
+  /* Zoom: standardmäßig nur die Lupe, Text fährt bei Hover/Fokus
+     aus. Auf Touch-Geräten bleibt es beim reinen Icon — dort gibt
+     es kein Hover, und die Lupe ist selbsterklärend genug. */
   .gp-zoom{
-    position:absolute; top:8px; right:8px; z-index:2;
-    display:flex; align-items:center; gap:.35rem;
-    height:30px; padding:0 .7rem 0 .55rem; border-radius:20px;
-    background:rgba(17,20,15,0.72); border:1px solid rgba(237,231,214,0.25);
-    color:var(--text-light); cursor:pointer;
-    transition:background .2s, border-color .2s;
+    position:absolute; bottom:8px; right:8px; z-index:3;
+    display:inline-flex; align-items:center; gap:0;
+    height:30px; width:30px; padding:0; border-radius:20px;
+    background:rgba(17,20,15,0.82); border:1px solid rgba(237,231,214,0.25);
+    color:var(--text-light); cursor:pointer; overflow:hidden;
+    backdrop-filter:blur(4px);
+    transition:width .22s ease, gap .22s ease, padding .22s ease,
+               background .2s, border-color .2s, color .2s;
   }
-  .gp-zoom:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
-  .gp-zoom svg{ width:15px; height:15px; flex-shrink:0; }
-  .gp-zoom span{ font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.01em; white-space:nowrap; }
+  .gp-zoom svg{ width:15px; height:15px; flex-shrink:0; margin:0 7px; }
+  .gp-zoom span{
+    font-family:'JetBrains Mono', monospace; font-size:.68rem;
+    white-space:nowrap; opacity:0; transition:opacity .18s ease .04s;
+  }
+  .pick-card:hover .gp-zoom,
+  .gp-zoom:focus-visible{
+    width:auto; padding-right:.75rem;
+    background:var(--accent); border-color:var(--accent); color:var(--bg-deep);
+  }
+  .pick-card:hover .gp-zoom span,
+  .gp-zoom:focus-visible span{ opacity:1; }
+
+  @media (hover:none){
+    .gp-zoom{ width:30px; }
+    .gp-zoom span{ display:none; }
+  }
 
   .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:var(--gap); }
   .pick-card.hervorgehoben{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
@@ -134,14 +193,19 @@
 
   /* ---- Schwebende Auswahl-Anzeige ---- */
   .auswahl-badge{
-    position:fixed; right:1.2rem; bottom:1.2rem; z-index:40;
+    position:fixed; right:1.2rem; bottom:1.2rem; z-index:45;
     display:none; align-items:center; gap:.5rem;
     background:var(--accent); color:var(--bg-deep); border:none;
     font-family:'JetBrains Mono', monospace; font-size:.8rem; font-weight:500;
     padding:.75rem 1.2rem; border-radius:30px; cursor:pointer;
     box-shadow:0 4px 18px rgba(0,0,0,0.35); text-decoration:none;
+    opacity:0; transform:translateY(8px);
+    transition:opacity .25s ease, transform .25s ease, background .2s;
   }
-  .auswahl-badge.sichtbar{ display:inline-flex; }
+  .auswahl-badge.sichtbar{ display:inline-flex; opacity:1; transform:none; }
+  /* Sobald das Anfrageformular im Bild ist, blendet sich der
+     schwebende Button aus — sonst liegt er über der Auswahl-Liste. */
+  .auswahl-badge.versteckt{ opacity:0; transform:translateY(8px); pointer-events:none; }
   .auswahl-badge:hover{ background:var(--accent-soft); }
 
   /* ---- "Deine Auswahl"-Liste im Anfrageformular ---- */
@@ -155,11 +219,19 @@
     display:flex; align-items:center; justify-content:space-between; gap:.6rem;
     font-size:.85rem; color:var(--text-muted);
   }
-  .auswahl-liste li button{
-    background:none; border:none; color:var(--text-muted); cursor:pointer;
-    font-size:.9rem; line-height:1; padding:0 .2rem;
+  .auswahl-liste li{ flex-wrap:wrap; }
+  .auswahl-liste .pos-text{ flex:1; min-width:9rem; color:var(--text-light); }
+  .auswahl-liste .pos-typ{ color:var(--text-muted); font-size:.8rem; }
+  .auswahl-liste .pos-rechts{ display:flex; align-items:center; gap:.7rem; }
+  .auswahl-liste .pos-preis{
+    font-family:'JetBrains Mono', monospace; font-size:.82rem;
+    color:var(--accent-soft); min-width:4.5rem; text-align:right;
   }
-  .auswahl-liste li button:hover{ color:var(--accent-soft); }
+  .auswahl-liste .pos-weg{
+    background:none; border:none; color:var(--text-muted); cursor:pointer;
+    font-size:1.1rem; line-height:1; padding:0 .2rem;
+  }
+  .auswahl-liste .pos-weg:hover{ color:var(--accent-soft); }
   .auswahl-leer{ font-size:.84rem; color:var(--text-muted); font-style:italic; margin:0; }
 
   .idea-note{
@@ -168,32 +240,58 @@
     border-radius:var(--radius); font-size:.86rem; color:var(--text-light); max-width:70ch;
   }
 
-  /* ---- Staffelpreis-Box ---- */
-  .staffel-box{
-    background:var(--bg-panel-2); border:1px solid var(--line);
-    border-radius:var(--radius); padding:1.2rem 1.4rem; margin:0 0 1.6rem;
-    max-width:60ch;
+  /* ---- Kompakter Staffel-Hinweis über dem Raster ---- */
+  .staffel-zeile{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1.2rem;
+    font-size:.86rem; color:var(--text-muted); margin:0 0 1.6rem; max-width:70ch;
   }
-  .staffel-box > strong{
-    display:block; font-family:'JetBrains Mono', monospace; font-size:.74rem;
-    letter-spacing:.08em; text-transform:uppercase; color:var(--accent-soft);
-    margin-bottom:.9rem;
-  }
-  .staffel-cols{ display:flex; flex-wrap:wrap; gap:2.4rem; }
-  .staffel-titel{ font-size:.82rem; color:var(--text-light); display:block; margin-bottom:.4rem; }
-  .staffel-box ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.25rem; }
-  .staffel-box li{ font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
-  .staffel-box li b{ color:var(--text-light); font-weight:500; }
-  .staffel-hinweis{ font-size:.8rem; color:var(--text-muted); margin:.9rem 0 0; }
+  .staffel-zeile b{ color:var(--text-light); font-weight:500; }
+  .staffel-zeile .mono{ font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--accent-soft); }
 
-  /* ---- Mengen-Auswahl in der Produktkarte ---- */
+  /* ---- Mengen-Stepper in der Produktkarte ---- */
   .menge-row{ display:flex; align-items:center; gap:.5rem; }
-  .menge-row label{
+  .menge-row > label{
     font-family:'JetBrains Mono', monospace; font-size:.68rem;
     letter-spacing:.04em; color:var(--text-muted); flex-shrink:0;
   }
-  .menge-row select{ flex:1; }
+  .stepper{
+    display:inline-flex; align-items:center; margin-left:auto;
+    border:1px solid var(--line); border-radius:20px; background:var(--bg-panel);
+    overflow:hidden;
+  }
+  .stepper button{
+    width:30px; height:30px; border:none; background:transparent; cursor:pointer;
+    color:var(--accent-soft); font-size:1rem; line-height:1; padding:0;
+    transition:background .2s, color .2s;
+  }
+  .stepper button:hover:not(:disabled){ background:var(--accent); color:var(--bg-deep); }
+  .stepper button:disabled{ color:var(--text-muted); opacity:.4; cursor:default; }
+  .stepper input{
+    width:34px; text-align:center; border:none; background:transparent;
+    color:var(--text-light); font-family:'JetBrains Mono', monospace; font-size:.82rem;
+    padding:0; -moz-appearance:textfield;
+  }
+  .stepper input::-webkit-outer-spin-button,
+  .stepper input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .stepper input:focus{ outline:none; }
   .price-line .je{ color:var(--text-muted); font-size:.78rem; }
+  .price-line .rabatt{ color:#7fae86; font-size:.72rem; font-family:'JetBrains Mono', monospace; }
+
+  /* ---- Auswahl-Zusammenfassung im Formular ---- */
+  .auswahl-summe{
+    margin-top:.9rem; padding-top:.9rem; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:.35rem;
+  }
+  .summe-zeile{
+    display:flex; justify-content:space-between; gap:1rem;
+    font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted);
+  }
+  .summe-zeile.gesamt{ color:var(--text-light); font-size:.9rem; padding-top:.35rem; }
+  .summe-hinweis{ font-size:.78rem; color:var(--text-muted); margin:.6rem 0 0; font-style:italic; }
+  .naechste-stufe{
+    font-size:.8rem; color:#7fae86; margin:.5rem 0 0;
+    display:flex; align-items:center; gap:.4rem;
+  }
 
   /* ---- Hinweisblock statt Merch-Sortiment ---- */
   .merch-hinweis{
@@ -247,32 +345,59 @@
   <div class="wrap">
     <span class="eyebrow">Auf Anfrage</span>
     <h1>Wähl dein Motiv, <em>frag dein Produkt an.</em></h1>
-    <p class="lead">Alle Designs stammen von mir. Postkarten und Poster lasse ich in Auflage drucken, Sticker und Lesezeichen fertige ich selbst — verpackt und verschickt wird alles hier aus Halstenbek.</p>
-    <div class="origin-legend">
-      <span class="item"><span class="origin-dot selbst"></span> Von mir verpackt &amp; versendet aus Halstenbek</span>
-      <span class="item"><span class="star-dot">★</span> = liegt bei mir auf Lager</span>
-    </div>
-    <p style="color:var(--text-muted); font-size:.82rem; margin:.9rem 0 0;">Alle angezeigten Preise verstehen sich zzgl. Versandkosten. Du bezahlst nichts direkt hier — nach deiner Anfrage bekommst du von mir eine kurze Rückmeldung mit Preis, Versand/Abholung und Zahlungsweg. Digitale Downloads sind versandkostenfrei.</p>
+    <p class="lead">Alle Designs stammen von mir. Du stellst dir hier in Ruhe zusammen, was dich interessiert — ich melde mich danach mit Preis, Versand und Zahlungsweg.</p>
+
     <nav class="shop-tabs" aria-label="Produktkategorien">
       <a href="#motive">Postkarten &amp; Poster</a>
       <a href="#sticker">Sticker</a>
       <a href="#merch">Tassen &amp; Co.</a>
     </nav>
-    <p style="color:var(--text-muted); font-size:.8rem; margin:.9rem 0 0;">Aktuell fest im Sortiment: Postkarten &amp; Poster. Sticker und Lesezeichen folgen nach und nach.</p>
-  </div>
-</section>
 
-<section class="ablauf-section">
-  <div class="wrap">
-    <span class="eyebrow">Wichtig zu wissen</span>
-    <h2 style="font-size:1.5rem;">So läuft eine Bestellung bei mir ab</h2>
-    <div class="ablauf-steps">
-      <div class="ablauf-step"><span class="num">01</span><h3>Motiv &amp; Menge wählen</h3><p>Postkarte, Poster (A4) oder Download — und gleich die passende Menge, denn ab 3 Postkarten bzw. 2 Postern wird's günstiger.</p></div>
-      <div class="ablauf-step"><span class="num">02</span><h3>Zur Anfrage hinzufügen</h3><p>Alles, was dich interessiert, landet in deiner Auswahl unten im Anfrageformular — du schickst mir eine Nachricht, kein Kauf-Button, keine Kasse.</p></div>
-      <div class="ablauf-step"><span class="num">03</span><h3>Ich melde mich</h3><p>Du bekommst von mir Preis, Versand- bzw. Abholoption und Zahlungsweg per Mail — danach geht dein Paket hier aus Halstenbek los.</p></div>
-    </div>
-    <div class="idea-note">
-      <strong>Ein Motiv fehlt, du hättest gern ein anderes Format — oder es geht um eine Bildlizenz oder einen Markt?</strong> Dafür gibt es unten ein kurzes, eigenes <a href="#kontakt-anfrage" style="color:var(--accent-soft);">Anfrageformular</a> — ganz ohne den Bestellweg oben.
+    <div class="info-folds">
+      <details class="info-fold">
+        <summary>So läuft eine Bestellung ab</summary>
+        <div class="fold-body">
+          <ol class="fold-steps">
+            <li><b>Motiv &amp; Menge wählen.</b> Postkarte, Poster (A4) oder Download — die Menge stellst du frei ein.</li>
+            <li><b>Zur Anfrage hinzufügen.</b> Alles landet in deiner Auswahl unten. Kein Kauf-Button, keine Kasse.</li>
+            <li><b>Ich melde mich.</b> Du bekommst Preis, Versand- bzw. Abholoption und Zahlungsweg per Mail — meist innerhalb von 2–3 Tagen.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="info-fold">
+        <summary>Preise, Staffelrabatt &amp; Versand</summary>
+        <div class="fold-body">
+          <p>Je mehr du nimmst, desto günstiger wird das einzelne Stück. Gezählt wird über <b>alle Motive zusammen</b> — Postkarten und Poster jeweils getrennt.</p>
+          <div class="staffel-cols">
+            <div>
+              <span class="staffel-titel">Postkarten</span>
+              <ul>
+                <li><b>1–2 Stück</b> · je 2,50 €</li>
+                <li><b>ab 3 Stück</b> · je 2,00 €</li>
+                <li><b>ab 5 Stück</b> · je 1,80 €</li>
+              </ul>
+            </div>
+            <div>
+              <span class="staffel-titel">Poster A4</span>
+              <ul>
+                <li><b>1 Stück</b> · 15,00 €</li>
+                <li><b>ab 2 Stück</b> · je 10,00 €</li>
+              </ul>
+            </div>
+          </div>
+          <p class="fold-note">Alle Preise zzgl. Versand. Du bezahlst nichts direkt hier — die Summe in deiner Auswahl ist ein Richtwert, den ich dir in meiner Antwort verbindlich bestätige. Digitale Downloads sind versandkostenfrei.</p>
+        </div>
+      </details>
+
+      <details class="info-fold">
+        <summary>Herstellung, Rückgabe &amp; Widerruf</summary>
+        <div class="fold-body">
+          <p>Postkarten und Poster lasse ich in Auflage bei WirmachenDruck drucken, Sticker und Lesezeichen fertige ich selbst. Verpackt und verschickt wird alles von mir aus Halstenbek.</p>
+          <p>Weil es sich um vorgefertigte Standardware handelt, gilt für Postkarten, Poster und Sticker das gesetzliche <b>Widerrufsrecht von 14 Tagen</b> — auch dann, wenn ein Motiv gerade vergriffen ist und nachgedruckt wird. Ausgeschlossen ist es nur bei echten Sonderanfertigungen wie Sonderformaten oder Merch auf Wunsch.</p>
+          <p class="fold-note">Alle Details in den <a href="agb.html">AGB &amp; der Widerrufsbelehrung</a>.</p>
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -282,34 +407,15 @@
   <div class="wrap">
     <h2>Postkarten &amp; Poster</h2>
     <p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es als Postkarte (10 × 15 cm), als Poster im Format A4 oder als digitalen Download — Auswahl direkt unter dem Bild.</p>
-    <div class="origin-legend" style="margin:0 0 1.2rem;">
+    <div class="origin-legend">
       <span class="item"><span class="origin-dot selbst"></span> Gedruckt bei WirmachenDruck, von mir verpackt &amp; aus Halstenbek versendet</span>
       <span class="item"><span class="star-dot">★</span> = liegt in dieser Ausführung bei mir auf Lager</span>
     </div>
 
-    <div class="staffel-box">
-      <strong>Staffelpreise</strong>
-      <div class="staffel-cols">
-        <div>
-          <span class="staffel-titel">Postkarten</span>
-          <ul>
-            <li><b>1 Stück</b> · 2,50 €</li>
-            <li><b>3 Stück</b> · 6,00 €</li>
-            <li><b>5 Stück</b> · 9,00 €</li>
-          </ul>
-        </div>
-        <div>
-          <span class="staffel-titel">Poster A4</span>
-          <ul>
-            <li><b>1 Stück</b> · 15,00 €</li>
-            <li><b>2 Stück</b> · 20,00 €</li>
-          </ul>
-        </div>
-      </div>
-      <p class="staffel-hinweis" id="staffel-mix-hinweis"></p>
-    </div>
-
-    <p class="widerruf-note">Postkarten und Poster sind vorgefertigte Standardware aus meiner Auflage — das 14-tägige Widerrufsrecht gilt für beides ganz normal, auch wenn ein Motiv gerade nachgedruckt werden muss. Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>
+    <p class="staffel-zeile">
+      <span><b>Staffelpreis:</b> <span class="mono">ab 3 Postkarten je 2,00 €, ab 5 je 1,80 €</span> · <span class="mono">ab 2 Postern je 10,00 €</span></span>
+      <span>Gezählt wird über alle Motive zusammen — du kannst also frei mischen.</span>
+    </p>
 
     <div class="filter-row" id="motiv-filter"></div>
     <div class="pick-grid" id="motiv-grid"></div>
@@ -357,6 +463,7 @@
         <h3>Deine Auswahl</h3>
         <ul class="auswahl-liste" id="auswahl-liste"></ul>
         <p class="auswahl-leer" id="auswahl-leer">Noch nichts ausgewählt — klick bei den Produkten oben auf „+ Zur Anfrage hinzufügen“, oder schreib direkt unten dein Anliegen.</p>
+        <div class="auswahl-summe" id="auswahl-summe"></div>
       </div>
       <input type="hidden" name="Ausgewählte Produkte" id="auswahl-hidden-field" value="">
 
@@ -416,75 +523,215 @@
   function stripHtml(str) { return String(str || '').replace(/<[^>]*>/g, '').trim(); }
   function euro(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
 
-  /* ---------- "Zur Anfrage hinzufügen"-Button ----------
-     Kein Sofortkauf: Klick fügt das Produkt zur Auswahl hinzu
-     (siehe auswahl-Array weiter unten), die gesammelt im
-     Anfrageformular landet. Nochmal klicken entfernt es wieder. */
-  function renderKaufSlot(produktLabel) {
-    return '<button type="button" class="btn-hinzufuegen" data-produkt="' + escapeHtml(produktLabel) + '">+ Zur Anfrage hinzufügen</button>';
-  }
+  /* ============================================================
+     AUSWAHL / WARENKORB
+     ============================================================
+     Kein Sofortkauf. Jede Position ist ein Objekt:
+       { key, typ, motiv, bezeichnung, menge }
+     typ ist 'postkarte' | 'poster' | 'download' | 'sticker'.
 
-  /* ---------- Auswahl-Verwaltung ---------- */
+     Der Staffelpreis richtet sich nach der GESAMTMENGE je Typ
+     über alle Motive hinweg (siehe STAFFEL in produkte-daten.js) —
+     wer 2 Entchen- und 1 Reiher-Postkarte nimmt, hat 3 Karten und
+     zahlt damit den 3er-Stückpreis auf alle drei.
+     ============================================================ */
   var auswahl = [];
 
-  function istAusgewaehlt(label) { return auswahl.indexOf(label) !== -1; }
-
-  function toggleAuswahl(label, btn) {
-    var idx = auswahl.indexOf(label);
-    if (idx === -1) {
-      auswahl.push(label);
-    } else {
-      auswahl.splice(idx, 1);
+  function findePosition(key) {
+    for (var i = 0; i < auswahl.length; i++) {
+      if (auswahl[i].key === key) { return auswahl[i]; }
     }
-    syncHinzufuegenButtons();
+    return null;
+  }
+
+  /* Gesamtmenge eines Typs über alle Positionen */
+  function gesamtMenge(typ) {
+    return auswahl.reduce(function (summe, pos) {
+      return summe + (pos.typ === typ ? pos.menge : 0);
+    }, 0);
+  }
+
+  /* Stückpreis für einen Typ bei gegebener Gesamtmenge */
+  function stueckPreis(typ, menge, pos) {
+    if (typ === 'download') { return PREISE.download; }
+    if (typ === 'sticker') { return (pos && pos.festpreis) || 0; }
+    var stufen = STAFFEL[typ];
+    if (!stufen) { return 0; }
+    var preis = stufen[0].proStueck;
+    for (var i = 0; i < stufen.length; i++) {
+      if (menge >= stufen[i].abMenge) { preis = stufen[i].proStueck; }
+    }
+    return preis;
+  }
+
+  /* Nächste erreichbare Staffelstufe — für den "nur noch X"-Hinweis */
+  function naechsteStufe(typ, menge) {
+    var stufen = STAFFEL[typ];
+    if (!stufen) { return null; }
+    for (var i = 0; i < stufen.length; i++) {
+      if (menge < stufen[i].abMenge) {
+        return { fehlt: stufen[i].abMenge - menge, proStueck: stufen[i].proStueck };
+      }
+    }
+    return null;
+  }
+
+  function positionHinzufuegen(pos) {
+    var vorhanden = findePosition(pos.key);
+    if (vorhanden) {
+      vorhanden.menge = pos.menge;
+    } else {
+      auswahl.push(pos);
+    }
+    auswahlGeaendert();
+  }
+
+  function positionEntfernen(key) {
+    auswahl = auswahl.filter(function (pos) { return pos.key !== key; });
+    auswahlGeaendert();
+  }
+
+  function positionMenge(key, menge) {
+    var pos = findePosition(key);
+    if (!pos) { return; }
+    if (menge < 1) { positionEntfernen(key); return; }
+    pos.menge = Math.min(menge, MAX_MENGE);
+    auswahlGeaendert();
+  }
+
+  /* Ein Update-Durchlauf: Karten, Liste, Badge, Formularfeld */
+  function auswahlGeaendert() {
     renderAuswahlListe();
+    alleKartenAktualisieren();
   }
 
-  function syncHinzufuegenButtons() {
-    document.querySelectorAll('.btn-hinzufuegen').forEach(function (btn) {
-      var label = btn.getAttribute('data-produkt');
-      var drin = istAusgewaehlt(label);
-      btn.classList.toggle('ist-drin', drin);
-      btn.textContent = drin ? 'Ausgewählt – entfernen' : '+ Zur Anfrage hinzufügen';
-    });
+  var kartenAktualisierer = [];
+  function alleKartenAktualisieren() {
+    kartenAktualisierer.forEach(function (fn) { fn(); });
   }
 
+  function renderKaufSlot(key) {
+    var drin = !!findePosition(key);
+    return '<button type="button" class="btn-hinzufuegen' + (drin ? ' ist-drin' : '') + '" data-key="' + escapeHtml(key) + '">' +
+      (drin ? 'In deiner Auswahl – entfernen' : '+ Zur Anfrage hinzufügen') + '</button>';
+  }
+
+  /* ---------- Auswahl-Liste im Anfrageformular ---------- */
   function renderAuswahlListe() {
     var liste = document.getElementById('auswahl-liste');
     var leer = document.getElementById('auswahl-leer');
     var badge = document.getElementById('auswahl-badge');
     var badgeText = document.getElementById('auswahl-badge-text');
+    var summeEl = document.getElementById('auswahl-summe');
     var hiddenField = document.getElementById('auswahl-hidden-field');
 
     if (!auswahl.length) {
       liste.innerHTML = '';
       leer.style.display = '';
+      summeEl.innerHTML = '';
       badge.classList.remove('sichtbar');
-    } else {
-      leer.style.display = 'none';
-      liste.innerHTML = auswahl.map(function (label) {
-        return '<li><span>' + escapeHtml(label) + '</span><button type="button" data-produkt="' + escapeHtml(label) + '" aria-label="Entfernen">&times;</button></li>';
-      }).join('');
-      badge.classList.add('sichtbar');
-      badgeText.textContent = auswahl.length + (auswahl.length === 1 ? ' ausgewählt' : ' ausgewählt');
-    }
-    hiddenField.value = auswahl.join('\n');
-  }
-
-  // Event-Delegation: ein Listener für alle "Hinzufügen"-Buttons
-  // (Motive, Sticker, Merch werden erst später/dynamisch gerendert)
-  // und für die Entfernen-Buttons in der Auswahl-Liste selbst.
-  document.addEventListener('click', function (e) {
-    var addBtn = e.target.closest('.btn-hinzufuegen');
-    if (addBtn) {
-      toggleAuswahl(addBtn.getAttribute('data-produkt'), addBtn);
+      hiddenField.value = '';
       return;
     }
-    var removeBtn = e.target.closest('#auswahl-liste button');
-    if (removeBtn) {
-      toggleAuswahl(removeBtn.getAttribute('data-produkt'), removeBtn);
+
+    leer.style.display = 'none';
+
+    liste.innerHTML = auswahl.map(function (pos) {
+      var einzel = stueckPreis(pos.typ, gesamtMenge(pos.typ), pos);
+      var zeilenSumme = einzel * pos.menge;
+      return '<li>' +
+        '<span class="pos-text">' + escapeHtml(pos.motiv) + ' <span class="pos-typ">' + escapeHtml(pos.bezeichnung) + '</span></span>' +
+        '<span class="pos-rechts">' +
+          '<span class="stepper" data-key="' + escapeHtml(pos.key) + '">' +
+            '<button type="button" data-schritt="-1" aria-label="Weniger">−</button>' +
+            '<input type="number" value="' + pos.menge + '" min="1" max="' + MAX_MENGE + '" aria-label="Menge">' +
+            '<button type="button" data-schritt="1" aria-label="Mehr">+</button>' +
+          '</span>' +
+          '<span class="pos-preis">' + euro(zeilenSumme) + '</span>' +
+          '<button type="button" class="pos-weg" data-key="' + escapeHtml(pos.key) + '" aria-label="Entfernen">&times;</button>' +
+        '</span>' +
+        '</li>';
+    }).join('');
+
+    /* ---- Zusammenfassung mit Staffelpreisen ---- */
+    var zeilen = '';
+    var gesamt = 0;
+    [['postkarte', 'Postkarten'], ['poster', 'Poster A4'], ['download', 'Downloads'], ['sticker', 'Sticker']].forEach(function (paar) {
+      var typ = paar[0], name = paar[1];
+      var menge = gesamtMenge(typ);
+      if (!menge) { return; }
+      var summe, label;
+      if (typ === 'sticker') {
+        summe = auswahl.reduce(function (n, pos) {
+          return n + (pos.typ === 'sticker' ? (pos.festpreis || 0) * pos.menge : 0);
+        }, 0);
+        label = menge + ' × ' + name;
+      } else {
+        var einzel = stueckPreis(typ, menge);
+        summe = einzel * menge;
+        label = menge + ' × ' + name + ' · je ' + euro(einzel);
+      }
+      gesamt += summe;
+      zeilen += '<span class="summe-zeile"><span>' + label + '</span><span>' + euro(summe) + '</span></span>';
+    });
+
+    var hinweise = '';
+    ['postkarte', 'poster'].forEach(function (typ) {
+      var menge = gesamtMenge(typ);
+      if (!menge) { return; }
+      var naechste = naechsteStufe(typ, menge);
+      if (!naechste) { return; }
+      var was = (typ === 'poster') ? 'Poster' : (naechste.fehlt === 1 ? 'Postkarte' : 'Postkarten');
+      hinweise += '<p class="naechste-stufe">↑ Noch ' + naechste.fehlt + ' ' + was + ' mehr und du zahlst je ' + euro(naechste.proStueck) + '.</p>';
+    });
+
+    summeEl.innerHTML = zeilen +
+      '<span class="summe-zeile gesamt"><span>Zwischensumme</span><span>' + euro(gesamt) + '</span></span>' +
+      hinweise +
+      '<p class="summe-hinweis">Richtwert ohne Versand — den genauen Betrag bestätige ich dir in meiner Antwort.</p>';
+
+    var stueckGesamt = auswahl.reduce(function (n, pos) { return n + pos.menge; }, 0);
+    badge.classList.add('sichtbar');
+    badgeText.textContent = stueckGesamt + (stueckGesamt === 1 ? ' Stück' : ' Stück') + ' · ' + euro(gesamt);
+
+    /* Textfassung für die Formspree-Mail */
+    hiddenField.value = auswahl.map(function (pos) {
+      var einzel = stueckPreis(pos.typ, gesamtMenge(pos.typ), pos);
+      return pos.menge + '× ' + pos.motiv + ' — ' + pos.bezeichnung + ' (je ' + euro(einzel) + ' = ' + euro(einzel * pos.menge) + ')';
+    }).join('\n') + '\n\nZwischensumme (Richtwert, ohne Versand): ' + euro(gesamt);
+  }
+
+  /* ---------- Klick-Delegation ---------- */
+  document.addEventListener('click', function (e) {
+    var stepBtn = e.target.closest('.auswahl-liste .stepper button');
+    if (stepBtn) {
+      var wrap = stepBtn.closest('.stepper');
+      var pos = findePosition(wrap.getAttribute('data-key'));
+      if (pos) { positionMenge(pos.key, pos.menge + parseInt(stepBtn.getAttribute('data-schritt'), 10)); }
+      return;
     }
+    var wegBtn = e.target.closest('.pos-weg');
+    if (wegBtn) { positionEntfernen(wegBtn.getAttribute('data-key')); return; }
   });
+
+  document.addEventListener('change', function (e) {
+    var feld = e.target.closest('.auswahl-liste .stepper input');
+    if (!feld) { return; }
+    var key = feld.closest('.stepper').getAttribute('data-key');
+    positionMenge(key, parseInt(feld.value, 10) || 1);
+  });
+
+  /* Schwebenden Auswahl-Button ausblenden, sobald das
+     Anfrageformular sichtbar ist — dort steht die Auswahl ohnehin
+     komplett, der Button würde sie nur überdecken. */
+  function badgeBeobachten() {
+    var badge = document.getElementById('auswahl-badge');
+    var ziel = document.getElementById('kontakt-anfrage-section');
+    if (!badge || !ziel || !('IntersectionObserver' in window)) { return; }
+    new IntersectionObserver(function (eintraege) {
+      badge.classList.toggle('versteckt', eintraege[0].isIntersecting);
+    }, { threshold: 0.12 }).observe(ziel);
+  }
 
   /* ---------- Lightbox ---------- */
   function openGpLightbox(src, caption) {
@@ -545,14 +792,6 @@
     return euro(stufe.preis) + ' <span class="je">(je ' + euro(stufe.preis / stufe.menge) + ')</span>';
   }
 
-  function staffelMixHinweis() {
-    var el = document.getElementById('staffel-mix-hinweis');
-    if (!el) { return; }
-    el.textContent = (typeof STAFFEL_MISCHBAR !== 'undefined' && STAFFEL_MISCHBAR)
-      ? 'Die Motive darfst du dabei frei mischen — 3 Postkarten heißt also gern auch 3 verschiedene. Schreib einfach alles in deine Anfrage, ich rechne den passenden Staffelpreis aus.'
-      : 'Der Staffelpreis gilt jeweils pro Motiv.';
-  }
-
   function renderMotivFilter() {
     var el = document.getElementById('motiv-filter');
     var html = '<button type="button" class="filter-chip active" data-kategorie="alle">Alle</button>';
@@ -580,19 +819,19 @@
       grid.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive im Shop freigegeben.</p>';
       return;
     }
+
     var html = bilder.map(function (b, i) {
       var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
       var stockPk = stockInfo(b, 'postkarte');
-      var starStyle = stockPk.vorraetig ? '' : ' style="display:none;"';
       var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild in voller Größe &amp; im Originalformat ansehen" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Klick für volle Größe</span></button>';
 
       return '<div class="pick-card" id="motiv-' + escapeHtml(b.id) + '" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
         '<div class="frame">' +
-          '<span class="gp-star" id="' + cid + '-star"' + starStyle + '>★ vorrätig</span>' +
+          '<span class="gp-star" id="' + cid + '-star"' + (stockPk.vorraetig ? '' : ' style="display:none;"') + '>★ vorrätig</span>' +
           zoomHtml +
-          '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '">' +
+          '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '" loading="lazy">' +
         '</div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
         '<div class="fmt-pills" id="' + cid + '-pills">' +
@@ -601,13 +840,17 @@
           '<button type="button" class="fmt-pill" data-fmt="download">Download</button>' +
         '</div>' +
         '<div class="menge-row" id="' + cid + '-mengerow">' +
-          '<label for="' + cid + '-menge">Menge</label>' +
-          '<select id="' + cid + '-menge">' + staffelOptionen('postkarte') + '</select>' +
+          '<label>Menge</label>' +
+          '<span class="stepper" id="' + cid + '-stepper">' +
+            '<button type="button" data-schritt="-1" aria-label="Weniger">−</button>' +
+            '<input type="number" value="1" min="1" max="' + MAX_MENGE + '" aria-label="Menge">' +
+            '<button type="button" data-schritt="1" aria-label="Mehr">+</button>' +
+          '</span>' +
         '</div>' +
-        '<span class="price-line" id="' + cid + '-price">' + preisText(STAFFEL.postkarte[0]) + '</span>' +
-        '<span class="stock-line ' + stockPk.cls + '" id="' + cid + '-stock">' + stockPk.html + '</span>' +
+        '<span class="price-line" id="' + cid + '-price"></span>' +
+        '<span class="stock-line" id="' + cid + '-stock"></span>' +
         '<span class="herkunft-line" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
-        '<div id="' + cid + '-kauf">' + renderKaufSlot(motivPlain + ' — Postkarte · 1 Stück · ' + euro(STAFFEL.postkarte[0].preis)) + '</div>' +
+        '<div id="' + cid + '-kauf"></div>' +
         '</div></div>';
     }).join('');
     grid.innerHTML = html;
@@ -617,59 +860,106 @@
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var pillsEl = document.getElementById(cid + '-pills');
       var mengeRow = document.getElementById(cid + '-mengerow');
-      var mengeSel = document.getElementById(cid + '-menge');
+      var stepperEl = document.getElementById(cid + '-stepper');
+      var mengeInput = stepperEl.querySelector('input');
       var priceEl = document.getElementById(cid + '-price');
       var stockEl = document.getElementById(cid + '-stock');
       var herkunftEl = document.getElementById(cid + '-herkunft');
       var starEl = document.getElementById(cid + '-star');
       var kaufEl = document.getElementById(cid + '-kauf');
-      var aktuellerTyp = 'postkarte';
+      var typ = 'postkarte';
 
+      function key() { return b.id + '|' + typ; }
+      function bezeichnung() {
+        return typ === 'poster' ? 'Poster ' + POSTER_FORMAT : (typ === 'download' ? 'Download' : 'Postkarte');
+      }
+      function menge() { return Math.max(1, Math.min(parseInt(mengeInput.value, 10) || 1, MAX_MENGE)); }
+
+      /* Zeichnet die Karte neu — wird auch aufgerufen, wenn sich
+         woanders etwas ändert, weil der Staffelpreis von der
+         Gesamtmenge abhängt. */
       function aktualisieren() {
-        if (aktuellerTyp === 'download') {
-          mengeRow.style.display = 'none';
+        var pos = findePosition(key());
+        if (pos) { mengeInput.value = pos.menge; }
+
+        if (typ === 'download') {
+          mengeRow.style.display = '';
           stockEl.style.display = 'none';
           herkunftEl.style.display = 'none';
           starEl.style.display = 'none';
-          priceEl.textContent = euro(PREISE.download);
-          kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Download · ' + euro(PREISE.download));
-          syncHinzufuegenButtons();
+          var summeDl = PREISE.download * menge();
+          priceEl.innerHTML = euro(summeDl) + (menge() > 1 ? ' <span class="je">(je ' + euro(PREISE.download) + ')</span>' : '');
+          kaufEl.innerHTML = renderKaufSlot(key());
           return;
         }
 
-        var stufe = STAFFEL[aktuellerTyp][mengeSel.selectedIndex] || STAFFEL[aktuellerTyp][0];
-        var stock = stockInfo(b, aktuellerTyp);
-        var bezeichnung = (aktuellerTyp === 'poster') ? 'Poster ' + POSTER_FORMAT : 'Postkarte';
+        /* Stückpreis abhängig von der Gesamtmenge im Warenkorb.
+           Ist die Position noch nicht drin, wird sie testweise
+           dazugerechnet — so sieht man den Rabatt schon vorher. */
+        var imKorb = gesamtMenge(typ);
+        var pos2 = findePosition(key());
+        var hypothetisch = imKorb + (pos2 ? 0 : menge());
+        var einzel = stueckPreis(typ, Math.max(hypothetisch, menge()));
+        var basis = STAFFEL[typ][0].proStueck;
+        var summe = einzel * menge();
 
         mengeRow.style.display = '';
-        priceEl.innerHTML = preisText(stufe);
+        priceEl.innerHTML = euro(summe) +
+          (menge() > 1 ? ' <span class="je">(je ' + euro(einzel) + ')</span>' : '') +
+          (einzel < basis ? ' <span class="rabatt">Staffelpreis</span>' : '');
 
+        var stock = stockInfo(b, typ);
         stockEl.style.display = '';
         stockEl.className = 'stock-line ' + stock.cls;
         stockEl.textContent = stock.html;
-
         starEl.style.display = stock.vorraetig ? '' : 'none';
 
         herkunftEl.style.display = '';
-        herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
-
-        kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — ' + bezeichnung + ' · ' + stufe.menge + ' Stück · ' + euro(stufe.preis));
-        syncHinzufuegenButtons();
+        kaufEl.innerHTML = renderKaufSlot(key());
       }
+
+      kartenAktualisierer.push(aktualisieren);
 
       pillsEl.querySelectorAll('.fmt-pill').forEach(function (pill) {
         pill.addEventListener('click', function () {
           pillsEl.querySelectorAll('.fmt-pill').forEach(function (p) { p.classList.remove('active'); });
           pill.classList.add('active');
-          aktuellerTyp = pill.getAttribute('data-fmt');
-          if (aktuellerTyp !== 'download') {
-            mengeSel.innerHTML = staffelOptionen(aktuellerTyp);
-            mengeSel.selectedIndex = 0;
-          }
+          typ = pill.getAttribute('data-fmt');
+          var vorhanden = findePosition(key());
+          mengeInput.value = vorhanden ? vorhanden.menge : 1;
           aktualisieren();
         });
       });
-      mengeSel.addEventListener('change', aktualisieren);
+
+      stepperEl.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var neu = menge() + parseInt(btn.getAttribute('data-schritt'), 10);
+          mengeInput.value = Math.max(1, Math.min(neu, MAX_MENGE));
+          var pos = findePosition(key());
+          if (pos) { positionMenge(pos.key, parseInt(mengeInput.value, 10)); } else { aktualisieren(); }
+        });
+      });
+
+      mengeInput.addEventListener('change', function () {
+        mengeInput.value = menge();
+        var pos = findePosition(key());
+        if (pos) { positionMenge(pos.key, menge()); } else { aktualisieren(); }
+      });
+
+      kaufEl.addEventListener('click', function (e) {
+        var btn = e.target.closest('.btn-hinzufuegen');
+        if (!btn) { return; }
+        if (findePosition(key())) {
+          positionEntfernen(key());
+        } else {
+          positionHinzufuegen({
+            key: key(), typ: typ, motiv: motivPlain,
+            bezeichnung: bezeichnung(), menge: menge()
+          });
+        }
+      });
+
+      aktualisieren();
     });
   }
 
@@ -680,14 +970,30 @@
       grid.innerHTML = '<p class="empty-note">Noch keine Sticker freigegeben.</p>';
       return;
     }
-    grid.innerHTML = STICKER.map(function (s) {
-      var img = (s.mockups && s.mockups[0]) ? '<img src="' + escapeHtml(s.mockups[0]) + '" alt="' + escapeHtml(s.motiv) + '">' : '';
-      return '<div class="pick-card"><div class="frame">' + img + '</div>' +
-        '<div class="body"><b>' + escapeHtml(s.motiv) + '</b>' +
-        '<span class="price-line">' + euro(s.preis) + '</span>' +
-        renderKaufSlot(s.motiv + ' — Sticker') +
+    grid.innerHTML = STICKER.map(function (st, i) {
+      var img = (st.mockups && st.mockups[0]) ? '<img src="' + escapeHtml(st.mockups[0]) + '" alt="' + escapeHtml(st.motiv) + '" loading="lazy">' : '';
+      return '<div class="pick-card" id="sti-' + i + '"><div class="frame">' + img + '</div>' +
+        '<div class="body"><b>' + escapeHtml(st.motiv) + '</b>' +
+        '<span class="price-line">' + euro(st.preis) + '</span>' +
+        '<div id="sti-' + i + '-kauf"></div>' +
         '</div></div>';
     }).join('');
+
+    STICKER.forEach(function (st, i) {
+      var kaufEl = document.getElementById('sti-' + i + '-kauf');
+      var key = 'sticker-' + (st.id || i);
+      function zeichnen() { kaufEl.innerHTML = renderKaufSlot(key); }
+      kartenAktualisierer.push(zeichnen);
+      kaufEl.addEventListener('click', function (e) {
+        if (!e.target.closest('.btn-hinzufuegen')) { return; }
+        if (findePosition(key)) {
+          positionEntfernen(key);
+        } else {
+          positionHinzufuegen({ key: key, typ: 'sticker', motiv: st.motiv, bezeichnung: 'Sticker', menge: 1, festpreis: st.preis });
+        }
+      });
+      zeichnen();
+    });
   }
 
   /* ---------- Anfrageformular: Anliegen-Chips + Subject-Prefix ---------- */
@@ -731,7 +1037,7 @@
         activate(chipsWrap.querySelector('[data-key="bestellung"]'));
       }
       if (auswahl.length) {
-        var block = 'Ausgewählte Produkte:\n- ' + auswahl.join('\n- ') + '\n\n';
+        var block = 'Ausgewählte Produkte:\n' + document.getElementById('auswahl-hidden-field').value + '\n\n';
         if (nachrichtEl.value.indexOf('Ausgewählte Produkte:') === -1) {
           nachrichtEl.value = block + nachrichtEl.value;
         }
@@ -751,8 +1057,8 @@
   renderMotivFilter();
   renderMotivGrid();
   renderStickerGrid();
-  staffelMixHinweis();
   renderAuswahlListe();
+  badgeBeobachten();
   setupAnfrageForm();
   hervorhebenBeiSprungmarke();
 </script>

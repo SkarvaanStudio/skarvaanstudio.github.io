@@ -1075,3 +1075,70 @@
     background:#7fae86;
     display:inline-block;
   }
+
+  /* ============================================================
+     RECHTSTEXTE (Impressum, Datenschutz, AGB)
+     Eigene, schmale Lesespalte — nutzt aber dieselben Farb-Token,
+     Schriften und Navigation wie der Rest der Seite, damit die
+     Seiten nicht mehr wie ein fremdes Dokument wirken.
+     ============================================================ */
+  .legal{
+    max-width:74ch;
+    margin:0 auto;
+    padding:8rem 1.5rem 4rem;
+  }
+  .legal .zurueck{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.76rem;
+    color:var(--text-muted);
+    text-decoration:none;
+    display:inline-block;
+    margin-bottom:2.2rem;
+    transition:color .2s;
+  }
+  .legal .zurueck:hover{ color:var(--accent-soft); }
+  .legal h1{
+    font-size:clamp(1.8rem, 3.4vw, 2.4rem);
+    margin-bottom:2rem;
+  }
+  .legal h2{
+    font-size:1.25rem;
+    margin:2.6rem 0 .8rem;
+    padding-top:1.4rem;
+    border-top:1px solid var(--line);
+  }
+  .legal h3{
+    font-size:1rem;
+    color:var(--accent-soft);
+    margin:1.8rem 0 .6rem;
+  }
+  .legal p,
+  .legal li{
+    color:var(--text-muted);
+    line-height:1.75;
+    font-size:.95rem;
+  }
+  .legal p{ margin-bottom:1rem; }
+  .legal ul{ margin:0 0 1.2rem 1.2rem; }
+  .legal li{ margin-bottom:.5rem; }
+  .legal strong{ color:var(--text-light); font-weight:500; }
+  .legal a{ color:var(--accent-soft); }
+  .legal .warn{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:var(--radius);
+    padding:1.2rem 1.4rem;
+    margin-bottom:2.4rem;
+    font-size:.9rem;
+    color:var(--text-muted);
+  }
+  .legal .warn strong{ color:var(--text-light); }
+  .legal .stand{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.74rem;
+    color:var(--text-muted);
+    margin-top:3rem;
+    padding-top:1.4rem;
+    border-top:1px solid var(--line);
+  }

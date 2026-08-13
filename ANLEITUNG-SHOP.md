@@ -103,32 +103,57 @@ Es gibt nur noch **ein Poster-Format: A4** (`POSTER_FORMAT`). A5, A6
 und A3 sind raus — Sonderformate laufen ausschließlich über das
 Anfrageformular.
 
-Die Mengenpreise stehen in `STAFFEL`:
+Die Staffel arbeitet mit **Stückpreisen**, nicht mit festen Paketen:
 
-- Postkarten: 1 = 2,50 € | 3 = 6,00 € | 5 = 9,00 €
-- Poster A4: 1 = 15,00 € | 2 = 20,00 €
+```
+postkarte:  ab 1 → 2,50 €   ab 3 → 2,00 €   ab 5 → 1,80 €
+poster:     ab 1 → 15,00 €  ab 2 → 10,00 €
+```
 
-Der Shop baut die Mengen-Auswahl unter jedem Bild automatisch daraus.
-Willst du eine Stufe ändern oder ergänzen (z. B. `{ menge: 10, preis:
-16.00 }`), reicht die eine Zeile — Preisbox, Auswahlfeld und der Text
-im Anfrage-Button ziehen automatisch nach. Bei mehr als einem Stück
-zeigt der Shop zusätzlich den Stückpreis an ("20,00 € (je 10,00 €)").
+**Entscheidend ist die Gesamtmenge über alle Motive hinweg**, nicht
+pro Motiv. Wer 2 Entchen- und 1 Reiher-Postkarte nimmt, hat 3 Karten
+und zahlt 2,00 € auf alle drei = 6,00 €. Postkarten und Poster werden
+dabei getrennt gezählt. Genau deshalb kann jeder frei kombinieren —
+niemand muss 3 gleiche Karten nehmen, um den Rabatt zu bekommen.
 
-Der Schalter `STAFFEL_MISCHBAR` steuert, ob für einen Staffelpreis
-verschiedene Motive gemischt werden dürfen. Steht auf `true`, der Shop
-weist unter der Preisbox darauf hin. Auf `false` stellen → Hinweis
-ändert sich automatisch auf "gilt jeweils pro Motiv".
+Eine Stufe ändern oder ergänzen (z. B. `{ abMenge: 10, proStueck:
+1.60 }`) reicht in der einen Zeile — Karten, Auswahl-Liste, Summe und
+der Text in der Anfrage-Mail ziehen automatisch nach. Stufen bitte
+aufsteigend nach `abMenge` sortiert lassen.
 
-**Waldleben & Reduktion:** Beide Galerie-Unterseiten sind jetzt
-technisch fertig (gleiche Struktur wie Teichleben/Gartenleben) und
-bereit für echte Fotos — einfach nach demselben Muster in
-`galerie-daten.js` ergänzen, sobald Fotos da sind.
+`MAX_MENGE` (Standard 50) begrenzt, wie viel pro Position wählbar ist.
+
+### Was der Kunde davon sieht
+
+- Unter jedem Bild ein **Mengen-Stepper** (− 1 +), frei einstellbar.
+- Die Preiszeile rechnet live mit: erreicht die Gesamtmenge eine
+  Stufe, erscheint der Hinweis „Staffelpreis" und der Stückpreis
+  sinkt — auch auf allen anderen Karten gleichzeitig.
+- In der Auswahl unten steht eine Zusammenfassung je Typ mit
+  Stückpreis, eine Zwischensumme und ggf. der Hinweis „Noch 2
+  Postkarten mehr und du zahlst je 1,80 €".
+- Die Zwischensumme ist ausdrücklich als **Richtwert ohne Versand**
+  gekennzeichnet — verbindlich wird erst deine Antwort.
 
 ## Sticker pflegen → `produkte-daten.js` → `STICKER`
 
 Jeder Eintrag: `id`, `motiv`, `kategorie` (optional), `preis`,
 `mockups` (Bildliste). Ein auskommentiertes Beispiel steht direkt in
 der Datei zum Kopieren.
+
+## Shop-Kopf: aufklappbare Infos
+
+Der Erklärtext oben auf der Shop-Seite steckt in drei
+`<details>`-Blöcken („So läuft eine Bestellung ab" / „Preise,
+Staffelrabatt & Versand" / „Herstellung, Rückgabe & Widerruf"). Alle
+sind beim Laden zu, damit die Seite ruhig startet und man sofort bei
+den Motiven ist. Wer es wissen will, klappt auf.
+
+Willst du einen Block standardmäßig offen haben, im HTML einfach
+`<details class="info-fold" open>` schreiben.
+
+Über dem Motivraster steht nur noch eine kompakte Staffel-Zeile —
+die Details stehen im aufklappbaren Bereich, nicht doppelt.
 
 ## Merch — bewusst raus aus dem Sortiment
 
@@ -168,11 +193,10 @@ den passenden Chip auch automatisch vorauswählen lassen — genau das
 nutzt z. B. der "Termin anfragen"-Button im Termine-Bereich der
 Startseite.
 
-**Formspree nicht vergessen:** In `produkte-bestellen.html` steht bei
-`<form action="https://formspree.io/f/xvzejbje">` noch die alte
-Formular-ID — durch deine eigene, neue Formspree-Endpoint-ID
-ersetzen, bevor die Seite live geht. Dasselbe gilt für das
-allgemeine Kontaktformular auf der Startseite.
+**Formspree:** Die Endpoint-ID in `produkte-bestellen.html`
+(`<form action="https://formspree.io/f/xvzejbje">`) ist die richtige
+und aktive — Bestellanfragen kommen darüber zuverlässig an. Nicht
+versehentlich ersetzen.
 
 ## Persona-Startseiten (optional, Vorschau)
 
@@ -200,9 +224,15 @@ Anfrageformular).
   Ausgeschlossen bleibt es nur bei echten Sonderanfertigungen:
   Sonderformate, Motive außerhalb des Katalogs, Merch auf Anfrage.
   AGB Punkt 7.1/7.2 sind entsprechend umgeschrieben.
-- **Formspree-ID:** steht immer noch auf der alten Test-ID
-  `xvzejbje` — vor dem Herbstfest durch deine eigene ersetzen, sonst
-  kommen die Anfragen nicht bei dir an.
+- **Overlays auf den Produktbildern:** Stern („vorrätig") und
+  Zoom-Button lagen früher beide oben und haben sich auf schmalen
+  Karten überlappt. Jetzt sitzt der Stern oben links, der Zoom unten
+  rechts — und der Zoom ist nur noch eine Lupe, die Beschriftung
+  fährt beim Drüberfahren aus. Auf Touch-Geräten bleibt es beim Icon.
+- **Rechtsseiten:** Impressum, Datenschutz und AGB benutzen jetzt
+  `styles.css` statt eigener Inline-Styles und haben Navigation und
+  Fußzeile wie alle anderen Seiten. Die Formatierung steckt in der
+  Klasse `.legal` am Ende von `styles.css`.
 - **Karteileichen:** `galerie-silhouetten.html` und
   `galerie-gartenleben(alt).html` sind von keiner Seite verlinkt.
   Entweder löschen oder bewusst liegenlassen.
