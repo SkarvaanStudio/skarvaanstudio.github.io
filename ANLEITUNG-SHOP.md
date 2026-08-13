@@ -9,10 +9,12 @@ zusammen. Du musst dafür nur Daten pflegen, nicht HTML anfassen:
 
 1. **`galerie-daten.js`** — deine Fotos. Jedes Bild erscheint
    automatisch auf der Galerie-Unterseite UND im Shop unter
-   "Postkarten & Poster", inklusive Format-Auswahl (Postkarte / Poster
-   in A5-A4-A3 / Download) und Lagerbestand.
-2. **`produkte-daten.js`** — Sticker (Liste `STICKER`) und Merch
-   (Liste `MERCH`), plus die zentrale Preistabelle `PREISE`.
+   "Postkarten & Poster", inklusive Auswahl (Postkarte / Poster A4 /
+   Download), Mengen-Staffel und Lagerbestand — getrennt für
+   Postkarte und Poster.
+2. **`produkte-daten.js`** — Sticker (Liste `STICKER`), die Preise
+   (`PREISE`) und die Staffelpreise (`STAFFEL`).
+   Merch gibt es hier bewusst nicht mehr, siehe unten.
 3. Der Bestellweg: kein Shop-Checkout, sondern eine Anfrage — siehe
    Abschnitt "Wie eine Bestellung abläuft" unten.
 
@@ -36,8 +38,8 @@ hinzufügen". Klickt jemand darauf:
   Abholoption und Zahlungsweg zurück — genau wie bisher beim
   Anfrageformular für Marktanfragen/Bildlizenzen.
 
-**Das gilt jetzt für alles im Shop** (Postkarten, Poster, Sticker,
-Merch) — nicht nur für die drei Sonderfälle wie vorher. Die AGB und
+**Das gilt für alles im Shop** (Postkarten, Poster, Sticker) —
+nicht nur für die Sonderfälle wie früher. Die AGB und
 Datenschutzerklärung wurden entsprechend angepasst (Vertragsschluss
 über Anfrage → individuelles Angebot → Bestätigung/Zahlung).
 
@@ -56,9 +58,9 @@ hinzufügen"-Buttons der jeweilige Shop-Checkout-Code rein.
    `bilder/teichleben/neuesbild.jpg`.
 2. In `galerie-daten.js` eine neue Zeile ergänzen: `id`, `kategorie`,
    `bild`-Pfad, `alt`-Text, `beschriftung`, `bereitsPostkarte`,
-   `bestand`.
+   `bestand`, `bereitsPoster`, `bestandPoster`.
 3. Speichern, hochladen — taucht automatisch in der Galerie-Unterseite
-   UND im Shop auf, mit allen drei Formaten (Postkarte/Poster/Download).
+   UND im Shop auf (Postkarte/Poster A4/Download).
 
 **Das Feld `bereitsPostkarte`:**
 - `true` → Motiv ist schon als gedruckte Postkarte auf Lager, bekommt
@@ -73,15 +75,49 @@ hinzufügen"-Buttons der jeweilige Shop-Checkout-Code rein.
 - `null` → Shop zeigt einfach "Vorrätig" ohne genaue Zahl.
 - `0` → Shop zeigt "Wird nachbestellt · ca. 1–2 Wochen".
 
-👉 **Noch offen:** Aktuell steht bei allen Motiven `bereitsPostkarte:
-false` und `bestand: 0`, weil ich nicht weiß, welche deiner
-vorhandenen Postkarten das genau sind. Einmal durchgehen und bei den
-passenden Zeilen umstellen.
+**Die Felder `bereitsPoster` und `bestandPoster`** funktionieren
+exakt genauso — nur eben für Poster statt Postkarten. Das ist die
+Umstellung von August 2026: Poster sind keine Einzelanfertigung mehr,
+sondern werden von dir wie Postkarten in Auflage vorbestellt und aus
+dem Lager verkauft.
 
-**Poster-Preise pro Format** stehen zentral in `produkte-daten.js` bei
-`PREISE` (`posterA5`, `posterA4`, `posterA3`) — nicht pro Motiv, gilt
-für alle gleich. Willst du für ein einzelnes Motiv einen Sonderpreis,
-sag Bescheid, dann bauen wir dafür eine Überschreibung.
+- `bereitsPoster: true` → liegt als gedrucktes A4-Poster bei dir,
+  bekommt im Shop ein ★ (wenn "Poster A4" ausgewählt ist).
+- `bereitsPoster: false` → Shop zeigt "Wird nachgedruckt · ca. 1–2
+  Wochen". Du nimmst das Motiv dann in die nächste Sammelbestellung
+  mit auf.
+- `bestandPoster`: Stückzahl wie bei `bestand` (Zahl / `null` / `0`).
+
+Das ★ und die Lagerzeile richten sich immer nach der gerade
+ausgewählten Ausführung — klickt jemand von Postkarte auf Poster,
+springt die Anzeige automatisch mit.
+
+👉 **Noch offen:** Aktuell steht bei allen Motiven `bereitsPoster:
+false` und `bestandPoster: 0`, weil ich nicht weiß, welche Poster du
+schon gedruckt zu Hause hast. Einmal durchgehen und bei den passenden
+Zeilen umstellen. (Bei den Postkarten hast du das ja schon gemacht.)
+
+## Preise & Staffelpreise → `produkte-daten.js`
+
+Es gibt nur noch **ein Poster-Format: A4** (`POSTER_FORMAT`). A5, A6
+und A3 sind raus — Sonderformate laufen ausschließlich über das
+Anfrageformular.
+
+Die Mengenpreise stehen in `STAFFEL`:
+
+- Postkarten: 1 = 2,50 € | 3 = 6,00 € | 5 = 9,00 €
+- Poster A4: 1 = 15,00 € | 2 = 20,00 €
+
+Der Shop baut die Mengen-Auswahl unter jedem Bild automatisch daraus.
+Willst du eine Stufe ändern oder ergänzen (z. B. `{ menge: 10, preis:
+16.00 }`), reicht die eine Zeile — Preisbox, Auswahlfeld und der Text
+im Anfrage-Button ziehen automatisch nach. Bei mehr als einem Stück
+zeigt der Shop zusätzlich den Stückpreis an ("20,00 € (je 10,00 €)").
+
+Der Schalter `STAFFEL_MISCHBAR` steuert, ob für einen Staffelpreis
+verschiedene Motive gemischt werden dürfen. Steht auf `true`, der Shop
+weist unter der Preisbox darauf hin. Auf `false` stellen → Hinweis
+ändert sich automatisch auf "gilt jeweils pro Motiv".
 
 **Waldleben & Reduktion:** Beide Galerie-Unterseiten sind jetzt
 technisch fertig (gleiche Struktur wie Teichleben/Gartenleben) und
@@ -94,12 +130,21 @@ Jeder Eintrag: `id`, `motiv`, `kategorie` (optional), `preis`,
 `mockups` (Bildliste). Ein auskommentiertes Beispiel steht direkt in
 der Datei zum Kopieren.
 
-## Merch pflegen → `produkte-daten.js` → `MERCH`
+## Merch — bewusst raus aus dem Sortiment
 
-Mit festem Feld `typ`: `"shirts"`, `"tassen"` oder `"weiteres"` —
-darüber filtert die Merch-Seite automatisch. Pro Eintrag: `id`,
-`motiv`, `typ`, `preis`, `farben` (Liste mit `farbe` + `mockups`).
-Beispiel zum Kopieren steht in der Datei.
+Es gibt keine Merch-Produktliste mehr und nichts mehr zu pflegen. An
+der Stelle steht im Shop nur noch ein Hinweisblock unter der
+Überschrift "Tassen & Co.": Tassen, Caps, Beutel & Co. sind auf
+Anfrage möglich, **Kleidung nicht** (zu viel Retoure). Der Wunsch
+landet über das Anfrageformular bei dir, du holst dann ein Angebot
+ein.
+
+Auf der Startseite ist die vierte Produktkachel entsprechend weg und
+durch eine Textzeile ersetzt. Der Anker `#merch` funktioniert weiter,
+damit alte Links und QR-Codes nicht ins Leere laufen.
+
+Falls du Merch später doch wieder fest ins Sortiment nimmst, sag
+Bescheid — die alte Listen-Logik lässt sich zurückholen.
 
 ## Das Anfrageformular (jetzt: alles läuft hier zusammen)
 
@@ -141,10 +186,26 @@ Anfrageformular).
 
 ## Offene Punkte, die dir noch auffallen sollten
 
-- **AGB/Datenschutz:** Der Abschnitt zum Vertragsschluss bzw. zur
-  Datenverarbeitung bei Bestellanfragen wurde inhaltlich an das
-  Anfrage-Modell angepasst, aber nicht anwaltlich geprüft — vor dem
-  Live-Gang einmal von jemandem mit Rechtskenntnis gegenlesen lassen.
+- **AGB/Datenschutz:** inhaltlich an das Anfrage-Modell angepasst,
+  aber nicht anwaltlich geprüft — vor dem Live-Gang einmal von
+  jemandem mit Rechtskenntnis gegenlesen lassen.
+- **Widerrufsrecht bei Postern (wichtig, geändert):** Solange Poster
+  individuell im Wunschformat gedruckt wurden, war das Widerrufsrecht
+  nach § 312g Abs. 2 Nr. 1 BGB ausgeschlossen. Seit der Umstellung auf
+  A4-Auflagenware gilt das nicht mehr: Ein Motiv aus dem festen
+  Katalog in einem festen Standardformat auszuwählen ist keine
+  individuelle Anfertigung — auch dann nicht, wenn das Motiv gerade
+  vergriffen ist und nachgedruckt wird. **Poster haben deshalb jetzt
+  ganz normal 14 Tage Widerrufsrecht**, genau wie Postkarten.
+  Ausgeschlossen bleibt es nur bei echten Sonderanfertigungen:
+  Sonderformate, Motive außerhalb des Katalogs, Merch auf Anfrage.
+  AGB Punkt 7.1/7.2 sind entsprechend umgeschrieben.
+- **Formspree-ID:** steht immer noch auf der alten Test-ID
+  `xvzejbje` — vor dem Herbstfest durch deine eigene ersetzen, sonst
+  kommen die Anfragen nicht bei dir an.
+- **Karteileichen:** `galerie-silhouetten.html` und
+  `galerie-gartenleben(alt).html` sind von keiner Seite verlinkt.
+  Entweder löschen oder bewusst liegenlassen.
 - **Alt-Texte prüfen:** In ein paar Gartenleben-Motiven (z. B. Katze,
   Goldammer, Dorngrasmücke) steht als `alt`-Text noch versehentlich
   "Rotkehlchen auf einem Ast" (Copy-Paste-Rest).

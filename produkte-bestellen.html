@@ -168,6 +168,44 @@
     border-radius:var(--radius); font-size:.86rem; color:var(--text-light); max-width:70ch;
   }
 
+  /* ---- Staffelpreis-Box ---- */
+  .staffel-box{
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); padding:1.2rem 1.4rem; margin:0 0 1.6rem;
+    max-width:60ch;
+  }
+  .staffel-box > strong{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:.74rem;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--accent-soft);
+    margin-bottom:.9rem;
+  }
+  .staffel-cols{ display:flex; flex-wrap:wrap; gap:2.4rem; }
+  .staffel-titel{ font-size:.82rem; color:var(--text-light); display:block; margin-bottom:.4rem; }
+  .staffel-box ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.25rem; }
+  .staffel-box li{ font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
+  .staffel-box li b{ color:var(--text-light); font-weight:500; }
+  .staffel-hinweis{ font-size:.8rem; color:var(--text-muted); margin:.9rem 0 0; }
+
+  /* ---- Mengen-Auswahl in der Produktkarte ---- */
+  .menge-row{ display:flex; align-items:center; gap:.5rem; }
+  .menge-row label{
+    font-family:'JetBrains Mono', monospace; font-size:.68rem;
+    letter-spacing:.04em; color:var(--text-muted); flex-shrink:0;
+  }
+  .menge-row select{ flex:1; }
+  .price-line .je{ color:var(--text-muted); font-size:.78rem; }
+
+  /* ---- Hinweisblock statt Merch-Sortiment ---- */
+  .merch-hinweis{
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-left:3px solid var(--accent-soft);
+    border-radius:var(--radius); padding:1.6rem 1.8rem; max-width:68ch;
+  }
+  .merch-hinweis p{ font-size:.92rem; color:var(--text-muted); margin:0 0 .9rem; }
+  .merch-hinweis p strong{ color:var(--text-light); }
+  .merch-hinweis .merch-ausnahme{ font-size:.85rem; }
+  .merch-hinweis .btn{ margin-top:.4rem; }
+
   #kontakt-anfrage-section{ background:var(--bg-panel); }
   .shop-form-wrap form{ background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:2rem; max-width:640px; }
   .shop-form-wrap h2{ font-size:1.4rem; margin-bottom:.3rem; }
@@ -193,7 +231,7 @@
       <li><a href="index.html#galerie">Galerie</a></li>
       <li><a href="karte.html">Karte</a></li>
       <li><a href="geschichten.html">Geschichten</a></li>
-      <li><a href="index.html#erhaeltlich-als">Shop</a></li>
+      <li><a href="produkte-bestellen.html">Shop</a></li>
       <li><a href="index.html#ueber-mich">Über mich</a></li>
       <li><a href="index.html#termine">Termine</a></li>
       <li><a href="index.html#kontakt">Kontakt</a></li>
@@ -209,18 +247,18 @@
   <div class="wrap">
     <span class="eyebrow">Auf Anfrage</span>
     <h1>Wähl dein Motiv, <em>frag dein Produkt an.</em></h1>
-    <p class="lead">Alle Designs stammen von mir. Postkarten, Sticker und Poster fertige ich selbst zu Hause in Halstenbek, Merch entsteht über Printful — wer was macht, steht bei jedem Produkt direkt dabei.</p>
+    <p class="lead">Alle Designs stammen von mir. Postkarten und Poster lasse ich in Auflage drucken, Sticker und Lesezeichen fertige ich selbst — verpackt und verschickt wird alles hier aus Halstenbek.</p>
     <div class="origin-legend">
-      <span class="item"><span class="origin-dot selbst"></span> Selbst gefertigt &amp; versendet aus Halstenbek</span>
-      <span class="item"><span class="origin-dot printful"></span> Produktion: Printful (EU)</span>
+      <span class="item"><span class="origin-dot selbst"></span> Von mir verpackt &amp; versendet aus Halstenbek</span>
+      <span class="item"><span class="star-dot">★</span> = liegt bei mir auf Lager</span>
     </div>
     <p style="color:var(--text-muted); font-size:.82rem; margin:.9rem 0 0;">Alle angezeigten Preise verstehen sich zzgl. Versandkosten. Du bezahlst nichts direkt hier — nach deiner Anfrage bekommst du von mir eine kurze Rückmeldung mit Preis, Versand/Abholung und Zahlungsweg. Digitale Downloads sind versandkostenfrei.</p>
     <nav class="shop-tabs" aria-label="Produktkategorien">
       <a href="#motive">Postkarten &amp; Poster</a>
       <a href="#sticker">Sticker</a>
-      <a href="#merch">Merch</a>
+      <a href="#merch">Tassen &amp; Co.</a>
     </nav>
-    <p style="color:var(--text-muted); font-size:.8rem; margin:.9rem 0 0;">Aktuell fest im Sortiment: Postkarten &amp; Poster. Sticker/Lesezeichen und Merch folgen nach und nach.</p>
+    <p style="color:var(--text-muted); font-size:.8rem; margin:.9rem 0 0;">Aktuell fest im Sortiment: Postkarten &amp; Poster. Sticker und Lesezeichen folgen nach und nach.</p>
   </div>
 </section>
 
@@ -229,12 +267,12 @@
     <span class="eyebrow">Wichtig zu wissen</span>
     <h2 style="font-size:1.5rem;">So läuft eine Bestellung bei mir ab</h2>
     <div class="ablauf-steps">
-      <div class="ablauf-step"><span class="num">01</span><h3>Motiv &amp; Format wählen</h3><p>Postkarte, Poster im gewünschten Format, Sticker oder Merch — direkt bei jedem Produkt.</p></div>
+      <div class="ablauf-step"><span class="num">01</span><h3>Motiv &amp; Menge wählen</h3><p>Postkarte, Poster (A4) oder Download — und gleich die passende Menge, denn ab 3 Postkarten bzw. 2 Postern wird's günstiger.</p></div>
       <div class="ablauf-step"><span class="num">02</span><h3>Zur Anfrage hinzufügen</h3><p>Alles, was dich interessiert, landet in deiner Auswahl unten im Anfrageformular — du schickst mir eine Nachricht, kein Kauf-Button, keine Kasse.</p></div>
-      <div class="ablauf-step"><span class="num">03</span><h3>Ich melde mich</h3><p>Du bekommst von mir Preis, Versand- bzw. Abholoption und Zahlungsweg per Mail — danach schicke ich Postkarten &amp; Sticker aus Halstenbek los, Merch läuft über Printful.</p></div>
+      <div class="ablauf-step"><span class="num">03</span><h3>Ich melde mich</h3><p>Du bekommst von mir Preis, Versand- bzw. Abholoption und Zahlungsweg per Mail — danach geht dein Paket hier aus Halstenbek los.</p></div>
     </div>
     <div class="idea-note">
-      <strong>Bildlizenz, eine Anfrage für einen Markt oder ein Motiv, das hier noch fehlt?</strong> Dafür gibt es unten ein kurzes, eigenes <a href="#kontakt-anfrage" style="color:var(--accent-soft);">Anfrageformular</a> — ganz ohne den Bestellweg oben.
+      <strong>Ein Motiv fehlt, du hättest gern ein anderes Format — oder es geht um eine Bildlizenz oder einen Markt?</strong> Dafür gibt es unten ein kurzes, eigenes <a href="#kontakt-anfrage" style="color:var(--accent-soft);">Anfrageformular</a> — ganz ohne den Bestellweg oben.
     </div>
   </div>
 </section>
@@ -243,15 +281,40 @@
 <section class="cat-block-shop" id="motive">
   <div class="wrap">
     <h2>Postkarten &amp; Poster</h2>
-    <p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es als Postkarte, als Poster im A4 Format oder als digitalen Download — als Auswahl unter dem Bild.</p>
-    <div class="origin-legend" style="margin:0 0 1.6rem;">
+    <p class="cat-sub">Jedes Motiv aus meiner Galerie gibt es als Postkarte (10 × 15 cm), als Poster im Format A4 oder als digitalen Download — Auswahl direkt unter dem Bild.</p>
+    <div class="origin-legend" style="margin:0 0 1.2rem;">
       <span class="item"><span class="origin-dot selbst"></span> Gedruckt bei WirmachenDruck, von mir verpackt &amp; aus Halstenbek versendet</span>
-      <span class="item"><span class="star-dot">★</span> = schon als Postkarte auf Lager</span>
+      <span class="item"><span class="star-dot">★</span> = liegt in dieser Ausführung bei mir auf Lager</span>
     </div>
-    <p class="widerruf-note">Postkarten sind vorgefertigte Standardware — 14-tägiges Widerrufsrecht gilt ganz normal. Poster werden individuell in deinem Format gedruckt, dafür ist das Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>
+
+    <div class="staffel-box">
+      <strong>Staffelpreise</strong>
+      <div class="staffel-cols">
+        <div>
+          <span class="staffel-titel">Postkarten</span>
+          <ul>
+            <li><b>1 Stück</b> · 2,50 €</li>
+            <li><b>3 Stück</b> · 6,00 €</li>
+            <li><b>5 Stück</b> · 9,00 €</li>
+          </ul>
+        </div>
+        <div>
+          <span class="staffel-titel">Poster A4</span>
+          <ul>
+            <li><b>1 Stück</b> · 15,00 €</li>
+            <li><b>2 Stück</b> · 20,00 €</li>
+          </ul>
+        </div>
+      </div>
+      <p class="staffel-hinweis" id="staffel-mix-hinweis"></p>
+    </div>
+
+    <p class="widerruf-note">Postkarten und Poster sind vorgefertigte Standardware aus meiner Auflage — das 14-tägige Widerrufsrecht gilt für beides ganz normal, auch wenn ein Motiv gerade nachgedruckt werden muss. Details in den <a href="agb.html">AGB &amp; Widerrufsbelehrung</a>.</p>
 
     <div class="filter-row" id="motiv-filter"></div>
     <div class="pick-grid" id="motiv-grid"></div>
+
+    <p class="section-idea-note">Dein Wunschmotiv ist hier nicht dabei oder du hättest es gern in einem anderen Format als A4? Schreib es einfach kurz ins <a href="#kontakt-anfrage">Anfrageformular</a> unten — ich schaue, was sich machen lässt, und melde mich mit Preis zurück.</p>
   </div>
 </section>
 
@@ -267,16 +330,18 @@
   </div>
 </section>
 
-<!-- ============ MERCH ============ -->
+<!-- ============ TASSEN & CO. — nur noch Hinweis, kein Sortiment ============ -->
 <section class="cat-block-shop" id="merch" style="padding:4rem 0;">
   <div class="wrap">
-    <h2>Merch</h2>
-    <p class="cat-sub">Untersetzer, Tassen &amp; mehr — Design von mir, Produktion und Versand über Printful.</p>
-    <span class="origin-badge"><span class="origin-dot printful"></span> Produktion: Printful</span>
-    <p class="widerruf-note">Individuell mit deinem gewählten Motiv gefertigt — Widerrufsrecht ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Gewährleistungsrechte bleiben unberührt.</p>
-    <div class="filter-row" id="merch-filter"></div>
-    <div class="pick-grid" id="merch-grid"></div>
-    <p class="section-idea-note">Motiv, Produkt oder Farbe fehlt dir hier? Kurz im <a href="#kontakt-anfrage">Anfrageformular</a> unten beschreiben — ich melde mich, ob das machbar ist.</p>
+    <h2>Tassen &amp; Co.</h2>
+    <p class="cat-sub">Merch führe ich bewusst nicht als festes Sortiment — aber auf Wunsch geht trotzdem einiges.</p>
+
+    <div class="merch-hinweis">
+      <p><strong>Du hättest ein Motiv gern auf einer Tasse, einer Cap, einem Beutel oder einem Untersetzer?</strong></p>
+      <p>Frag einfach an. Fast alles, was kein Kleidungsstück ist, lässt sich umsetzen — ich hole dir dann ein Angebot mit Preis und Lieferzeit ein.</p>
+      <p class="merch-ausnahme">Nur bei Kleidung sage ich Nein: Größen, Schnitte und Passform führen zu so vielen Rücksendungen, dass ich das als Ein-Mann-Betrieb nicht sinnvoll stemmen kann.</p>
+      <p style="margin-bottom:0;"><a class="btn btn-outline" href="#kontakt-anfrage">Wunsch ins Anfrageformular schreiben</a></p>
+    </div>
   </div>
 </section>
 
@@ -442,17 +507,50 @@
   /* ---------- Postkarten & Poster ---------- */
   var MOTIV_THEMEN = ['Teichleben', 'Gartenleben', 'Waldleben', 'Reduktion'];
 
-  function stockInfo(b) {
-    if (!b.bereitsPostkarte) {
-      return { html: 'Wird für dich gedruckt · ca. 1–2 Wochen', cls: 'back' };
+  /* Lagerstatus — funktioniert identisch für Postkarte und Poster.
+     art: 'postkarte' | 'poster'
+     Beides ist Auflagenware: liegt es da → Lagerbestand,
+     liegt es nicht da → wird in der nächsten Auflage mitgedruckt. */
+  function stockInfo(b, art) {
+    var vorhanden = (art === 'poster') ? b.bereitsPoster : b.bereitsPostkarte;
+    var menge = (art === 'poster') ? b.bestandPoster : b.bestand;
+
+    if (!vorhanden) {
+      return {
+        html: (art === 'poster' ? 'Wird nachgedruckt · ca. 1–2 Wochen' : 'Wird für dich gedruckt · ca. 1–2 Wochen'),
+        cls: 'back', vorraetig: false
+      };
     }
-    if (b.bestand === 0) {
-      return { html: 'Wird nachbestellt · ca. 1–2 Wochen', cls: 'back' };
+    if (menge === 0) {
+      return { html: 'Wird nachbestellt · ca. 1–2 Wochen', cls: 'back', vorraetig: false };
     }
-    if (typeof b.bestand === 'number') {
-      return { html: (b.bestand <= 3 ? 'Nur noch ' + b.bestand + ' auf Lager' : 'Noch ' + b.bestand + ' auf Lager'), cls: (b.bestand <= 3 ? 'low' : 'ok') };
+    if (typeof menge === 'number') {
+      return {
+        html: (menge <= 3 ? 'Nur noch ' + menge + ' auf Lager' : 'Noch ' + menge + ' auf Lager'),
+        cls: (menge <= 3 ? 'low' : 'ok'), vorraetig: true
+      };
     }
-    return { html: 'Vorrätig', cls: 'ok' };
+    return { html: 'Vorrätig', cls: 'ok', vorraetig: true };
+  }
+
+  /* Staffelpreise: baut die Mengen-Auswahl aus STAFFEL (produkte-daten.js) */
+  function staffelOptionen(art) {
+    return STAFFEL[art].map(function (stufe, idx) {
+      return '<option value="' + idx + '">' + stufe.menge + ' Stück · ' + euro(stufe.preis) + '</option>';
+    }).join('');
+  }
+
+  function preisText(stufe) {
+    if (stufe.menge === 1) { return euro(stufe.preis); }
+    return euro(stufe.preis) + ' <span class="je">(je ' + euro(stufe.preis / stufe.menge) + ')</span>';
+  }
+
+  function staffelMixHinweis() {
+    var el = document.getElementById('staffel-mix-hinweis');
+    if (!el) { return; }
+    el.textContent = (typeof STAFFEL_MISCHBAR !== 'undefined' && STAFFEL_MISCHBAR)
+      ? 'Die Motive darfst du dabei frei mischen — 3 Postkarten heißt also gern auch 3 verschiedene. Schreib einfach alles in deine Anfrage, ich rechne den passenden Staffelpreis aus.'
+      : 'Der Staffelpreis gilt jeweils pro Motiv.';
   }
 
   function renderMotivFilter() {
@@ -486,23 +584,30 @@
       var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
-      var starHtml = b.bereitsPostkarte ? '<span class="gp-star">★ vorrätig</span>' : '';
-      var stock = stockInfo(b);
+      var stockPk = stockInfo(b, 'postkarte');
+      var starStyle = stockPk.vorraetig ? '' : ' style="display:none;"';
       var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild in voller Größe &amp; im Originalformat ansehen" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Klick für volle Größe</span></button>';
 
       return '<div class="pick-card" id="motiv-' + escapeHtml(b.id) + '" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
-        '<div class="frame">' + starHtml + zoomHtml + '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '"></div>' +
+        '<div class="frame">' +
+          '<span class="gp-star" id="' + cid + '-star"' + starStyle + '>★ vorrätig</span>' +
+          zoomHtml +
+          '<img src="' + escapeHtml(b.bild) + '" alt="' + escapeHtml(b.alt) + '">' +
+        '</div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
         '<div class="fmt-pills" id="' + cid + '-pills">' +
           '<button type="button" class="fmt-pill active" data-fmt="postkarte">Postkarte</button>' +
-          '<button type="button" class="fmt-pill" data-fmt="poster">Poster</button>' +
+          '<button type="button" class="fmt-pill" data-fmt="poster">Poster ' + POSTER_FORMAT + '</button>' +
           '<button type="button" class="fmt-pill" data-fmt="download">Download</button>' +
         '</div>' +
-        '<select id="' + cid + '-format" style="display:none;"><option value="A5">A5</option><option value="A4">A4</option><option value="A3">A3</option></select>' +
-        '<span class="price-line" id="' + cid + '-price">' + euro(PREISE.postkarte) + '</span>' +
-        '<span class="stock-line ' + stock.cls + '" id="' + cid + '-stock">' + stock.html + '</span>' +
+        '<div class="menge-row" id="' + cid + '-mengerow">' +
+          '<label for="' + cid + '-menge">Menge</label>' +
+          '<select id="' + cid + '-menge">' + staffelOptionen('postkarte') + '</select>' +
+        '</div>' +
+        '<span class="price-line" id="' + cid + '-price">' + preisText(STAFFEL.postkarte[0]) + '</span>' +
+        '<span class="stock-line ' + stockPk.cls + '" id="' + cid + '-stock">' + stockPk.html + '</span>' +
         '<span class="herkunft-line" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
-        '<div id="' + cid + '-kauf">' + renderKaufSlot(motivPlain + ' — Postkarte') + '</div>' +
+        '<div id="' + cid + '-kauf">' + renderKaufSlot(motivPlain + ' — Postkarte · 1 Stück · ' + euro(STAFFEL.postkarte[0].preis)) + '</div>' +
         '</div></div>';
     }).join('');
     grid.innerHTML = html;
@@ -510,51 +615,61 @@
     bilder.forEach(function (b, i) {
       var cid = 'mot-' + i;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
-      var stock = stockInfo(b);
       var pillsEl = document.getElementById(cid + '-pills');
-      var formatSel = document.getElementById(cid + '-format');
+      var mengeRow = document.getElementById(cid + '-mengerow');
+      var mengeSel = document.getElementById(cid + '-menge');
       var priceEl = document.getElementById(cid + '-price');
       var stockEl = document.getElementById(cid + '-stock');
       var herkunftEl = document.getElementById(cid + '-herkunft');
+      var starEl = document.getElementById(cid + '-star');
       var kaufEl = document.getElementById(cid + '-kauf');
+      var aktuellerTyp = 'postkarte';
 
-      function updatePoster() {
-        var fmt = formatSel.value;
-        var preis = fmt === 'A3' ? PREISE.posterA3 : (fmt === 'A4' ? PREISE.posterA4 : PREISE.posterA5);
-        priceEl.textContent = euro(preis);
-        kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Poster ' + fmt);
+      function aktualisieren() {
+        if (aktuellerTyp === 'download') {
+          mengeRow.style.display = 'none';
+          stockEl.style.display = 'none';
+          herkunftEl.style.display = 'none';
+          starEl.style.display = 'none';
+          priceEl.textContent = euro(PREISE.download);
+          kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Download · ' + euro(PREISE.download));
+          syncHinzufuegenButtons();
+          return;
+        }
+
+        var stufe = STAFFEL[aktuellerTyp][mengeSel.selectedIndex] || STAFFEL[aktuellerTyp][0];
+        var stock = stockInfo(b, aktuellerTyp);
+        var bezeichnung = (aktuellerTyp === 'poster') ? 'Poster ' + POSTER_FORMAT : 'Postkarte';
+
+        mengeRow.style.display = '';
+        priceEl.innerHTML = preisText(stufe);
+
+        stockEl.style.display = '';
+        stockEl.className = 'stock-line ' + stock.cls;
+        stockEl.textContent = stock.html;
+
+        starEl.style.display = stock.vorraetig ? '' : 'none';
+
+        herkunftEl.style.display = '';
+        herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
+
+        kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — ' + bezeichnung + ' · ' + stufe.menge + ' Stück · ' + euro(stufe.preis));
+        syncHinzufuegenButtons();
       }
 
       pillsEl.querySelectorAll('.fmt-pill').forEach(function (pill) {
         pill.addEventListener('click', function () {
           pillsEl.querySelectorAll('.fmt-pill').forEach(function (p) { p.classList.remove('active'); });
           pill.classList.add('active');
-          var fmt = pill.getAttribute('data-fmt');
-          if (fmt === 'postkarte') {
-            formatSel.style.display = 'none';
-            priceEl.textContent = euro(PREISE.postkarte);
-            stockEl.style.display = '';
-            stockEl.className = 'stock-line ' + stock.cls;
-            stockEl.textContent = stock.html;
-            herkunftEl.style.display = '';
-            herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
-            kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Postkarte');
-          } else if (fmt === 'poster') {
-            formatSel.style.display = 'block';
-            stockEl.style.display = 'none';
-            herkunftEl.style.display = '';
-            herkunftEl.textContent = 'Gedruckt bei WirmachenDruck · aus Halstenbek versendet';
-            updatePoster();
-          } else {
-            formatSel.style.display = 'none';
-            stockEl.style.display = 'none';
-            herkunftEl.style.display = 'none';
-            priceEl.textContent = euro(PREISE.download);
-            kaufEl.innerHTML = renderKaufSlot(motivPlain + ' — Download');
+          aktuellerTyp = pill.getAttribute('data-fmt');
+          if (aktuellerTyp !== 'download') {
+            mengeSel.innerHTML = staffelOptionen(aktuellerTyp);
+            mengeSel.selectedIndex = 0;
           }
+          aktualisieren();
         });
       });
-      formatSel.addEventListener('change', updatePoster);
+      mengeSel.addEventListener('change', aktualisieren);
     });
   }
 
@@ -573,63 +688,6 @@
         renderKaufSlot(s.motiv + ' — Sticker') +
         '</div></div>';
     }).join('');
-  }
-
-  /* ---------- Merch ---------- */
-  var MERCH_TYPEN = { shirts: 'Shirts', tassen: 'Tassen', weiteres: 'Weiteres' };
-
-  function renderMerchFilter() {
-    var el = document.getElementById('merch-filter');
-    var html = '<button type="button" class="filter-chip active" data-typ="alle">Alle</button>';
-    Object.keys(MERCH_TYPEN).forEach(function (k) {
-      html += '<button type="button" class="filter-chip" data-typ="' + k + '">' + MERCH_TYPEN[k] + '</button>';
-    });
-    el.innerHTML = html;
-    el.querySelectorAll('.filter-chip').forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        el.querySelectorAll('.filter-chip').forEach(function (c) { c.classList.remove('active'); });
-        chip.classList.add('active');
-        var t = chip.getAttribute('data-typ');
-        document.querySelectorAll('#merch-grid .pick-card').forEach(function (card) {
-          card.style.display = (t === 'alle' || card.getAttribute('data-typ') === t) ? '' : 'none';
-        });
-      });
-    });
-  }
-
-  function renderMerchGrid() {
-    var grid = document.getElementById('merch-grid');
-    if (typeof MERCH === 'undefined' || !MERCH.length) {
-      grid.innerHTML = '<p class="empty-note">Noch keine Merch-Motive freigegeben.</p>';
-      return;
-    }
-    grid.innerHTML = MERCH.map(function (m, i) {
-      var cid = 'merch-' + i;
-      var farben = m.farben || [];
-      var img = (farben[0] && farben[0].mockups && farben[0].mockups[0]) ? farben[0].mockups[0] : '';
-      var farbOptions = farben.map(function (f) { return '<option>' + escapeHtml(f.farbe) + '</option>'; }).join('');
-      return '<div class="pick-card" data-typ="' + escapeHtml(m.typ) + '">' +
-        '<div class="frame" id="' + cid + '-frame">' + (img ? '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(m.motiv) + '">' : '') + '</div>' +
-        '<div class="body"><b>' + escapeHtml(m.motiv) + '</b>' +
-        (farben.length > 1 ? '<select id="' + cid + '-farbe">' + farbOptions + '</select>' : '') +
-        '<span class="price-line">' + euro(m.preis) + '</span>' +
-        '<div id="' + cid + '-kauf">' + renderKaufSlot(m.motiv + ' — ' + MERCH_TYPEN[m.typ]) + '</div>' +
-        '</div></div>';
-    }).join('');
-
-    MERCH.forEach(function (m, i) {
-      var cid = 'merch-' + i;
-      var farben = m.farben || [];
-      if (farben.length > 1) {
-        var sel = document.getElementById(cid + '-farbe');
-        var frame = document.getElementById(cid + '-frame');
-        sel.addEventListener('change', function () {
-          var f = farben[sel.selectedIndex];
-          var img = (f.mockups && f.mockups[0]) ? f.mockups[0] : '';
-          frame.innerHTML = img ? '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(m.motiv) + '">' : '';
-        });
-      }
-    });
   }
 
   /* ---------- Anfrageformular: Anliegen-Chips + Subject-Prefix ---------- */
@@ -693,8 +751,7 @@
   renderMotivFilter();
   renderMotivGrid();
   renderStickerGrid();
-  renderMerchFilter();
-  renderMerchGrid();
+  staffelMixHinweis();
   renderAuswahlListe();
   setupAnfrageForm();
   hervorhebenBeiSprungmarke();
