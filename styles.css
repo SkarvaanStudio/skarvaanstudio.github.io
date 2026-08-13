@@ -1142,3 +1142,22 @@
     padding-top:1.4rem;
     border-top:1px solid var(--line);
   }
+
+  /* ---- Terminliste auf der Startseite ---- */
+  .termin-liste{ list-style:none; margin:1rem 0 0; padding:0; display:flex; flex-direction:column; gap:.9rem; }
+  .termin-liste li{
+    display:flex; gap:1rem; align-items:flex-start;
+    padding:.85rem 1rem;
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-left:3px solid var(--accent); border-radius:var(--radius);
+  }
+  .termin-datum{
+    font-family:'JetBrains Mono', monospace; font-size:.76rem;
+    color:var(--accent-soft); white-space:nowrap; padding-top:.15rem;
+  }
+  .termin-ort{ font-size:.9rem; color:var(--text-muted); line-height:1.5; }
+  .termin-ort b{ color:var(--text-light); font-weight:500; }
+  .termin-note{ font-size:.84rem; color:var(--text-muted); margin:1rem 0 0; }
+  @media (max-width:520px){
+    .termin-liste li{ flex-direction:column; gap:.35rem; }
+  }
