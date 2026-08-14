@@ -1,262 +1,256 @@
-# Änderungen — SEO, Vorschaubilder & Shop
+# Änderungen — SEO, Vorschaubilder, Shop, Barrierefreiheit & Schriften
 
-Stand: 14.08.2026
+Stand: 14.08.2026 · zweite Lieferung, ersetzt die erste vollständig
 
-Alle Dateien kommen ins Hauptverzeichnis des Repos (dort, wo auch
-`index.html` und `styles.css` liegen). Einfach überschreiben bzw.
-neu hinzufügen. `styles.css` wurde **nicht** angefasst — die neuen
-Styles stehen jeweils in der Seite selbst.
-
----
-
-## 17 Dateien
-
-### Neu (4)
-
-| Datei | Wozu |
-|---|---|
-| `fuer-veranstalter.html` | Dein Ausstellerportfolio als Webseite |
-| `robots.txt` | Sagt Google, was indexiert werden darf, und wo die Seitenkarte liegt |
-| `sitemap.xml` | Liste aller Seiten für Google |
-| `404.html` | Auffangseite bei Tippfehlern und schlecht gelesenen QR-Codes |
-
-### Geändert (13)
-
-`index.html`, `produkte-bestellen.html`, `galerie-teichleben.html`,
-`galerie-gartenleben.html`, `galerie-waldleben.html`,
-`galerie-reduktion.html`, `geschichten.html`, `geschichte.html`,
-`karte.html`, `impressum.html`, `datenschutz.html`, `agb.html`,
-`galerie-daten.js`
+Alle Dateien kommen ins Hauptverzeichnis des Repos. **Neu ist der
+Ordner `schriften/`** — den bitte komplett mit hochladen, sonst
+fällt die Seite auf Systemschriften zurück.
 
 ---
 
-## 1. Shop — Anfrageformular
+## Neu in dieser Lieferung
 
-**Optionale Lieferadresse.** Eingeklappter Block „Lieferadresse schon
-mitgeben“ mit Straße, PLZ, Ort und Land. Alle vier Felder sind
-freiwillig und blockieren das Absenden nicht. In der Formspree-Mail
-tauchen sie unter genau diesen Namen auf.
-
-**Pflichtangaben.** Name, E-Mail, Nachricht und der Datenschutz-Haken
-sind mit `*` markiert. Der Hinweis „* Pflichtangaben“ steht einmal
-über den Feldern und einmal unter dem Absende-Button.
-
-**Eigene Prüfung statt Browser-Blase.** Das Formular hat `novalidate`,
-die Prüfung macht das Script. Vorteil: die Meldungen sind in jedem
-Browser gleich und auf Deutsch, stehen direkt unter dem betroffenen
-Feld und verschwinden, sobald jemand korrigiert. Zusätzlich eine
-Sammelmeldung über dem Button; der Cursor springt automatisch ins
-erste offene Feld.
-
-**Neues Pflichtfeld später ergänzen:** Feld mit `required` versehen,
-darunter ein `<p class="feld-fehler" id="DEINE-ID-fehler"></p>`
-setzen, fertig. Für einen eigenen Meldungstext einen Eintrag in
-`MELDUNGEN` im Script ergänzen.
-
-**Datenschutz-Haken entfernen**, falls du ihn doch nicht willst: den
-`<div class="feld-check" …>`-Block löschen. Die Prüfung überspringt
-ihn dann automatisch. Derselbe Block steht auch im Kontaktformular
-auf der Startseite.
+`styles.css` (Barrierefreiheit + Schrifteinbindung),
+`schriften/` (4 Schriftdateien + Lizenz), Sprunglinks und
+Fokusrahmen auf allen Seiten, angepasste Datenschutzerklärung.
+Alles aus der ersten Lieferung ist enthalten — nimm einfach diesen
+Satz.
 
 ---
 
-## 2. Shop — Blättern pro Kategorie
+# Teil A — Barrierefreiheit
 
-Statt einer Wand aus 46 Motiven gibt es jetzt vier eigenständige
-Blöcke. Jeder Block hat:
+## Zuerst die unbequeme Antwort auf deine Frage
 
-- Überschrift mit Motivzahl
-- Anzeige „Motiv 1–20 von 24“
-- eigenes Auswahlmenü **Motive pro Seite: 10 / 20 / 40 / alle**
-- eigene Blätter-Navigation
+**Deine Kontraste waren bereits in Ordnung.** Ich habe alle
+Farbkombinationen nach WCAG 2.1 durchgerechnet, statt zu schätzen:
 
-Voreinstellung: **20 pro Seite**. Aktuell heißt das: Gartenleben (24
-Motive) bekommt zwei Seiten, Teichleben (8), Waldleben (8) und
-Reduktion (6) passen jeweils auf eine.
+| Element | vorher | verlangt |
+|---|---|---|
+| Fließtext `#EDE7D6` | 15,0:1 | 4,5:1 |
+| Graue Texte `#93A085` | 5,4:1 | 4,5:1 |
+| Links `#E3A56B` | 7,0:1 | 4,5:1 |
+| Gefüllter Knopf | 5,7:1 | 4,5:1 |
+| Über-mich-Bereich | 5,3–13,3:1 | 4,5:1 |
 
-**Einstellungen ändern** — ganz oben im Script von
-`produkte-bestellen.html`:
+Der schlechteste Wert lag bei 5,4:1 — über der Anforderung. Die
+dunkle Palette wirkt *gedämpft*, ist aber nicht *kontrastschwach*.
+Das ist ein Unterschied, den das Auge schlecht schätzt.
 
-```js
-var STANDARD_PRO_SEITE = 20;                 // wie viele anfangs sichtbar sind
-var PRO_SEITE_OPTIONEN = [10, 20, 40, 'alle']; // was im Menü zur Wahl steht
+Ich habe `--text-muted` trotzdem von `#93A085` auf `#A5B396`
+angehoben: **6,7:1 statt 5,4:1**. Nicht weil es nötig war, sondern
+weil dieser Ton auf der Seite sehr viel Fließtext in kleinen Größen
+trägt und du damit Richtung AAA (7:1) kommst. Optisch ist es eine
+Nuance, du wirst es kaum bemerken.
+
+## Was tatsächlich fehlte
+
+Das waren nicht die Farben, sondern vier andere Dinge — jedes davon
+ein echter Verstoß gegen WCAG 2.1 AA:
+
+**1. Kein sichtbarer Fokusrahmen** (WCAG 2.4.7 — der gravierendste
+Punkt). Nur Eingabefelder hatten einen. Wer mit der Tabulatortaste
+navigiert — Menschen mit motorischen Einschränkungen, aber auch
+jeder, der einfach keine Maus benutzt — sah auf deiner Seite nicht,
+wo er gerade steht. Jetzt bekommt alles Bedienbare einen deutlichen
+Rahmen in `#FFD9A8` mit Abstand und dunklem Gegenring, damit er auch
+auf den orangen Knöpfen sichtbar bleibt. Über `:focus-visible`, also
+nur bei Tastaturbedienung, nicht bei jedem Mausklick.
+
+**2. Das Handy-Menü ließ sich per Tastatur gar nicht öffnen** (WCAG
+2.1.1). Der Umschalter stand auf `display:none` und war damit für
+die Tabulatortaste unerreichbar. Er liegt jetzt unsichtbar über dem
+Burger-Symbol und ist erreichbar, beschriftet und zeigt Fokus.
+
+**3. Kein Sprunglink** (WCAG 2.4.1). Auf jeder Seite mussten sich
+Tastatur- und Screenreader-Nutzer durch sieben Menüpunkte arbeiten,
+bevor der Inhalt kam. Jetzt liegt auf jeder Seite als erste Station
+„Direkt zum Inhalt" — unsichtbar, bis er den Fokus bekommt.
+
+**4. Rahmen von Eingabefeldern bei 1,3:1** (WCAG 1.4.11 verlangt
+3:1). Die Felder waren kaum vom Hintergrund zu unterscheiden. Es
+gibt jetzt zwei Linienstärken:
+
+```css
+--line:        rgba(237,231,214,0.12);  /* nur Deko: Trenner, Kartenkanten */
+--line-strong: rgba(237,231,214,0.42);  /* alles Bedienbare — 3,5:1 */
 ```
 
-Mitgedacht:
+## Außerdem
 
-- Das gewählte Format (Postkarte / Poster / Download) und deine
-  Anfrage-Auswahl bleiben beim Blättern erhalten.
-- Links aus der Galerie wie `produkte-bestellen.html#motiv-gartenleben23`
-  schlagen automatisch die richtige Seite auf und heben das Motiv
-  hervor — auch wenn es auf Seite 2 liegt.
-- Die Filter-Knöpfe oben blenden weiterhin auf eine Kategorie ein.
-- Die Einstellung wird **nicht** im Browser gespeichert. Das wäre nach
-  § 25 TDDDG zustimmungspflichtig und hätte ein Cookie-Banner nach
-  sich gezogen — für eine Anzeigeeinstellung nicht den Aufwand wert.
+- **Schriftgrößen unter 12px angehoben.** Es gab Text bei 0,65rem
+  (10,4px) — Lagerhinweise, Bildunterschriften, Preiszeilen.
+  Untergrenze ist jetzt 0,75rem (12px). Kein WCAG-Verstoß, aber
+  deine Zielgruppe ist im Schnitt nicht zwanzig.
+- **Bewegung reduzieren.** Es gab schon Regeln für die Bokeh-Kreise
+  und den Termin-Punkt, aber nicht für Übergänge, das weiche Scrollen
+  und die Hover-Effekte. Jetzt ein umfassender Block für
+  `prefers-reduced-motion` (WCAG 2.3.3) — relevant für Menschen, die
+  auf Bewegung mit Schwindel oder Migräne reagieren.
+- **Menü als solches benannt** (`aria-label="Hauptmenü"`), Burger-
+  Symbol vor Screenreadern verborgen, damit es nicht doppelt
+  vorgelesen wird.
 
----
+## Was ich nicht behauptet habe
 
-## 3. Vorschaubild auf jeder Unterseite
+Die Seite erfüllt jetzt die **prüfbaren** Kriterien von WCAG 2.1 AA,
+soweit sich das maschinell und durch Codeprüfung feststellen lässt.
+Eine vollständige Konformitätserklärung ist etwas anderes — dafür
+bräuchte es einen Test mit echten Screenreadern (NVDA, VoiceOver)
+und Menschen, die sie täglich benutzen. Für einen Kleinbetrieb ohne
+gesetzliche Verpflichtung ist das üblicherweise nicht nötig.
 
-Alle 14 Seiten haben jetzt den vollständigen Satz `og:`- und
-`twitter:`-Angaben, jeweils mit einem zur Seite passenden Motiv.
-Wirkt in WhatsApp, Signal, Facebook, LinkedIn, Mastodon, Discord und
-Instagram-DMs.
-
-Dazu kam auf jeder Seite: `canonical`, `robots`, `author`, `geo`-
-Angaben, Favicon und Apple-Touch-Icon.
-
-**Empfehlung für später:** eigene Vorschaubilder in **1200 × 630 px**
-anlegen (z. B. `bilder/vorschau/start.jpg`) und die `og:image`-Zeilen
-darauf zeigen lassen. Aktuell stehen dort echte Galeriefotos — die
-funktionieren, werden von manchen Diensten aber beschnitten, weil das
-Seitenverhältnis nicht passt. Mit Logo drauf wirkt es außerdem
-deutlich mehr nach Marke.
-
----
-
-## 4. SEO
-
-**Titel und Beschreibungen** pro Seite neu geschrieben. Vorher stand
-auf allen vier Galerieseiten praktisch dasselbe („Vollständige
-Galerie: Gartenleben – Naturfotografie von BG Naturfotografie“) — das
-konkurriert bei Google gegeneinander. Jetzt mit konkreten Arten und
-Ortsbezug, z. B. „Gartenleben — Rotkehlchen, Meisen & Co.“
-
-**Strukturierte Daten (JSON-LD)** ergänzt:
-
-- Startseite: Betrieb mit Anschrift, Einzugsgebiet, Preisspanne und
-  allen Profilen (Instagram, Displate, Spreadshirt, Artheroes) sowie
-  du als Person mit NABU-Zugehörigkeit
-- Shop: FAQ-Block aus deinen fünf Info-Klappen — Chance auf
-  ausklappbare Antworten direkt im Google-Treffer
-- Galerieseiten: `ImageGallery` plus Brotkrumen-Pfad
-
-**`robots.txt` und `sitemap.xml`** neu. Beides bitte einmal in der
-[Google Search Console](https://search.google.com/search-console)
-einreichen, sonst dauert die Aufnahme unnötig lange. Wenn du dort
-noch kein Konto hast: das ist der wichtigste einzelne Schritt aus
-dieser ganzen Liste.
-
-**`sitemap.xml` pflegen:** bei jeder neuen Seite einen `<url>`-Block
-kopieren und `lastmod` aufs aktuelle Datum setzen.
+**Zur Rechtslage:** Das Barrierefreiheitsstärkungsgesetz (BFSG) gilt
+seit 28.06.2025 für Dienstleistungen im elektronischen
+Geschäftsverkehr. **Kleinstunternehmen sind ausgenommen** — unter
+10 Beschäftigten und unter 2 Mio. € Jahresumsatz. Das trifft auf dich
+zu. Du machst das also freiwillig, was ich gut finde: Es sind
+mehrheitlich Menschen mit eingeschränktem Sehvermögen, die sich für
+Vogelstimmen und Naturbeobachtung begeistern.
 
 ---
 
-## 5. Einstiege für deine vier Besuchergruppen
+# Teil B — Schriften selbst hosten
 
-**Startseite**, neuer Bereich „Womit möchtest du anfangen?“ direkt
-unter dem Hero — vier Karten:
+## Kurz: ja, das war die richtige Entscheidung
 
-1. Postkarte in der Hand → Geschichten
-2. Einfach schauen → Galerie
-3. Etwas mitnehmen → Shop
-4. Markt organisieren → Veranstalter-Seite
+Google Fonts war der einzige Punkt auf deiner Seite, der
+datenschutzrechtlich wirklich wackelte. Beim Laden ging die
+IP-Adresse jedes Besuchers an Google — ohne Einwilligung. Das LG
+München hat dafür 2022 Schadensersatz zugesprochen
+(Az. 3 O 17493/20), und es gibt seither Abmahnwellen genau in
+diesem Punkt. Für eine Seite mit Impressum und Gewerbe ist das
+vermeidbares Risiko.
 
-**`geschichten.html`** hat oben einen hervorgehobenen Kasten
-bekommen: „Gerade eine Postkarte gescannt?“ — damit klar ist, dass
-man richtig gelandet ist, plus Weiterleitung zu Shop, Galerie und
-Karte.
+## Erledigt, du musst nichts herunterladen
 
-**`fuer-veranstalter.html`** ist neu: Sortiment, Motive, Standgröße
-(3 × 3 m Pavillon), Ausstattung inklusive „kein Stromanschluss nötig“,
-Zahlungswege und Herkunft als Kacheln; darunter fünf Punkte, warum
-der Stand auf einen Kunsthandwerkermarkt passt, und ein
-Anfrage-Button, der direkt den Chip „Marktanfrage“ vorwählt.
+Ich habe die Schriften direkt aus dem offiziellen Google-Fonts-
+Repository geholt, aufbereitet und liegen im Ordner `schriften/`:
 
-> **Bitte einmal gegenlesen:** Ich habe Standgröße 3 × 3 m,
-> „kein Strom nötig“, „Tischstand ab 2 m Front möglich“ und die
-> Zahlungswege (bar + PayPal) aus deinem bisherigen Aufbau
-> abgeleitet. Wenn davon etwas nicht stimmt, steht es auf einer
-> Seite, die Veranstalter lesen — also kurz prüfen.
+| Datei | Größe |
+|---|---|
+| `worksans-var.woff2` | 86 KB |
+| `fraunces-var.woff2` | 76 KB |
+| `fraunces-italic-var.woff2` | 76 KB |
+| `jetbrainsmono-var.woff2` | 42 KB |
+| **zusammen** | **288 KB** |
 
-Die Seite ist von Startseite, Termine-Kachel und Fußzeile verlinkt.
+**Lizenz:** Alle drei stehen unter der SIL Open Font License 1.1 —
+selbst hosten und mitliefern ist ausdrücklich erlaubt. `OFL.txt`
+liegt im Ordner und muss dort bleiben. In `HERKUNFT.md` steht, woher
+jede Datei stammt.
 
----
+**Was ich damit gemacht habe:**
 
-## 6. Gefundene Fehler, die ich mitkorrigiert habe
+- **Variable Schriften.** Eine Datei deckt alle Strichstärken von
+  100 bis 900 ab — deshalb vier Dateien statt zehn. Fraunces behält
+  zusätzlich die Achse für optische Größe, damit deine großen
+  Überschriften feiner gesetzt werden.
+- **Auf die gebrauchten Zeichen eingedampft:** Deutsch mit Umlauten
+  und ß, osteuropäische Zeichen für Namen, typografische
+  Anführungszeichen, €, ×, Pfeile. Kein Kyrillisch, kein Griechisch,
+  kein Vietnamesisch. Das drückte 1,3 MB auf 288 KB.
+- **`font-display:swap`** — der Text ist sofort lesbar und wird
+  nachträglich ausgetauscht, statt dass die Seite kurz leer bleibt.
+- **Vorladen** der zwei wichtigsten Schriften in jeder Seite.
 
-**Falsche alt-Texte in `galerie-daten.js`** — der alt-Text ist das,
-was Google in der Bildersuche liest und was Screenreader vorlesen.
-Vier davon beschrieben schlicht das falsche Tier:
+**Nebenwirkung:** Die Seite lädt jetzt spürbar schneller. Vorher
+brauchte es zwei zusätzliche Serververbindungen (`fonts.googleapis.com`
+und `fonts.gstatic.com`), bevor überhaupt eine Schrift angefordert
+wurde. Das fällt weg.
 
-| ID | stand da | ist aber |
-|---|---|---|
-| `gartenleben3` | „Buntspecht am Stamm“ | Blaumeise |
-| `gartenleben4` | „Gimpel im Raureif“ | Blaumeise |
-| `gartenleben10` | „Amsel im Frühling“ | Sumpfmeise |
-| `gartenleben11` + `12` | „Schwanzmeise auf einem Zweig“ | Tagpfauenauge |
+**Eine kleine Einschränkung:** Das ★ (im Shop bei „vorrätig") ist in
+keiner der drei Schriften enthalten — das war bei Google genauso.
+Der Browser nimmt dafür automatisch eine Systemschrift. Sieht
+unverändert aus.
 
-Dazu: `reduktion6` hieß „Blsshuhn“ (Tippfehler), und die beiden
-Buntspecht-Motive `waldleben6` und `waldleben7` trugen exakt
-denselben Namen *und* denselben alt-Text — im Shop waren sie
-dadurch nicht auseinanderzuhalten. `waldleben7` heißt jetzt
-„Buntspecht · Schneetreiben“. Insgesamt 19 alt-Texte überarbeitet.
+## Datenschutzerklärung angepasst
 
-**Fehlendes `</div>`** in `galerie-teichleben.html`,
-`galerie-waldleben.html` und `galerie-reduktion.html`. Nur
-`galerie-gartenleben.html` war korrekt — daran habe ich mich
-orientiert.
+Der Abschnitt „Google Fonts" ist ersetzt durch „Schriftarten (lokal
+eingebunden)" mit der ausdrücklichen Feststellung, dass keine
+Verbindung zu Dritten stattfindet.
 
-**Doppeltes Foto auf der Startseite:** die dritte Waldleben-Karte
-zeigte dasselbe Bild wie die erste (`waldleben-01.jpg`), obwohl die
-Bildunterschrift „in sich ruhend“ lautete. Zeigt jetzt
-`bilder/waldleben/sleepy_squirrel.jpg`.
-
-**Zwei `<h1>` in `datenschutz.html`** — eines entfernt.
-
-**Leere `src=""`** in den Lightbox-Platzhaltern: manche Browser
-fordern damit die Seite selbst noch einmal an. Ersetzt durch einen
-1×1-Platzhalter.
-
-**Bildschutz-Script** stand auf mehreren Seiten zwischen `</head>`
-und `<body>` — dort gehört kein Inhalt hin. In den `<head>` verschoben.
-
-**`loading="lazy"`** für alle Bilder unterhalb des sichtbaren
-Bereichs auf der Startseite.
+Außerdem ergänzt: die **freiwillige Lieferanschrift** im
+Anfrageformular. Das musste rein — es stand dort bisher wörtlich,
+dass keine Anschrift abgefragt wird, und das stimmte nach der
+Formularänderung nicht mehr.
 
 ---
 
-## 7. Drei Dinge, die ich bewusst nicht entschieden habe
+# Teil C — alles aus der ersten Lieferung
 
-**`geschichte.html` steht weiter auf `noindex`.** Die Texte kommen
-per JavaScript aus dem Google Sheet, und die Adressen laufen über
-`?id=…`. Beides macht die Seiten für Google unzuverlässig, und
-Duplikate wären wahrscheinlich. Deine QR-Besucher landen ohnehin
-direkt dort — für die ändert das nichts. Wenn du es trotzdem
-umstellen willst: die Zeile
-`<meta name="robots" content="noindex, follow">` auf
-`index, follow` ändern. Dann sollte `geschichte.js` zusätzlich einen
-`canonical` je Motiv setzen, sonst sieht Google 46 Adressen mit
-demselben Grundgerüst.
+## Shop — Anfrageformular
 
-**Google Fonts lädt weiterhin direkt von Google.** Das ist der
-datenschutzrechtlich wackligste Punkt der Seite (LG München,
-Az. 3 O 17493/20) und kostet zusätzlich Ladezeit. Die saubere Lösung
-ist Selbsthosten: Schriftdateien ins Repo, `@font-face` in
-`styles.css`, die beiden `preconnect`-Zeilen und den
-`fonts.googleapis.com`-Link raus. Das betrifft alle Seiten
-gleichzeitig — sag Bescheid, wenn ich das machen soll.
+Optionale Lieferadresse (eingeklappt, vier Felder), alle Pflichtfelder
+mit Sternchen, `* Pflichtangaben` oben und unten, eigene deutsche
+Fehlermeldungen unter jedem Feld plus Sammelmeldung, Datenschutz-Haken.
 
-**Keine `Product`-Auszeichnung im JSON-LD.** Google erwartet bei
-`Product` mit `Offer` einen echten Kaufweg. Dein Shop ist ein
-Anfrageformular — eine Produktauszeichnung wäre hier eher ein Risiko
-für eine manuelle Abstrafung als ein Gewinn. Sobald ein echter
-Checkout steht (Shopify), lohnt sich das.
+**Datenschutz-Haken entfernen:** den `<div class="feld-check" …>`-Block
+löschen, die Prüfung überspringt ihn dann automatisch.
+
+## Shop — Blättern pro Kategorie
+
+Vier eigene Blöcke statt einer Wand aus 46 Motiven. Je Block:
+Motivzahl, „Motiv 1–20 von 24", Auswahlmenü `10 / 20 / 40 / alle`,
+eigene Seiten-Navigation. Voreinstellung 20.
+
+Einstellen ganz oben im Script von `produkte-bestellen.html`:
+
+```js
+var STANDARD_PRO_SEITE = 20;
+var PRO_SEITE_OPTIONEN = [10, 20, 40, 'alle'];
+```
+
+Format und Auswahl überleben das Blättern; Links aus der Galerie
+schlagen die richtige Seite auf.
+
+## Vorschaubild & SEO
+
+Vollständiger `og:`/`twitter:`-Satz auf allen Seiten, eigene Titel
+und Beschreibungen, JSON-LD (Betrieb, Person, FAQ, ImageGallery,
+Brotkrumen), `robots.txt`, `sitemap.xml`, `404.html`.
+
+## Neue Seiten
+
+`fuer-veranstalter.html` (dein Portfolio als Webseite),
+Einstiegs-Bereich auf der Startseite, „Postkarte gescannt?"-Kasten
+auf `geschichten.html`.
+
+## Mitkorrigierte Fehler
+
+19 alt-Texte in `galerie-daten.js` — vier beschrieben die falsche
+Art (`gartenleben3`/`4` als Buntspecht bzw. Gimpel statt Blaumeise,
+`gartenleben10` als Amsel statt Sumpfmeise, beide Tagpfauenaugen als
+Schwanzmeise). Dazu „Blsshuhn"-Tippfehler, zwei namensgleiche
+Buntspecht-Motive, fehlende `</div>` in drei Galerieseiten, doppeltes
+Foto auf der Startseite, zwei `<h1>` in `datenschutz.html`, leere
+`src=""` in Lightbox-Platzhaltern.
 
 ---
 
-## Nach dem Hochladen
+# Nach dem Hochladen
 
-1. **Search Console:** `sitemap.xml` einreichen und die Startseite
-   einmal manuell indexieren lassen.
-2. **Vorschaubild testen:** Startseiten-Link an dich selbst per
-   WhatsApp schicken. Kommt das alte Bild, hilft der
-   [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
-   zum Leeren des Zwischenspeichers.
-3. **Shop durchklicken:** Gartenleben auf Seite 2 blättern, „alle“
-   wählen, ein Motiv zur Anfrage hinzufügen, blättern, prüfen ob es
-   noch drin ist.
-4. **Formular einmal echt abschicken**, damit du siehst, wie die
-   Adressfelder in der Formspree-Mail ankommen.
-5. **`fuer-veranstalter.html` gegenlesen** (siehe Kasten oben).
+1. **Ordner `schriften/` mit hochladen.** Fehlt er, greifen
+   Systemschriften — die Seite bleibt lesbar, sieht aber anders aus.
+2. **Einmal mit der Tabulatortaste durch die Startseite gehen.** Du
+   solltest zuerst „Direkt zum Inhalt" sehen und danach bei jedem
+   Element einen hellen Rahmen. Das ist der beste Selbsttest.
+3. **Search Console:** `sitemap.xml` einreichen.
+4. **Vorschaubild testen:** Startseiten-Link per WhatsApp an dich
+   selbst.
+5. **Shop durchklicken:** Gartenleben Seite 2, „alle", Motiv zur
+   Anfrage, blättern, prüfen ob es noch drin ist.
+6. **`fuer-veranstalter.html` gegenlesen** — Standgröße 3 × 3 m,
+   „kein Strom nötig", Zahlung bar + PayPal habe ich abgeleitet,
+   nicht von dir bekommen.
+
+# Offen geblieben
+
+**`geschichte.html` steht weiter auf `noindex`.** Texte kommen per
+JavaScript aus dem Google Sheet, Adressen laufen über `?id=`. Für
+deine QR-Besucher ändert das nichts. Umstellen wäre eine Zeile, dann
+sollte `geschichte.js` aber einen `canonical` je Motiv setzen.
+
+**Keine `Product`-Auszeichnung im JSON-LD.** Google erwartet dabei
+einen echten Kaufweg; dein Shop ist ein Anfrageformular. Sobald
+Shopify steht, lohnt es sich.

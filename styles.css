@@ -1,3 +1,55 @@
+/* ============================================================
+   SCHRIFTEN — selbst gehostet
+   ============================================================
+   Liegen als .woff2 im Ordner "schriften/". Damit geht keine
+   Anfrage mehr an Google, sobald jemand die Seite öffnet — die
+   IP-Adresse der Besucher verlässt den Server nicht mehr.
+
+   Alle drei Schriften stehen unter der SIL Open Font License
+   (siehe schriften/OFL.txt). Selbst hosten und mitliefern ist
+   ausdrücklich erlaubt.
+
+   Es sind "variable" Schriften: eine Datei deckt alle Strichstärken
+   von 100 bis 900 ab. Deshalb nur vier Dateien statt zehn.
+
+   font-display:swap = der Text ist sofort in einer Systemschrift
+   lesbar und wird nachträglich ausgetauscht. Wichtig, damit die
+   Seite bei langsamer Verbindung nicht kurz leer bleibt.
+   ============================================================ */
+
+@font-face{
+  font-family:'Fraunces';
+  src:url('schriften/fraunces-var.woff2') format('woff2-variations'),
+      url('schriften/fraunces-var.woff2') format('woff2');
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Fraunces';
+  src:url('schriften/fraunces-italic-var.woff2') format('woff2-variations'),
+      url('schriften/fraunces-italic-var.woff2') format('woff2');
+  font-weight:100 900;
+  font-style:italic;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Work Sans';
+  src:url('schriften/worksans-var.woff2') format('woff2-variations'),
+      url('schriften/worksans-var.woff2') format('woff2');
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'JetBrains Mono';
+  src:url('schriften/jetbrainsmono-var.woff2') format('woff2-variations'),
+      url('schriften/jetbrainsmono-var.woff2') format('woff2');
+  font-weight:100 800;
+  font-style:normal;
+  font-display:swap;
+}
+
   :root{
     /* ---- Farb-Token: gegründet auf Waldlicht & Eichhörnchen-Fell ---- */
     --bg-deep:    #11140F;   /* Schattenmoos – fast schwarzes Waldgrün */
@@ -6,9 +58,21 @@
     --accent:     #C97C3D;   /* Eichhorn-Rost – warmes Rotbraun */
     --accent-soft:#E3A56B;
     --text-light: #EDE7D6;   /* Raureif – warmes Off-White */
-    --text-muted: #93A085;   /* Moosgrün – gedämpfter Fließtext/Captions */
+    --text-muted: #A5B396;   /* Moosgrün – gedämpfter Fließtext/Captions
+                                (aufgehellt: 6,7:1 statt vorher 5,4:1) */
     --frost:      #9FB8C9;   /* Frostblau – Winter-Akzent, sparsam */
-    --line:       rgba(237,231,214,0.12);
+
+    /* Zwei Linienstärken statt einer:
+       --line        nur für Deko (Trenner, Kartenkanten)
+       --line-strong für alles, was man bedienen kann — Eingabefelder,
+                     Knopfrahmen, Auswahlmenüs. WCAG 1.4.11 verlangt
+                     dort 3:1, die alten 12 % lagen bei 1,3:1. */
+    --line:        rgba(237,231,214,0.12);
+    --line-strong: rgba(237,231,214,0.42);
+
+    /* Fokusrahmen für Tastaturbedienung. Sitzt mit Abstand außerhalb
+       des Elements, damit er auch auf gefüllten Knöpfen sichtbar ist. */
+    --fokus:      #FFD9A8;
     --radius:     3px;
     --gap:        1.5rem;
     --maxw:       1180px;
@@ -27,6 +91,7 @@
   }
   h1,h2,h3{
     font-family:'Fraunces', Georgia, serif;
+    font-optical-sizing:auto;   /* nutzt die opsz-Achse der Schrift */
     font-weight:500;
     margin:0 0 .4em;
     letter-spacing:.2px;
@@ -57,7 +122,7 @@
   }
   .btn-fill{background:var(--accent); color:var(--bg-deep);}
   .btn-fill:hover{background:var(--accent-soft); transform:translateY(-2px); color:var(--bg-deep);}
-  .btn-outline{color:var(--text-light); border-color:var(--line);}
+  .btn-outline{color:var(--text-light); border-color:var(--line-strong);}
   .btn-outline:hover{border-color:var(--accent); color:var(--accent-soft);}
 
   /* ============ NAV ============ */
@@ -165,7 +230,7 @@
 
   .scroll-cue{
     position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
-    font-family:'JetBrains Mono', monospace; font-size:.7rem;
+    font-family:'JetBrains Mono', monospace; font-size:.75rem;
     color:var(--text-muted); letter-spacing:.15em; text-transform:uppercase;
     display:flex; flex-direction:column; align-items:center; gap:.5em;
   }
@@ -245,7 +310,7 @@
   bottom:0;
   padding:.8rem 1rem;
   font-family:'JetBrains Mono', monospace;
-  font-size:.7rem;
+  font-size:.75rem;
   color:var(--text-light);
   background:none;
   z-index:2;
@@ -437,7 +502,7 @@
   .m-item figcaption{
     padding:.75rem .9rem;
     font-family:'JetBrains Mono', monospace;
-    font-size:.7rem;
+    font-size:.75rem;
     letter-spacing:.02em;
     color:var(--text-muted);
   }
@@ -563,7 +628,7 @@
   }
   .karte-marker-label{
     font-family:'JetBrains Mono', monospace;
-    font-size:.66rem;
+    font-size:.75rem;
     color:var(--bg-deep);
     text-align:center;
     padding:.3em 0 0;
@@ -606,7 +671,7 @@
   .leaflet-control-attribution{
     background:rgba(255,255,255,0.7) !important;
     color:#666 !important;
-    font-size:.65rem !important;
+    font-size:.75rem !important;
   }
   .leaflet-control-attribution a{color:#555 !important;}
 
@@ -638,7 +703,7 @@
   }
   .qr-karte-id{
     font-family:'JetBrains Mono', monospace;
-    font-size:.68rem;
+    font-size:.75rem;
     color:var(--text-muted);
     margin:.2em 0 .8em;
   }
@@ -797,12 +862,12 @@
   @media (max-width:780px){ .contact-grid{grid-template-columns:1fr;} }
   form{display:flex; flex-direction:column; gap:1rem;}
   label{font-size:.82rem; color:var(--text-muted); margin-bottom:.3rem; display:block;}
-  input, textarea{
-    width:100%; background:var(--bg-panel); border:1px solid var(--line);
+  input, textarea, select{
+    width:100%; background:var(--bg-panel); border:1px solid var(--line-strong);
     border-radius:var(--radius); color:var(--text-light);
     padding:.75em .9em; font-family:'Work Sans', sans-serif; font-size:.95rem;
   }
-  input:focus, textarea:focus{outline:2px solid var(--accent); border-color:var(--accent);}
+  input:focus, textarea:focus, select:focus{border-color:var(--accent);}
   textarea{min-height:120px; resize:vertical;}
   .socials{display:flex; gap:1.4rem; margin-top:1.2rem; font-size:.9rem;}
 
@@ -871,7 +936,7 @@
     position:absolute; left:0; right:0; bottom:0;
     padding:.85rem .95rem;
     font-family:'JetBrains Mono', monospace;
-    font-size:.66rem;
+    font-size:.75rem;
     letter-spacing:.06em;
     text-transform:uppercase;
     color:rgba(237,231,214,.82);
@@ -981,7 +1046,7 @@
     align-items:center;
     gap:.5rem;
     font-family:'JetBrains Mono', monospace;
-    font-size:.7rem;
+    font-size:.75rem;
     letter-spacing:.08em;
     text-transform:uppercase;
     color:var(--accent-soft);
@@ -1160,4 +1225,91 @@
   .termin-note{ font-size:.84rem; color:var(--text-muted); margin:1rem 0 0; }
   @media (max-width:520px){
     .termin-liste li{ flex-direction:column; gap:.35rem; }
+  }
+
+  /* ============================================================
+     BARRIEREFREIHEIT
+     ============================================================ */
+
+  /* ---- Sprunglink: erste Taste auf jeder Seite ----
+     Wer mit der Tastatur navigiert, musste sich bisher auf jeder
+     Seite durch sieben Menüpunkte klicken, bevor der Inhalt kam.
+     Der Link ist unsichtbar, bis er den Fokus bekommt. */
+  .sprunglink{
+    position:absolute; left:-9999px; top:0; z-index:200;
+    background:var(--accent); color:var(--bg-deep);
+    padding:.8em 1.4em; border-radius:0 0 var(--radius) 0;
+    font-family:'Work Sans', sans-serif; font-weight:500; font-size:.95rem;
+  }
+  .sprunglink:focus{ left:0; color:var(--bg-deep); }
+
+  /* ---- Sichtbarer Fokusrahmen für alles Bedienbare ----
+     :focus-visible statt :focus — dadurch erscheint der Rahmen bei
+     Tastaturbedienung, aber nicht bei jedem Mausklick.
+     Der doppelte Rahmen (heller Umriss + dunkler Schatten) sorgt
+     dafür, dass er sowohl auf dunklem Grund als auch auf den
+     gefüllten orangen Knöpfen deutlich sichtbar bleibt. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  summary:focus-visible,
+  details:focus-visible,
+  [tabindex]:focus-visible{
+    outline:3px solid var(--fokus);
+    outline-offset:2px;
+    box-shadow:0 0 0 5px var(--bg-deep);
+    border-radius:2px;
+  }
+
+  /* Ältere Browser ohne :focus-visible bekommen wenigstens :focus */
+  @supports not selector(:focus-visible){
+    a:focus, button:focus, input:focus, textarea:focus,
+    select:focus, summary:focus{
+      outline:3px solid var(--fokus); outline-offset:2px;
+    }
+  }
+
+  /* ---- Menüknopf mit der Tastatur bedienbar ----
+     Das Kästchen stand auf display:none und war damit für die
+     Tabulatortaste unerreichbar — das Menü ließ sich auf dem Handy
+     ohne Maus gar nicht öffnen. Jetzt liegt es unsichtbar genau
+     über dem Burger-Symbol. */
+  .nav-toggle{
+    display:block;
+    position:absolute; top:20px; right:1.5rem;
+    width:26px; height:24px;
+    margin:0; padding:0; opacity:0; cursor:pointer; z-index:3;
+  }
+  @media (min-width:781px){
+    .nav-toggle{ display:none; }
+  }
+  .nav-toggle:focus-visible + .nav-burger{
+    outline:3px solid var(--fokus); outline-offset:4px;
+  }
+  .nav-burger span{ transition:transform .2s, opacity .2s; }
+
+  /* ---- Weniger Bewegung, wenn das System es verlangt ----
+     Gilt für Menschen, die auf Bewegung mit Schwindel oder
+     Migräne reagieren (WCAG 2.3.3). */
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+      scroll-behavior:auto !important;
+    }
+    .card:hover, .einstieg-karte:hover, .geschichten-card:hover,
+    .pick-card:hover, .m-item img:hover, .btn-fill:hover{
+      transform:none !important;
+    }
+  }
+
+  /* ---- Nur für Screenreader ---- */
+  .nur-vorlesen{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0 0 0 0); white-space:nowrap; border:0;
   }

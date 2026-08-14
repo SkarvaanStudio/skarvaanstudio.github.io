@@ -43,9 +43,12 @@
 <meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
 <meta name="twitter:image:alt" content="Eichhörnchen schaut frontal in die Kamera — Naturfotografie von BG Naturfotografie">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Schriften liegen selbst im Projekt (Ordner "schriften/").
+     Keine Verbindung zu Google mehr — siehe styles.css ganz oben.
+     Die zwei wichtigsten werden vorgeladen, damit der Text beim
+     Aufbau nicht kurz die Schrift wechselt. -->
+<link rel="preload" href="schriften/worksans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="schriften/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 <script>
@@ -123,13 +126,17 @@
 </head>
 <body>
 
+<!-- Sprunglink: erste Station für Tastatur- und Screenreader-Nutzung.
+     Unsichtbar, bis er den Fokus bekommt. -->
+<a class="sprunglink" href="#inhalt">Direkt zum Inhalt</a>
+
 <!-- ============ NAVIGATION ============ -->
-<nav class="nav">
+<nav class="nav" aria-label="Hauptmenü">
   <div class="wrap">
     <a class="brand" href="#top"><img src="bilder/logo.png" alt="BG Naturfotografie Logo" class="brand-logo">
       <b>BG</b> Naturfotografie</a>
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen und schließen">
+    <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <ul class="nav-links">
       <li><a href="#galerie">Galerie</a></li>
       <li><a href="karte.html">Karte</a></li>
@@ -143,6 +150,7 @@
 </nav>
 
 <!-- ============ HERO ============ -->
+<div id="inhalt" tabindex="-1"></div>
 <header class="hero" id="top">
   <span class="bokeh b1"></span>
   <span class="bokeh b2"></span>
