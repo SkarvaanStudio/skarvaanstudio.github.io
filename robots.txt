@@ -1,0 +1,12 @@
+# robots.txt — BG Naturfotografie
+# Sagt Suchmaschinen, was sie ansehen dürfen und wo die Seitenkarte liegt.
+
+User-agent: *
+Allow: /
+
+# Interne Werkzeuge und Entwürfe gehören nicht in die Google-Suche
+Disallow: /qr-werkzeug.html
+Disallow: /gebiet-zeichnen.html
+Disallow: /persona-startseiten-vorschau.html
+
+Sitemap: https://bg-naturfotografie.de/sitemap.xml

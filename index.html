@@ -3,41 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BG Naturfotografie — Wildes Leben vor der Haustür</title>
-<meta name="description" content="Naturfotografie aus Halstenbek: heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg. Ohne Anfüttern, ohne Locken. Postkarten, Poster und Sticker direkt beim Fotografen.">
+
+<!-- ============================================================
+     SEO — Titel, Beschreibung, Kanonische Adresse
+     Der Titel steht im Google-Treffer und im Browser-Tab,
+     die description darunter als grauer Fließtext.
+     ============================================================ -->
+<title>Naturfotografie aus Halstenbek — BG Naturfotografie</title>
+<meta name="description" content="Heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg — fotografiert ohne Anfüttern. Postkarten, Poster &amp; Sticker direkt beim Fotografen.">
 <link rel="canonical" href="https://bg-naturfotografie.de/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Benedict Gertz">
+<meta name="geo.region" content="DE-SH">
+<meta name="geo.placename" content="Halstenbek">
 <meta name="theme-color" content="#11140F">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
-<!-- Vorschau beim Teilen (WhatsApp, Instagram, Facebook, Signal ...) -->
+<!-- ============================================================
+     VORSCHAUBILD BEIM TEILEN
+     Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
+     Instagram-DMs, Discord … — also überall dort, wo jemand
+     einen Link von dir weiterschickt. Steht bewusst auf JEDER
+     Unterseite, nicht nur auf der Startseite.
+     Bild bitte immer als volle https-Adresse angeben.
+     ============================================================ -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BG Naturfotografie">
 <meta property="og:locale" content="de_DE">
 <meta property="og:title" content="BG Naturfotografie — Wildes Leben vor der Haustür">
-<meta property="og:description" content="Naturfotografie aus Halstenbek: heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg. Ohne Anfüttern, ohne Locken. Postkarten, Poster und Sticker direkt beim Fotografen.">
+<meta property="og:description" content="Heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg — fotografiert ohne Anfüttern. Postkarten, Poster &amp; Sticker direkt beim Fotografen.">
 <meta property="og:url" content="https://bg-naturfotografie.de/">
 <meta property="og:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta property="og:image:secure_url" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta property="og:image:alt" content="Eichhörnchen schaut frontal in die Kamera — Naturfotografie von BG Naturfotografie">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BG Naturfotografie — Wildes Leben vor der Haustür">
-<meta name="twitter:description" content="Naturfotografie aus Halstenbek: heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg. Ohne Anfüttern, ohne Locken. Postkarten, Poster und Sticker direkt beim Fotografen.">
+<meta name="twitter:description" content="Heimische Vögel, Eichhörnchen und stille Landschaften aus Schleswig-Holstein und Hamburg — fotografiert ohne Anfüttern. Postkarten, Poster &amp; Sticker direkt beim Fotografen.">
 <meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta name="twitter:image:alt" content="Eichhörnchen schaut frontal in die Kamera — Naturfotografie von BG Naturfotografie">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="styles.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
-</head>
 <script>
-  document.addEventListener('contextmenu', function(e) {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-    }
+  /* Rechtsklick auf Bilder unterbinden (kein echter Kopierschutz,
+     aber eine kleine Hürde). */
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.tagName === 'IMG') { e.preventDefault(); }
   });
 </script>
+
+<!-- ============ STRUKTURIERTE DATEN (Google versteht damit,
+     wer hier sitzt, was verkauft wird und wo) ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://bg-naturfotografie.de/#betrieb",
+  "name": "BG Naturfotografie",
+  "alternateName": "Benedict Gertz \u2014 BG Naturfotografie",
+  "description": "Naturfotografie aus Halstenbek: heimische V\u00f6gel, Eichh\u00f6rnchen und ruhige norddeutsche Landschaften. Postkarten, A4-Poster, Sticker und Lesezeichen \u2014 alles selbst gestaltet.",
+  "url": "https://bg-naturfotografie.de/",
+  "logo": "https://bg-naturfotografie.de/bilder/logo.png",
+  "image": "https://bg-naturfotografie.de/bilder/waldleben-01.jpg",
+  "founder": { "@type": "Person", "name": "Benedict Gertz" },
+  "priceRange": "\u20ac",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Halstenbek",
+    "addressRegion": "Schleswig-Holstein",
+    "postalCode": "25469",
+    "addressCountry": "DE"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Kreis Pinneberg" },
+    { "@type": "AdministrativeArea", "name": "Schleswig-Holstein" },
+    { "@type": "City", "name": "Hamburg" }
+  ],
+  "knowsAbout": ["Naturfotografie", "Vogelfotografie", "Wildtierfotografie", "Heimische V\u00f6gel", "Norddeutschland"],
+  "sameAs": [
+    "https://www.instagram.com/bg.naturfotografie/",
+    "https://displate.com/artist/skarvaan",
+    "https://www.spreadshirt.de/shop/user/skarvaan+naturdesign/",
+    "https://bgnaturfotografie.artheroes.de/de"
+  ],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Postkarte 10 \u00d7 15 cm" }, "price": "2.50", "priceCurrency": "EUR" },
+    { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Poster A4" }, "price": "15.00", "priceCurrency": "EUR" },
+    { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Digitaler Download" }, "price": "4.00", "priceCurrency": "EUR" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://bg-naturfotografie.de/#website",
+  "url": "https://bg-naturfotografie.de/",
+  "name": "BG Naturfotografie",
+  "inLanguage": "de-DE",
+  "publisher": { "@id": "https://bg-naturfotografie.de/#betrieb" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Benedict Gertz",
+  "jobTitle": "Naturfotograf",
+  "worksFor": { "@id": "https://bg-naturfotografie.de/#betrieb" },
+  "homeLocation": { "@type": "Place", "name": "Halstenbek, Schleswig-Holstein" },
+  "memberOf": { "@type": "Organization", "name": "NABU" },
+  "sameAs": ["https://www.instagram.com/bg.naturfotografie/"]
+}
+</script>
+</head>
 <body>
 
 <!-- ============ NAVIGATION ============ -->
@@ -67,7 +150,7 @@
   <span class="bokeh b4"></span>
   <span class="bokeh b5"></span>
   <div class="wrap hero-inner">
-    <img src="bilder/logo_transparent_orange.png" alt="" class="hero-logo">
+    <img src="bilder/logo_transparent_orange.png" alt="BG Naturfotografie" class="hero-logo" width="160" height="160">
     <span class="eyebrow">Naturfotografie · Schleswig-Holstein · Hamburg</span>
     <h1>Wildes Leben<br><em>vor der Haustür.</em></h1>
     <p class="lead">Heimische Vögel, Eichhörnchen und die Natur. Fotografiert im natürlichen Licht von Garten, Wald und Teich. Natürlich oder kunstvoll interpretiert.</p>
@@ -79,6 +162,80 @@
   </div>
   <span class="scroll-cue">Scroll</span>
 </header>
+
+<!-- ============================================================
+     EINSTIEGE
+     ============================================================
+     Vier Wege in die Seite, je nachdem, wer gerade kommt:
+     – Postkarte in der Hand (QR-Code)
+     – einfach neugierig
+     – will etwas kaufen
+     – Marktveranstalter mit Portfolio in der Hand
+     ============================================================ -->
+<section id="einstiege" style="padding-top:4rem; padding-bottom:1rem;">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Kurz sortiert</span>
+      <h2>Womit möchtest du anfangen?</h2>
+      <p>Vier kurze Wege — such dir den passenden aus.</p>
+    </div>
+
+    <div class="einstieg-grid">
+      <a class="einstieg-karte" href="geschichten.html">
+        <span class="einstieg-nr">01</span>
+        <h3>Du hast eine Postkarte in der Hand</h3>
+        <p>Zu jedem Motiv gibt es den Moment, in dem es entstanden ist — dazu Artinfos zum Tier und den Ort der Aufnahme.</p>
+        <span class="einstieg-link">Geschichte zum Motiv lesen →</span>
+      </a>
+
+      <a class="einstieg-karte" href="#galerie">
+        <span class="einstieg-nr">02</span>
+        <h3>Du willst einfach schauen</h3>
+        <p>Vier Serien aus Norddeutschland: Teichleben, Gartenleben, Waldleben und die reduzierten Silhouetten.</p>
+        <span class="einstieg-link">Zur Galerie →</span>
+      </a>
+
+      <a class="einstieg-karte" href="produkte-bestellen.html">
+        <span class="einstieg-nr">03</span>
+        <h3>Du möchtest etwas mitnehmen</h3>
+        <p>Postkarten ab 1,80 €, A4-Poster, Sticker und Lesezeichen. Motiv wählen, anfragen — ich melde mich mit Preis und Versand.</p>
+        <span class="einstieg-link">Zum Shop →</span>
+      </a>
+
+      <a class="einstieg-karte" href="fuer-veranstalter.html">
+        <span class="einstieg-nr">04</span>
+        <h3>Du organisierst einen Markt</h3>
+        <p>Sortiment, Standmaße, Ausstattung und Ansprechpartner — alle Eckdaten kompakt auf einer Seite.</p>
+        <span class="einstieg-link">Infos für Veranstalter →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .einstieg-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:1.1rem; margin-top:.5rem;
+  }
+  .einstieg-karte{
+    display:flex; flex-direction:column; gap:.45rem;
+    padding:1.4rem 1.3rem 1.2rem;
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); color:var(--text-light);
+    transition:border-color .2s, transform .18s;
+  }
+  .einstieg-karte:hover{ border-color:var(--accent); transform:translateY(-2px); color:var(--text-light); }
+  .einstieg-nr{
+    font-family:'JetBrains Mono', monospace; font-size:.72rem;
+    color:var(--accent-soft); letter-spacing:.1em;
+  }
+  .einstieg-karte h3{ font-size:1.05rem; margin:0; line-height:1.3; }
+  .einstieg-karte p{ font-size:.87rem; color:var(--text-muted); margin:0; flex-grow:1; }
+  .einstieg-link{
+    font-family:'JetBrains Mono', monospace; font-size:.76rem;
+    color:var(--accent-soft); margin-top:.5rem;
+  }
+</style>
 
 <!-- ============ GALERIE ============ -->
 <section id="galerie">
@@ -102,8 +259,8 @@
       <p class="cat-desc">Schwimmend, putzend, schlafend — das Leben am kühlen Gewässer nebenan.</p>
       <div class="grid">
        <div class="card hero"><img src="bilder/teichleben-01.jpg" alt="Entenküken schaut frontal in die Kamera"><span class="tag"><b>Entenküken</b> · Nahaufnahme</span></div>
-       <div class="card side"><img src="bilder/teichleben-02.jpg" alt="Gänseküken schläft auf der Wiese"><span class="tag"><b>Gänseküken</b> · bei Gänseblümchen</span></div>
-       <div class="card side"><img src="bilder/teichleben-03.jpg" alt="Ente breitet die Flügel auf dem Wasser aus"><span class="tag"><b>Stockente</b> · Flügelzauber</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/teichleben-02.jpg" alt="Gänseküken schläft auf der Wiese"><span class="tag"><b>Gänseküken</b> · bei Gänseblümchen</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/teichleben-03.jpg" alt="Ente breitet die Flügel auf dem Wasser aus"><span class="tag"><b>Stockente</b> · Flügelzauber</span></div>
       </div>
       <div class="cat-more">
         <a class="btn btn-outline" href="galerie-teichleben.html">Mehr entdecken</a>
@@ -116,8 +273,8 @@
       <p class="cat-desc">Rotkehlchen, Meisen, Gimpel &amp; Co. im Wechsel der Jahreszeiten.</p>
       <div class="grid">
        <div class="card hero"><img src="bilder/gartenleben-01.jpg" alt="Singdrossel singend im Tannengrün"><span class="tag"><b>Singdrossel</b> · grüner Gesang</span></div>
-       <div class="card side"><img src="bilder/gartenleben-02.jpg" alt="Dorngrasmücke singend im Geäst"><span class="tag"><b>Dorngrasmücke</b> · Frühlingsgezwitscher</span></div>
-       <div class="card side"><img src="bilder/gartenleben-03.jpg" alt="Kohlmeise zwischen grünen Zweigen im Baum"><span class="tag"><b>Kohlmeise</b> · frech versteckt</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/gartenleben-02.jpg" alt="Dorngrasmücke singend im Geäst"><span class="tag"><b>Dorngrasmücke</b> · Frühlingsgezwitscher</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/gartenleben-03.jpg" alt="Kohlmeise zwischen grünen Zweigen im Baum"><span class="tag"><b>Kohlmeise</b> · frech versteckt</span></div>
       </div>
       <div class="cat-more">
         <a class="btn btn-outline" href="galerie-gartenleben.html">Mehr entdecken</a>
@@ -130,8 +287,8 @@
       <p class="cat-desc">Eichhörnchen, Specht &amp; Co. im grünen Lebensraum.</p>
       <div class="grid">
        <div class="card hero"><img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera"><span class="tag"><b>Eichhörnchen</b> · planend</span></div>
-       <div class="card side"><img src="bilder/waldleben-02.jpg" alt="Buntspecht schaut aus einer Baumhöhle"><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
-       <div class="card side"><img src="bilder/waldleben-01.jpg" alt="Eichhörnchen, sitzend und schlafend auf Ast"><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/waldleben-02.jpg" alt="Buntspecht schaut aus einer Baumhöhle"><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
+       <div class="card side"><img src="bilder/waldleben/sleepy_squirrel.jpg" alt="Eichhörnchen sitzt müde und entspannt auf einem Ast" loading="lazy"><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
       </div>
       <div class="cat-more">
         <a class="btn btn-outline" href="galerie-waldleben.html">Mehr entdecken</a>
@@ -158,8 +315,8 @@
       <p class="cat-desc">Echte Naturfotografie, reduziert, neu interpretiert und bewusst anders gesehen. </p>
       <div class="grid">
        <div class="card hero"><img src="bilder/reduktion-01.jpg" alt="Silhouette zweier Stare auf einem Ast. Schwarz vor grauem Hintergrund"><span class="tag"><b>Star-Silhouette</b> · Reduktion und Detail</span></div>
-       <div class="card side"><img src="bilder/reduktion-02.jpg" alt="farbenfrohe Singdrossel auf ausgegrauten Ästen"><span class="tag"><b>Singdrossel</b> · der letzte Apfel</span></div>
-       <div class="card side"><img src="bilder/reduktion-03.jpg" alt="Blässhuhn auf dunklem Wasser mit Spiegelung"><span class="tag"><b>Blässhuhn</b> · dunkle Spiegelung</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/reduktion-02.jpg" alt="farbenfrohe Singdrossel auf ausgegrauten Ästen"><span class="tag"><b>Singdrossel</b> · der letzte Apfel</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/reduktion-03.jpg" alt="Blässhuhn auf dunklem Wasser mit Spiegelung"><span class="tag"><b>Blässhuhn</b> · dunkle Spiegelung</span></div>
       </div>
       <div class="cat-more">
         <a class="btn btn-outline" href="galerie-reduktion.html">Mehr entdecken</a>
@@ -181,21 +338,21 @@
     <div class="product-grid">
       <a href="produkte-bestellen.html#motive" class="product-card" style="display:block; cursor:pointer;">
         <div class="frame">
-          <img src="bilder/postkarten.jpg" alt="Postkarten-Beispiel Entenküken">
+          <img loading="lazy" src="bilder/postkarten.jpg" alt="Postkarten-Beispiel Entenküken">
           <span class="fmt-tag">10 × 15 CM<b>Postkarte</b></span>
         </div>
       </a>
 
       <a href="produkte-bestellen.html#motive" class="product-card" style="display:block; cursor:pointer;">
         <div class="frame">
-          <img src="bilder/prints.jpg" alt="Poster-Beispiel schwarze Katze">
+          <img loading="lazy" src="bilder/prints.jpg" alt="Poster-Beispiel schwarze Katze">
           <span class="fmt-tag">A4<b>Poster</b></span>
         </div>
       </a>
 
       <a href="produkte-bestellen.html#sticker" class="product-card" style="display:block; cursor:pointer;">
         <div class="frame">
-          <img src="bilder/sticker.jpg" alt="Illustrative Sticker als Beispielbild">
+          <img loading="lazy" src="bilder/sticker.jpg" alt="Illustrative Sticker als Beispielbild">
           <span class="fmt-tag">Sticker · Lesezeichen<b>Sticker</b></span>
         </div>
       </a>
@@ -235,7 +392,7 @@
   </div>
 
   <div class="about-pyramid">
-    <img src="bilder/profile.jpg" alt="Benedict Gertz" class="profile-img">
+    <img loading="lazy" src="bilder/profile.jpg" alt="Benedict Gertz" class="profile-img">
     <h3 class="profile-name">Benedict Gertz</h3>
 
     <div class="info-row">
@@ -293,8 +450,11 @@
 
       <div class="interest-card">
         <h3>Markt oder Veranstaltung?</h3>
-        <p>Du organisierst etwas in der Region und suchst einen Naturfotografen vor Ort? Schreib mir gerne — ich melde mich zurück.</p>
-        <a class="btn btn-outline" href="produkte-bestellen.html?anliegen=markt#kontakt-anfrage">Termin anfragen</a>
+        <p>Du organisierst etwas in der Region und suchst einen Naturfotografen vor Ort? Auf der Veranstalter-Seite stehen Sortiment, Standmaße und Ausstattung kompakt zusammen.</p>
+        <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+          <a class="btn btn-fill" href="fuer-veranstalter.html">Infos für Veranstalter</a>
+          <a class="btn btn-outline" href="produkte-bestellen.html?anliegen=markt#kontakt-anfrage">Termin anfragen</a>
+        </div>
       </div>
     </div>
   </div>
@@ -330,8 +490,12 @@
             <label for="nachricht">Nachricht <span aria-hidden="true">*</span></label>
             <textarea id="nachricht" name="nachricht" required></textarea>
           </div>
+          <div style="display:flex; align-items:flex-start; gap:.6rem; margin:1rem 0 0;">
+            <input type="checkbox" id="kontakt-datenschutz" name="Datenschutz" value="gelesen und akzeptiert" required style="width:auto; margin-top:.25rem; flex-shrink:0;">
+            <label for="kontakt-datenschutz" style="font-size:.84rem; color:var(--text-muted); line-height:1.5;">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener" style="color:var(--accent-soft);">Datenschutzerkl&auml;rung</a> gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung meiner Nachricht gespeichert werden. <span aria-hidden="true">*</span></label>
+          </div>
           <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer;">Nachricht senden</button>
-          <span class="response-note"><span class="dot2"></span>Antwort meist innerhalb von 2–3 Tagen · <span aria-hidden="true">*</span> Pflichtfeld</span>
+          <span class="response-note"><span class="dot2"></span>Antwort meist innerhalb von 2–3 Tagen · <span aria-hidden="true">*</span> Pflichtangaben</span>
         </form>
       </div>
     </div>
@@ -341,7 +505,7 @@
 <footer>
   <div class="wrap">
     <span>© 2026 BG Naturfotografie</span>
-    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="karte.html">Karte</a> &middot; <a href="fuer-veranstalter.html">F&uuml;r Veranstalter</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
   </div>
 </footer>
 

@@ -3,26 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop — Postkarten, Poster, Sticker &amp; Merch — BG Naturfotografie</title>
-<meta name="description" content="Postkarten, A4-Poster und Sticker mit heimischen Vögeln und Eichhörnchen. Staffelpreise ab 3 Postkarten. Direkt beim Fotografen aus Halstenbek anfragen.">
+
+<!-- ============================================================
+     SEO — Titel, Beschreibung, Kanonische Adresse
+     Der Titel steht im Google-Treffer und im Browser-Tab,
+     die description darunter als grauer Fließtext.
+     ============================================================ -->
+<title>Postkarten, Poster &amp; Sticker — Shop | BG Naturfotografie</title>
+<meta name="description" content="Postkarten (10 × 15 cm) und A4-Poster mit heimischen Vögeln aus Norddeutschland. Staffelpreise ab 3 Karten, Versand aus Halstenbek — direkt beim Fotografen anfragen.">
 <link rel="canonical" href="https://bg-naturfotografie.de/produkte-bestellen.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Benedict Gertz">
+<meta name="geo.region" content="DE-SH">
+<meta name="geo.placename" content="Halstenbek">
 <meta name="theme-color" content="#11140F">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
-<!-- Vorschau beim Teilen (WhatsApp, Instagram, Facebook, Signal ...) -->
+<!-- ============================================================
+     VORSCHAUBILD BEIM TEILEN
+     Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
+     Instagram-DMs, Discord … — also überall dort, wo jemand
+     einen Link von dir weiterschickt. Steht bewusst auf JEDER
+     Unterseite, nicht nur auf der Startseite.
+     Bild bitte immer als volle https-Adresse angeben.
+     ============================================================ -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BG Naturfotografie">
 <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Shop — Postkarten, Poster & Sticker | BG Naturfotografie">
-<meta property="og:description" content="Postkarten, A4-Poster und Sticker mit heimischen Vögeln und Eichhörnchen. Staffelpreise ab 3 Postkarten. Direkt beim Fotografen aus Halstenbek anfragen.">
+<meta property="og:title" content="Shop — Postkarten, Poster &amp; Sticker | BG Naturfotografie">
+<meta property="og:description" content="Postkarten (10 × 15 cm) und A4-Poster mit heimischen Vögeln aus Norddeutschland. Staffelpreise ab 3 Karten, Versand aus Halstenbek — direkt beim Fotografen anfragen.">
 <meta property="og:url" content="https://bg-naturfotografie.de/produkte-bestellen.html">
-<meta property="og:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta property="og:image" content="https://bg-naturfotografie.de/bilder/postkarten.jpg">
+<meta property="og:image:secure_url" content="https://bg-naturfotografie.de/bilder/postkarten.jpg">
+<meta property="og:image:alt" content="Postkarten mit Naturfotografien von BG Naturfotografie">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Shop — Postkarten, Poster & Sticker | BG Naturfotografie">
-<meta name="twitter:description" content="Postkarten, A4-Poster und Sticker mit heimischen Vögeln und Eichhörnchen. Staffelpreise ab 3 Postkarten. Direkt beim Fotografen aus Halstenbek anfragen.">
-<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta name="twitter:title" content="Shop — Postkarten, Poster &amp; Sticker | BG Naturfotografie">
+<meta name="twitter:description" content="Postkarten (10 × 15 cm) und A4-Poster mit heimischen Vögeln aus Norddeutschland. Staffelpreise ab 3 Karten, Versand aus Halstenbek — direkt beim Fotografen anfragen.">
+<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/postkarten.jpg">
+<meta name="twitter:image:alt" content="Postkarten mit Naturfotografien von BG Naturfotografie">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,6 +188,98 @@
   }
 
   .pick-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:var(--gap); }
+
+  /* ---- Kategorie-Blöcke mit eigener Seiten-Navigation ---- */
+  .kat-block{ margin:0 0 3.4rem; scroll-margin-top:6rem; }
+  .kat-block:last-child{ margin-bottom:0; }
+  .kat-block h3{
+    font-size:1.35rem; margin:0 0 .3rem;
+    display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap;
+  }
+  .kat-anzahl{
+    font-family:'JetBrains Mono', monospace; font-size:.72rem;
+    color:var(--text-muted); letter-spacing:.04em; text-transform:uppercase;
+  }
+  .kat-desc{ color:var(--text-muted); font-size:.9rem; margin:0 0 1rem; max-width:60ch; }
+  .kat-toolbar{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    gap:.8rem; margin:0 0 1.2rem; padding:.6rem .9rem;
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
+    font-family:'JetBrains Mono', monospace; font-size:.76rem; color:var(--text-muted);
+  }
+  .kat-toolbar .treffer{ letter-spacing:.03em; }
+  .pro-seite{ display:flex; align-items:center; gap:.5rem; }
+  .pro-seite select{
+    background:var(--bg-panel); color:var(--text-light);
+    border:1px solid var(--line); border-radius:6px;
+    padding:.3rem .5rem; font-family:inherit; font-size:.76rem; cursor:pointer;
+  }
+  .pro-seite select:hover{ border-color:var(--accent); }
+  .pro-seite select:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .pager{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:.35rem; margin:1.6rem 0 0;
+  }
+  .pager button{
+    min-width:2.3rem; padding:.42rem .6rem;
+    background:transparent; color:var(--text-muted);
+    border:1px solid var(--line); border-radius:6px;
+    font-family:'JetBrains Mono', monospace; font-size:.78rem; cursor:pointer;
+    transition:border-color .18s, color .18s, background .18s;
+  }
+  .pager button:hover:not(:disabled){ border-color:var(--accent); color:var(--accent-soft); }
+  .pager button[aria-current="page"]{
+    border-color:var(--accent); color:var(--accent-soft); background:rgba(201,124,61,0.14);
+  }
+  .pager button:disabled{ opacity:.32; cursor:default; }
+  .pager .luecke{ padding:0 .25rem; color:var(--text-muted); }
+
+  /* ---- Formular: Pflichtangaben & Fehlermeldungen ---- */
+  .pflicht{ color:var(--accent-soft); text-decoration:none; border:0; font-weight:600; }
+  .optional-tag{
+    font-family:'JetBrains Mono', monospace; font-size:.68rem; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--text-muted);
+    border:1px solid var(--line); border-radius:99px; padding:.1rem .5rem; margin-left:.5rem;
+  }
+  .feld-fehler{
+    display:none; margin:.35rem 0 0; font-size:.8rem; color:#e2896f;
+  }
+  .feld-fehler.sichtbar{ display:block; }
+  .hat-fehler input, .hat-fehler textarea{ border-color:#e2896f !important; }
+  .form-pflichthinweis{
+    font-size:.8rem; color:var(--text-muted); margin:.2rem 0 1rem;
+  }
+  .adress-fold{
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-radius:var(--radius); margin:0 0 1.1rem; overflow:hidden;
+  }
+  .adress-fold summary{
+    cursor:pointer; list-style:none; padding:.8rem 1rem;
+    font-size:.88rem; color:var(--text-light);
+    display:flex; align-items:center; gap:.4rem; flex-wrap:wrap;
+  }
+  .adress-fold summary::-webkit-details-marker{ display:none; }
+  .adress-fold summary::before{
+    content:'+'; font-family:'JetBrains Mono', monospace; color:var(--accent-soft);
+  }
+  .adress-fold[open] summary::before{ content:'–'; }
+  .adress-fold .fold-body{ padding:0 1rem 1rem; }
+  .adress-fold .adress-note{ font-size:.8rem; color:var(--text-muted); margin:0 0 .9rem; }
+  .adress-zeile{ display:grid; grid-template-columns:1fr 2fr; gap:.8rem; }
+  @media (max-width:520px){ .adress-zeile{ grid-template-columns:1fr; } }
+  .feld-check{
+    display:flex; align-items:flex-start; gap:.6rem; margin:1.1rem 0 0;
+  }
+  .feld-check input{ width:auto; margin-top:.25rem; flex-shrink:0; }
+  .feld-check label{ font-size:.84rem; color:var(--text-muted); line-height:1.5; }
+  .feld-check label a{ color:var(--accent-soft); }
+  .form-fehler-sammel{
+    display:none; margin:1rem 0 0; padding:.8rem 1rem;
+    border:1px solid #e2896f; border-radius:var(--radius);
+    background:rgba(226,137,111,0.08); color:#e2896f; font-size:.86rem;
+  }
+  .form-fehler-sammel.sichtbar{ display:block; }
   .pick-card.hervorgehoben{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
   .pick-card{
     background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
@@ -329,12 +440,53 @@
   .after-submit-note{ font-size:.8rem; color:var(--text-muted); margin-top:.6rem; }
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
-</head>
 <script>
-  document.addEventListener('contextmenu', function(e) {
+  /* Rechtsklick auf Bilder unterbinden (kein echter Kopierschutz,
+     aber eine kleine Hürde). */
+  document.addEventListener('contextmenu', function (e) {
     if (e.target.tagName === 'IMG') { e.preventDefault(); }
   });
 </script>
+
+<!-- ============ STRUKTURIERTE DATEN (Google versteht damit,
+     wer hier sitzt, was verkauft wird und wo) ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wie l\u00e4uft eine Bestellung bei BG Naturfotografie ab?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Motiv und Menge ausw\u00e4hlen, zur Anfrage hinzuf\u00fcgen und das kurze Formular abschicken. Es gibt keine Kasse und keinen Sofortkauf \u2014 du bekommst Preis, Versand- oder Abholoption und Zahlungsweg per Mail, meist innerhalb von 2\u20133 Tagen." }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kosten die Postkarten und Poster?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Postkarten kosten 2,50 \u20ac pro St\u00fcck, ab 3 St\u00fcck 2,00 \u20ac und ab 5 St\u00fcck 1,80 \u20ac. Ein A4-Poster kostet 15,00 \u20ac, ab 2 St\u00fcck 10,00 \u20ac. Gez\u00e4hlt wird \u00fcber alle Motive zusammen, Postkarten und Poster jeweils getrennt. Alle Preise zzgl. Versand." }
+    },
+    {
+      "@type": "Question",
+      "name": "Gibt es ein Widerrufsrecht?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ja. Postkarten, Poster und Sticker sind vorgefertigte Standardware, daf\u00fcr gilt das gesetzliche Widerrufsrecht von 14 Tagen \u2014 auch wenn ein Motiv gerade vergriffen ist und nachgedruckt wird. Ausgeschlossen ist es nur bei echten Sonderanfertigungen." }
+    },
+    {
+      "@type": "Question",
+      "name": "Werden die Tiere zum Fotografieren angef\u00fcttert oder angelockt?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nein. Es wird kein Futter platziert und es werden keine Tiere angelockt oder mit Klangattrappen gerufen. Die Aufnahmen entstehen spontan und mit gen\u00fcgend Abstand, damit die Tiere nicht gestresst werden." }
+    },
+    {
+      "@type": "Question",
+      "name": "Kann ich ein Motiv auf einer Tasse oder einem Beutel bekommen?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Merch ist kein festes Sortiment, l\u00e4sst sich aber auf Anfrage fast immer umsetzen \u2014 Tasse, Cap, Beutel oder Untersetzer. Nur Kleidung ist ausgenommen, weil Gr\u00f6\u00dfen und Passform zu viele R\u00fccksendungen erzeugen." }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://bg-naturfotografie.de/"},{"@type":"ListItem","position":2,"name":"Shop","item":"https://bg-naturfotografie.de/produkte-bestellen.html"}]}
+</script>
+</head>
 <body>
 
 <nav class="nav">
@@ -436,7 +588,10 @@
     </p>
 
     <div class="filter-row" id="motiv-filter"></div>
-    <div class="pick-grid" id="motiv-grid"></div>
+
+    <!-- Wird von unten aufgebaut: pro Kategorie ein eigener Block mit
+         eigener Seiten-Navigation und eigener "pro Seite"-Einstellung. -->
+    <div id="motiv-bereich"></div>
 
     <p class="section-idea-note">Dein Wunschmotiv ist hier nicht dabei oder du hättest es gern in einem anderen Format als A4? Schreib es einfach kurz ins <a href="#kontakt-anfrage">Anfrageformular</a> unten — ich schaue, was sich machen lässt, und melde mich mit Preis zurück.</p>
   </div>
@@ -473,7 +628,9 @@
 <section id="kontakt-anfrage-section">
   <div class="wrap shop-form-wrap">
     <!-- FORMSPREE-SETUP: eigene Formspree-ID eintragen -->
-    <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form">
+    <!-- novalidate: die Prüfung macht das Script unten, damit die
+         Fehlermeldungen in jedem Browser gleich und auf Deutsch sind. -->
+    <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form" novalidate>
       <h2 id="kontakt-anfrage">Kurze Anfrage</h2>
       <p class="form-lead">Egal ob Bestellwunsch, Marktanfrage, Bildlizenz oder ein Motiv, das es hier noch nicht gibt — kein Bestellformular, nur eine kurze Nachricht an mich. Ich melde mich mit Preis, Versand-/Abholoption und Zahlungsweg zurück.</p>
 
@@ -495,21 +652,67 @@
 
       <input type="hidden" name="_subject" id="anfrage-subject" value="[Shop-Anfrage] Sonstiges — BG Naturfotografie">
 
-      <div>
-        <label for="af-name">Name <span aria-hidden="true">*</span></label>
-        <input type="text" id="af-name" name="Name" required>
+      <p class="form-pflichthinweis"><abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben</p>
+
+      <div data-feld>
+        <label for="af-name">Name <abbr class="pflicht" title="Pflichtangabe">*</abbr></label>
+        <input type="text" id="af-name" name="Name" required aria-required="true" autocomplete="name">
+        <p class="feld-fehler" id="af-name-fehler"></p>
       </div>
-      <div>
-        <label for="af-email">E-Mail <span aria-hidden="true">*</span></label>
-        <input type="email" id="af-email" name="E-Mail" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@beispiel.de)">
+      <div data-feld>
+        <label for="af-email">E-Mail <abbr class="pflicht" title="Pflichtangabe">*</abbr></label>
+        <input type="email" id="af-email" name="E-Mail" required aria-required="true" autocomplete="email" inputmode="email">
+        <p class="feld-fehler" id="af-email-fehler"></p>
       </div>
-      <div>
-        <label for="af-nachricht">Nachricht <span aria-hidden="true">*</span></label>
-        <textarea id="af-nachricht" name="Nachricht" required placeholder="z. B. Datum &amp; Ort des Markts, gewünschte Bildlizenz-Nutzung oder das Motiv, das dir fehlt ..."></textarea>
+      <div data-feld>
+        <label for="af-nachricht">Nachricht <abbr class="pflicht" title="Pflichtangabe">*</abbr></label>
+        <textarea id="af-nachricht" name="Nachricht" required aria-required="true" placeholder="z. B. Datum &amp; Ort des Markts, gewünschte Bildlizenz-Nutzung oder das Motiv, das dir fehlt ..."></textarea>
+        <p class="feld-fehler" id="af-nachricht-fehler"></p>
       </div>
 
+      <!-- ============================================================
+           ADRESSE — komplett freiwillig. Eingeklappt, damit das
+           Formular kurz bleibt; wer sie angibt, bekommt gleich den
+           passenden Versandpreis genannt statt einer Rückfrage.
+           ============================================================ -->
+      <details class="adress-fold">
+        <summary>Lieferadresse schon mitgeben <span class="optional-tag">optional</span></summary>
+        <div class="fold-body">
+          <p class="adress-note">Freiwillig — hilft mir nur dabei, dir direkt den richtigen Versandpreis zu nennen, statt noch einmal nachzufragen. Ohne Adresse geht die Anfrage genauso raus.</p>
+          <div>
+            <label for="af-strasse">Straße &amp; Hausnummer</label>
+            <input type="text" id="af-strasse" name="Straße und Hausnummer" autocomplete="street-address">
+          </div>
+          <div class="adress-zeile">
+            <div>
+              <label for="af-plz">PLZ</label>
+              <input type="text" id="af-plz" name="PLZ" autocomplete="postal-code" inputmode="numeric">
+            </div>
+            <div>
+              <label for="af-ort">Ort</label>
+              <input type="text" id="af-ort" name="Ort" autocomplete="address-level2">
+            </div>
+          </div>
+          <div>
+            <label for="af-land">Land</label>
+            <input type="text" id="af-land" name="Land" value="Deutschland" autocomplete="country-name">
+          </div>
+        </div>
+      </details>
+
+      <!-- Einwilligung. Falls du sie nicht möchtest: diesen ganzen
+           div-Block löschen — die Prüfung unten überspringt ihn dann
+           automatisch, es muss nichts weiter angepasst werden. -->
+      <div class="feld-check" data-feld>
+        <input type="checkbox" id="af-datenschutz" name="Datenschutz" value="gelesen und akzeptiert" required aria-required="true">
+        <label for="af-datenschutz">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung dieser Anfrage gespeichert werden. <abbr class="pflicht" title="Pflichtangabe">*</abbr></label>
+      </div>
+      <p class="feld-fehler" id="af-datenschutz-fehler"></p>
+
+      <p class="form-fehler-sammel" id="af-fehler-sammel" role="alert"></p>
+
       <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1rem;">Anfrage senden</button>
-      <p class="after-submit-note">Antwort meist innerhalb von 2–3 Tagen · <span aria-hidden="true">*</span> Pflichtfeld</p>
+      <p class="after-submit-note">Antwort meist innerhalb von 2–3 Tagen · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben</p>
     </form>
   </div>
 </section>
@@ -517,7 +720,7 @@
 <div class="lightbox" id="gp-lightbox">
   <button class="lightbox-close" aria-label="Schließen" onclick="closeGpLightbox()">&times;</button>
   <figure>
-    <img src="" alt="">
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
     <figcaption></figcaption>
   </figure>
 </div>
@@ -623,9 +826,12 @@
     alleKartenAktualisieren();
   }
 
+  /* Sticker-Karten stehen immer alle da, Motiv-Karten wechseln beim
+     Blättern — deshalb zwei getrennte Register. */
   var kartenAktualisierer = [];
   function alleKartenAktualisieren() {
     kartenAktualisierer.forEach(function (fn) { fn(); });
+    Object.keys(motivAktualisierer).forEach(function (id) { motivAktualisierer[id](); });
   }
 
   function renderKaufSlot(key) {
@@ -810,10 +1016,62 @@
     return euro(stufe.preis) + ' <span class="je">(je ' + euro(stufe.preis / stufe.menge) + ')</span>';
   }
 
+  /* ============================================================
+     KATEGORIE-BLÖCKE MIT EIGENER SEITEN-NAVIGATION
+     ============================================================
+     Statt einer einzigen Wand aus allen Motiven bekommt jede
+     Kategorie einen eigenen Block: Überschrift, "x von y"-Anzeige,
+     eine eigene "pro Seite"-Einstellung und eine eigene
+     Blätter-Navigation. Voreinstellung: 20 Motive pro Seite.
+
+     Ändern willst du das hier:
+       STANDARD_PRO_SEITE  → wie viele Motive anfangs sichtbar sind
+       PRO_SEITE_OPTIONEN  → was im Auswahlmenü zur Wahl steht
+     ============================================================ */
+  var STANDARD_PRO_SEITE = 20;
+  var PRO_SEITE_OPTIONEN = [10, 20, 40, 'alle'];
+
+  var KAT_BESCHREIBUNG = {
+    'Teichleben':  'Schwimmend, putzend, schlafend — das Leben am kühlen Gewässer nebenan.',
+    'Gartenleben': 'Rotkehlchen, Meisen, Gimpel & Co. im Wechsel der Jahreszeiten.',
+    'Waldleben':   'Eichhörnchen, Specht & Co. im grünen Lebensraum.',
+    'Reduktion':   'Echte Naturfotografie, reduziert und bewusst neu interpretiert.'
+  };
+
+  /* Merkt sich pro Kategorie: aktuelle Seite + Motive pro Seite.
+     Bewusst nur im Arbeitsspeicher, nicht im Browser gespeichert —
+     so bleibt die Seite frei von zustimmungspflichtigen Speicherzugriffen. */
+  var katZustand = {};
+
+  /* Merkt sich das gewählte Format (Postkarte/Poster/Download) pro
+     Motiv, damit es beim Blättern nicht zurückspringt. */
+  var formatWahl = {};
+
+  /* Aktualisierer der sichtbaren Motiv-Karten, nach Bild-ID abgelegt. */
+  var motivAktualisierer = {};
+
+  function shopBilder(kategorie) {
+    var alle = (typeof GALERIE_BILDER === 'undefined') ? [] : GALERIE_BILDER;
+    return alle.filter(function (b) {
+      return b.imShop !== false && (!kategorie || b.kategorie === kategorie);
+    });
+  }
+
+  function proSeiteWert(kat) {
+    var w = katZustand[kat].proSeite;
+    return (w === 'alle') ? Number.MAX_SAFE_INTEGER : w;
+  }
+
+  function seitenAnzahl(kat) {
+    var n = shopBilder(kat).length;
+    return Math.max(1, Math.ceil(n / proSeiteWert(kat)));
+  }
+
   function renderMotivFilter() {
     var el = document.getElementById('motiv-filter');
     var html = '<button type="button" class="filter-chip active" data-kategorie="alle">Alle</button>';
     MOTIV_THEMEN.forEach(function (t) {
+      if (!shopBilder(t).length) { return; }
       html += '<button type="button" class="filter-chip" data-kategorie="' + t + '">' + t + '</button>';
     });
     el.innerHTML = html;
@@ -822,27 +1080,150 @@
         el.querySelectorAll('.filter-chip').forEach(function (c) { c.classList.remove('active'); });
         chip.classList.add('active');
         var k = chip.getAttribute('data-kategorie');
-        document.querySelectorAll('#motiv-grid .pick-card').forEach(function (card) {
-          card.style.display = (k === 'alle' || card.getAttribute('data-kategorie') === k) ? '' : 'none';
+        document.querySelectorAll('#motiv-bereich .kat-block').forEach(function (block) {
+          block.style.display = (k === 'alle' || block.getAttribute('data-kategorie') === k) ? '' : 'none';
         });
       });
     });
   }
 
-  function renderMotivGrid() {
-    var grid = document.getElementById('motiv-grid');
-    var alleBilder = (typeof GALERIE_BILDER === 'undefined') ? [] : GALERIE_BILDER;
-    var bilder = alleBilder.filter(function (b) { return b.imShop !== false; });
-    if (!bilder.length) {
-      grid.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive im Shop freigegeben.</p>';
+  /* Baut das Grundgerüst: pro Kategorie ein Block. Die Motive selbst
+     kommen danach seitenweise über renderKategorie() hinein. */
+  function renderMotivBereich() {
+    var bereich = document.getElementById('motiv-bereich');
+    if (!shopBilder().length) {
+      bereich.innerHTML = '<p class="empty-note">Noch keine Galerie-Motive im Shop freigegeben.</p>';
       return;
     }
 
-    var html = bilder.map(function (b, i) {
-      var cid = 'mot-' + i;
+    bereich.innerHTML = MOTIV_THEMEN.map(function (kat) {
+      var anzahl = shopBilder(kat).length;
+      if (!anzahl) { return ''; }
+      katZustand[kat] = { seite: 1, proSeite: STANDARD_PRO_SEITE };
+
+      var optionen = PRO_SEITE_OPTIONEN.map(function (o) {
+        var label = (o === 'alle') ? 'alle' : o;
+        var sel = (o === STANDARD_PRO_SEITE) ? ' selected' : '';
+        return '<option value="' + o + '"' + sel + '>' + label + '</option>';
+      }).join('');
+
+      var beschreibung = KAT_BESCHREIBUNG[kat]
+        ? '<p class="kat-desc">' + escapeHtml(KAT_BESCHREIBUNG[kat]) + '</p>' : '';
+
+      return '<div class="kat-block" data-kategorie="' + escapeHtml(kat) + '" id="shop-' + escapeHtml(kat.toLowerCase()) + '">' +
+        '<h3>' + escapeHtml(kat) + ' <span class="kat-anzahl">' + anzahl + (anzahl === 1 ? ' Motiv' : ' Motive') + '</span></h3>' +
+        beschreibung +
+        '<div class="kat-toolbar">' +
+          '<span class="treffer" data-rolle="treffer"></span>' +
+          '<label class="pro-seite">Motive pro Seite' +
+            '<select data-rolle="proseite" aria-label="Motive pro Seite in der Kategorie ' + escapeHtml(kat) + '">' + optionen + '</select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="pick-grid" data-rolle="grid"></div>' +
+        '<nav class="pager" data-rolle="pager" aria-label="Seiten der Kategorie ' + escapeHtml(kat) + '"></nav>' +
+      '</div>';
+    }).join('');
+
+    /* "pro Seite" umstellen → zurück auf Seite 1 und neu zeichnen */
+    bereich.addEventListener('change', function (e) {
+      var sel = e.target.closest('[data-rolle="proseite"]');
+      if (!sel) { return; }
+      var kat = sel.closest('.kat-block').getAttribute('data-kategorie');
+      var wert = sel.value;
+      katZustand[kat].proSeite = (wert === 'alle') ? 'alle' : parseInt(wert, 10);
+      katZustand[kat].seite = 1;
+      renderKategorie(kat);
+    });
+
+    /* Blättern */
+    bereich.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-seite]');
+      if (!btn) { return; }
+      var block = btn.closest('.kat-block');
+      var kat = block.getAttribute('data-kategorie');
+      var ziel = parseInt(btn.getAttribute('data-seite'), 10);
+      if (isNaN(ziel) || ziel < 1 || ziel > seitenAnzahl(kat) || ziel === katZustand[kat].seite) { return; }
+      katZustand[kat].seite = ziel;
+      renderKategorie(kat);
+      block.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    MOTIV_THEMEN.forEach(function (kat) {
+      if (katZustand[kat]) { renderKategorie(kat); }
+    });
+  }
+
+  function renderPager(kat, block) {
+    var pager = block.querySelector('[data-rolle="pager"]');
+    var seiten = seitenAnzahl(kat);
+    var aktuell = katZustand[kat].seite;
+
+    if (seiten <= 1) { pager.innerHTML = ''; return; }
+
+    /* Sichtbares Fenster: immer erste, letzte und die Nachbarn der
+       aktuellen Seite — dazwischen ein „…“. */
+    var zeigen = {};
+    zeigen[1] = true; zeigen[seiten] = true;
+    for (var s = aktuell - 1; s <= aktuell + 1; s++) {
+      if (s >= 1 && s <= seiten) { zeigen[s] = true; }
+    }
+
+    var html = '<button type="button" data-seite="' + (aktuell - 1) + '"' +
+      (aktuell === 1 ? ' disabled' : '') + ' aria-label="Vorherige Seite">‹</button>';
+
+    var letzteGezeichnet = 0;
+    for (var i = 1; i <= seiten; i++) {
+      if (!zeigen[i]) { continue; }
+      if (letzteGezeichnet && i - letzteGezeichnet > 1) { html += '<span class="luecke">…</span>'; }
+      html += '<button type="button" data-seite="' + i + '"' +
+        (i === aktuell ? ' aria-current="page"' : '') +
+        ' aria-label="Seite ' + i + '">' + i + '</button>';
+      letzteGezeichnet = i;
+    }
+
+    html += '<button type="button" data-seite="' + (aktuell + 1) + '"' +
+      (aktuell === seiten ? ' disabled' : '') + ' aria-label="Nächste Seite">›</button>';
+
+    pager.innerHTML = html;
+  }
+
+  /* Zeichnet genau eine Kategorie neu (aktuelle Seite). */
+  function renderKategorie(kat) {
+    var block = document.querySelector('.kat-block[data-kategorie="' + kat + '"]');
+    if (!block) { return; }
+
+    var alle = shopBilder(kat);
+    /* Alte Aktualisierer dieser Kategorie wegwerfen — sonst zeigen sie
+       auf Karten, die es im Dokument gar nicht mehr gibt. */
+    alle.forEach(function (b) { delete motivAktualisierer[b.id]; });
+
+    var proSeite = proSeiteWert(kat);
+    var maxSeite = seitenAnzahl(kat);
+    if (katZustand[kat].seite > maxSeite) { katZustand[kat].seite = maxSeite; }
+
+    var von = (katZustand[kat].seite - 1) * proSeite;
+    var bis = Math.min(von + proSeite, alle.length);
+    var bilder = alle.slice(von, bis);
+
+    block.querySelector('[data-rolle="treffer"]').textContent =
+      (alle.length <= proSeite)
+        ? alle.length + (alle.length === 1 ? ' Motiv' : ' Motive')
+        : 'Motiv ' + (von + 1) + '–' + bis + ' von ' + alle.length;
+
+    var grid = block.querySelector('[data-rolle="grid"]');
+    grid.innerHTML = bilder.map(function (b) { return baueKarte(b); }).join('');
+    bilder.forEach(function (b) { verdrahteKarte(b); });
+
+    renderPager(kat, block);
+  }
+
+  /* HTML einer einzelnen Motiv-Karte */
+  function baueKarte(b) {
+      var cid = 'mot-' + b.id;
+      var gewaehlt = formatWahl[b.id] || 'postkarte';
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var titelHtml = b.beschriftung ? b.beschriftung : escapeHtml(motivPlain);
-      var stockPk = stockInfo(b, 'postkarte');
+      var stockPk = stockInfo(b, gewaehlt === 'poster' ? 'poster' : 'postkarte');
       var zoomHtml = '<button type="button" class="gp-zoom" aria-label="Bild in voller Größe &amp; im Originalformat ansehen" onclick="openGpLightbox(\'' + escapeHtml(b.bild) + '\',\'' + escapeHtml(motivPlain) + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Klick für volle Größe</span></button>';
 
       return '<div class="pick-card" id="motiv-' + escapeHtml(b.id) + '" data-kategorie="' + escapeHtml(b.kategorie) + '">' +
@@ -853,9 +1234,9 @@
         '</div>' +
         '<div class="body"><b>' + titelHtml + '</b>' +
         '<div class="fmt-pills" id="' + cid + '-pills">' +
-          '<button type="button" class="fmt-pill active" data-fmt="postkarte">Postkarte</button>' +
-          '<button type="button" class="fmt-pill" data-fmt="poster">Poster ' + POSTER_FORMAT + '</button>' +
-          '<button type="button" class="fmt-pill" data-fmt="download">Download</button>' +
+          '<button type="button" class="fmt-pill' + (gewaehlt === 'postkarte' ? ' active' : '') + '" data-fmt="postkarte">Postkarte</button>' +
+          '<button type="button" class="fmt-pill' + (gewaehlt === 'poster' ? ' active' : '') + '" data-fmt="poster">Poster ' + POSTER_FORMAT + '</button>' +
+          '<button type="button" class="fmt-pill' + (gewaehlt === 'download' ? ' active' : '') + '" data-fmt="download">Download</button>' +
         '</div>' +
         '<div class="menge-row" id="' + cid + '-mengerow">' +
           '<label>Menge</label>' +
@@ -870,11 +1251,12 @@
         '<span class="herkunft-line" id="' + cid + '-herkunft">Gedruckt bei WirmachenDruck · aus Halstenbek versendet</span>' +
         '<div id="' + cid + '-kauf"></div>' +
         '</div></div>';
-    }).join('');
-    grid.innerHTML = html;
+  }
 
-    bilder.forEach(function (b, i) {
-      var cid = 'mot-' + i;
+  /* Verhalten einer einzelnen Motiv-Karte (Format, Menge, Anfrage-Button).
+     Wird nach jedem Blättern für die sichtbaren Karten neu aufgesetzt. */
+  function verdrahteKarte(b) {
+      var cid = 'mot-' + b.id;
       var motivPlain = stripHtml(b.beschriftung || b.alt);
       var pillsEl = document.getElementById(cid + '-pills');
       var mengeRow = document.getElementById(cid + '-mengerow');
@@ -885,7 +1267,7 @@
       var herkunftEl = document.getElementById(cid + '-herkunft');
       var starEl = document.getElementById(cid + '-star');
       var kaufEl = document.getElementById(cid + '-kauf');
-      var typ = 'postkarte';
+      var typ = formatWahl[b.id] || 'postkarte';
 
       function key() { return b.id + '|' + typ; }
       function bezeichnung() {
@@ -936,13 +1318,14 @@
         kaufEl.innerHTML = renderKaufSlot(key());
       }
 
-      kartenAktualisierer.push(aktualisieren);
+      motivAktualisierer[b.id] = aktualisieren;
 
       pillsEl.querySelectorAll('.fmt-pill').forEach(function (pill) {
         pill.addEventListener('click', function () {
           pillsEl.querySelectorAll('.fmt-pill').forEach(function (p) { p.classList.remove('active'); });
           pill.classList.add('active');
           typ = pill.getAttribute('data-fmt');
+          formatWahl[b.id] = typ;   /* merken, damit Blättern die Wahl nicht zurücksetzt */
           var vorhanden = findePosition(key());
           mengeInput.value = vorhanden ? vorhanden.menge : 1;
           aktualisieren();
@@ -978,7 +1361,6 @@
       });
 
       aktualisieren();
-    });
   }
 
   /* ---------- Sticker ---------- */
@@ -1046,10 +1428,97 @@
       if (match) { activate(match); }
     }
 
-    // Beim Absenden: falls eine Auswahl besteht, aber noch kein Chip
-    // aktiv gewählt wurde, automatisch "Bestellanfrage" setzen und
-    // die ausgewählten Produkte oben in die Nachricht einfügen.
-    document.getElementById('anfrage-form').addEventListener('submit', function () {
+    /* ============================================================
+       PFLICHTFELD-PRÜFUNG
+       ============================================================
+       Alles mit Sternchen muss ausgefüllt sein, sonst geht das
+       Formular nicht raus. Die Meldungen stehen direkt unter dem
+       jeweiligen Feld plus einmal gesammelt über dem Absende-Button.
+
+       Neues Pflichtfeld ergänzen: Feld im HTML mit required
+       versehen, ein <p class="feld-fehler" id="ID-fehler"></p>
+       daruntersetzen — mehr ist nicht nötig. */
+    var form = document.getElementById('anfrage-form');
+    var sammelEl = document.getElementById('af-fehler-sammel');
+
+    var MELDUNGEN = {
+      'af-name': 'Bitte trag deinen Namen ein.',
+      'af-email': 'Bitte trag eine gültige E-Mail-Adresse ein (z. B. name@beispiel.de) — sonst kann ich dir nicht antworten.',
+      'af-nachricht': 'Bitte schreib kurz, worum es geht.',
+      'af-datenschutz': 'Bitte bestätige die Datenschutzerklärung.'
+    };
+
+    function fehlerZeigen(feld, text) {
+      var huelle = feld.closest('[data-feld]') || feld.parentNode;
+      huelle.classList.add('hat-fehler');
+      feld.setAttribute('aria-invalid', 'true');
+      var meldung = document.getElementById(feld.id + '-fehler');
+      if (meldung) {
+        meldung.textContent = text;
+        meldung.classList.add('sichtbar');
+      }
+    }
+
+    function fehlerLoeschen(feld) {
+      var huelle = feld.closest('[data-feld]') || feld.parentNode;
+      huelle.classList.remove('hat-fehler');
+      feld.removeAttribute('aria-invalid');
+      var meldung = document.getElementById(feld.id + '-fehler');
+      if (meldung) {
+        meldung.textContent = '';
+        meldung.classList.remove('sichtbar');
+      }
+    }
+
+    function feldIstOk(feld) {
+      if (feld.type === 'checkbox') { return feld.checked; }
+      var wert = (feld.value || '').trim();
+      if (!wert) { return false; }
+      if (feld.type === 'email') { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert); }
+      return true;
+    }
+
+    function pflichtfelder() {
+      return Array.prototype.slice.call(form.querySelectorAll('[required]'));
+    }
+
+    /* Fehler verschwinden, sobald jemand das Feld korrigiert */
+    pflichtfelder().forEach(function (feld) {
+      ['input', 'change', 'blur'].forEach(function (ereignis) {
+        feld.addEventListener(ereignis, function () {
+          if (feldIstOk(feld)) { fehlerLoeschen(feld); }
+        });
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      var offen = [];
+
+      pflichtfelder().forEach(function (feld) {
+        if (feldIstOk(feld)) {
+          fehlerLoeschen(feld);
+        } else {
+          fehlerZeigen(feld, MELDUNGEN[feld.id] || 'Bitte fülle dieses Feld aus.');
+          offen.push(feld);
+        }
+      });
+
+      if (offen.length) {
+        e.preventDefault();
+        sammelEl.textContent = (offen.length === 1)
+          ? 'Eine Pflichtangabe fehlt noch — sie ist unten rot markiert.'
+          : 'Es fehlen noch ' + offen.length + ' Pflichtangaben — sie sind rot markiert.';
+        sammelEl.classList.add('sichtbar');
+        offen[0].focus();
+        offen[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      sammelEl.classList.remove('sichtbar');
+
+      // Falls eine Auswahl besteht, aber noch kein Chip aktiv gewählt
+      // wurde: automatisch "Bestellanfrage" setzen und die
+      // ausgewählten Produkte oben in die Nachricht einfügen.
       var hatAktivenChip = chipsWrap.querySelector('.chip.active');
       if (auswahl.length && !hatAktivenChip) {
         activate(chipsWrap.querySelector('[data-key="bestellung"]'));
@@ -1063,17 +1532,41 @@
     });
   }
 
+  /* ============================================================
+     SPRUNG AUS DER GALERIE (…#motiv-teichleben1)
+     ============================================================
+     Weil jetzt geblättert wird, kann das gesuchte Motiv auf Seite 2
+     oder 3 liegen. Deshalb zuerst die richtige Seite aufschlagen,
+     dann hinscrollen und kurz hervorheben. */
   function hervorhebenBeiSprungmarke() {
-    var id = window.location.hash.replace('#', '');
-    if (!id) { return; }
-    var el = document.getElementById(id);
+    var hash = window.location.hash.replace('#', '');
+    if (!hash || hash.indexOf('motiv-') !== 0) { return; }
+
+    var bildId = hash.slice('motiv-'.length);
+    var bild = shopBilder().filter(function (b) { return b.id === bildId; })[0];
+
+    if (bild && katZustand[bild.kategorie]) {
+      var kat = bild.kategorie;
+      var liste = shopBilder(kat);
+      var index = liste.map(function (b) { return b.id; }).indexOf(bildId);
+      if (index > -1) {
+        var seite = Math.floor(index / proSeiteWert(kat)) + 1;
+        if (seite !== katZustand[kat].seite) {
+          katZustand[kat].seite = seite;
+          renderKategorie(kat);
+        }
+      }
+    }
+
+    var el = document.getElementById(hash);
     if (!el || !el.classList.contains('pick-card')) { return; }
+    el.scrollIntoView({ block: 'center' });
     el.classList.add('hervorgehoben');
     setTimeout(function () { el.classList.remove('hervorgehoben'); }, 2600);
   }
 
   renderMotivFilter();
-  renderMotivGrid();
+  renderMotivBereich();
   renderStickerGrid();
   renderAuswahlListe();
   badgeBeobachten();

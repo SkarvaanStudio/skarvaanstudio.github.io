@@ -3,26 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geschichten — BG Naturfotografie</title>
-<meta name="description" content="Zu jedem Motiv gehört ein Moment: kurze Geschichten und Artinfos zu meinen Aufnahmen heimischer Vögel und Tiere.">
+
+<!-- ============================================================
+     SEO — Titel, Beschreibung, Kanonische Adresse
+     Der Titel steht im Google-Treffer und im Browser-Tab,
+     die description darunter als grauer Fließtext.
+     ============================================================ -->
+<title>Geschichten hinter den Fotos | BG Naturfotografie</title>
+<meta name="description" content="Postkarte in der Hand? Hier steht der Moment hinter jedem Motiv — plus Artinfos zu den heimischen Vögeln und Tieren aus Schleswig-Holstein und Hamburg.">
 <link rel="canonical" href="https://bg-naturfotografie.de/geschichten.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Benedict Gertz">
+<meta name="geo.region" content="DE-SH">
+<meta name="geo.placename" content="Halstenbek">
 <meta name="theme-color" content="#11140F">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
-<!-- Vorschau beim Teilen (WhatsApp, Instagram, Facebook, Signal ...) -->
+<!-- ============================================================
+     VORSCHAUBILD BEIM TEILEN
+     Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
+     Instagram-DMs, Discord … — also überall dort, wo jemand
+     einen Link von dir weiterschickt. Steht bewusst auf JEDER
+     Unterseite, nicht nur auf der Startseite.
+     Bild bitte immer als volle https-Adresse angeben.
+     ============================================================ -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BG Naturfotografie">
 <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Geschichten — die Momente hinter den Fotos | BG Naturfotografie">
-<meta property="og:description" content="Zu jedem Motiv gehört ein Moment: kurze Geschichten und Artinfos zu meinen Aufnahmen heimischer Vögel und Tiere.">
+<meta property="og:title" content="Die Geschichten hinter den Fotos | BG Naturfotografie">
+<meta property="og:description" content="Postkarte in der Hand? Hier steht der Moment hinter jedem Motiv — plus Artinfos zu den heimischen Vögeln und Tieren aus Schleswig-Holstein und Hamburg.">
 <meta property="og:url" content="https://bg-naturfotografie.de/geschichten.html">
-<meta property="og:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta property="og:image" content="https://bg-naturfotografie.de/bilder/gartenleben/rotkehlchen1.jpg">
+<meta property="og:image:secure_url" content="https://bg-naturfotografie.de/bilder/gartenleben/rotkehlchen1.jpg">
+<meta property="og:image:alt" content="Rotkehlchen auf einem Ast — Motiv aus den Geschichten">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Geschichten — die Momente hinter den Fotos | BG Naturfotografie">
-<meta name="twitter:description" content="Zu jedem Motiv gehört ein Moment: kurze Geschichten und Artinfos zu meinen Aufnahmen heimischer Vögel und Tiere.">
-<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/waldleben-01.jpg">
+<meta name="twitter:title" content="Die Geschichten hinter den Fotos | BG Naturfotografie">
+<meta name="twitter:description" content="Postkarte in der Hand? Hier steht der Moment hinter jedem Motiv — plus Artinfos zu den heimischen Vögeln und Tieren aus Schleswig-Holstein und Hamburg.">
+<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/gartenleben/rotkehlchen1.jpg">
+<meta name="twitter:image:alt" content="Rotkehlchen auf einem Ast — Motiv aus den Geschichten">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,420&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -57,14 +77,20 @@
   }
   .empty-note{ font-size:.9rem; color:var(--text-muted); font-style:italic; }
 </style>
-</head>
 <script>
-  document.addEventListener('contextmenu', function(e) {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-    }
+  /* Rechtsklick auf Bilder unterbinden (kein echter Kopierschutz,
+     aber eine kleine Hürde). */
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.tagName === 'IMG') { e.preventDefault(); }
   });
 </script>
+
+<!-- ============ STRUKTURIERTE DATEN (Google versteht damit,
+     wer hier sitzt, was verkauft wird und wo) ============ -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://bg-naturfotografie.de/"},{"@type":"ListItem","position":2,"name":"Geschichten","item":"https://bg-naturfotografie.de/geschichten.html"}]}
+</script>
+</head>
 <body>
 
 <!-- ============ NAVIGATION ============ -->
@@ -91,8 +117,38 @@
     <span class="eyebrow">Hinter den Fotos</span>
     <h1 style="margin-top:.6rem; font-size:clamp(2rem,4.2vw,3.2rem);">Geschichten</h1>
     <p style="color:var(--text-muted); max-width:56ch; font-size:1.05rem;">Manche Fotos entstehen in einem glücklichen Moment, andere nach kurzem Warten. Hier erzähle ich, was hinter ausgewählten Aufnahmen steckt.</p>
+
+    <!-- Begrüßung für alle, die über den QR-Code einer Postkarte
+         hier ankommen — sie sollen sofort wissen, dass sie richtig sind. -->
+    <div class="qr-willkommen">
+      <span class="qr-label">Gerade eine Postkarte gescannt?</span>
+      <p>Dann bist du hier richtig. Such unten einfach das Motiv, das du in der Hand hältst —
+        dahinter stehen der Moment der Aufnahme, ein paar Infos zur Art und der Ort, an dem
+        das Foto entstanden ist.</p>
+      <p class="qr-weiter">Du möchtest noch mehr Motive?
+        <a href="produkte-bestellen.html">Zum Shop</a> ·
+        <a href="index.html#galerie">Zur Galerie</a> ·
+        <a href="karte.html">Zur Karte</a></p>
+    </div>
   </div>
 </header>
+
+<style>
+  .qr-willkommen{
+    margin:2rem 0 0; max-width:62ch; padding:1.3rem 1.4rem;
+    background:var(--bg-panel-2); border:1px solid var(--line);
+    border-left:3px solid var(--accent); border-radius:var(--radius);
+  }
+  .qr-label{
+    display:block; font-family:'JetBrains Mono', monospace; font-size:.74rem;
+    letter-spacing:.07em; text-transform:uppercase; color:var(--accent-soft);
+    margin-bottom:.6rem;
+  }
+  .qr-willkommen p{ color:var(--text-muted); font-size:.94rem; margin:0 0 .7rem; }
+  .qr-willkommen p:last-child{ margin-bottom:0; }
+  .qr-weiter{ font-size:.87rem !important; }
+  .qr-weiter a{ color:var(--accent-soft); }
+</style>
 
 <!-- ============ GESCHICHTEN (wird automatisch aus galerie-daten.js befüllt) ============ -->
 <section style="padding-top:1.5rem;">
