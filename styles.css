@@ -709,6 +709,36 @@
   }
 
   /* ============ GEBIET ZEICHNEN (intern) ============ */
+  .zeichen-werkzeugleiste{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-bottom:.8rem;
+  }
+  .zeichen-btn{
+    appearance:none;
+    -webkit-appearance:none;
+    background:transparent;
+    font-size:.82rem;
+    padding:.55em 1.1em;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .zeichen-btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+  }
+  .zeichen-btn.ist-aktiv{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--bg-deep);
+  }
+  .zeichen-status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--accent-soft);
+    margin:0 0 1.2rem;
+  }
   .gebiet-werkzeug-layout{
     display:grid;
     grid-template-columns:1.6fr 1fr;
