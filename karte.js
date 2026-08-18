@@ -178,8 +178,8 @@
 
     element.bindPopup(popupHtml(gruppe), {
       className: 'karte-popup',
-      maxWidth: 320,
-      minWidth: 220,
+      maxWidth: 340,
+      minWidth: 300,
       autoPan: true,
       closeButton: true
     });
