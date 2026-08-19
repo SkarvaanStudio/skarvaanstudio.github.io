@@ -3,6 +3,8 @@
    damit keine fehlenden Symbol-Grafiken mehr auftreten können.
 
    BEDIENUNG:
+   - "Punkt setzen": ein Klick auf die Karte erzeugt sofort den Code
+     für einen genauen Aufnahmeort.
    - "Fläche zeichnen": auf die Karte klicken setzt Punkt für Punkt
      den Umriss. "Fertig" schließt die Fläche und erzeugt den Code.
    - "Kreis zeichnen": erster Klick setzt die Mitte, zweiter Klick
@@ -28,6 +30,7 @@
   var leerHinweis = document.getElementById('gebiet-leer-hinweis');
   var statusZeile = document.getElementById('zeichen-status');
 
+  var btnPunkt = document.getElementById('modus-punkt');
   var btnFlaeche = document.getElementById('modus-flaeche');
   var btnKreis = document.getElementById('modus-kreis');
   var btnZurueck = document.getElementById('punkt-zurueck');
@@ -35,7 +38,7 @@
   var btnLoeschen = document.getElementById('alles-loeschen');
 
   // ---- Zustand ----
-  var modus = null;            // null | 'flaeche' | 'kreis'
+  var modus = null;            // null | 'punkt' | 'flaeche' | 'kreis'
   var punkte = [];             // gesetzte Eckpunkte (Fläche)
   var punktMarker = [];        // kleine Marker zu den Eckpunkten
   var vorschauLinie = null;    // Linie/Fläche während des Zeichnens
@@ -48,6 +51,7 @@
   }
 
   function aktualisiereButtons() {
+    btnPunkt.classList.toggle('ist-aktiv', modus === 'punkt');
     btnFlaeche.classList.toggle('ist-aktiv', modus === 'flaeche');
     btnKreis.classList.toggle('ist-aktiv', modus === 'kreis');
     btnZurueck.disabled = !(modus === 'flaeche' && punkte.length > 0);
@@ -118,11 +122,28 @@
     liste.prepend(box);
   }
 
+  // ---- Einzelnen Punkt abschließen ----
+  function setzePunkt(latlng) {
+    var label = window.prompt('Wie soll dieser Ort heißen? (z. B. "Friedrichshulder See")\n\nTipp: Motive mit demselben Ortsnamen werden auf der Karte zu einer gemeinsamen Markierung zusammengefasst.', '') || '';
+
+    var markierung = L.circleMarker(latlng, {
+      radius: 6, color: FARBE, fillColor: FARBE, fillOpacity: 1, weight: 2
+    }).addTo(karte);
+    if (label) markierung.bindTooltip(label, { direction: 'top' });
+    fertigeFormen.push(markierung);
+
+    var code = "ort: { lat: " + rundeAuf5(latlng.lat) + ", lng: " + rundeAuf5(latlng.lng) +
+      ", label: '" + label.replace(/'/g, "\\'") + "' }";
+    baueEintrag(code, 'Punkt · ' + (label || 'ohne Namen'));
+
+    setzeStatus('Punkt gesetzt. Klick weiter für den nächsten Ort.');
+  }
+
   // ---- Fläche abschließen ----
   function schliesseFlaecheAb() {
     if (punkte.length < 3) return;
 
-    var label = window.prompt('Wie soll dieses Gebiet heißen? (z. B. "Hamburger Westen")', '') || '';
+    var label = window.prompt('Wie soll dieses Gebiet heißen? (z. B. "Hamburger Westen")\n\nTipp: Motive mit demselben Ortsnamen werden auf der Karte zu einer gemeinsamen Markierung zusammengefasst.', '') || '';
 
     var flaeche = L.polygon(punkte, {
       color: FARBE, weight: 2, fillOpacity: 0.15
@@ -144,7 +165,7 @@
   // ---- Kreis abschließen ----
   function schliesseKreisAb(randPunkt) {
     var radius = Math.round(kreisMitte.distanceTo(randPunkt));
-    var label = window.prompt('Wie soll dieses Gebiet heißen? (z. B. "Hamburger Westen")', '') || '';
+    var label = window.prompt('Wie soll dieses Gebiet heißen? (z. B. "Hamburger Westen")\n\nTipp: Motive mit demselben Ortsnamen werden auf der Karte zu einer gemeinsamen Markierung zusammengefasst.', '') || '';
 
     var kreis = L.circle(kreisMitte, {
       radius: radius, color: FARBE, weight: 2, fillOpacity: 0.15
@@ -162,7 +183,9 @@
 
   // ---- Klicks auf der Karte ----
   karte.on('click', function (e) {
-    if (modus === 'flaeche') {
+    if (modus === 'punkt') {
+      setzePunkt(e.latlng);
+    } else if (modus === 'flaeche') {
       punkte.push(e.latlng);
       var m = L.circleMarker(e.latlng, {
         radius: 4, color: FARBE, fillColor: FARBE, fillOpacity: 1, weight: 1
@@ -187,6 +210,13 @@
   });
 
   // ---- Werkzeugleiste ----
+  btnPunkt.addEventListener('click', function () {
+    raeumeVorschauAuf();
+    modus = 'punkt';
+    aktualisiereButtons();
+    setzeStatus('Punkt-Modus: klick auf die Karte, um einen genauen Aufnahmeort zu setzen.');
+  });
+
   btnFlaeche.addEventListener('click', function () {
     raeumeVorschauAuf();
     modus = 'flaeche';

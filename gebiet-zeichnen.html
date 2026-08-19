@@ -22,7 +22,8 @@
     <p style="color:var(--text-muted); max-width:68ch; font-size:.95rem;">
       Diese Seite ist nicht verlinkt und nicht für Besucher gedacht. Wähle unten einen Modus,
       zeichne auf der Karte, und rechts erscheint fertiger Code zum Einfügen in
-      <code>galerie-daten.js</code>.
+      <code>galerie-daten.js</code>. Tipp: Motive, die denselben Ortsnamen bekommen,
+      werden auf der Karte automatisch zu einer gemeinsamen Markierung zusammengefasst.
     </p>
   </div>
 </header>
@@ -32,6 +33,7 @@
 
     <!-- ============ EIGENE WERKZEUGLEISTE ============ -->
     <div class="zeichen-werkzeugleiste">
+      <button id="modus-punkt" class="btn btn-outline zeichen-btn" type="button">Punkt setzen</button>
       <button id="modus-flaeche" class="btn btn-outline zeichen-btn" type="button">Fläche zeichnen</button>
       <button id="modus-kreis" class="btn btn-outline zeichen-btn" type="button">Kreis zeichnen</button>
       <button id="punkt-zurueck" class="btn btn-outline zeichen-btn" type="button" disabled>Letzter Punkt zurück</button>
