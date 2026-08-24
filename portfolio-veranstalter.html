@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     UNVERLINKTE SEITE — NICHT IN DIE SUCHE
+
+     Diese Seite ist das ausführliche Aussteller-Portfolio, das du
+     per Link direkt an Veranstalter schickst. Sie ist bewusst
+     NICHT Teil der öffentlichen Website.
+
+     Damit das so bleibt, gelten drei Regeln:
+
+     1. "noindex, nofollow" unten — Suchmaschinen nehmen die Seite
+        nicht in den Index auf.
+     2. Die Seite steht NICHT in der sitemap.xml und wird von
+        KEINER anderen Seite verlinkt (auch nicht aus der Nav).
+     3. KEIN Disallow-Eintrag in der robots.txt. Anders als bei
+        qr-werkzeug.html oder gebiet-zeichnen.html darf diese
+        Adresse dort nicht auftauchen: die robots.txt ist selbst
+        öffentlich lesbar und würde die geheime URL verraten.
+
+     Achtung, Unterschied zur bestehenden Seite:
+     fuer-veranstalter.html  = öffentliche Kurzfassung mit Eckdaten
+     portfolio-veranstalter.html (diese hier) = ausführliches
+     Portfolio mit Motiven, Sortiment und Preisen, nur per Link.
+     ============================================================ -->
+<meta name="robots" content="noindex, nofollow">
+
+<title>Aussteller-Portfolio | BG Naturfotografie</title>
+<meta name="description" content="Ausführliches Aussteller-Portfolio: Motive, Serien, Sortiment und Standangaben von BG Naturfotografie aus Halstenbek.">
+<meta name="author" content="Benedict Gertz">
+<meta name="theme-color" content="#11140F">
+<link rel="icon" href="bilder/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="bilder/logo.png">
+
+<!-- Vorschaubild, wenn jemand den Link per Mail oder Messenger
+     weiterreicht. Wirkt trotz noindex — noindex betrifft nur
+     Suchmaschinen, nicht die Linkvorschau in WhatsApp & Co. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BG Naturfotografie">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Aussteller-Portfolio | BG Naturfotografie">
+<meta property="og:description" content="Motive, Serien, Sortiment und Standangaben auf einen Blick.">
+<meta property="og:image" content="https://bg-naturfotografie.de/bilder/postkarten.jpg">
+<meta property="og:image:alt" content="Postkarten und Drucke von BG Naturfotografie">
+
+<!-- Schriften wie auf allen anderen Seiten selbst gehostet -->
+<link rel="preload" href="schriften/worksans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="schriften/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
+
+<style>
+/* ============================================================
+   NUR FÜR DIESE SEITE
+   Alle Klassen mit Präfix "pv-" (portfolio-veranstalter), damit
+   nichts mit styles.css kollidiert. Farben, Schriften, Abstände
+   kommen komplett aus deinen bestehenden Tokens.
+   ============================================================ */
+
+/* Kopfbereich. 8.5rem oben, weil die Nav fest über der Seite
+   liegt — gleicher Wert wie auf fuer-veranstalter.html. */
+.pv-kopf{ padding:8.5rem 0 0; }
+.pv-kopf h1{ font-size:clamp(2.1rem,5vw,3.4rem); margin-bottom:.3rem; }
+.pv-kopf .pv-untertitel{
+  font-family:'Fraunces', Georgia, serif;
+  font-style:italic; font-weight:400;
+  font-size:clamp(1.05rem,2.4vw,1.4rem);
+  color:var(--text-muted);
+  margin:0 0 1.4rem;
+}
+.pv-kopf .pv-regel{
+  border:0; height:2px; background:var(--accent);
+  width:72px; margin:0;
+}
+
+/* ---- Motivraster ----
+   auto-fit lässt die Spaltenzahl je nach Fensterbreite von 3 auf
+   2 auf 1 fallen, ganz ohne eigene Media Query. */
+.pv-motive{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:1rem; list-style:none; padding:0; margin:2.8rem 0 0;
+}
+.pv-motiv{
+  background:var(--bg-panel); border:1px solid var(--line);
+  border-radius:var(--radius); overflow:hidden;
+}
+.pv-motiv figure{ margin:0; }
+
+/* Feste Bühne für jedes Motiv: Hoch- und Querformate stehen so im
+   selben Raster, ohne dass die Reihen unruhig springen. */
+.pv-bildfeld{
+  aspect-ratio:3/4;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-deep); overflow:hidden;
+}
+.pv-bildfeld img{
+  max-width:100%; max-height:100%; width:auto; height:auto;
+  transition:opacity .2s ease;
+}
+.pv-motiv:hover .pv-bildfeld img{ opacity:.9; }
+
+.pv-motiv figcaption{
+  padding:.75rem .9rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.75rem; letter-spacing:.02em;
+  color:var(--text-muted);
+}
+.pv-motiv figcaption b{ color:var(--accent-soft); font-weight:500; }
+
+/* ---- Sortiment ----
+   Definitionsliste statt Aufzählung: Produktname und Beschreibung
+   gehören inhaltlich zusammen, das sollte auch im Markup stehen. */
+.pv-sortiment{ margin:1.4rem 0 0; max-width:64ch; }
+.pv-sortiment > div{
+  padding:.85rem 0; border-bottom:1px solid var(--line);
+}
+.pv-sortiment > div:first-child{ border-top:1px solid var(--line); }
+.pv-sortiment dt{
+  color:var(--text-light); font-weight:500; margin-bottom:.15rem;
+}
+.pv-sortiment dd{
+  margin:0; color:var(--text-muted); font-size:.94rem;
+}
+.pv-preis{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.8rem; color:var(--accent-soft); white-space:nowrap;
+}
+.pv-fussnote{
+  color:var(--text-muted); font-size:.86rem;
+  max-width:64ch; margin-top:1.2rem;
+}
+
+/* ---- Serienraster ---- */
+.pv-serien{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1rem; list-style:none; padding:0; margin:0 0 2rem;
+}
+.pv-serie figure{ margin:0; }
+.pv-serie .pv-quadrat{
+  aspect-ratio:1/1; overflow:hidden;
+  border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--bg-panel);
+}
+.pv-serie .pv-quadrat img{ width:100%; height:100%; object-fit:cover; }
+.pv-serie figcaption{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-muted); text-align:center; margin-top:.7rem;
+}
+
+/* ---- Fakten- und Kontakttabelle ---- */
+.pv-fakten{
+  background:var(--bg-panel-2); border:1px solid var(--line);
+  border-radius:var(--radius); padding:.4rem 1.4rem; margin:1.4rem 0 0;
+}
+.pv-fakten > div{
+  display:grid; grid-template-columns:170px 1fr; gap:1rem;
+  padding:.8rem 0; border-bottom:1px solid var(--line);
+}
+.pv-fakten > div:last-child{ border-bottom:0; }
+.pv-fakten dt{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent-soft); padding-top:.2rem;
+}
+.pv-fakten dd{ margin:0; color:var(--text-light); font-size:.94rem; }
+
+/* Auf schmalen Displays untereinander statt nebeneinander */
+@media (max-width:620px){
+  .pv-fakten > div{ grid-template-columns:1fr; gap:.2rem; }
+}
+
+.pv-hinweis{
+  color:var(--text-muted); font-size:.82rem;
+  font-family:'JetBrains Mono', monospace;
+  margin-top:2.4rem; text-align:center;
+}
+
+/* ---- Druckansicht ----
+   Veranstalter drucken solche Seiten oft aus oder legen sie sich
+   als PDF ab. Dunkle Flächen würden dabei die Patrone leeren, also
+   auf Weiß umstellen. ---- */
+@media print{
+  .nav, .sprunglink, .pv-druck-aus{ display:none !important; }
+  body{ background:#fff; color:#000; }
+  .pv-kopf{ padding-top:0; }
+  section{ padding:1.2rem 0; }
+  .pv-motiv, .pv-fakten, .pv-bildfeld,
+  .pv-serie .pv-quadrat{ background:#fff; border-color:#bbb; }
+  .pv-motiv figcaption, .pv-sortiment dd, .pv-fussnote,
+  .pv-serie figcaption, .pv-fakten dd{ color:#222; }
+  .pv-fakten dt, .pv-motiv figcaption b{ color:#000; }
+  h1,h2,h3,.pv-sortiment dt{ color:#000; }
+  section, .pv-motiv{ break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Sprunglink für Tastatur- und Screenreader-Bedienung -->
+<a class="sprunglink" href="#inhalt">Direkt zum Inhalt</a>
+
+<!-- ============ NAVIGATION ============
+     Bewusst identisch zu den anderen Seiten, damit Veranstalter
+     von hier aus die Galerie und den Shop ansehen können.
+     Diese Seite selbst taucht im Menü NICHT auf — sie soll ja
+     nur über den Link erreichbar sein. -->
+<nav class="nav" aria-label="Hauptmenü">
+  <div class="wrap">
+    <a class="brand" href="index.html#top"><img src="bilder/logo.png" alt="BG Naturfotografie Logo" class="brand-logo">
+      <b>BG</b> Naturfotografie</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen und schließen">
+    <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
+    <ul class="nav-links">
+      <li><a href="index.html#galerie">Galerie</a></li>
+      <li><a href="karte.html">Karte</a></li>
+      <li><a href="geschichten.html">Geschichten</a></li>
+      <li><a href="produkte-bestellen.html">Shop</a></li>
+      <li><a href="index.html#ueber-mich">Über mich</a></li>
+      <li><a href="index.html#termine">Termine</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ KOPF + MOTIVAUSWAHL ============ -->
+<section id="inhalt" tabindex="-1" class="pv-kopf">
+  <div class="wrap">
+    <span class="eyebrow">Aussteller-Portfolio · Saison 2026 / 2027</span>
+    <h1>BG Naturfotografie</h1>
+    <p class="pv-untertitel">Vogel- und Naturfotografie aus Norddeutschland</p>
+    <hr class="pv-regel">
+
+    <ul class="pv-motive">
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/star-silhouette.jpg"
+                 alt="Zwei Stare als schwarze Silhouetten auf einem Zweig vor weißem Hintergrund"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption><b>Star</b> · Silhouette, Serie Reduktion</figcaption>
+        </figure>
+      </li>
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/stockente-kueken.jpg"
+                 alt="Stockentenküken frontal, Wassertropfen im dunklen Gefieder"
+                 loading="lazy" width="307" height="432">
+          </div>
+          <figcaption><b>Stockente</b> · Küken frontal</figcaption>
+        </figure>
+      </li>
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/eichhoernchen.jpg"
+                 alt="Eichhörnchen zusammengerollt auf einem Ast, Sonnenlicht im Fell"
+                 loading="lazy" width="306" height="433">
+          </div>
+          <figcaption><b>Eichhörnchen</b> · in sich ruhend</figcaption>
+        </figure>
+      </li>
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/schwanzmeise.jpg"
+                 alt="Schwanzmeise auf einem Zweig, Kopf zur Seite gedreht"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption><b>Schwanzmeise</b> · neugieriger Blick</figcaption>
+        </figure>
+      </li>
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/singdrossel.jpg"
+                 alt="Singdrossel singend auf einem Tannenzweig"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption><b>Singdrossel</b> · Tannengrün</figcaption>
+        </figure>
+      </li>
+
+      <li class="pv-motiv">
+        <figure>
+          <div class="pv-bildfeld">
+            <img src="bilder/veranstalter/blaesshuhn-spiegelung.jpg"
+                 alt="Blässhuhn mit Spiegelung auf dunklem, ruhigem Wasser"
+                 loading="lazy" width="625" height="433">
+          </div>
+          <figcaption><b>Blässhuhn</b> · dunkle Spiegelung</figcaption>
+        </figure>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- ============ WER ICH BIN ============ -->
+<section style="background:var(--bg-panel);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Wer ich bin</span>
+      <h2>Natur vor der eigenen Haustür</h2>
+      <p>Ich fotografiere Vögel und Tiere in Schleswig-Holstein und im Hamburger Westen, mit dem
+        Fokus rund um meinen Wohnort Halstenbek. Rotkehlchen, Schwanzmeisen und Gimpel im Garten,
+        Enten und Reiher am Teich, Eichhörnchen und Spechte im Wald. Immer im natürlichen Licht,
+        immer in der Nachbarschaft.</p>
+      <p>Der Reiz liegt für mich nicht in der Ferne, sondern im Alltäglichen. Fast jedes Motiv
+        können die Käufer*innen am nächsten Morgen im eigenen Umfeld wiederfinden.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SORTIMENT ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Was ich hauptsächlich anbiete</span>
+      <h2>Sortiment</h2>
+    </div>
+
+    <dl class="pv-sortiment">
+      <div>
+        <dt>Postkarten</dt>
+        <dd>10 × 15 cm, mit individuell gestalteter Rückseite: Artname und Fundort.
+          <span class="pv-preis">2,50 € · 3 für 6 € · 5 für 9 €</span></dd>
+      </div>
+      <div>
+        <dt>A4-Drucke</dt>
+        <dd>Einzeldrucke. <span class="pv-preis">15,00 € · 2 für 20,00 €</span></dd>
+      </div>
+      <div>
+        <dt>Stickerbögen und Lesezeichen</dt>
+        <dd>Sticker schneide und laminiere ich selbst, Lesezeichen kommen aus der Druckerei.
+          <span class="pv-preis">ab 2,50 €</span></dd>
+      </div>
+      <div>
+        <dt>Klapp- und Grußkarten</dt>
+        <dd>Ruhige Fotomotive zum Weitergeben. Saisonal gestaltet.
+          <span class="pv-preis">ab 3,50 €</span></dd>
+      </div>
+      <div>
+        <dt>Geschenkanhänger</dt>
+        <dd>Für Päckchen und Geschenke. Saisonal gestaltet.
+          <span class="pv-preis">im Set ab 5,00 €</span></dd>
+      </div>
+    </dl>
+
+    <p class="pv-fussnote">
+      Gestaltet ist alles von mir. Professioneller Druck ist bei einigen Produkten ausgelagert.
+      Preise als Orientierung, Sets und Bundles variieren. Stand August 2026.
+    </p>
+  </div>
+</section>
+
+<!-- ============ VIER SERIEN ============ -->
+<section style="background:var(--bg-panel);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Vier Serien</span>
+      <h2>Wie die Arbeiten geordnet sind</h2>
+    </div>
+
+    <ul class="pv-serien">
+      <li class="pv-serie">
+        <figure>
+          <div class="pv-quadrat">
+            <img src="bilder/veranstalter/serie-teichleben.jpg"
+                 alt="Stockente schlägt mit den Flügeln im flachen Wasser"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption>Teichleben</figcaption>
+        </figure>
+      </li>
+      <li class="pv-serie">
+        <figure>
+          <div class="pv-quadrat">
+            <img src="bilder/veranstalter/serie-gartenleben.jpg"
+                 alt="Rotkehlchen auf einem Ast vor weichem grünem Hintergrund"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption>Gartenleben</figcaption>
+        </figure>
+      </li>
+      <li class="pv-serie">
+        <figure>
+          <div class="pv-quadrat">
+            <img src="bilder/veranstalter/serie-waldleben.jpg"
+                 alt="Buntspecht an einem schneebedeckten Baumstamm"
+                 loading="lazy" width="306" height="432">
+          </div>
+          <figcaption>Waldleben</figcaption>
+        </figure>
+      </li>
+      <li class="pv-serie">
+        <figure>
+          <div class="pv-quadrat">
+            <img src="bilder/veranstalter/serie-reduktion.jpg"
+                 alt="Amsel als schwarze Silhouette auf weißem Hintergrund"
+                 loading="lazy" width="307" height="433">
+          </div>
+          <figcaption>Reduktion</figcaption>
+        </figure>
+      </li>
+    </ul>
+
+    <p style="max-width:64ch; color:var(--text-muted);">
+      <b style="color:var(--text-light); font-weight:500;">Teichleben</b>,
+      <b style="color:var(--text-light); font-weight:500;">Gartenleben</b> und
+      <b style="color:var(--text-light); font-weight:500;">Waldleben</b>
+      zeigen die Natur vor der eigenen Haustür: lebensnah, real und aus dem Moment heraus.
+      <b style="color:var(--text-light); font-weight:500;">Reduktion</b>
+      ist die vierte, bewusst gestaltete Serie: echte Aufnahmen, grafisch zurückgenommen auf
+      Silhouette, Fläche und Farbe.
+    </p>
+  </div>
+</section>
+
+<!-- ============ DIE GESCHICHTE DAHINTER ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Die Geschichte dahinter</span>
+      <h2>Jedes Bild hat einen Moment</h2>
+      <p>Zu vielen Motiven gehört eine Geschichte: das Warten am Teichrand, der Specht, der nach
+        zwanzig Minuten doch noch aus der Höhle sah, die Schwanzmeise, die genau einmal in die
+        Kamera flog. Diese Geschichten schreibe ich auf und mache sie über einen QR-Code am Stand
+        zugänglich, der zu einer Seite mit der jeweiligen Aufnahme führt.</p>
+      <p>Dort steht neben der Erzählung ein kleiner Datenblock: wissenschaftlicher Name, Fundort,
+        Aufnahmedatum, Rote-Liste-Status. Aus einer Postkarte wird so ein Stück Naturbildung und ein
+        Gesprächsgrund für viele Besucher.</p>
+      <p>Und weil das Vertrauen dazugehört: Ich füttere nicht an und locke keine Tiere. Was auf den
+        Bildern zu sehen ist, ist im Moment entstanden. Als NABU-Mitglied in der regionalen
+        Ortsgruppe ist mir das wichtig.</p>
+    </div>
+    <a class="btn btn-outline pv-druck-aus" href="geschichten.html">Geschichten ansehen</a>
+  </div>
+</section>
+
+<!-- ============ KONTAKT UND STANDANGABEN ============ -->
+<section style="background:var(--bg-panel);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Kontakt</span>
+      <h2>Angaben für Veranstalter</h2>
+    </div>
+
+    <dl class="pv-fakten">
+      <div>
+        <dt>Name</dt>
+        <dd>Benedict Gertz — BG Naturfotografie</dd>
+      </div>
+      <div>
+        <dt>Sitz</dt>
+        <dd>Halstenbek, Kreis Pinneberg</dd>
+      </div>
+      <div>
+        <dt>Web</dt>
+        <dd><a href="index.html">bg-naturfotografie.de</a></dd>
+      </div>
+      <div>
+        <dt>Instagram</dt>
+        <dd><a href="https://instagram.com/bg.naturfotografie" rel="noopener">@bg.naturfotografie</a></dd>
+      </div>
+      <div>
+        <dt>E-Mail</dt>
+        <!-- Die Adresse wird unten per JavaScript zusammengesetzt, damit
+             automatische Spam-Sammler sie im Quelltext nicht finden.
+             Für Menschen ganz normal anklick- und kopierbar.
+             <noscript> zeigt eine lesbare Ersatzform ohne JavaScript. -->
+        <dd><span id="pv-mail"><noscript>benedict.gertz [at] web [punkt] de</noscript></span></dd>
+      </div>
+      <div>
+        <dt>Telefon</dt>
+        <!-- Möchtest du deine Mobilnummer hier nicht öffentlich stehen
+             haben? Dann diesen kompletten <div>-Block löschen. -->
+        <dd><a href="tel:+4915770210488">0157 70210488</a></dd>
+      </div>
+      <div>
+        <dt>Standfläche</dt>
+        <dd>Pavillon 3 × 3 m, wetterfest · Tischstand ab etwa 2 m Front ebenfalls möglich</dd>
+      </div>
+      <div>
+        <dt>Ausstattung</dt>
+        <dd>Pavillon, Tische, Displays, Beleuchtung und Beschilderung bringe ich selbst mit.
+          Kein Stromanschluss nötig.</dd>
+      </div>
+      <div>
+        <dt>Zahlung</dt>
+        <dd>Bar sowie kartenlos per PayPal</dd>
+      </div>
+      <div>
+        <dt>Formales</dt>
+        <dd>Angemeldetes Gewerbe · Kleinunternehmer nach § 19 UStG ·
+          LUCID-Registrierung nach VerpackG · Betriebshaftpflicht vorhanden</dd>
+      </div>
+    </dl>
+
+    <p class="pv-hinweis">
+      Ansichtsexemplare auf Anfrage · Alle Aufnahmen &copy; Benedict Gertz
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 BG Naturfotografie</span>
+    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="karte.html">Karte</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   E-Mail-Adresse erst im Browser zusammensetzen.
+   Im Quelltext steht nirgends die vollständige Adresse — Sammler,
+   die nur den HTML-Text auslesen, finden sie deshalb nicht.
+   Adresse geändert? Nur die drei Variablen anpassen.
+   ============================================================ */
+(function () {
+  var benutzer = 'benedict.gertz';
+  var domain   = 'web';
+  var endung   = 'de';
+
+  var adresse = benutzer + '@' + domain + '.' + endung;
+
+  var ziel = document.getElementById('pv-mail');
+  if (!ziel) return;
+
+  var link = document.createElement('a');
+  link.href = 'mailto:' + adresse;
+  link.textContent = adresse;
+
+  ziel.textContent = '';          // <noscript>-Ersatztext entfernen
+  ziel.appendChild(link);
+})();
+</script>
+
+</body>
+</html>
