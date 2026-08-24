@@ -134,23 +134,43 @@
   max-width:64ch; margin-top:1.2rem;
 }
 
-/* ---- Serienraster ---- */
+/* ---- Serienraster ----
+   Jede Kachel führt zur passenden Galerie-Unterseite.
+   Die Bilder werden NICHT beschnitten: gleiche Bühne wie oben im
+   Motivraster, das Foto wird vollständig hineingestellt und behält
+   sein Seitenverhältnis. Dadurch verliert die Silhouette in der
+   Serie "Reduktion" auch keine Flügelspitzen mehr. */
 .pv-serien{
   display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
   gap:1rem; list-style:none; padding:0; margin:0 0 2rem;
 }
 .pv-serie figure{ margin:0; }
-.pv-serie .pv-quadrat{
-  aspect-ratio:1/1; overflow:hidden;
+
+/* Der Link umschließt Bild UND Beschriftung — größere Klickfläche
+   und für Screenreader eine einzige, klare Ansage. */
+.pv-serie a{ display:block; color:inherit; }
+
+.pv-serie .pv-serienbild{
+  aspect-ratio:3/4;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
   border:1px solid var(--line); border-radius:var(--radius);
-  background:var(--bg-panel);
+  background:var(--bg-deep);
+  transition:border-color .2s ease;
 }
-.pv-serie .pv-quadrat img{ width:100%; height:100%; object-fit:cover; }
+.pv-serie .pv-serienbild img{
+  max-width:100%; max-height:100%; width:auto; height:auto;
+  transition:opacity .2s ease;
+}
 .pv-serie figcaption{
   font-family:'JetBrains Mono', monospace;
   font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
   color:var(--text-muted); text-align:center; margin-top:.7rem;
+  transition:color .2s ease;
 }
+.pv-serie a:hover .pv-serienbild{ border-color:var(--accent); }
+.pv-serie a:hover .pv-serienbild img{ opacity:.85; }
+.pv-serie a:hover figcaption{ color:var(--accent-soft); }
 
 /* ---- Fakten- und Kontakttabelle ---- */
 .pv-fakten{
@@ -190,7 +210,8 @@
   .pv-kopf{ padding-top:0; }
   section{ padding:1.2rem 0; }
   .pv-motiv, .pv-fakten, .pv-bildfeld,
-  .pv-serie .pv-quadrat{ background:#fff; border-color:#bbb; }
+  .pv-serie .pv-serienbild{ background:#fff; border-color:#bbb; }
+  .pv-serie a{ text-decoration:none; }
   .pv-motiv figcaption, .pv-sortiment dd, .pv-fussnote,
   .pv-serie figcaption, .pv-fakten dd{ color:#222; }
   .pv-fakten dt, .pv-motiv figcaption b{ color:#000; }
@@ -240,9 +261,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/star-silhouette.jpg"
+            <img src="bilder/Reduktion/silhouette_stare.jpg"
                  alt="Zwei Stare als schwarze Silhouetten auf einem Zweig vor weißem Hintergrund"
-                 loading="lazy" width="307" height="433">
+                 loading="lazy">
           </div>
           <figcaption><b>Star</b> · Silhouette, Serie Reduktion</figcaption>
         </figure>
@@ -251,9 +272,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/stockente-kueken.jpg"
+            <img src="bilder/teichleben/entchen1.jpg"
                  alt="Stockentenküken frontal, Wassertropfen im dunklen Gefieder"
-                 loading="lazy" width="307" height="432">
+                 loading="lazy">
           </div>
           <figcaption><b>Stockente</b> · Küken frontal</figcaption>
         </figure>
@@ -262,9 +283,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/eichhoernchen.jpg"
+            <img src="bilder/waldleben/sleepy_squirrel.jpg"
                  alt="Eichhörnchen zusammengerollt auf einem Ast, Sonnenlicht im Fell"
-                 loading="lazy" width="306" height="433">
+                 loading="lazy">
           </div>
           <figcaption><b>Eichhörnchen</b> · in sich ruhend</figcaption>
         </figure>
@@ -273,9 +294,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/schwanzmeise.jpg"
+            <img src="bilder/gartenleben/schwanzmeise3.jpg"
                  alt="Schwanzmeise auf einem Zweig, Kopf zur Seite gedreht"
-                 loading="lazy" width="307" height="433">
+                 loading="lazy">
           </div>
           <figcaption><b>Schwanzmeise</b> · neugieriger Blick</figcaption>
         </figure>
@@ -284,9 +305,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/singdrossel.jpg"
+            <img src="bilder/gartenleben/singdrossel1.jpg"
                  alt="Singdrossel singend auf einem Tannenzweig"
-                 loading="lazy" width="307" height="433">
+                 loading="lazy">
           </div>
           <figcaption><b>Singdrossel</b> · Tannengrün</figcaption>
         </figure>
@@ -295,9 +316,9 @@
       <li class="pv-motiv">
         <figure>
           <div class="pv-bildfeld">
-            <img src="bilder/veranstalter/blaesshuhn-spiegelung.jpg"
+            <img src="bilder/Reduktion/Blaesshuhn.jpg"
                  alt="Blässhuhn mit Spiegelung auf dunklem, ruhigem Wasser"
-                 loading="lazy" width="625" height="433">
+                 loading="lazy">
           </div>
           <figcaption><b>Blässhuhn</b> · dunkle Spiegelung</figcaption>
         </figure>
@@ -375,44 +396,48 @@
 
     <ul class="pv-serien">
       <li class="pv-serie">
-        <figure>
-          <div class="pv-quadrat">
-            <img src="bilder/veranstalter/serie-teichleben.jpg"
-                 alt="Stockente schlägt mit den Flügeln im flachen Wasser"
-                 loading="lazy" width="307" height="433">
-          </div>
-          <figcaption>Teichleben</figcaption>
-        </figure>
+        <a href="galerie-teichleben.html">
+          <figure>
+            <div class="pv-serienbild">
+              <img src="bilder/teichleben/ente1.jpg"
+                   alt="Stockente breitet die Flügel auf dem Wasser aus" loading="lazy">
+            </div>
+            <figcaption>Teichleben</figcaption>
+          </figure>
+        </a>
       </li>
       <li class="pv-serie">
-        <figure>
-          <div class="pv-quadrat">
-            <img src="bilder/veranstalter/serie-gartenleben.jpg"
-                 alt="Rotkehlchen auf einem Ast vor weichem grünem Hintergrund"
-                 loading="lazy" width="307" height="433">
-          </div>
-          <figcaption>Gartenleben</figcaption>
-        </figure>
+        <a href="galerie-gartenleben.html">
+          <figure>
+            <div class="pv-serienbild">
+              <img src="bilder/gartenleben/rotkehlchen1.jpg"
+                   alt="Rotkehlchen sitzt ruhig auf einem Ast im Garten" loading="lazy">
+            </div>
+            <figcaption>Gartenleben</figcaption>
+          </figure>
+        </a>
       </li>
       <li class="pv-serie">
-        <figure>
-          <div class="pv-quadrat">
-            <img src="bilder/veranstalter/serie-waldleben.jpg"
-                 alt="Buntspecht an einem schneebedeckten Baumstamm"
-                 loading="lazy" width="306" height="432">
-          </div>
-          <figcaption>Waldleben</figcaption>
-        </figure>
+        <a href="galerie-waldleben.html">
+          <figure>
+            <div class="pv-serienbild">
+              <img src="bilder/waldleben/specht2.jpg"
+                   alt="Buntspecht klettert an einem verschneiten Stamm" loading="lazy">
+            </div>
+            <figcaption>Waldleben</figcaption>
+          </figure>
+        </a>
       </li>
       <li class="pv-serie">
-        <figure>
-          <div class="pv-quadrat">
-            <img src="bilder/veranstalter/serie-reduktion.jpg"
-                 alt="Amsel als schwarze Silhouette auf weißem Hintergrund"
-                 loading="lazy" width="307" height="433">
-          </div>
-          <figcaption>Reduktion</figcaption>
-        </figure>
+        <a href="galerie-reduktion.html">
+          <figure>
+            <div class="pv-serienbild">
+              <img src="bilder/Reduktion/silhouette_robin.jpg"
+                   alt="Schwarz-weiße Silhouette eines Rotkehlchens" loading="lazy">
+            </div>
+            <figcaption>Reduktion</figcaption>
+          </figure>
+        </a>
       </li>
     </ul>
 
