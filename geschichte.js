@@ -75,6 +75,23 @@
   var zurueckSeite = KATEGORIE_ZU_SEITE[motiv.kategorie] || 'index.html#galerie';
   document.getElementById('zurueck-link').href = zurueckSeite;
 
+  // ---- Verkaufshinweis: direkt zu DIESEM Motiv im Shop ----
+  // Der Shop legt für jedes Motiv einen Anker "motiv-<id>" an
+  // (siehe produkte-bestellen.html). Wer den QR-Code auf einer
+  // Postkarte scannt, landet damit einen Klick später genau bei
+  // dem Bild, das er gerade in der Hand hält.
+  // Ist das Motiv nicht im Shop (imShop: false), verschwindet die
+  // ganze Box, damit niemand ins Leere klickt.
+  var kaufLink = document.getElementById('geschichte-shop-link');
+  var kaufBox = kaufLink ? kaufLink.closest('.geschichte-kaufbox') : null;
+  if (kaufLink) {
+    if (motiv.imShop === false) {
+      if (kaufBox) kaufBox.style.display = 'none';
+    } else {
+      kaufLink.href = 'produkte-bestellen.html#motiv-' + encodeURIComponent(motiv.id);
+    }
+  }
+
   // ---- Geschichte-Text + Fußblock: erst Tabelle versuchen, sonst galerie-daten.js, sonst Platzhalter ----
   var textEl = document.getElementById('geschichte-text-inhalt');
   textEl.innerHTML = '<em>Lädt …</em>';

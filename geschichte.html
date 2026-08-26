@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ============================================================
-     SEO — Titel, Beschreibung, Kanonische Adresse
-     Der Titel steht im Google-Treffer und im Browser-Tab,
-     die description darunter als grauer Fließtext.
+     WICHTIG — ADRESSE NICHT ÄNDERN
+     ============================================================
+     Auf diese Seite zeigen ALLE gedruckten QR-Codes:
+       geschichte.html?id=<motiv-id>
+     Dateiname und der Parameter "id" müssen deshalb exakt so
+     bleiben. Die gedruckten Karten und Lesezeichen lassen sich
+     nicht nachträglich korrigieren.
      ============================================================ -->
 <title>Die Geschichte hinter dem Foto | BG Naturfotografie</title>
 <meta name="description" content="Der Moment hinter dem Motiv: wie diese Aufnahme entstanden ist, plus Artinfos zum fotografierten Tier.">
@@ -16,18 +20,11 @@
 <meta name="author" content="Benedict Gertz">
 <meta name="geo.region" content="DE-SH">
 <meta name="geo.placename" content="Halstenbek">
-<meta name="theme-color" content="#11140F">
+<meta name="theme-color" content="#0E110C">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
-<!-- ============================================================
-     VORSCHAUBILD BEIM TEILEN
-     Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
-     Instagram-DMs, Discord … — also überall dort, wo jemand
-     einen Link von dir weiterschickt. Steht bewusst auf JEDER
-     Unterseite, nicht nur auf der Startseite.
-     Bild bitte immer als volle https-Adresse angeben.
-     ============================================================ -->
+<!-- Vorschaubild beim Teilen (WhatsApp, Signal, Instagram-DM …) -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="BG Naturfotografie">
 <meta property="og:locale" content="de_DE">
@@ -43,25 +40,9 @@
 <meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/gartenleben/rotkehlchen1.jpg">
 <meta name="twitter:image:alt" content="Naturfotografie von BG Naturfotografie">
 
-<!-- Schriften liegen selbst im Projekt (Ordner "schriften/").
-     Keine Verbindung zu Google mehr — siehe styles.css ganz oben.
-     Die zwei wichtigsten werden vorgeladen, damit der Text beim
-     Aufbau nicht kurz die Schrift wechselt. -->
 <link rel="preload" href="schriften/worksans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="schriften/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
-<style>
-  #geschichte-fussblock{
-    margin:1.6rem 0 0; padding:1rem 1.2rem;
-    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:var(--radius);
-    font-family:'JetBrains Mono', monospace; font-size:.82rem; color:var(--text-muted);
-  }
-  .fussblock-zeile{ padding:.2rem 0; }
-  .fussblock-label{
-    display:inline-block; min-width:6.5rem;
-    color:var(--accent-soft); letter-spacing:.04em; text-transform:uppercase; font-size:.72rem;
-  }
-</style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 <script>
   /* Rechtsklick auf Bilder unterbinden (kein echter Kopierschutz,
@@ -73,30 +54,29 @@
 </head>
 <body>
 
-<!-- Sprunglink: erste Station für Tastatur- und Screenreader-Nutzung.
-     Unsichtbar, bis er den Fokus bekommt. -->
 <a class="sprunglink" href="#inhalt">Direkt zum Inhalt</a>
 
 <!-- ============ NAVIGATION ============ -->
 <nav class="nav" aria-label="Hauptmenü">
   <div class="wrap">
-    <a class="brand" href="index.html#top"><b>BG</b> Naturfotografie</a>
+    <a class="brand" href="index.html#top"><img src="bilder/logo.png" alt="" class="brand-logo">
+      <b>BG</b> Naturfotografie</a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen und schließen">
     <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <ul class="nav-links">
       <li><a href="index.html#galerie">Galerie</a></li>
-      <li><a href="karte.html">Karte</a></li>
-      <li><a href="geschichten.html">Geschichten</a></li>
       <li><a href="produkte-bestellen.html">Shop</a></li>
+      <li><a href="geschichten.html" class="ist-hier">Geschichten</a></li>
+      <li><a href="karte.html">Karte</a></li>
       <li><a href="index.html#ueber-mich">Über mich</a></li>
-      <li><a href="index.html#termine">Termine</a></li>
-      <li><a href="index.html#kontakt">Kontakt</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ============ GESCHICHTE (wird per JS aus galerie-daten.js befüllt) ============ -->
+<!-- ============ GESCHICHTE (wird von geschichte.js aus
+     galerie-daten.js + Google-Tabelle befüllt) ============ -->
 <div id="inhalt" tabindex="-1"></div>
+
 <header id="geschichte-lade-hinweis" style="padding-top:9rem; padding-bottom:2rem;">
   <div class="wrap">
     <p style="color:var(--text-muted);">Lädt …</p>
@@ -105,15 +85,15 @@
 
 <div id="geschichte-inhalt" style="display:none;">
 
-  <header style="padding-top:9rem; padding-bottom:.5rem;">
+  <header class="seitenkopf" style="padding-bottom:.5rem;">
     <div class="wrap">
-      <a id="zurueck-link" href="index.html#galerie" style="font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;">&larr; Zur&uuml;ck zur Galerie</a>
-      <span class="eyebrow" id="geschichte-kategorie" style="display:block; margin-top:1.6rem;"></span>
-      <h1 id="geschichte-titel" style="font-size:clamp(2rem,4.2vw,3.2rem);"></h1>
+      <a id="zurueck-link" class="zurueck-link" href="index.html#galerie">&larr; Zur&uuml;ck zur Galerie</a>
+      <span class="eyebrow" id="geschichte-kategorie" style="margin-top:1.6rem;"></span>
+      <h1 id="geschichte-titel"></h1>
     </div>
   </header>
 
-  <section style="padding-top:1rem;">
+  <section style="padding-top:1.5rem;">
     <div class="wrap geschichte-layout">
 
       <figure class="geschichte-bild">
@@ -121,21 +101,38 @@
       </figure>
 
       <div class="geschichte-text">
-        <h2 style="font-size:1.3rem;">Die Geschichte dahinter</h2>
+        <h2>Die Geschichte dahinter</h2>
         <p id="geschichte-text-inhalt" style="color:var(--text-light); font-size:1.05rem; line-height:1.75; white-space:pre-line;"></p>
 
+        <!-- Datenblock: Datum, Ort, Art, Gefährdung -->
         <div id="geschichte-fussblock" style="display:none;"></div>
 
+        <!-- Aufnahmeort, nur wenn in galerie-daten.js hinterlegt -->
         <div id="geschichte-ort-box" class="geschichte-ort" style="display:none;">
           <span class="eyebrow" style="margin-bottom:.3em;">Aufnahmeort</span>
-          <p id="geschichte-ort-text" style="color:var(--text-muted); margin:0 0 .8em;"></p>
+          <p id="geschichte-ort-text" style="color:var(--text-muted); margin:0 0 .9em;"></p>
           <a id="geschichte-karte-link" href="karte.html" class="btn btn-outline" style="font-size:.85rem; padding:.6em 1.2em;">Auf der Karte ansehen &rarr;</a>
+        </div>
+
+        <!-- ============================================================
+             VERKAUFSHINWEIS
+             ============================================================
+             Wer den QR-Code auf einer Postkarte scannt, hält das
+             Motiv schon in der Hand — hier steht deshalb direkt,
+             dass es das Bild auch als Poster oder weitere Karte
+             gibt. Den Link setzt geschichte.js auf genau dieses
+             Motiv im Shop (produkte-bestellen.html#motiv-<id>).
+             ============================================================ -->
+        <div class="geschichte-kaufbox">
+          <p><b>Dieses Motiv gibt es zum Mitnehmen.</b> Als Postkarte (10 × 15 cm), als A4-Poster oder als digitalen Download.</p>
+          <a id="geschichte-shop-link" class="btn btn-fill" href="produkte-bestellen.html#motive" style="font-size:.88rem; padding:.65em 1.3em;">Motiv im Shop ansehen &rarr;</a>
         </div>
 
         <div class="geschichte-teilen-box">
           <button id="teilen-btn" class="btn btn-outline" style="font-size:.85rem; padding:.6em 1.2em; cursor:pointer;">
             <span id="teilen-btn-text">Diese Geschichte teilen</span>
           </button>
+          <a class="btn btn-outline" href="geschichten.html" style="font-size:.85rem; padding:.6em 1.2em;">Alle Geschichten</a>
         </div>
       </div>
 
@@ -147,7 +144,7 @@
 <footer>
   <div class="wrap">
     <span>&copy; 2026 BG Naturfotografie</span>
-    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="karte.html">Karte</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
   </div>
 </footer>
 

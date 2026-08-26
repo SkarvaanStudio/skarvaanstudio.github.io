@@ -1,20 +1,36 @@
 /* ============================================================
+   BG NATURFOTOGRAFIE — Stylesheet
+   ============================================================
+   Leitgedanke dieser Fassung: Das Foto ist der Inhalt, alles
+   andere ist Beschriftung. Deshalb:
+
+   - Bilder laufen randlos und ohne runde Ecken (wie Abzüge).
+   - Überschriften sind klein und ruhig; groß wird nur das Bild.
+   - Wiederkehrendes Gestaltungsmittel ist die "Feldnotiz":
+     eine schmale Monospace-Zeile (Serie · Aufnahmeort · Preis),
+     wie eine Bleistiftnotiz am Rand eines Kontaktbogens.
+   - Alles, was reine Information ist (Ablauf, Staffelpreise,
+     Rückgabe, Tierschutz), steckt in Aufklappern (.info-fold)
+     statt in Textwänden.
+
+   Die Datei wird von ALLEN Seiten gemeinsam genutzt. Änderst du
+   hier eine Farbe, ändert sie sich überall.
+   ============================================================ */
+
+
+/* ============================================================
    SCHRIFTEN — selbst gehostet
    ============================================================
-   Liegen als .woff2 im Ordner "schriften/". Damit geht keine
-   Anfrage mehr an Google, sobald jemand die Seite öffnet — die
-   IP-Adresse der Besucher verlässt den Server nicht mehr.
+   Liegen als .woff2 im Ordner "schriften/". Es geht damit keine
+   Anfrage an Google raus, sobald jemand die Seite öffnet.
+   Alle drei stehen unter der SIL Open Font License
+   (siehe schriften/OFL.txt) — selbst hosten ist erlaubt.
 
-   Alle drei Schriften stehen unter der SIL Open Font License
-   (siehe schriften/OFL.txt). Selbst hosten und mitliefern ist
-   ausdrücklich erlaubt.
+   Es sind "variable" Schriften: eine Datei deckt alle
+   Strichstärken von 100 bis 900 ab.
 
-   Es sind "variable" Schriften: eine Datei deckt alle Strichstärken
-   von 100 bis 900 ab. Deshalb nur vier Dateien statt zehn.
-
-   font-display:swap = der Text ist sofort in einer Systemschrift
-   lesbar und wird nachträglich ausgetauscht. Wichtig, damit die
-   Seite bei langsamer Verbindung nicht kurz leer bleibt.
+   font-display:swap = Text ist sofort in einer Systemschrift
+   lesbar und wird nachträglich ausgetauscht.
    ============================================================ */
 
 @font-face{
@@ -50,1383 +66,1107 @@
   font-display:swap;
 }
 
-  :root{
-    /* ---- Farb-Token: gegründet auf Waldlicht & Eichhörnchen-Fell ---- */
-    --bg-deep:    #11140F;   /* Schattenmoos – fast schwarzes Waldgrün */
-    --bg-panel:   #1B2116;   /* Tann – dunkles Kiefergrün für Karten/Flächen */
-    --bg-panel-2: #222A1C;
-    --accent:     #C97C3D;   /* Eichhorn-Rost – warmes Rotbraun */
-    --accent-soft:#E3A56B;
-    --text-light: #EDE7D6;   /* Raureif – warmes Off-White */
-    --text-muted: #A5B396;   /* Moosgrün – gedämpfter Fließtext/Captions
-                                (aufgehellt: 6,7:1 statt vorher 5,4:1) */
-    --frost:      #9FB8C9;   /* Frostblau – Winter-Akzent, sparsam */
 
-    /* Zwei Linienstärken statt einer:
-       --line        nur für Deko (Trenner, Kartenkanten)
-       --line-strong für alles, was man bedienen kann — Eingabefelder,
-                     Knopfrahmen, Auswahlmenüs. WCAG 1.4.11 verlangt
-                     dort 3:1, die alten 12 % lagen bei 1,3:1. */
-    --line:        rgba(237,231,214,0.12);
-    --line-strong: rgba(237,231,214,0.42);
+/* ============================================================
+   FARB- UND MASS-TOKEN
+   ============================================================
+   Die Markenfarben bleiben (Waldgrün + Eichhorn-Rost), der
+   Hintergrund ist nur eine Spur tiefer und neutraler geworden.
+   Grund: Deine Bilder sind matt und gedämpft — je ruhiger der
+   Untergrund, desto mehr Farbe haben sie.
+   ============================================================ */
+:root{
+  --bg-deep:    #0E110C;   /* Nachtmoos — Seitenhintergrund */
+  --bg-panel:   #161B12;   /* Tann — abgesetzte Flächen */
+  --bg-panel-2: #1E2418;   /* Tann hell — Karten, Aufklapper */
 
-    /* Fokusrahmen für Tastaturbedienung. Sitzt mit Abstand außerhalb
-       des Elements, damit er auch auf gefüllten Knöpfen sichtbar ist. */
-    --fokus:      #FFD9A8;
-    --radius:     3px;
-    --gap:        1.5rem;
-    --maxw:       1180px;
-  }
+  --accent:     #C97C3D;   /* Eichhorn-Rost — Markenfarbe */
+  --accent-soft:#E0A46C;   /* aufgehellt, für Text auf Dunkel */
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg-deep);
-    color:var(--text-light);
-    font-family:'Work Sans', Arial, sans-serif;
-    font-weight:400;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{
-    font-family:'Fraunces', Georgia, serif;
-    font-optical-sizing:auto;   /* nutzt die opsz-Achse der Schrift */
-    font-weight:500;
-    margin:0 0 .4em;
-    letter-spacing:.2px;
-  }
-  a{color:var(--accent-soft); text-decoration:none;}
-  a:hover{color:var(--accent);}
-  img{max-width:100%; display:block;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 1.5rem;}
-  .eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.72rem;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--accent-soft);
-    display:block;
-    margin-bottom:.6em;
-  }
-  section{padding:5.5rem 0; scroll-margin-top:64px;}
-  .btn{
-    display:inline-block;
-    padding:.85em 1.7em;
-    border-radius:var(--radius);
-    font-family:'Work Sans', sans-serif;
-    font-weight:500;
-    font-size:.95rem;
-    border:1px solid var(--accent);
-    transition:background .2s, color .2s, transform .15s;
-  }
-  .btn-fill{background:var(--accent); color:var(--bg-deep);}
-  .btn-fill:hover{background:var(--accent-soft); transform:translateY(-2px); color:var(--bg-deep);}
-  .btn-outline{color:var(--text-light); border-color:var(--line-strong);}
-  .btn-outline:hover{border-color:var(--accent); color:var(--accent-soft);}
+  --text-light: #EDE7D6;   /* Raureif — Fließtext */
+  --text-muted: #A5B396;   /* Moosgrün — Nebentext (Kontrast 6,7:1) */
+  --frost:      #9FB8C9;   /* Frostblau — sparsamer Winterakzent */
 
-  /* ============ NAV ============ */
-  .nav{
-    position:fixed; top:0; left:0; right:0; z-index:50;
-    background:rgba(17,20,15,0.78);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav .wrap{
-    display:flex; align-items:center; justify-content:space-between;
-    height:64px;
-  }
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:.5rem;
-    font-family:'Fraunces', serif;
-    font-size:1.05rem;
-    letter-spacing:.04em;
-    color:var(--text-light);
-  }
-  .brand b{color:var(--accent-soft); font-style:italic; font-weight:500;}
+  /* Zwei Linienstärken:
+     --line        nur Deko (Trenner, Kartenkanten)
+     --line-strong alles Bedienbare (Eingaben, Knopfrahmen).
+                   WCAG 1.4.11 verlangt dort 3:1. */
+  --line:        rgba(237,231,214,0.12);
+  --line-strong: rgba(237,231,214,0.42);
 
-  .brand-logo {
-    height:36px;
-    width:auto;
-    display:block;
-  }
+  --fokus:      #FFD9A8;   /* Tastatur-Fokusrahmen */
 
-  .nav-links{display:flex; gap:2rem; list-style:none; margin:0; padding:0;}
-  .nav-links a{
-    color:var(--text-muted); font-size:.9rem; font-weight:500;
-  }
-  .nav-links a:hover{color:var(--accent-soft);}
-  .nav-toggle{display:none;}
-  .nav-burger{display:none; cursor:pointer; flex-direction:column; gap:5px;}
-  .nav-burger span{width:24px; height:2px; background:var(--text-light); display:block;}
-
-  @media (max-width:780px){
-    .nav-links{
-      position:absolute; top:64px; left:0; right:0;
-      background:var(--bg-panel);
-      flex-direction:column; gap:0;
-      max-height:0; overflow:hidden;
-      transition:max-height .3s ease;
-      border-bottom:1px solid var(--line);
-    }
-    .nav-links a{display:block; padding:1rem 1.5rem; border-top:1px solid var(--line);}
-    .nav-toggle:checked ~ .nav-links{max-height:300px;}
-    .nav-burger{display:flex;}
-  }
-
-  /* ============ HERO ============ */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex; align-items:center;
-    overflow:hidden;
-    padding-top:64px;
-    background:
-      radial-gradient(ellipse 80% 60% at 70% 20%, rgba(201,124,61,0.10), transparent 60%),
-      linear-gradient(180deg, #0D0F0A 0%, var(--bg-deep) 60%);
-  }
-  .bokeh{
-    position:absolute; border-radius:50%;
-    filter:blur(2px);
-    opacity:.55;
-    animation:drift 22s ease-in-out infinite;
-  }
-  .bokeh.b1{width:140px; height:140px; background:var(--accent); top:18%; left:8%; animation-delay:0s; opacity:.18;}
-  .bokeh.b2{width:90px;  height:90px;  background:var(--frost); top:60%; left:18%; animation-delay:-6s; opacity:.14;}
-  .bokeh.b3{width:200px; height:200px; background:var(--accent-soft); top:8%; left:78%; animation-delay:-3s; opacity:.12;}
-  .bokeh.b4{width:60px;  height:60px;  background:var(--text-light); top:75%; left:82%; animation-delay:-10s; opacity:.10;}
-  .bokeh.b5{width:110px; height:110px; background:var(--accent); top:40%; left:55%; animation-delay:-14s; opacity:.10;}
-  @keyframes drift{
-    0%,100%{transform:translate(0,0);}
-    50%{transform:translate(18px,-26px);}
-  }
-  @media (prefers-reduced-motion:reduce){ .bokeh{animation:none;} }
-
-  .hero-inner{position:relative; z-index:2;}
-  .hero h1{
-    font-size:clamp(2.4rem, 6vw, 4.6rem);
-    max-width:14ch;
-    line-height:1.04;
-  }
-  .hero h1 em{color:var(--accent-soft); font-style:italic; font-weight:420;}
-  .hero p.lead{
-    color:var(--text-muted);
-    max-width:42ch;
-    font-size:1.05rem;
-    margin:1.1em 0 2.2em;
-  }
-  .hero-actions{display:flex; gap:.7rem; flex-wrap:wrap;}
-
-  .hero-logo{
-  display:block;
-  height:110px;
-  width:auto;
-  max-width:220px;
-  margin:0 auto 1.5rem auto;
-  opacity:.95;
-  }
-
-  .scroll-cue{
-    position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
-    font-family:'JetBrains Mono', monospace; font-size:.75rem;
-    color:var(--text-muted); letter-spacing:.15em; text-transform:uppercase;
-    display:flex; flex-direction:column; align-items:center; gap:.5em;
-  }
-  .scroll-cue::after{
-    content:""; width:1px; height:34px; background:var(--line);
-  }
-
-  /* ============ SECTION HEADERS ============ */
-  .sec-head{max-width:56ch; margin-bottom:3rem;}
-  .sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);}
-  .sec-head p{color:var(--text-muted); font-size:1rem;}
-
-  /* ============ GALLERY ============ */
-  .cat-nav{
-    display:flex; gap:1.5rem; flex-wrap:wrap;
-    font-family:'JetBrains Mono', monospace; font-size:.78rem;
-    letter-spacing:.06em; text-transform:uppercase;
-    margin-bottom:3.5rem; padding-bottom:1.2rem;
-    border-bottom:1px solid var(--line);
-  }
-  .cat-nav a{color:var(--text-muted);}
-  .cat-nav a:hover{color:var(--accent-soft);}
-
-  .cat-block{margin-bottom:5rem; scroll-margin-top:90px;}
-  .cat-block h3{font-size:1.5rem;}
-  .cat-block .cat-desc{color:var(--text-muted); max-width:48ch; margin-bottom:2rem;}
-
-
-/* ============ GALLERY ============ */
-
-.grid{
-  display:grid;
-  grid-template-columns: 1.08fr 1fr;
-  grid-template-rows: repeat(2, 1fr);
-  gap:24px;
-  align-items:stretch;
-  margin-top:2rem;
-  height: calc(((min(1180px, 100vw - 3rem) - 24px) / 2) * 1.25);
+  --radius:      2px;      /* Knöpfe, Felder — fast eckig */
+  --radius-foto: 0;        /* Fotos: gar keine Rundung, wie ein Abzug */
+  --gap:         1.5rem;
+  --maxw:        1240px;   /* Textbreite; Bilder dürfen darüber hinaus */
 }
 
-.card{
-  position:relative;
-  overflow:hidden;
-  min-height:0;
-  border-radius:var(--radius);
-  border:1px solid rgba(237,231,214,0.08);
-  background:
-    repeating-linear-gradient(
-      135deg,
-      var(--bg-panel) 0 14px,
-      var(--bg-panel-2) 14px 28px
-    );
-}
-
-.card.hero{
-  grid-row: span 2 / span 2;
-  min-height:0;
-}
-
-.card.side:nth-of-type(3){
-  grid-column-start:2;
-}
-
-.card img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
-.card .tag{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:.8rem 1rem;
-  font-family:'JetBrains Mono', monospace;
-  font-size:.75rem;
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg-deep);
   color:var(--text-light);
-  background:none;
-  z-index:2;
+  font-family:'Work Sans', Arial, sans-serif;
+  font-weight:400;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
 }
 
-.card .tag::before{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:90px;              /* Höhe des Verlaufs */
-  background:linear-gradient(
-    to top,
-    rgba(17,20,15,.92) 0%,
-    rgba(17,20,15,.55) 40%,
-    rgba(17,20,15,.20) 70%,
-    transparent 100%
-  );
-  z-index:-1;
+h1,h2,h3{
+  font-family:'Fraunces', Georgia, serif;
+  font-optical-sizing:auto;   /* nutzt die opsz-Achse der Schrift */
+  font-weight:450;
+  margin:0 0 .4em;
+  letter-spacing:-.01em;      /* etwas enger — wirkt gedruckter */
+  line-height:1.14;
 }
-
-.card .tag b{
-  color:var(--accent-soft);
-  font-weight:500;
-}
-
-@media (max-width:900px){
-  .grid{
-    display:block;
-    height:auto;
-  }
-
-  .card,
-  .card.hero,
-  .card.side{
-    display:block;
-    height:auto;
-    min-height:0;
-    aspect-ratio:unset;
-    margin-bottom:20px;
-    background:none;
-    border:none;
-    overflow:visible;
-  }
-
-  .card img,
-  .card.hero img,
-  .card.side img{
-    position:static;
-    width:100%;
-    height:auto;
-    object-fit:contain;
-    display:block;
-    border:1px solid rgba(237,231,214,0.08);
-    border-radius:var(--radius);
-  }
-}
-
-  /* ============ ABOUT ============ */
- .about {
-  background: #182019;
-  color: #e9e6da;
-  padding: 4rem 2rem;
-}
-
-.about-intro {
-  max-width: 700px;
-  margin: 0 auto 3rem;
-}
-
-.eyebrow {
-  color: #cf7c4a;
-  letter-spacing: 0.15em;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-}
-
-.about-intro h2 {
-  font-size: 2rem;
-  margin: 0.5rem 0 1.5rem;
-}
-
-.about-intro p {
-  color: #b7c2ad;
-  line-height: 1.7;
-}
-
-.about-pyramid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.profile-img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #cf7c4a;
-}
-
-.profile-name {
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.info-row {
-  display: flex;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 700px;
-}
-
-.info-card {
-  flex: 1;
-  background: #1f2a20;
-  border-left: 3px solid #cf7c4a;
-  padding: 1.2rem 1.5rem;
-  text-align: left;
-}
-
-.info-card--wide {
-  width: 100%;
-  max-width: 900px;
-}
-
-.info-label {
-  display: block;
-  color: #cf7c4a;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.6rem;
-}
-
-.info-value {
-  color: #d7d2c4;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag {
-  background: #2a352a;
-  color: #cf7c4a;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-}
-
-@media (max-width: 600px) {
-  .info-row {
-    flex-direction: column;
-  }
-}
-
-  /* ============ MASONRY-GALERIE (Unterseiten) ============ */
-  /* Echtes Masonry über CSS-Spalten: behält Seitenverhältnis, kein Cropping */
-  .masonry{
-    column-count:4;
-    column-gap:8px;
-    margin-top:2rem;
-  }
-  .m-item{
-    margin:0 0 8px;
-    break-inside:avoid;
-    -webkit-column-break-inside:avoid;
-    position:relative;
-    border-radius:var(--radius);
-    overflow:hidden;
-    border:1px solid rgba(237,231,214,0.08);
-    background:var(--bg-panel);
-  }
-  .m-item img{
-    width:100%;
-    height:auto;
-    display:block;
-    cursor:zoom-in;
-    transition:opacity .2s ease;
-  }
-  .m-item img:hover{opacity:.9;}
-  .m-item figcaption{
-    padding:.75rem .9rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.75rem;
-    letter-spacing:.02em;
-    color:var(--text-muted);
-  }
-  .m-item figcaption b{color:var(--accent-soft); font-weight:500;}
-
-  .shop-badge{
-    position:absolute; top:8px; right:8px; z-index:2;
-    width:26px; height:26px; border-radius:50%;
-    background:rgba(17,20,15,0.65); border:1px solid rgba(237,231,214,0.25);
-    color:var(--text-light); display:flex; align-items:center; justify-content:center;
-    transition:background .2s, border-color .2s, color .2s;
-  }
-  .shop-badge:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
-  .shop-badge svg{ width:13px; height:13px; }
-
-  .story-badge{
-    position:absolute; top:8px; left:8px; z-index:2;
-    width:26px; height:26px; border-radius:50%;
-    background:rgba(17,20,15,0.65); border:1px solid rgba(237,231,214,0.25);
-    color:var(--text-light); display:flex; align-items:center; justify-content:center;
-    transition:background .2s, border-color .2s, color .2s;
-  }
-  .story-badge:hover{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
-  .story-badge svg{ width:13px; height:13px; }
-
-  /* ============ GESCHICHTE-SEITE ============ */
-  .geschichte-layout{
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:3rem;
-    align-items:start;
-    padding-bottom:4rem;
-  }
-  .geschichte-bild{
-    margin:0;
-    border-radius:var(--radius);
-    overflow:hidden;
-    border:1px solid rgba(237,231,214,0.08);
-    background:var(--bg-panel);
-    position:sticky;
-    top:5.5rem;
-  }
-  .geschichte-bild img{width:100%; height:auto;}
-  .geschichte-ort{
-    margin-top:2.4rem;
-    padding-top:2rem;
-    padding-bottom:2rem;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-  }
-  .geschichte-teilen-box{
-    margin-top:2.4rem;
-    padding-top:.4rem;
-  }
-  #teilen-btn{
-    appearance:none;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    background:transparent;
-    background-color:transparent;
-    color:var(--text-light);
-    border:1px solid var(--line);
-    box-shadow:none;
-    font-family:'Work Sans', sans-serif;
-  }
-  #teilen-btn:hover{
-    border-color:var(--accent);
-    color:var(--accent-soft);
-    background:transparent;
-  }
-  #teilen-btn:focus{outline:2px solid var(--accent-soft); outline-offset:2px;}
-  @media (max-width:800px){
-    .geschichte-layout{grid-template-columns:1fr; gap:2rem;}
-    .geschichte-bild{position:static;}
-  }
-
-  /* ============ KARTE (karte.html) ============ */
-  #foto-karte{
-    width:100%;
-    height:70vh;
-    min-height:420px;
-    border-radius:var(--radius);
-    overflow:hidden;
-    border:1px solid var(--line);
-    background:var(--bg-panel);
-  }
-
-  /* Kachel-Einfärbung: nimmt der Karte die Buntheit, lässt Wasser/Grün
-     aber in ihren natürlichen Farben — kein hue-rotate mehr, das hat
-     vorher zu einem unnatürlichen Gelbgrün geführt. Zum Feintuning:
-     saturate steuert die Kräftigkeit der Farben (niedriger = ruhiger),
-     brightness/contrast die Helligkeit, sepia nur eine Spur Wärme. */
-  .karte-kacheln{
-    filter: saturate(.45) brightness(1.03) contrast(.96) sepia(.08);
-  }
-
-  /* Punkte: schlichte kleine Kreise im Akzentton */
-  .karte-punkt{
-    fill:var(--accent);
-    stroke:#fff;
-    stroke-width:1.5;
-    fill-opacity:0.95;
-    cursor:pointer;
-    transition:fill-opacity .15s;
-  }
-  .karte-punkt:hover{fill-opacity:1;}
-
-  /* Gebiete (Kreis oder frei gezeichnete Fläche): weicher Fleck statt exaktem Pin */
-  .karte-gebiet{
-    fill:var(--accent);
-    fill-opacity:.28;
-    cursor:pointer;
-    filter:blur(5px);
-    transition:fill-opacity .15s;
-  }
-  .karte-gebiet:hover{fill-opacity:.4;}
-
-  .karte-marker-thumb{
-    width:90px; height:90px;
-    object-fit:cover;
-    display:block;
-    border-radius:2px;
-  }
-  .karte-marker-label{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.75rem;
-    color:var(--bg-deep);
-    text-align:center;
-    padding:.3em 0 0;
-    width:90px;
-    white-space:normal;
-    overflow-wrap:break-word;
-    word-break:break-word;
-    line-height:1.3;
-  }
-  .karte-tooltip{
-    background:#fff;
-    border:none;
-    border-radius:2px;
-    padding:5px;
-    box-shadow:0 6px 16px rgba(0,0,0,.2);
-    white-space:normal;
-  }
-  .karte-tooltip .karte-marker-label{color:var(--bg-deep);}
-  .karte-tooltip::before{display:none;}
-
-  /* Sammel-Vorschau beim Hover, wenn sich mehrere Motive einen Ort teilen */
-  .karte-marker-sammel{
-    width:auto;
-    min-width:110px;
-    padding:.2em .4em;
-  }
-  .karte-marker-sammel span{
-    color:var(--accent);
-    font-size:.68rem;
-  }
-
-  /* ---- Klick-Fenster mit allen Bildern eines Ortes ---- */
-  .karte-popup .leaflet-popup-content-wrapper{
-    background:var(--bg-panel);
-    color:var(--text-light);
-    border-radius:var(--radius);
-    border:1px solid var(--line);
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
-  }
-  .karte-popup .leaflet-popup-tip{
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-  }
-  .karte-popup .leaflet-popup-content{
-    margin:.9rem 1rem;
-  }
-  .karte-popup .leaflet-popup-close-button{
-    color:var(--text-muted) !important;
-    padding:.4rem .5rem 0 0 !important;
-  }
-  .karte-popup .leaflet-popup-close-button:hover{color:var(--accent) !important;}
-  .karte-popup-kopf{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.72rem;
-    letter-spacing:.05em;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:.7rem;
-    padding-right:1.2rem;
-  }
-  .karte-popup-kopf span{color:var(--text-muted); text-transform:none; letter-spacing:0;}
-  .karte-popup-raster{
-    width:264px;
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:.7rem;
-    max-height:300px;
-    overflow-y:auto;
-    padding-right:.2rem;
-  }
-  /* Schlanker, dezenter Rollbalken statt des dicken Standardbalkens */
-  .karte-popup-raster{scrollbar-width:thin; scrollbar-color:var(--line) transparent;}
-  .karte-popup-raster::-webkit-scrollbar{width:6px;}
-  .karte-popup-raster::-webkit-scrollbar-track{background:transparent;}
-  .karte-popup-raster::-webkit-scrollbar-thumb{
-    background:var(--line);
-    border-radius:3px;
-  }
-  .karte-popup-eintrag{
-    display:block;
-    text-decoration:none;
-    border-radius:2px;
-    transition:opacity .15s;
-  }
-  .karte-popup-eintrag:hover{opacity:.8;}
-  .karte-popup-eintrag img{
-    width:100%;
-    height:86px;
-    object-fit:cover;
-    display:block;
-    border-radius:2px;
-  }
-  .karte-popup-eintrag span{
-    display:block;
-    font-family:'Work Sans', sans-serif;
-    font-size:.72rem;
-    color:var(--text-light);
-    line-height:1.3;
-    padding-top:.4em;
-  }
-  /* Bei nur einem Motiv das Bild über die volle Breite zeigen */
-  .karte-popup-raster .karte-popup-eintrag:only-child{grid-column:1 / -1;}
-  .karte-popup-raster .karte-popup-eintrag:only-child img{height:150px;}
-  @media (max-width:520px){
-    .karte-popup-raster{width:200px;}
-  }
-
-  /* Ruhigere Zoom-Buttons statt weißer Leaflet-Standardboxen */
-  .leaflet-control-zoom{
-    border:none !important;
-    box-shadow:none !important;
-  }
-  .leaflet-control-zoom a{
-    width:30px !important; height:30px !important; line-height:30px !important;
-    background:rgba(27,33,22,0.85) !important;
-    color:var(--text-light) !important;
-    border:1px solid var(--line) !important;
-    border-radius:var(--radius) !important;
-    margin-bottom:4px;
-    font-weight:400 !important;
-  }
-  .leaflet-control-zoom a:hover{
-    background:var(--accent) !important;
-    color:var(--bg-deep) !important;
-    border-color:var(--accent) !important;
-  }
-  .leaflet-control-attribution{
-    background:rgba(255,255,255,0.7) !important;
-    color:#666 !important;
-    font-size:.75rem !important;
-  }
-  .leaflet-control-attribution a{color:#555 !important;}
-
-  /* ============ QR-WERKZEUG (intern) ============ */
-  .qr-raster{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
-    gap:1.5rem;
-    padding-bottom:4rem;
-  }
-  .qr-karte{
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:1rem;
-    text-align:center;
-  }
-  .qr-karte-code{
-    display:inline-block;
-    padding:8px;
-    background:var(--text-light);
-    border-radius:2px;
-    line-height:0;
-  }
-  .qr-karte-titel{
-    font-family:'Fraunces', serif;
-    font-size:.95rem;
-    margin:.8em 0 0;
-  }
-  .qr-karte-id{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.75rem;
-    color:var(--text-muted);
-    margin:.2em 0 .8em;
-  }
-
-  /* ============ GEBIET ZEICHNEN (intern) ============ */
-  .zeichen-werkzeugleiste{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.6rem;
-    margin-bottom:.8rem;
-  }
-  .zeichen-btn{
-    appearance:none;
-    -webkit-appearance:none;
-    background:transparent;
-    font-size:.82rem;
-    padding:.55em 1.1em;
-    cursor:pointer;
-    font-family:'Work Sans', sans-serif;
-  }
-  .zeichen-btn:disabled{
-    opacity:.4;
-    cursor:not-allowed;
-  }
-  .zeichen-btn.ist-aktiv{
-    background:var(--accent);
-    border-color:var(--accent);
-    color:var(--bg-deep);
-  }
-  .zeichen-status{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.78rem;
-    color:var(--accent-soft);
-    margin:0 0 1.2rem;
-  }
-  .gebiet-werkzeug-layout{
-    display:grid;
-    grid-template-columns:1.6fr 1fr;
-    gap:1.5rem;
-    align-items:start;
-    padding-bottom:4rem;
-  }
-  #zeichen-karte{
-    width:100%;
-    height:75vh;
-    min-height:460px;
-    border-radius:var(--radius);
-    overflow:hidden;
-    border:1px solid var(--line);
-    background:var(--bg-panel);
-  }
-  .gebiet-ergebnisse{
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:1.2rem;
-    max-height:75vh;
-    overflow-y:auto;
-  }
-  .gebiet-eintrag{
-    padding:1rem 0;
-    border-top:1px solid var(--line);
-  }
-  .gebiet-eintrag:first-child{border-top:none; padding-top:0;}
-  .gebiet-eintrag-titel{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.72rem;
-    color:var(--accent-soft);
-    margin:0 0 .5em;
-  }
-  .gebiet-eintrag-code{
-    width:100%;
-    background:var(--bg-deep);
-    color:var(--text-light);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    font-family:'JetBrains Mono', monospace;
-    font-size:.72rem;
-    padding:.6em;
-    resize:vertical;
-    margin-bottom:.6em;
-  }
-  @media (max-width:800px){
-    .gebiet-werkzeug-layout{grid-template-columns:1fr;}
-    .gebiet-ergebnisse{max-height:none;}
-  }
-
-  @media (max-width:900px){
-    .masonry{column-count:3;}
-  }
-  @media (max-width:600px){
-    .masonry{column-count:2; column-gap:8px;}
-    .m-item{margin-bottom:8px;}
-  }
-
-  /* ============ LIGHTBOX ============ */
-  .lightbox{
-    position:fixed;
-    inset:0;
-    z-index:200;
-    display:none;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:rgba(13,15,10,.93);
-    backdrop-filter:blur(8px);
-    padding:2rem;
-  }
-  .lightbox.is-open{display:flex;}
-  .lightbox figure{margin:0; display:flex; flex-direction:column; align-items:center;position:relative;}
-  .lightbox figure::after{
-  content:"BG Naturfotografie";
-  position:absolute;
-  right:1rem;
-  bottom:3.2rem;
-  z-index:5;
-  font-family:'JetBrains Mono', monospace;
-  font-size:.9rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:rgba(237,231,214,.58);
-  text-shadow:0 1px 4px rgba(0,0,0,.65);
-  pointer-events:none;
-}
-  .lightbox img{
-    max-width:90vw;
-    max-height:85vh;
-    width:auto;
-    height:auto;
-    border-radius:var(--radius);
-    box-shadow:0 25px 70px rgba(0,0,0,.55);
-  }
-  .lightbox figcaption{
-    margin-top:1rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.78rem;
-    color:var(--text-muted);
-    text-align:center;
-  }
-  .lightbox figcaption b{color:var(--accent-soft); font-weight:500;}
-  .lightbox-close{
-    position:absolute;
-    top:1.4rem;
-    right:1.6rem;
-    width:42px;
-    height:42px;
-    border:1px solid var(--line);
-    border-radius:50%;
-    background:rgba(237,231,214,0.06);
-    color:var(--text-light);
-    font-size:1.6rem;
-    line-height:1;
-    font-family:'Work Sans', sans-serif;
-    cursor:pointer;
-    transition:border-color .2s, color .2s, background .2s;
-  }
-  .lightbox-close:hover{
-    border-color:var(--accent);
-    color:var(--accent-soft);
-    background:rgba(237,231,214,0.1);
-  }
-  @media (max-width:600px){
-  .lightbox figure::after{
-    right:.8rem;
-    bottom:3rem;
-    font-size:.58rem;
-  }
-}
-
-  /* ============ GALERIE: "MEHR ENTDECKEN" ============ */
-  .cat-more{margin-top:1.8rem;}
-
-  /* ============ ERHÄLTLICH ALS ============ */
-  .avail-list{
-    display:flex; flex-wrap:wrap; gap:.7rem 1.6rem;
-    list-style:none; margin:1.8rem 0 2rem; padding:0;
-    font-family:'JetBrains Mono', monospace; font-size:.85rem;
-    color:var(--text-muted);
-  }
-  .avail-list li{position:relative; padding-left:1.1rem;}
-  .avail-list li::before{content:"·"; position:absolute; left:0; color:var(--accent-soft);}
-  .avail-note{color:var(--text-muted); font-size:.92rem; max-width:50ch; margin-bottom:1.8rem;}
-
-  /* ============ CONTACT ============ */
-  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:3.5rem;}
-  @media (max-width:780px){ .contact-grid{grid-template-columns:1fr;} }
-  form{display:flex; flex-direction:column; gap:1rem;}
-  label{font-size:.82rem; color:var(--text-muted); margin-bottom:.3rem; display:block;}
-  input, textarea, select{
-    width:100%; background:var(--bg-panel); border:1px solid var(--line-strong);
-    border-radius:var(--radius); color:var(--text-light);
-    padding:.75em .9em; font-family:'Work Sans', sans-serif; font-size:.95rem;
-  }
-  input:focus, textarea:focus, select:focus{border-color:var(--accent);}
-  textarea{min-height:120px; resize:vertical;}
-  .socials{display:flex; gap:1.4rem; margin-top:1.2rem; font-size:.9rem;}
-
-  footer{
-    border-top:1px solid var(--line);
-    padding:2.4rem 0;
-    font-family:'JetBrains Mono', monospace; font-size:.75rem;
-    color:var(--text-muted);
-  }
-  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;}
-  footer a{color:var(--text-muted);}
-  footer a:hover{color:var(--accent-soft);}
-
-
-
-  img{
+a{color:var(--accent-soft); text-decoration:none;}
+a:hover{color:var(--accent);}
+img{
+  max-width:100%;
+  display:block;
   -webkit-user-drag:none;
   user-select:none;
 }
 
-  /* ============ ERHÄLTLICH ALS (Produkte) ============ */
-  .product-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-    gap:var(--gap);
-    margin:2.4rem 0 2.2rem;
-  }
-  .product-card{
-    position:relative;
-    background:var(--bg-panel-2);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    transition:transform .2s ease, border-color .2s ease;
-  }
-  .product-card:hover{
-    transform:translateY(-3px);
-    border-color:var(--accent);
-  }
-  .product-card .frame{
-    position:relative;
-    aspect-ratio:4/5;
-    overflow:hidden;
-    background:
-      repeating-linear-gradient(
-        135deg,
-        var(--bg-panel) 0 14px,
-        var(--bg-panel-2) 14px 28px
-      );
-  }
-  .product-card .frame img{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-  }
-  .product-card .frame .icon{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif;
-    font-style:italic;
-    font-size:2.6rem;
-    color:var(--accent-soft);
-    opacity:.5;
-  }
-  .product-card .frame .fmt-tag{
-    position:absolute; left:0; right:0; bottom:0;
-    padding:.85rem .95rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.75rem;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    color:rgba(237,231,214,.82);
-    text-shadow:0 1px 6px rgba(0,0,0,.7);
-  }
-  .product-card .frame .fmt-tag::before{
-    content:"";
-    position:absolute; left:0; right:0; bottom:0;
-    height:88px;
-    background:linear-gradient(
-      to top,
-      rgba(17,20,15,.96) 0%,
-      rgba(17,20,15,.75) 45%,
-      rgba(17,20,15,.05) 90%,
-      transparent 100%
-    );
-    z-index:-1;
-  }
-  .product-card .frame .fmt-tag b{
-    display:block;
-    margin-top:.15rem;
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:.98rem;
-    letter-spacing:0;
-    text-transform:none;
-    color:var(--accent-soft);
-    text-shadow:0 1px 6px rgba(0,0,0,.7);
-  }
-  .product-card .body{ padding:1rem 1.1rem 1.2rem; }
-  .product-card .body p{
-    margin:0;
-    color:var(--text-muted);
-    font-size:.85rem;
-  }
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 1.6rem;}
+section{padding:5rem 0; scroll-margin-top:64px;}
 
-  .offer-banner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:2rem;
-    flex-wrap:wrap;
-    background:var(--bg-panel-2);
-    border:1px solid var(--accent);
-    border-radius:var(--radius);
-    padding:1.8rem 2.2rem;
-    margin:1.4rem 0 1.4rem;
-  }
-  .offer-banner-text{ max-width:48ch; }
-  .offer-banner-text h3{
-    font-size:1.3rem;
-    margin:0 0 .5rem;
-  }
-  .offer-banner-text p{
-    margin:0;
-    color:var(--text-muted);
-    font-size:.92rem;
-  }
-  .offer-banner .btn{
-    flex-shrink:0;
-    white-space:nowrap;
-  }
 
-  /* Etsy: bewusst zurückhaltender als der Vor-Ort/Anfrage-Hinweis darüber */
-  .offer-banner--etsy{
-    padding:1.15rem 1.6rem;
-    border-color:var(--line);
-    margin-bottom:0;
-  }
-  .offer-banner--etsy .offer-banner-text h3{
-    font-size:1.02rem;
-    margin-bottom:.3rem;
-  }
-  .offer-banner--etsy .offer-banner-text p{
-    font-size:.84rem;
-  }
-  .offer-banner--etsy .btn{
-    padding:.65em 1.4em;
-    font-size:.86rem;
-  }
+/* ---- Feldnotiz-Schrift: das durchgehende Beschriftungsmittel ----
+   Überall dort, wo etwas benannt statt erzählt wird: Ort, Serie,
+   Preis, Datum, Rubrik. Klein, monospace, gesperrt. */
+.eyebrow{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent-soft);
+  display:block;
+  margin-bottom:.7em;
+}
 
-  @media (max-width:600px){
-    .offer-banner{ padding:1.5rem 1.6rem; }
-    .offer-banner--etsy{ padding:1rem 1.3rem; }
-    .offer-banner .btn{ width:100%; text-align:center; }
-  }
 
-  /* ============ TERMINE ============ */
-  .termine-grid{
-    display:grid;
-    grid-template-columns:1.15fr .85fr;
-    gap:var(--gap);
-    margin-top:2.4rem;
-    align-items:stretch;
-  }
-  @media (max-width:780px){
-    .termine-grid{ grid-template-columns:1fr; }
-  }
-  .status-card, .interest-card{
-    background:var(--bg-panel-2);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:1.8rem 2rem;
-  }
-  .status-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.75rem;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:var(--accent-soft);
-    border:1px solid var(--accent);
-    padding:.4rem .85rem;
-    border-radius:20px;
-    margin-bottom:1.2rem;
-  }
-  .status-badge .dot{
-    width:6px; height:6px;
-    border-radius:50%;
-    background:var(--accent);
-    animation:bg-pulse 2.2s infinite;
-  }
-  @keyframes bg-pulse{
-    0%,100%{ opacity:1; }
-    50%{ opacity:.3; }
-  }
-  @media (prefers-reduced-motion:reduce){
-    .status-badge .dot{ animation:none; }
-  }
-  .status-card p{
-    color:var(--text-muted);
-    font-size:.92rem;
-    margin:0 0 1.2rem;
-  }
-  .region-list{
-    list-style:none; margin:0; padding:0;
-    display:flex; flex-direction:column; gap:.5rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.8rem;
-    color:var(--text-light);
-  }
-  .region-list li{ position:relative; padding-left:1.1rem; }
-  .region-list li::before{
-    content:"·";
-    position:absolute; left:0;
-    color:var(--accent-soft);
-  }
-  .interest-card{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  .interest-card h3{ font-size:1.2rem; margin-bottom:.5rem; }
-  .interest-card p{
-    color:var(--text-muted);
-    font-size:.88rem;
-    margin:0 0 1.3rem;
-  }
+/* ---- Laufender Rubrikkopf ----
+   Ersetzt die früheren großen, zentrierten Sektionsköpfe: eine
+   Haarlinie, links daran die Rubrik in Monospace, rechts ein
+   Kurzlink. Nimmt kaum Platz weg und ordnet trotzdem. */
+.rubrik{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:1.5rem; flex-wrap:wrap;
+  padding-bottom:.9rem; margin-bottom:2.2rem;
+  border-bottom:1px solid var(--line);
+}
+.rubrik-label{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent-soft); margin:0;
+}
+.rubrik-link{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.06em; color:var(--text-muted);
+}
+.rubrik-link:hover{ color:var(--accent-soft); }
 
-  /* ============ KONTAKT: ANLIEGEN-CHIPS ============ */
-  .chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.6rem;
-    margin:1.3rem 0 1.5rem;
-  }
-  .chip{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.76rem;
-    color:var(--text-muted);
-    background:var(--bg-panel-2);
-    border:1px solid var(--line);
-    padding:.5rem .95rem;
-    border-radius:20px;
-    cursor:pointer;
-    transition:border-color .2s, color .2s, background .2s;
-  }
-  .chip:hover{
-    border-color:var(--accent);
-    color:var(--accent-soft);
-  }
-  .chip.active{
-    border-color:var(--accent);
-    color:var(--accent-soft);
-    background:rgba(201,124,61,0.14);
-  }
-  .response-note{
-    display:flex;
-    align-items:center;
-    gap:.5rem;
-    font-family:'JetBrains Mono', monospace;
-    font-size:.74rem;
-    color:var(--text-muted);
-    margin-top:.4rem;
-  }
-  .response-note .dot2{
-    width:6px; height:6px;
-    border-radius:50%;
-    background:#7fae86;
-    display:inline-block;
-  }
+/* Sektionsköpfe der Unterseiten (fuer-veranstalter, portfolio) */
+.sec-head{max-width:56ch; margin-bottom:2.6rem;}
+.sec-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem);}
+.sec-head p{color:var(--text-muted); font-size:1rem;}
 
-  /* ============================================================
-     RECHTSTEXTE (Impressum, Datenschutz, AGB)
-     Eigene, schmale Lesespalte — nutzt aber dieselben Farb-Token,
-     Schriften und Navigation wie der Rest der Seite, damit die
-     Seiten nicht mehr wie ein fremdes Dokument wirken.
-     ============================================================ */
-  .legal{
-    max-width:74ch;
-    margin:0 auto;
-    padding:8rem 1.5rem 4rem;
-  }
-  .legal .zurueck{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.76rem;
-    color:var(--text-muted);
-    text-decoration:none;
-    display:inline-block;
-    margin-bottom:2.2rem;
-    transition:color .2s;
-  }
-  .legal .zurueck:hover{ color:var(--accent-soft); }
-  .legal h1{
-    font-size:clamp(1.8rem, 3.4vw, 2.4rem);
-    margin-bottom:2rem;
-  }
-  .legal h2{
-    font-size:1.25rem;
-    margin:2.6rem 0 .8rem;
-    padding-top:1.4rem;
-    border-top:1px solid var(--line);
-  }
-  .legal h3{
-    font-size:1rem;
-    color:var(--accent-soft);
-    margin:1.8rem 0 .6rem;
-  }
-  .legal p,
-  .legal li{
-    color:var(--text-muted);
-    line-height:1.75;
-    font-size:.95rem;
-  }
-  .legal p{ margin-bottom:1rem; }
-  .legal ul{ margin:0 0 1.2rem 1.2rem; }
-  .legal li{ margin-bottom:.5rem; }
-  .legal strong{ color:var(--text-light); font-weight:500; }
-  .legal a{ color:var(--accent-soft); }
-  .legal .warn{
+/* Seitenkopf der Unterseiten (Galerie, Karte, Geschichten) */
+.seitenkopf{ padding:8.5rem 0 0; }
+.seitenkopf h1{ font-size:clamp(2rem,4.6vw,3.4rem); margin:.6rem 0 .6rem; }
+.seitenkopf p.lead{ color:var(--text-muted); max-width:56ch; font-size:1.02rem; margin:0; }
+.zurueck-link{
+  font-family:'JetBrains Mono', monospace; font-size:.74rem;
+  color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;
+}
+.zurueck-link:hover{ color:var(--accent-soft); }
+
+
+/* ============ KNÖPFE ============ */
+.btn{
+  display:inline-block;
+  padding:.85em 1.7em;
+  border-radius:var(--radius);
+  font-family:'Work Sans', sans-serif;
+  font-weight:500;
+  font-size:.95rem;
+  border:1px solid var(--accent);
+  transition:background .2s, color .2s, border-color .2s;
+}
+.btn-fill{background:var(--accent); color:var(--bg-deep);}
+.btn-fill:hover{background:var(--accent-soft); color:var(--bg-deep);}
+.btn-outline{color:var(--text-light); border-color:var(--line-strong);}
+.btn-outline:hover{border-color:var(--accent); color:var(--accent-soft);}
+
+
+/* ============ NAVIGATION ============
+   Bewusst auf fünf Punkte gekürzt: Galerie, Shop, Geschichten,
+   Karte, Über mich. "Termine" und "Kontakt" sind weiterhin auf
+   der Startseite und im Fußbereich erreichbar — sie mussten nur
+   nicht dauerhaft oben stehen. */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  background:rgba(14,17,12,0.72);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:64px;
+}
+.brand{
+  display:flex; align-items:center; gap:.55rem;
+  font-family:'Fraunces', serif;
+  font-size:1.02rem;
+  letter-spacing:.01em;
+  color:var(--text-light);
+}
+.brand b{color:var(--accent-soft); font-style:italic; font-weight:500;}
+.brand-logo{ height:32px; width:auto; display:block; }
+
+.nav-links{display:flex; gap:1.9rem; list-style:none; margin:0; padding:0;}
+.nav-links a{
+  font-family:'JetBrains Mono', monospace;
+  color:var(--text-muted); font-size:.76rem; letter-spacing:.06em;
+}
+.nav-links a:hover{color:var(--accent-soft);}
+.nav-links .ist-hier{ color:var(--accent-soft); }   /* aktuelle Seite */
+.nav-burger{display:none; cursor:pointer; flex-direction:column; gap:5px;}
+.nav-burger span{width:22px; height:1.5px; background:var(--text-light); display:block;}
+
+@media (max-width:820px){
+  .nav-links{
+    position:absolute; top:64px; left:0; right:0;
     background:var(--bg-panel);
-    border:1px solid var(--line);
-    border-left:3px solid var(--accent);
-    border-radius:var(--radius);
-    padding:1.2rem 1.4rem;
-    margin-bottom:2.4rem;
-    font-size:.9rem;
-    color:var(--text-muted);
+    flex-direction:column; gap:0;
+    max-height:0; overflow:hidden;
+    transition:max-height .3s ease;
+    border-bottom:1px solid var(--line);
   }
-  .legal .warn strong{ color:var(--text-light); }
-  .legal .stand{
-    font-family:'JetBrains Mono', monospace;
-    font-size:.74rem;
-    color:var(--text-muted);
-    margin-top:3rem;
-    padding-top:1.4rem;
-    border-top:1px solid var(--line);
-  }
+  .nav-links a{display:block; padding:1rem 1.6rem; border-top:1px solid var(--line); font-size:.85rem;}
+  .nav-toggle:checked ~ .nav-links{max-height:340px;}
+  .nav-burger{display:flex;}
+}
 
-  /* ---- Terminliste auf der Startseite ---- */
-  .termin-liste{ list-style:none; margin:1rem 0 0; padding:0; display:flex; flex-direction:column; gap:.9rem; }
-  .termin-liste li{
-    display:flex; gap:1rem; align-items:flex-start;
-    padding:.85rem 1rem;
-    background:var(--bg-panel-2); border:1px solid var(--line);
-    border-left:3px solid var(--accent); border-radius:var(--radius);
-  }
-  .termin-datum{
-    font-family:'JetBrains Mono', monospace; font-size:.76rem;
-    color:var(--accent-soft); white-space:nowrap; padding-top:.15rem;
-  }
-  .termin-ort{ font-size:.9rem; color:var(--text-muted); line-height:1.5; }
-  .termin-ort b{ color:var(--text-light); font-weight:500; }
-  .termin-note{ font-size:.84rem; color:var(--text-muted); margin:1rem 0 0; }
-  @media (max-width:520px){
-    .termin-liste li{ flex-direction:column; gap:.35rem; }
-  }
 
-  /* ============================================================
-     BARRIEREFREIHEIT
-     ============================================================ */
+/* ============================================================
+   BÜHNE (Startseiten-Kopf)
+   ============================================================
+   Das Kennzeichen der Seite: ein bildschirmfüllendes Foto, das
+   langsam durch mehrere Motive wechselt, und darunter eine echte
+   Feldnotiz — Serie und Aufnahmeort kommen live aus
+   galerie-daten.js, nicht aus erfundenem Text. Die Notiz ist
+   klickbar und führt zur Geschichte genau dieses Motivs.
+   ============================================================ */
+.buehne{
+  position:relative;
+  min-height:100svh;                /* svh: kein Sprung, wenn auf dem
+                                       Handy die Adressleiste einfährt */
+  display:flex; align-items:flex-end;
+  overflow:hidden;
+  padding:8rem 0 3.4rem;
+  background:var(--bg-deep);
+}
+.buehne-bilder{ position:absolute; inset:0; }
+.buehne-bild{
+  position:absolute; inset:0;
+  opacity:0;
+  transition:opacity 1.6s ease;
+}
+.buehne-bild.ist-sichtbar{ opacity:1; }
+.buehne-bild img{
+  width:100%; height:100%;
+  object-fit:cover;
+  /* leicht abgedunkelt, damit die Schrift darüber ruhig bleibt —
+     in der Galerie sieht man die Bilder dann unbearbeitet */
+  filter:saturate(.92) brightness(.8);
+}
+/* Verlauf von unten, damit Überschrift und Notiz immer lesbar
+   sind, egal wie hell das Foto gerade ist. */
+.buehne::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(
+    to top,
+    rgba(14,17,12,.94) 0%,
+    rgba(14,17,12,.70) 26%,
+    rgba(14,17,12,.18) 58%,
+    rgba(14,17,12,.44) 100%);
+}
+.buehne-inner{ position:relative; z-index:2; width:100%; }
+.buehne h1{
+  font-size:clamp(2.6rem, 7.6vw, 5.6rem);
+  max-width:13ch;
+  margin:.15em 0 1.1rem;
+  text-shadow:0 2px 24px rgba(0,0,0,.45);
+}
+.buehne h1 em{ color:var(--accent-soft); font-style:italic; font-weight:400; }
 
-  /* ---- Sprunglink: erste Taste auf jeder Seite ----
-     Wer mit der Tastatur navigiert, musste sich bisher auf jeder
-     Seite durch sieben Menüpunkte klicken, bevor der Inhalt kam.
-     Der Link ist unsichtbar, bis er den Fokus bekommt. */
-  .sprunglink{
-    position:absolute; left:-9999px; top:0; z-index:200;
-    background:var(--accent); color:var(--bg-deep);
-    padding:.8em 1.4em; border-radius:0 0 var(--radius) 0;
-    font-family:'Work Sans', sans-serif; font-weight:500; font-size:.95rem;
-  }
-  .sprunglink:focus{ left:0; color:var(--bg-deep); }
+/* Die Feldnotiz unter der Überschrift */
+.buehne-notiz{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.78rem; letter-spacing:.05em;
+  color:var(--text-light);
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.45rem 0;
+  border-bottom:1px solid var(--line-strong);
+  margin-bottom:2rem;
+  transition:border-color .2s, color .2s;
+}
+.buehne-notiz:hover{ color:var(--accent-soft); border-color:var(--accent); }
+.buehne-notiz .buehne-serie{ color:var(--accent-soft); }
+.buehne-notiz .trenner{ color:var(--text-muted); }
+.buehne-notiz .pfeil{ opacity:.6; }
 
-  /* ---- Sichtbarer Fokusrahmen für alles Bedienbare ----
-     :focus-visible statt :focus — dadurch erscheint der Rahmen bei
-     Tastaturbedienung, aber nicht bei jedem Mausklick.
-     Der doppelte Rahmen (heller Umriss + dunkler Schatten) sorgt
-     dafür, dass er sowohl auf dunklem Grund als auch auf den
-     gefüllten orangen Knöpfen deutlich sichtbar bleibt. */
-  a:focus-visible,
-  button:focus-visible,
-  input:focus-visible,
-  textarea:focus-visible,
-  select:focus-visible,
-  summary:focus-visible,
-  details:focus-visible,
-  [tabindex]:focus-visible{
-    outline:3px solid var(--fokus);
-    outline-offset:2px;
-    box-shadow:0 0 0 5px var(--bg-deep);
-    border-radius:2px;
-  }
+.buehne-aktionen{ display:flex; gap:.7rem; flex-wrap:wrap; }
 
-  /* Ältere Browser ohne :focus-visible bekommen wenigstens :focus */
-  @supports not selector(:focus-visible){
-    a:focus, button:focus, input:focus, textarea:focus,
-    select:focus, summary:focus{
-      outline:3px solid var(--fokus); outline-offset:2px;
-    }
-  }
+/* Zähler rechts unten: zeigt, dass sich das Bild bewegt, ohne
+   dass ein Pfeil-Karussell nötig wäre. */
+.buehne-zaehler{
+  position:absolute; right:1.6rem; bottom:3.4rem; z-index:2;
+  font-family:'JetBrains Mono', monospace; font-size:.7rem;
+  letter-spacing:.16em; color:var(--text-muted);
+}
+@media (max-width:760px){
+  .buehne{ padding-top:6rem; }
+  .buehne-zaehler{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  .buehne-bild{ transition:none; }
+}
 
-  /* ---- Menüknopf mit der Tastatur bedienbar ----
-     Das Kästchen stand auf display:none und war damit für die
-     Tabulatortaste unerreichbar — das Menü ließ sich auf dem Handy
-     ohne Maus gar nicht öffnen. Jetzt liegt es unsichtbar genau
-     über dem Burger-Symbol. */
-  .nav-toggle{
-    display:block;
-    position:absolute; top:20px; right:1.5rem;
-    width:26px; height:24px;
-    margin:0; padding:0; opacity:0; cursor:pointer; z-index:3;
-  }
-  @media (min-width:781px){
-    .nav-toggle{ display:none; }
-  }
-  .nav-toggle:focus-visible + .nav-burger{
-    outline:3px solid var(--fokus); outline-offset:4px;
-  }
-  .nav-burger span{ transition:transform .2s, opacity .2s; }
 
-  /* ---- Weniger Bewegung, wenn das System es verlangt ----
-     Gilt für Menschen, die auf Bewegung mit Schwindel oder
-     Migräne reagieren (WCAG 2.3.3). */
-  @media (prefers-reduced-motion:reduce){
-    html{ scroll-behavior:auto; }
-    *, *::before, *::after{
-      animation-duration:.01ms !important;
-      animation-iteration-count:1 !important;
-      transition-duration:.01ms !important;
-      scroll-behavior:auto !important;
-    }
-    .card:hover, .einstieg-karte:hover, .geschichten-card:hover,
-    .pick-card:hover, .m-item img:hover, .btn-fill:hover{
-      transform:none !important;
-    }
-  }
+/* ============================================================
+   SERIEN (Galerie-Einstieg auf der Startseite)
+   ============================================================
+   Vier große Bildkacheln statt vier Textblöcken mit je drei
+   Vorschaubildern. Jede Kachel führt direkt in die vollständige
+   Serie. Das Vorschaubild wird per Zufall aus der jeweiligen
+   Serie gezogen (Skript unten in index.html) — die Startseite
+   sieht bei jedem Besuch etwas anders aus, ohne dass du
+   irgendetwas pflegen musst.
+   ============================================================ */
+.serien{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:2px;                       /* fast fugenlos, wie ein Kontaktbogen */
+}
+.serie{
+  position:relative;
+  scroll-margin-top:80px;
+  display:block;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:var(--bg-panel);
+  color:var(--text-light);
+}
+.serie img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform .9s cubic-bezier(.2,.7,.3,1), filter .5s;
+  filter:brightness(.72) saturate(.9);
+}
+.serie:hover img,
+.serie:focus-visible img{ transform:scale(1.035); filter:brightness(.88) saturate(1); }
+.serie-text{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:1.5rem 1.6rem;
+  background:linear-gradient(to top, rgba(14,17,12,.88), transparent);
+}
+.serie-name{
+  font-family:'Fraunces', serif; font-weight:450;
+  font-size:clamp(1.4rem, 2.6vw, 2rem);
+  margin:0;
+  color:var(--text-light);
+}
+.serie-zeile{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.05em;
+  color:var(--text-muted);
+  margin:.4rem 0 0;
+  display:flex; gap:.7rem; align-items:center; flex-wrap:wrap;
+}
+.serie-zeile .anzahl{ color:var(--accent-soft); }
+@media (max-width:760px){
+  .serien{ grid-template-columns:1fr; }
+  .serie{ aspect-ratio:3/2; }
+}
 
-  /* ---- Nur für Screenreader ---- */
-  .nur-vorlesen{
-    position:absolute; width:1px; height:1px;
-    padding:0; margin:-1px; overflow:hidden;
-    clip:rect(0 0 0 0); white-space:nowrap; border:0;
+
+/* ============================================================
+   MITNEHMEN (Shop-Anriss auf der Startseite)
+   ============================================================
+   Hier geht es nur darum, in drei Sekunden zu zeigen: Was gibt
+   es, was kostet es, wo klicke ich. Preise stehen deshalb direkt
+   an der Kachel — nicht erst zwei Klicks später.
+   ============================================================ */
+.mitnehmen-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  gap:1.2rem;
+}
+.mn-karte{
+  display:flex; flex-direction:column;
+  background:var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius-foto);
+  overflow:hidden;
+  color:var(--text-light);
+  transition:border-color .2s;
+}
+.mn-karte:hover{ border-color:var(--accent); color:var(--text-light); }
+.mn-bild{ aspect-ratio:4/3; overflow:hidden; background:var(--bg-panel-2); }
+.mn-bild img{ width:100%; height:100%; object-fit:cover; }
+.mn-body{
+  padding:1.1rem 1.2rem 1.3rem;
+  display:flex; flex-direction:column; gap:.3rem; flex-grow:1;
+}
+.mn-name{ font-family:'Fraunces', serif; font-size:1.12rem; font-weight:450; margin:0; }
+.mn-format{
+  font-family:'JetBrains Mono', monospace; font-size:.7rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted);
+}
+.mn-preis{
+  font-family:'JetBrains Mono', monospace; font-size:.92rem;
+  color:var(--accent-soft); margin-top:auto; padding-top:.8rem;
+}
+.mn-preis small{
+  display:block; font-size:.7rem; color:var(--text-muted);
+  letter-spacing:.03em; margin-top:.15rem;
+}
+
+
+/* ============================================================
+   AUFKLAPPER (.info-fold)
+   ============================================================
+   Das Arbeitspferd dieser Fassung. Alles, was reine Information
+   ist, steckt hier drin: Ablauf einer Bestellung, Staffelpreise,
+   Versand, Widerruf, Tierschutz-Haltung, Standdaten.
+
+   Neues Aufklapp-Element anlegen:
+
+     <details class="info-fold">
+       <summary>Überschrift der Klappe</summary>
+       <div class="fold-body">
+         <p>Text …</p>
+       </div>
+     </details>
+
+   Steht jetzt hier statt nur im Shop, damit es auf jeder Seite
+   gleich aussieht.
+   ============================================================ */
+.info-folds{
+  margin:2rem 0 0; max-width:76ch;
+  display:flex; flex-direction:column; gap:0;
+  border-top:1px solid var(--line);
+}
+.info-fold{ border-bottom:1px solid var(--line); background:transparent; }
+.info-fold summary{
+  cursor:pointer; list-style:none;
+  padding:1rem .2rem;
+  font-family:'JetBrains Mono', monospace; font-size:.79rem; letter-spacing:.03em;
+  color:var(--text-light);
+  display:flex; align-items:center; gap:.8rem;
+  transition:color .2s;
+}
+.info-fold summary::-webkit-details-marker{ display:none; }
+.info-fold summary::before{
+  content:"+"; color:var(--accent-soft); font-size:1.05rem; line-height:1;
+  width:1ch; flex-shrink:0;
+}
+.info-fold[open] summary::before{ content:"–"; }
+.info-fold summary:hover{ color:var(--accent-soft); }
+.fold-body{ padding:0 .2rem 1.4rem 2rem; }
+.fold-body p{ font-size:.9rem; color:var(--text-muted); margin:0 0 .8rem; max-width:66ch; }
+.fold-body p:last-child{ margin-bottom:0; }
+.fold-body b{ color:var(--text-light); font-weight:500; }
+.fold-body a{ color:var(--accent-soft); }
+.fold-note{ font-size:.83rem !important; }
+.fold-steps{ margin:0; padding:0 0 0 1.1rem; display:flex; flex-direction:column; gap:.6rem; }
+.fold-steps li{ font-size:.9rem; color:var(--text-muted); padding-left:.3rem; }
+.fold-steps li::marker{ color:var(--accent-soft); font-family:'JetBrains Mono', monospace; font-size:.8rem; }
+
+/* Preisstaffel-Spalten in einer Klappe */
+.staffel-cols{ display:flex; flex-wrap:wrap; gap:2.4rem; margin:0 0 1rem; }
+.staffel-titel{ font-size:.84rem; color:var(--text-light); display:block; margin-bottom:.4rem; }
+.staffel-cols ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.25rem; }
+.staffel-cols li{ font-family:'JetBrains Mono', monospace; font-size:.8rem; color:var(--text-muted); }
+.staffel-cols li b{ color:var(--text-light); font-weight:500; }
+
+/* Stichwort-Pillen (Schwerpunkte, Orte) — u. a. in einer Klappe */
+.tags{ display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.5rem; }
+.tag{
+  font-family:'JetBrains Mono', monospace;
+  background:var(--bg-panel-2);
+  color:var(--accent-soft);
+  padding:.28rem .75rem;
+  border-radius:20px;
+  font-size:.74rem;
+}
+
+
+/* ============================================================
+   SCHMALES HINWEIS-BAND
+   ============================================================
+   Für Querverweise, die keine eigene Sektion verdienen — z. B.
+   "Zu vielen Motiven gibt es die Geschichte dahinter".
+   ============================================================ */
+.band{
+  display:flex; align-items:center; gap:2rem; flex-wrap:wrap;
+  justify-content:space-between;
+  padding:1.8rem 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.band-text{ max-width:54ch; }
+.band-text h2{ font-size:1.25rem; margin:0 0 .35rem; }
+.band-text p{ color:var(--text-muted); font-size:.92rem; margin:0; }
+.band .btn{ flex-shrink:0; }
+
+
+/* ============================================================
+   ÜBER MICH
+   ============================================================ */
+.ueber-grid{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:2.8rem;
+  align-items:start;
+}
+.ueber-portrait{
+  width:100%; aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:var(--radius-foto);
+  filter:saturate(.95);
+}
+.ueber-text h2{ font-size:clamp(1.6rem,3vw,2.2rem); }
+.ueber-text p{ color:var(--text-muted); max-width:60ch; font-size:1rem; }
+.ueber-text p.gross{ color:var(--text-light); font-size:1.14rem; max-width:48ch; }
+@media (max-width:720px){
+  .ueber-grid{ grid-template-columns:1fr; gap:1.6rem; }
+  .ueber-portrait{ max-width:150px; }
+}
+
+
+/* ============================================================
+   TERMINE
+   ============================================================ */
+.termin-liste{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0; }
+.termin-liste li{
+  display:flex; gap:1.4rem; align-items:baseline; flex-wrap:wrap;
+  padding:1.1rem .2rem;
+  border-bottom:1px solid var(--line);
+}
+.termin-liste li:first-child{ border-top:1px solid var(--line); }
+.termin-datum{
+  font-family:'JetBrains Mono', monospace; font-size:.8rem;
+  color:var(--accent-soft); white-space:nowrap; min-width:9.5rem;
+}
+.termin-ort{ font-size:1rem; color:var(--text-light); line-height:1.5; }
+.termin-ort b{ color:var(--text-light); font-weight:500; }
+.termin-ort span{ color:var(--text-muted); font-size:.9rem; }
+.termin-note{ font-size:.86rem; color:var(--text-muted); margin:1.1rem 0 0; max-width:58ch; }
+
+/* Kleiner blinkender Punkt am "Nächster Termin"-Etikett */
+.status-badge{
+  display:inline-flex; align-items:center; gap:.5rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--accent-soft);
+  margin-bottom:1rem;
+}
+.status-badge .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--accent);
+  animation:bg-pulse 2.2s infinite;
+}
+@keyframes bg-pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+@media (prefers-reduced-motion:reduce){ .status-badge .dot{ animation:none; } }
+
+
+/* ============================================================
+   KONTAKT & FORMULARE
+   ============================================================ */
+.contact-grid{display:grid; grid-template-columns:1fr 1.15fr; gap:3.5rem;}
+@media (max-width:820px){ .contact-grid{grid-template-columns:1fr; gap:2.4rem;} }
+form{display:flex; flex-direction:column; gap:1rem;}
+label{font-size:.8rem; color:var(--text-muted); margin-bottom:.35rem; display:block;}
+input, textarea, select{
+  width:100%; background:var(--bg-panel); border:1px solid var(--line-strong);
+  border-radius:var(--radius); color:var(--text-light);
+  padding:.75em .9em; font-family:'Work Sans', sans-serif; font-size:.95rem;
+}
+input:focus, textarea:focus, select:focus{border-color:var(--accent);}
+textarea{min-height:120px; resize:vertical;}
+.socials{display:flex; gap:1.4rem; margin-top:1.2rem; font-size:.9rem;}
+
+/* Anliegen-Chips im Anfrageformular */
+.chips{ display:flex; flex-wrap:wrap; gap:.6rem; margin:1.3rem 0 1.5rem; }
+.chip{
+  font-family:'JetBrains Mono', monospace; font-size:.76rem;
+  color:var(--text-muted); background:var(--bg-panel-2);
+  border:1px solid var(--line); padding:.5rem .95rem;
+  border-radius:20px; cursor:pointer;
+  transition:border-color .2s, color .2s, background .2s;
+}
+.chip:hover{ border-color:var(--accent); color:var(--accent-soft); }
+.chip.active{ border-color:var(--accent); color:var(--accent-soft); background:rgba(201,124,61,0.14); }
+
+.response-note{
+  display:flex; align-items:center; gap:.5rem;
+  font-family:'JetBrains Mono', monospace; font-size:.74rem;
+  color:var(--text-muted); margin-top:.4rem;
+}
+.response-note .dot2{
+  width:6px; height:6px; border-radius:50%;
+  background:#7fae86; display:inline-block;
+}
+
+
+/* ============================================================
+   MASONRY-GALERIE (Serien-Unterseiten)
+   ============================================================
+   Echtes Masonry über CSS-Spalten: behält das Seitenverhältnis,
+   schneidet also nichts weg. Die Fugen sind eng, damit die Wand
+   als Ganzes wirkt statt als Sammlung von Kärtchen.
+   ============================================================ */
+.masonry{
+  column-count:3;
+  column-gap:6px;
+  margin-top:1.5rem;
+}
+.m-item{
+  margin:0 0 6px;
+  break-inside:avoid;
+  -webkit-column-break-inside:avoid;
+  position:relative;
+  border-radius:var(--radius-foto);
+  overflow:hidden;
+  background:var(--bg-panel);
+}
+.m-item img{
+  width:100%; height:auto; display:block;
+  cursor:zoom-in;
+  transition:opacity .25s ease;
+}
+.m-item img:hover{opacity:.86;}
+
+/* Bildunterschrift liegt auf dem Bild und erscheint beim
+   Darüberfahren. Auf Touch-Geräten (kein Hover) bleibt sie
+   dauerhaft sichtbar — siehe Media-Query weiter unten. */
+.m-item figcaption{
+  position:absolute; left:0; right:0; bottom:0;
+  padding:2.2rem .8rem .7rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.72rem; letter-spacing:.02em;
+  color:var(--text-light);
+  background:linear-gradient(to top, rgba(14,17,12,.9), transparent);
+  opacity:0; transition:opacity .25s ease;
+  pointer-events:none;
+}
+.m-item:hover figcaption,
+.m-item:focus-within figcaption{ opacity:1; }
+.m-item figcaption b{color:var(--accent-soft); font-weight:500;}
+
+@media (hover:none){ .m-item figcaption{ opacity:1; } }
+@media (max-width:900px){ .masonry{column-count:2;} }
+@media (max-width:520px){ .masonry{column-count:1; column-gap:0;} }
+
+/* Die beiden Ecksymbole: Shop (rechts) und Geschichte (links).
+   Werden von gallery.js erzeugt — Klassennamen bitte so lassen. */
+.shop-badge,
+.story-badge{
+  position:absolute; top:8px; z-index:2;
+  width:28px; height:28px; border-radius:50%;
+  background:rgba(14,17,12,0.6);
+  border:1px solid rgba(237,231,214,0.22);
+  color:var(--text-light);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.shop-badge{ right:8px; }
+.story-badge{ left:8px; }
+.shop-badge:hover, .story-badge:hover{
+  background:var(--accent); border-color:var(--accent); color:var(--bg-deep);
+}
+.shop-badge svg, .story-badge svg{ width:13px; height:13px; }
+
+
+/* ============================================================
+   LIGHTBOX (Vollbild-Ansicht in den Serien)
+   ============================================================ */
+.lightbox{
+  position:fixed; inset:0; z-index:200;
+  display:none; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:rgba(10,12,8,.95);
+  backdrop-filter:blur(8px);
+  padding:2rem;
+}
+.lightbox.is-open{display:flex;}
+.lightbox figure{margin:0; display:flex; flex-direction:column; align-items:center; position:relative;}
+/* Dezentes Wasserzeichen — kein echter Kopierschutz, aber es
+   verhindert, dass ein Screenshot ohne Herkunft weiterwandert. */
+.lightbox figure::after{
+  content:"BG Naturfotografie";
+  position:absolute; right:1rem; bottom:3.2rem; z-index:5;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.85rem; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(237,231,214,.55);
+  text-shadow:0 1px 4px rgba(0,0,0,.65);
+  pointer-events:none;
+}
+.lightbox img{
+  max-width:92vw; max-height:85vh; width:auto; height:auto;
+  border-radius:var(--radius-foto);
+  box-shadow:0 25px 70px rgba(0,0,0,.55);
+}
+.lightbox figcaption{
+  margin-top:1rem;
+  font-family:'JetBrains Mono', monospace; font-size:.78rem;
+  color:var(--text-muted); text-align:center;
+}
+.lightbox figcaption b{color:var(--accent-soft); font-weight:500;}
+.lightbox-close{
+  position:absolute; top:1.4rem; right:1.6rem;
+  width:42px; height:42px;
+  border:1px solid var(--line); border-radius:50%;
+  background:rgba(237,231,214,0.06);
+  color:var(--text-light);
+  font-size:1.6rem; line-height:1;
+  font-family:'Work Sans', sans-serif; cursor:pointer;
+  transition:border-color .2s, color .2s, background .2s;
+}
+.lightbox-close:hover{
+  border-color:var(--accent); color:var(--accent-soft);
+  background:rgba(237,231,214,0.1);
+}
+@media (max-width:600px){
+  .lightbox figure::after{ right:.8rem; bottom:3rem; font-size:.58rem; }
+}
+
+
+/* ============================================================
+   GESCHICHTE-SEITE (geschichte.html)
+   ============================================================
+   Die wichtigste Landeseite: Hier kommt an, wer den QR-Code auf
+   einer Postkarte oder einem Lesezeichen scannt. Deshalb zuerst
+   das Bild groß, dann der Text, und ganz unten ein klarer Weg
+   zu genau diesem Motiv im Shop.
+   ============================================================ */
+.geschichte-layout{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:3.2rem;
+  align-items:start;
+  padding-bottom:4rem;
+}
+.geschichte-bild{
+  margin:0;
+  border-radius:var(--radius-foto);
+  overflow:hidden;
+  background:var(--bg-panel);
+  position:sticky; top:5.5rem;
+}
+.geschichte-bild img{width:100%; height:auto;}
+.geschichte-text h2{ font-size:1.25rem; }
+
+/* Datenblock (Datum, Ort, Art, Gefährdung) — wird von
+   geschichte.js aus der Google-Tabelle gefüllt. */
+#geschichte-fussblock{
+  margin:1.8rem 0 0; padding:1.1rem 0 0;
+  border-top:1px solid var(--line);
+  font-family:'JetBrains Mono', monospace;
+  font-size:.8rem; color:var(--text-muted);
+}
+.fussblock-zeile{ padding:.28rem 0; }
+.fussblock-label{
+  display:inline-block; min-width:7rem;
+  color:var(--accent-soft); letter-spacing:.05em;
+  text-transform:uppercase; font-size:.7rem;
+}
+
+.geschichte-ort{
+  margin-top:1.8rem; padding-top:1.5rem;
+  border-top:1px solid var(--line);
+}
+.geschichte-teilen-box{ margin-top:1.6rem; display:flex; gap:.6rem; flex-wrap:wrap; }
+
+/* Verkaufshinweis am Ende der Geschichte. Der Link wird von
+   geschichte.js auf genau dieses Motiv im Shop gesetzt. */
+.geschichte-kaufbox{
+  margin-top:2.4rem; padding:1.4rem 1.5rem;
+  background:var(--bg-panel);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius-foto);
+}
+.geschichte-kaufbox p{ margin:0 0 1rem; color:var(--text-muted); font-size:.92rem; }
+.geschichte-kaufbox b{ color:var(--text-light); font-weight:500; }
+
+#teilen-btn{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  background:transparent; color:var(--text-light);
+  border:1px solid var(--line-strong); box-shadow:none;
+  font-family:'Work Sans', sans-serif;
+}
+#teilen-btn:hover{ border-color:var(--accent); color:var(--accent-soft); background:transparent; }
+
+@media (max-width:840px){
+  .geschichte-layout{grid-template-columns:1fr; gap:2rem;}
+  .geschichte-bild{position:static;}
+}
+
+
+/* ============================================================
+   GESCHICHTEN-ÜBERSICHT (geschichten.html)
+   ============================================================ */
+.geschichten-gruppe{ margin-bottom:3.2rem; }
+.geschichten-gruppe h2{
+  font-family:'JetBrains Mono', monospace;
+  font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent-soft);
+  padding-bottom:.7rem; margin-bottom:1.2rem;
+  border-bottom:1px solid var(--line);
+}
+.geschichten-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+  gap:1.2rem;
+}
+.geschichten-card{
+  display:flex; flex-direction:column;
+  background:var(--bg-panel);
+  border-radius:var(--radius-foto);
+  overflow:hidden; color:var(--text-light);
+  border:1px solid transparent;
+  transition:border-color .2s;
+}
+.geschichten-card:hover{ border-color:var(--accent); color:var(--text-light); }
+.geschichten-card img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.geschichten-card-body{ padding:1rem 1.1rem 1.2rem; }
+.geschichten-card-body h3{
+  font-size:1rem; margin:0 0 .5em;
+  font-family:'Fraunces', serif; font-weight:450;
+}
+.geschichten-card-body h3 b{ color:var(--accent-soft); font-style:italic; font-weight:450; }
+.geschichten-card-body p{ font-size:.86rem; color:var(--text-muted); margin:0 0 .8em; line-height:1.6; }
+.geschichten-card-link{
+  font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--accent-soft);
+}
+.empty-note{ font-size:.9rem; color:var(--text-muted); font-style:italic; }
+
+/* Begrüßung für alle, die gerade einen QR-Code gescannt haben */
+.qr-willkommen{
+  margin:1.6rem 0 0; max-width:60ch;
+  padding:1.1rem 1.3rem;
+  background:var(--bg-panel);
+  border-left:2px solid var(--accent);
+}
+.qr-label{
+  display:block; font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--accent-soft);
+  margin-bottom:.5rem;
+}
+.qr-willkommen p{ color:var(--text-muted); font-size:.91rem; margin:0; }
+
+
+/* ============================================================
+   KARTE (karte.html)
+   ============================================================ */
+#foto-karte{
+  width:100%; height:74vh; min-height:420px;
+  border-radius:var(--radius-foto);
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--bg-panel);
+}
+
+/* Kachel-Einfärbung: nimmt der Karte die Buntheit, lässt Wasser
+   und Grün aber natürlich. saturate steuert die Kräftigkeit,
+   brightness/contrast die Helligkeit, sepia eine Spur Wärme. */
+.karte-kacheln{ filter:saturate(.42) brightness(1.02) contrast(.96) sepia(.08); }
+
+.karte-punkt{
+  fill:var(--accent); stroke:#fff; stroke-width:1.5;
+  fill-opacity:0.95; cursor:pointer; transition:fill-opacity .15s;
+}
+.karte-punkt:hover{fill-opacity:1;}
+
+/* Gebiete: weicher Fleck statt exaktem Pin — damit empfindliche
+   Plätze nicht metergenau auffindbar werden. */
+.karte-gebiet{
+  fill:var(--accent); fill-opacity:.28; cursor:pointer;
+  filter:blur(5px); transition:fill-opacity .15s;
+}
+.karte-gebiet:hover{fill-opacity:.4;}
+
+.karte-marker-thumb{ width:90px; height:90px; object-fit:cover; display:block; border-radius:2px; }
+.karte-marker-label{
+  font-family:'JetBrains Mono', monospace; font-size:.75rem;
+  color:var(--bg-deep); text-align:center; padding:.3em 0 0;
+  width:90px; white-space:normal; overflow-wrap:break-word;
+  word-break:break-word; line-height:1.3;
+}
+.karte-tooltip{
+  background:#fff; border:none; border-radius:2px; padding:5px;
+  box-shadow:0 6px 16px rgba(0,0,0,.2); white-space:normal;
+}
+.karte-tooltip .karte-marker-label{color:var(--bg-deep);}
+.karte-tooltip::before{display:none;}
+.karte-marker-sammel{ width:auto; min-width:110px; padding:.2em .4em; }
+.karte-marker-sammel span{ color:var(--accent); font-size:.68rem; }
+
+.karte-popup .leaflet-popup-content-wrapper{
+  background:var(--bg-panel); color:var(--text-light);
+  border-radius:var(--radius); border:1px solid var(--line);
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+.karte-popup .leaflet-popup-tip{ background:var(--bg-panel); border:1px solid var(--line); }
+.karte-popup .leaflet-popup-content{ margin:.9rem 1rem; }
+.karte-popup .leaflet-popup-close-button{ color:var(--text-muted) !important; padding:.4rem .5rem 0 0 !important; }
+.karte-popup .leaflet-popup-close-button:hover{color:var(--accent) !important;}
+.karte-popup-kopf{
+  font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:.7rem; padding-right:1.2rem;
+}
+.karte-popup-kopf span{color:var(--text-muted); text-transform:none; letter-spacing:0;}
+.karte-popup-raster{
+  width:264px; display:grid; grid-template-columns:repeat(2, 1fr);
+  gap:.7rem; max-height:300px; overflow-y:auto; padding-right:.2rem;
+  scrollbar-width:thin; scrollbar-color:var(--line) transparent;
+}
+.karte-popup-raster::-webkit-scrollbar{width:6px;}
+.karte-popup-raster::-webkit-scrollbar-track{background:transparent;}
+.karte-popup-raster::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px;}
+.karte-popup-eintrag{ display:block; text-decoration:none; border-radius:2px; transition:opacity .15s; }
+.karte-popup-eintrag:hover{opacity:.8;}
+.karte-popup-eintrag img{ width:100%; height:86px; object-fit:cover; display:block; border-radius:2px; }
+.karte-popup-eintrag span{
+  display:block; font-family:'Work Sans', sans-serif; font-size:.72rem;
+  color:var(--text-light); line-height:1.3; padding-top:.4em;
+}
+.karte-popup-raster .karte-popup-eintrag:only-child{grid-column:1 / -1;}
+.karte-popup-raster .karte-popup-eintrag:only-child img{height:150px;}
+@media (max-width:520px){ .karte-popup-raster{width:200px;} }
+
+.leaflet-control-zoom{ border:none !important; box-shadow:none !important; }
+.leaflet-control-zoom a{
+  width:30px !important; height:30px !important; line-height:30px !important;
+  background:rgba(22,27,18,0.85) !important;
+  color:var(--text-light) !important;
+  border:1px solid var(--line) !important;
+  border-radius:var(--radius) !important;
+  margin-bottom:4px; font-weight:400 !important;
+}
+.leaflet-control-zoom a:hover{
+  background:var(--accent) !important; color:var(--bg-deep) !important;
+  border-color:var(--accent) !important;
+}
+.leaflet-control-attribution{
+  background:rgba(255,255,255,0.7) !important;
+  color:#666 !important; font-size:.75rem !important;
+}
+.leaflet-control-attribution a{color:#555 !important;}
+
+
+/* ============================================================
+   FUSSBEREICH
+   ============================================================ */
+footer{
+  border-top:1px solid var(--line);
+  padding:2.6rem 0;
+  font-family:'JetBrains Mono', monospace; font-size:.73rem;
+  color:var(--text-muted);
+}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;}
+footer a{color:var(--text-muted);}
+footer a:hover{color:var(--accent-soft);}
+
+
+/* ============================================================
+   RECHTSTEXTE (Impressum, Datenschutz, AGB)
+   ============================================================ */
+.legal{ max-width:74ch; margin:0 auto; padding:8rem 1.6rem 4rem; }
+.legal .zurueck{
+  font-family:'JetBrains Mono', monospace; font-size:.74rem;
+  color:var(--text-muted); text-decoration:none;
+  display:inline-block; margin-bottom:2.2rem; transition:color .2s;
+}
+.legal .zurueck:hover{ color:var(--accent-soft); }
+.legal h1{ font-size:clamp(1.8rem, 3.4vw, 2.4rem); margin-bottom:2rem; }
+.legal h2{
+  font-size:1.2rem; margin:2.6rem 0 .8rem;
+  padding-top:1.4rem; border-top:1px solid var(--line);
+}
+.legal h3{ font-size:1rem; color:var(--accent-soft); margin:1.8rem 0 .6rem; }
+.legal p, .legal li{ color:var(--text-muted); line-height:1.75; font-size:.94rem; }
+.legal p{ margin-bottom:1rem; }
+.legal ul{ margin:0 0 1.2rem 1.2rem; }
+.legal li{ margin-bottom:.5rem; }
+.legal strong{ color:var(--text-light); font-weight:500; }
+.legal a{ color:var(--accent-soft); }
+.legal .warn{
+  background:var(--bg-panel); border:1px solid var(--line);
+  border-left:2px solid var(--accent); border-radius:var(--radius);
+  padding:1.2rem 1.4rem; margin-bottom:2.4rem;
+  font-size:.9rem; color:var(--text-muted);
+}
+.legal .warn strong{ color:var(--text-light); }
+.legal .stand{
+  font-family:'JetBrains Mono', monospace; font-size:.73rem;
+  color:var(--text-muted); margin-top:3rem;
+  padding-top:1.4rem; border-top:1px solid var(--line);
+}
+
+
+/* ============================================================
+   VERANSTALTER-SEITE (fuer-veranstalter.html)
+   ============================================================ */
+.status-card, .interest-card{
+  background:var(--bg-panel-2);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:1.8rem 2rem;
+}
+.status-card p{ color:var(--text-muted); font-size:.92rem; margin:0 0 1.2rem; }
+.interest-card{ display:flex; flex-direction:column; justify-content:center; }
+.interest-card h3{ font-size:1.2rem; margin-bottom:.5rem; }
+.interest-card p{ color:var(--text-muted); font-size:.88rem; margin:0 0 1.3rem; }
+
+
+/* ============================================================
+   INTERNE WERKZEUGE (qr-werkzeug.html, gebiet-zeichnen.html)
+   ============================================================
+   Nicht verlinkt und nicht für Besucher. Optik ist hier egal,
+   Hauptsache bedienbar.
+   ============================================================ */
+.qr-raster{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:1.5rem; padding-bottom:4rem;
+}
+.qr-karte{
+  background:var(--bg-panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:1rem; text-align:center;
+}
+.qr-karte-code{
+  display:inline-block; padding:8px;
+  background:var(--text-light); border-radius:2px; line-height:0;
+}
+.qr-karte-titel{ font-family:'Fraunces', serif; font-size:.95rem; margin:.8em 0 0; }
+.qr-karte-id{
+  font-family:'JetBrains Mono', monospace; font-size:.75rem;
+  color:var(--text-muted); margin:.2em 0 .8em;
+}
+
+.zeichen-werkzeugleiste{ display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:.8rem; }
+.zeichen-btn{
+  appearance:none; -webkit-appearance:none; background:transparent;
+  font-size:.82rem; padding:.55em 1.1em; cursor:pointer;
+  font-family:'Work Sans', sans-serif;
+}
+.zeichen-btn:disabled{ opacity:.4; cursor:not-allowed; }
+.zeichen-btn.ist-aktiv{ background:var(--accent); border-color:var(--accent); color:var(--bg-deep); }
+.zeichen-status{
+  font-family:'JetBrains Mono', monospace; font-size:.78rem;
+  color:var(--accent-soft); margin:0 0 1.2rem;
+}
+.gebiet-werkzeug-layout{
+  display:grid; grid-template-columns:1.6fr 1fr;
+  gap:1.5rem; align-items:start; padding-bottom:4rem;
+}
+#zeichen-karte{
+  width:100%; height:75vh; min-height:460px;
+  border-radius:var(--radius); overflow:hidden;
+  border:1px solid var(--line); background:var(--bg-panel);
+}
+.gebiet-ergebnisse{
+  background:var(--bg-panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:1.2rem;
+  max-height:75vh; overflow-y:auto;
+}
+.gebiet-eintrag{ padding:1rem 0; border-top:1px solid var(--line); }
+.gebiet-eintrag:first-child{border-top:none; padding-top:0;}
+.gebiet-eintrag-titel{
+  font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  color:var(--accent-soft); margin:0 0 .5em;
+}
+.gebiet-eintrag-code{
+  width:100%; background:var(--bg-deep); color:var(--text-light);
+  border:1px solid var(--line); border-radius:var(--radius);
+  font-family:'JetBrains Mono', monospace; font-size:.72rem;
+  padding:.6em; resize:vertical; margin-bottom:.6em;
+}
+@media (max-width:800px){
+  .gebiet-werkzeug-layout{grid-template-columns:1fr;}
+  .gebiet-ergebnisse{max-height:none;}
+}
+
+
+/* ============================================================
+   BARRIEREFREIHEIT
+   ============================================================ */
+
+/* Sprunglink: erste Taste auf jeder Seite. Unsichtbar, bis er
+   den Fokus bekommt — sonst müsste sich jemand mit Tastatur auf
+   jeder Seite erst durchs Menü hangeln. */
+.sprunglink{
+  position:absolute; left:-9999px; top:0; z-index:200;
+  background:var(--accent); color:var(--bg-deep);
+  padding:.8em 1.4em; border-radius:0 0 var(--radius) 0;
+  font-family:'Work Sans', sans-serif; font-weight:500; font-size:.95rem;
+}
+.sprunglink:focus{ left:0; color:var(--bg-deep); }
+
+/* Sichtbarer Fokusrahmen. :focus-visible statt :focus — der
+   Rahmen erscheint bei Tastaturbedienung, nicht bei jedem Klick.
+   Doppelter Rahmen, damit er auf Dunkel UND auf den orangen
+   Knöpfen erkennbar bleibt. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible, summary:focus-visible,
+details:focus-visible, [tabindex]:focus-visible{
+  outline:3px solid var(--fokus);
+  outline-offset:2px;
+  box-shadow:0 0 0 5px var(--bg-deep);
+  border-radius:2px;
+}
+@supports not selector(:focus-visible){
+  a:focus, button:focus, input:focus, textarea:focus,
+  select:focus, summary:focus{ outline:3px solid var(--fokus); outline-offset:2px; }
+}
+
+/* Menüknopf mit der Tastatur bedienbar: Das Kästchen liegt
+   unsichtbar genau über dem Burger-Symbol, statt auf
+   display:none zu stehen (dann wäre es per Tabulator nicht
+   erreichbar und das Menü auf dem Handy gar nicht zu öffnen). */
+.nav-toggle{
+  display:block; position:absolute; top:20px; right:1.6rem;
+  width:26px; height:24px; margin:0; padding:0;
+  opacity:0; cursor:pointer; z-index:3;
+}
+@media (min-width:821px){ .nav-toggle{ display:none; } }
+.nav-toggle:focus-visible + .nav-burger{ outline:3px solid var(--fokus); outline-offset:4px; }
+
+/* Weniger Bewegung, wenn das Betriebssystem es verlangt
+   (WCAG 2.3.3 — Schwindel, Migräne). */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
   }
+  .serie:hover img{ transform:none !important; }
+}
+
+/* Nur für Screenreader */
+.nur-vorlesen{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}

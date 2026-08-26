@@ -4,106 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ============================================================
-     SEO — Titel, Beschreibung, Kanonische Adresse
-     Der Titel steht im Google-Treffer und im Browser-Tab,
-     die description darunter als grauer Fließtext.
-     ============================================================ -->
-<title>Karte — wo die Fotos entstanden sind | BG Naturfotografie</title>
-<meta name="description" content="Interaktive Karte der Orte in Schleswig-Holstein und Hamburg, an denen meine Naturaufnahmen entstanden sind — von Halstenbek bis zur schottischen Küste.">
+<title>Wo die Fotos entstanden sind | BG Naturfotografie</title>
+<meta name="description" content="Die Aufnahmeorte meiner Naturfotos in Hamburg und Schleswig-Holstein auf einer Karte — mit allen Motiven pro Ort.">
 <link rel="canonical" href="https://bg-naturfotografie.de/karte.html">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="robots" content="index, follow">
 <meta name="author" content="Benedict Gertz">
 <meta name="geo.region" content="DE-SH">
 <meta name="geo.placename" content="Halstenbek">
-<meta name="theme-color" content="#11140F">
+<meta name="theme-color" content="#0E110C">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
-<!-- ============================================================
-     VORSCHAUBILD BEIM TEILEN
-     Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
-     Instagram-DMs, Discord … — also überall dort, wo jemand
-     einen Link von dir weiterschickt. Steht bewusst auf JEDER
-     Unterseite, nicht nur auf der Startseite.
-     Bild bitte immer als volle https-Adresse angeben.
-     ============================================================ -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BG Naturfotografie">
 <meta property="og:locale" content="de_DE">
-<meta property="og:title" content="Karte — wo die Fotos entstanden sind | BG Naturfotografie">
-<meta property="og:description" content="Interaktive Karte der Orte in Schleswig-Holstein und Hamburg, an denen meine Naturaufnahmen entstanden sind — von Halstenbek bis zur schottischen Küste.">
+<meta property="og:title" content="Wo die Fotos entstanden sind | BG Naturfotografie">
+<meta property="og:description" content="Die Aufnahmeorte meiner Naturfotos in Hamburg und Schleswig-Holstein auf einer Karte.">
 <meta property="og:url" content="https://bg-naturfotografie.de/karte.html">
-<meta property="og:image" content="https://bg-naturfotografie.de/bilder/teichleben/entchen1.jpg">
-<meta property="og:image:secure_url" content="https://bg-naturfotografie.de/bilder/teichleben/entchen1.jpg">
-<meta property="og:image:alt" content="Entenküken am Teich in Halstenbek">
+<meta property="og:image" content="https://bg-naturfotografie.de/bilder/teichleben-01.jpg">
+<meta property="og:image:secure_url" content="https://bg-naturfotografie.de/bilder/teichleben-01.jpg">
+<meta property="og:image:alt" content="Naturfotografie von BG Naturfotografie">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Karte — wo die Fotos entstanden sind | BG Naturfotografie">
-<meta name="twitter:description" content="Interaktive Karte der Orte in Schleswig-Holstein und Hamburg, an denen meine Naturaufnahmen entstanden sind — von Halstenbek bis zur schottischen Küste.">
-<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/teichleben/entchen1.jpg">
-<meta name="twitter:image:alt" content="Entenküken am Teich in Halstenbek">
+<meta name="twitter:title" content="Wo die Fotos entstanden sind | BG Naturfotografie">
+<meta name="twitter:description" content="Die Aufnahmeorte meiner Naturfotos in Hamburg und Schleswig-Holstein auf einer Karte.">
+<meta name="twitter:image" content="https://bg-naturfotografie.de/bilder/teichleben-01.jpg">
+<meta name="twitter:image:alt" content="Naturfotografie von BG Naturfotografie">
 
-<!-- Schriften liegen selbst im Projekt (Ordner "schriften/").
-     Keine Verbindung zu Google mehr — siehe styles.css ganz oben.
-     Die zwei wichtigsten werden vorgeladen, damit der Text beim
-     Aufbau nicht kurz die Schrift wechselt. -->
 <link rel="preload" href="schriften/worksans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="schriften/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="styles.css">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
+<script>
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.tagName === 'IMG') { e.preventDefault(); }
+  });
+</script>
 
-<!-- ============ STRUKTURIERTE DATEN (Google versteht damit,
-     wer hier sitzt, was verkauft wird und wo) ============ -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://bg-naturfotografie.de/"},{"@type":"ListItem","position":2,"name":"Karte","item":"https://bg-naturfotografie.de/karte.html"}]}
 </script>
 </head>
 <body>
 
-<!-- Sprunglink: erste Station für Tastatur- und Screenreader-Nutzung.
-     Unsichtbar, bis er den Fokus bekommt. -->
 <a class="sprunglink" href="#inhalt">Direkt zum Inhalt</a>
 
 <!-- ============ NAVIGATION ============ -->
 <nav class="nav" aria-label="Hauptmenü">
   <div class="wrap">
-    <a class="brand" href="index.html#top"><b>BG</b> Naturfotografie</a>
+    <a class="brand" href="index.html#top"><img src="bilder/logo.png" alt="" class="brand-logo">
+      <b>BG</b> Naturfotografie</a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen und schließen">
     <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <ul class="nav-links">
       <li><a href="index.html#galerie">Galerie</a></li>
-      <li><a href="karte.html">Karte</a></li>
-      <li><a href="geschichten.html">Geschichten</a></li>
       <li><a href="produkte-bestellen.html">Shop</a></li>
+      <li><a href="geschichten.html">Geschichten</a></li>
+      <li><a href="karte.html" class="ist-hier">Karte</a></li>
       <li><a href="index.html#ueber-mich">Über mich</a></li>
-      <li><a href="index.html#termine">Termine</a></li>
-      <li><a href="index.html#kontakt">Kontakt</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- ============ KOPF ============ -->
-<header id="inhalt" tabindex="-1" style="padding-top:9rem; padding-bottom:1rem;">
+<header id="inhalt" tabindex="-1" class="seitenkopf">
   <div class="wrap">
-    <a href="index.html#galerie" style="font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;">&larr; Zur&uuml;ck zur Galerie</a>
-    <h1 style="margin-top:1.2rem; font-size:clamp(2rem,4.2vw,3.2rem);">Wo die Fotos entstanden sind</h1>
-    <p style="color:var(--text-muted); max-width:56ch; font-size:1.05rem;">Jeder Punkt oder weiche Fleck ist ein Ort in und um Hamburg &amp; Schleswig-Holstein. Klick darauf, um alle Motive dieses Ortes zu sehen — und von dort aus zur jeweiligen Geschichte.</p>
+    <a href="index.html#galerie" class="zurueck-link">&larr; Zur&uuml;ck zur Galerie</a>
+    <h1>Wo die Fotos entstanden sind</h1>
+    <p class="lead">Klick auf einen Punkt, um alle Motive dieses Ortes zu sehen — und von dort weiter zur jeweiligen Geschichte.</p>
   </div>
 </header>
 
 <!-- ============ KARTE ============ -->
-<section style="padding-top:1rem;">
+<section style="padding-top:2rem;">
   <div class="wrap">
     <div id="foto-karte"></div>
     <p id="karte-leer-hinweis" style="display:none; color:var(--text-muted); margin-top:1.5rem; font-size:.9rem;">Noch sind keine Fotostandorte hinterlegt — die Karte füllt sich nach und nach.</p>
+
+    <div class="info-folds">
+      <details class="info-fold">
+        <summary>Warum manche Orte nur ein weicher Fleck sind</summary>
+        <div class="fold-body">
+          <p>Punktgenau eingezeichnet ist nur, was unbedenklich ist — etwa ein öffentlicher Weg oder ein Parkplatz. Brut- und Ruheplätze bekommen bewusst nur einen unscharfen Bereich, damit dort nicht plötzlich Betrieb herrscht.</p>
+          <p class="fold-note">Kartendaten von OpenStreetMap, Darstellung angepasst.</p>
+        </div>
+      </details>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <span>&copy; 2026 BG Naturfotografie</span>
-    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
   </div>
 </footer>
 

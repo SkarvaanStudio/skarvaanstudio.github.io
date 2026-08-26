@@ -16,7 +16,7 @@
 <meta name="author" content="Benedict Gertz">
 <meta name="geo.region" content="DE-SH">
 <meta name="geo.placename" content="Halstenbek">
-<meta name="theme-color" content="#11140F">
+<meta name="theme-color" content="#0E110C">
 <link rel="icon" href="bilder/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="bilder/logo.png">
 
@@ -24,8 +24,7 @@
      VORSCHAUBILD BEIM TEILEN
      Gilt für WhatsApp, Signal, Facebook, LinkedIn, Mastodon,
      Instagram-DMs, Discord … — also überall dort, wo jemand
-     einen Link von dir weiterschickt. Steht bewusst auf JEDER
-     Unterseite, nicht nur auf der Startseite.
+     einen Link von dir weiterschickt.
      Bild bitte immer als volle https-Adresse angeben.
      ============================================================ -->
 <meta property="og:type" content="website">
@@ -44,12 +43,17 @@
 <meta name="twitter:image:alt" content="Eichhörnchen schaut frontal in die Kamera — Naturfotografie von BG Naturfotografie">
 
 <!-- Schriften liegen selbst im Projekt (Ordner "schriften/").
-     Keine Verbindung zu Google mehr — siehe styles.css ganz oben.
+     Keine Verbindung zu Google — siehe styles.css ganz oben.
      Die zwei wichtigsten werden vorgeladen, damit der Text beim
      Aufbau nicht kurz die Schrift wechselt. -->
 <link rel="preload" href="schriften/worksans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="schriften/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
+
+<!-- Das erste Bühnenbild vorladen: es ist das Erste, was jemand
+     sieht, und soll nicht erst nach dem Text erscheinen. -->
+<link rel="preload" as="image" href="bilder/waldleben-01.jpg">
+
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 <script>
   /* Rechtsklick auf Bilder unterbinden (kein echter Kopierschutz,
@@ -130,359 +134,363 @@
      Unsichtbar, bis er den Fokus bekommt. -->
 <a class="sprunglink" href="#inhalt">Direkt zum Inhalt</a>
 
-<!-- ============ NAVIGATION ============ -->
+<!-- ============ NAVIGATION ============
+     Von sieben auf fünf Punkte gekürzt. "Termine" und "Kontakt"
+     stehen weiterhin unten auf dieser Seite und im Fußbereich —
+     im Menü haben sie nur Platz weggenommen. -->
 <nav class="nav" aria-label="Hauptmenü">
   <div class="wrap">
-    <a class="brand" href="#top"><img src="bilder/logo.png" alt="BG Naturfotografie Logo" class="brand-logo">
+    <a class="brand" href="#top"><img src="bilder/logo.png" alt="" class="brand-logo">
       <b>BG</b> Naturfotografie</a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen und schließen">
     <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>
     <ul class="nav-links">
       <li><a href="#galerie">Galerie</a></li>
-      <li><a href="karte.html">Karte</a></li>
-      <li><a href="geschichten.html">Geschichten</a></li>
       <li><a href="produkte-bestellen.html">Shop</a></li>
+      <li><a href="geschichten.html">Geschichten</a></li>
+      <li><a href="karte.html">Karte</a></li>
       <li><a href="#ueber-mich">Über mich</a></li>
-      <li><a href="#termine">Termine</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ============ HERO ============ -->
 <div id="inhalt" tabindex="-1"></div>
-<header class="hero" id="top">
-  <span class="bokeh b1"></span>
-  <span class="bokeh b2"></span>
-  <span class="bokeh b3"></span>
-  <span class="bokeh b4"></span>
-  <span class="bokeh b5"></span>
-  <div class="wrap hero-inner">
-    <img src="bilder/logo_transparent_orange.png" alt="BG Naturfotografie" class="hero-logo" width="160" height="160">
-    <span class="eyebrow">Naturfotografie · Schleswig-Holstein · Hamburg</span>
-    <h1>Wildes Leben<br><em>vor der Haustür.</em></h1>
-    <p class="lead">Heimische Vögel, Eichhörnchen und die Natur. Fotografiert im natürlichen Licht von Garten, Wald und Teich. Natürlich oder kunstvoll interpretiert.</p>
-    <div class="hero-actions">
-      <a class="btn btn-fill" href="#galerie">Galerie ansehen</a>
-      <a class="btn btn-outline" href="produkte-bestellen.html">Zum Shop</a>
-      <a class="btn btn-outline" href="https://www.instagram.com/bg.naturfotografie/" target="_blank" rel="noopener">Instagram</a>
-    </div>
-  </div>
-  <span class="scroll-cue">Scroll</span>
-</header>
 
 <!-- ============================================================
-     EINSTIEGE
+     BÜHNE
      ============================================================
-     Vier Wege in die Seite, je nachdem, wer gerade kommt:
-     – Postkarte in der Hand (QR-Code)
-     – einfach neugierig
-     – will etwas kaufen
-     – Marktveranstalter mit Portfolio in der Hand
+     Ein bildschirmfüllendes Foto, das langsam durch mehrere
+     Motive wechselt. Die Zeile darunter ("Feldnotiz") nennt
+     Serie und Aufnahmeort des gerade gezeigten Bildes und führt
+     per Klick direkt zu dessen Geschichte.
+
+     Bilder und Orte kommen aus galerie-daten.js — du musst hier
+     NICHTS pflegen. Gezeigt werden bevorzugt Motive, die du als
+     Postkarte auf Lager hast (bereitsPostkarte: true), damit die
+     Startseite genau das zeigt, was man auch kaufen kann.
+
+     Das Bild unten im HTML ist der Notfall-Stand für den Fall,
+     dass JavaScript aus ist — dann bleibt es einfach stehen.
      ============================================================ -->
-<section id="einstiege" style="padding-top:4rem; padding-bottom:1rem;">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Kurz sortiert</span>
-      <h2>Womit möchtest du anfangen?</h2>
-      <p>Vier kurze Wege — such dir den passenden aus.</p>
-    </div>
-
-    <div class="einstieg-grid">
-      <a class="einstieg-karte" href="geschichten.html">
-        <span class="einstieg-nr">01</span>
-        <h3>Du hast eine Postkarte in der Hand</h3>
-        <p>Zu jedem Motiv gibt es den Moment, in dem es entstanden ist — dazu Artinfos zum Tier und den Ort der Aufnahme.</p>
-        <span class="einstieg-link">Geschichte zum Motiv lesen →</span>
-      </a>
-
-      <a class="einstieg-karte" href="#galerie">
-        <span class="einstieg-nr">02</span>
-        <h3>Du willst einfach schauen</h3>
-        <p>Vier Serien aus Norddeutschland: Teichleben, Gartenleben, Waldleben und die reduzierten Silhouetten.</p>
-        <span class="einstieg-link">Zur Galerie →</span>
-      </a>
-
-      <a class="einstieg-karte" href="produkte-bestellen.html">
-        <span class="einstieg-nr">03</span>
-        <h3>Du möchtest etwas mitnehmen</h3>
-        <p>Postkarten ab 1,80 €, A4-Poster, Sticker und Lesezeichen. Motiv wählen, anfragen — ich melde mich mit Preis und Versand.</p>
-        <span class="einstieg-link">Zum Shop →</span>
-      </a>
-
-      <a class="einstieg-karte" href="fuer-veranstalter.html">
-        <span class="einstieg-nr">04</span>
-        <h3>Du organisierst einen Markt</h3>
-        <p>Sortiment, Standmaße, Ausstattung und Ansprechpartner — alle Eckdaten kompakt auf einer Seite.</p>
-        <span class="einstieg-link">Infos für Veranstalter →</span>
-      </a>
+<header class="buehne" id="top">
+  <div class="buehne-bilder" id="buehne-bilder">
+    <div class="buehne-bild ist-sichtbar">
+      <img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera" width="1600" height="1067">
     </div>
   </div>
-</section>
 
-<style>
-  .einstieg-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-    gap:1.1rem; margin-top:.5rem;
-  }
-  .einstieg-karte{
-    display:flex; flex-direction:column; gap:.45rem;
-    padding:1.4rem 1.3rem 1.2rem;
-    background:var(--bg-panel-2); border:1px solid var(--line);
-    border-radius:var(--radius); color:var(--text-light);
-    transition:border-color .2s, transform .18s;
-  }
-  .einstieg-karte:hover{ border-color:var(--accent); transform:translateY(-2px); color:var(--text-light); }
-  .einstieg-nr{
-    font-family:'JetBrains Mono', monospace; font-size:.72rem;
-    color:var(--accent-soft); letter-spacing:.1em;
-  }
-  .einstieg-karte h3{ font-size:1.05rem; margin:0; line-height:1.3; }
-  .einstieg-karte p{ font-size:.87rem; color:var(--text-muted); margin:0; flex-grow:1; }
-  .einstieg-link{
-    font-family:'JetBrains Mono', monospace; font-size:.76rem;
-    color:var(--accent-soft); margin-top:.5rem;
-  }
-</style>
+  <div class="wrap buehne-inner">
+    <span class="eyebrow">Naturfotografie · Halstenbek · Schleswig-Holstein</span>
+    <h1>Wildes Leben<br><em>vor der Haustür.</em></h1>
 
-<!-- ============ GALERIE ============ -->
+    <!-- Feldnotiz: Text und Ziel werden vom Skript unten gesetzt -->
+    <a class="buehne-notiz" id="buehne-notiz" href="geschichten.html">
+      <span class="buehne-serie" id="buehne-serie">Waldleben</span>
+      <span class="trenner" aria-hidden="true">·</span>
+      <span id="buehne-ort">Halstenbek</span>
+      <span class="pfeil" aria-hidden="true">→</span>
+      <span class="nur-vorlesen">Geschichte zu diesem Foto lesen</span>
+    </a>
+
+    <div class="buehne-aktionen">
+      <a class="btn btn-fill" href="#galerie">Galerie ansehen</a>
+      <a class="btn btn-outline" href="produkte-bestellen.html">Postkarten &amp; Poster</a>
+    </div>
+  </div>
+
+  <span class="buehne-zaehler" id="buehne-zaehler" aria-hidden="true"></span>
+</header>
+
+
+<!-- ============================================================
+     SERIEN — der Galerie-Einstieg
+     ============================================================
+     Vier Bildkacheln statt vier Textblöcken. Das Vorschaubild
+     zieht das Skript unten zufällig aus der jeweiligen Serie.
+     ============================================================ -->
 <section id="galerie">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Portfolio</span>
-      <h2>Die Galerie — das Fenster zur Natur</h2>
-      <p>Eine Auswahl meiner Aufnahmen, nach Motiv und Stil sortiert.</p>
+    <div class="rubrik">
+      <h2 class="rubrik-label">Serien</h2>
+      <a class="rubrik-link" href="karte.html">Alle Aufnahmeorte auf der Karte →</a>
     </div>
 
-    <div class="cat-nav">
-      <a href="#teichleben">→ Teichleben</a>
-      <a href="#gartenleben">→ Gartenleben</a>
-      <a href="#waldleben">→ Waldleben</a>
-      <a href="#reduktion">→ Reduktion</a>
+    <div class="serien" id="serien-raster">
+      <!-- data-serie steuert, aus welcher Kategorie das Skript ein
+           zufälliges Vorschaubild zieht. Die Bilder im HTML sind
+           der Stand ohne JavaScript. -->
+      <a class="serie" id="teichleben" href="galerie-teichleben.html" data-serie="Teichleben">
+        <img loading="lazy" src="bilder/teichleben-01.jpg" alt="Entenküken schaut frontal in die Kamera">
+        <div class="serie-text">
+          <h3 class="serie-name">Teichleben</h3>
+          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Am Wasser nebenan</p>
+        </div>
+      </a>
+
+      <a class="serie" id="gartenleben" href="galerie-gartenleben.html" data-serie="Gartenleben">
+        <img loading="lazy" src="bilder/gartenleben-01.jpg" alt="Singdrossel singend im Tannengrün">
+        <div class="serie-text">
+          <h3 class="serie-name">Gartenleben</h3>
+          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Meisen, Finken &amp; Co.</p>
+        </div>
+      </a>
+
+      <a class="serie" id="waldleben" href="galerie-waldleben.html" data-serie="Waldleben">
+        <img loading="lazy" src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera">
+        <div class="serie-text">
+          <h3 class="serie-name">Waldleben</h3>
+          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Eichhörnchen, Specht, Moor</p>
+        </div>
+      </a>
+
+      <a class="serie" id="reduktion" href="galerie-reduktion.html" data-serie="Reduktion">
+        <img loading="lazy" src="bilder/reduktion-01.jpg" alt="Silhouette zweier Stare auf einem Ast">
+        <div class="serie-text">
+          <h3 class="serie-name">Reduktion</h3>
+          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Auf das Nötigste gekürzt</p>
+        </div>
+      </a>
     </div>
-
-    <!-- ---- Kategorie: Teichleben ---- -->
-    <div class="cat-block" id="teichleben">
-      <h3>Teichleben</h3>
-      <p class="cat-desc">Schwimmend, putzend, schlafend — das Leben am kühlen Gewässer nebenan.</p>
-      <div class="grid">
-       <div class="card hero"><img src="bilder/teichleben-01.jpg" alt="Entenküken schaut frontal in die Kamera"><span class="tag"><b>Entenküken</b> · Nahaufnahme</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/teichleben-02.jpg" alt="Gänseküken schläft auf der Wiese"><span class="tag"><b>Gänseküken</b> · bei Gänseblümchen</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/teichleben-03.jpg" alt="Ente breitet die Flügel auf dem Wasser aus"><span class="tag"><b>Stockente</b> · Flügelzauber</span></div>
-      </div>
-      <div class="cat-more">
-        <a class="btn btn-outline" href="galerie-teichleben.html">Mehr entdecken</a>
-      </div>
-    </div>
-
-    <!-- ---- Kategorie: Gartenleben ---- -->
-    <div class="cat-block" id="gartenleben">
-      <h3>Gartenleben</h3>
-      <p class="cat-desc">Rotkehlchen, Meisen, Gimpel &amp; Co. im Wechsel der Jahreszeiten.</p>
-      <div class="grid">
-       <div class="card hero"><img src="bilder/gartenleben-01.jpg" alt="Singdrossel singend im Tannengrün"><span class="tag"><b>Singdrossel</b> · grüner Gesang</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/gartenleben/junger_moench.jpg" alt="junge Mönchgrasmücke im Geäst mit Kirschen"><span class="tag"><b>Mönchgrasmücke</b> · Frühlingssnack</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/gartenleben-03.jpg" alt="Kohlmeise zwischen grünen Zweigen im Baum"><span class="tag"><b>Kohlmeise</b> · frech versteckt</span></div>
-      </div>
-      <div class="cat-more">
-        <a class="btn btn-outline" href="galerie-gartenleben.html">Mehr entdecken</a>
-      </div>
-    </div>
-
-    <!-- ---- Kategorie: Waldleben ---- -->
-    <div class="cat-block" id="waldleben">
-      <h3>Waldleben</h3>
-      <p class="cat-desc">Eichhörnchen, Specht &amp; Co. im grünen Lebensraum.</p>
-      <div class="grid">
-       <div class="card hero"><img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera"><span class="tag"><b>Eichhörnchen</b> · planend</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/waldleben-02.jpg" alt="Buntspecht schaut aus einer Baumhöhle"><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
-       <div class="card side"><img src="bilder/waldleben/sleepy_squirrel.jpg" alt="Eichhörnchen sitzt müde und entspannt auf einem Ast" loading="lazy"><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
-      </div>
-      <div class="cat-more">
-        <a class="btn btn-outline" href="galerie-waldleben.html">Mehr entdecken</a>
-      </div>
-    </div>
-
-        <!-- ---- Kategorie: Pflanzenwelt ---- -->
-    <!--<div class="cat-block" id="pflanzenwelt">
-      <h3>Pflanzenwelt</h3>
-      <p class="cat-desc">Blüten, Blätter und Bäume. Die farbenfrohe Natur um uns herum.</p>
-      <div class="grid">
-       <div class="card hero"><img src="bilder/pflanzenwelt-01.jpg" alt=""><span class="tag"><b>Eichhörnchen</b> · planend</span></div>
-       <div class="card side"><img src="bilder/pflanzenwelt-02.jpg" alt=""><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
-       <div class="card side"><img src="bilder/pflanzenwelt-03.jpg" alt=""><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
-      </div>
-      <div class="cat-more">
-        <a class="btn btn-outline" href="galerie-pflanzenwelt.html">Mehr entdecken</a>
-      </div>
-    </div>-->
-
-    <!-- ---- Kategorie: Reduktion ---- -->
-    <div class="cat-block" id="reduktion">
-      <h3>Reduktion - Natur neu betrachtet</h3>
-      <p class="cat-desc">Echte Naturfotografie, reduziert, neu interpretiert und bewusst anders gesehen. </p>
-      <div class="grid">
-       <div class="card hero"><img src="bilder/reduktion-01.jpg" alt="Silhouette zweier Stare auf einem Ast. Schwarz vor grauem Hintergrund"><span class="tag"><b>Star-Silhouette</b> · Reduktion und Detail</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/reduktion-02.jpg" alt="farbenfrohe Singdrossel auf ausgegrauten Ästen"><span class="tag"><b>Singdrossel</b> · der letzte Apfel</span></div>
-       <div class="card side"><img loading="lazy" src="bilder/reduktion-03.jpg" alt="Blässhuhn auf dunklem Wasser mit Spiegelung"><span class="tag"><b>Blässhuhn</b> · dunkle Spiegelung</span></div>
-      </div>
-      <div class="cat-more">
-        <a class="btn btn-outline" href="galerie-reduktion.html">Mehr entdecken</a>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- ============ ERHÄLTLICH ALS ============ -->
+
+<!-- ============================================================
+     MITNEHMEN — der Shop-Anriss
+     ============================================================
+     Drei Kacheln mit echtem Preis. Alles Weitere (Ablauf,
+     Staffelpreise, Versand, Sonderwünsche) steckt in den
+     Aufklappern darunter, damit hier nur das Wesentliche steht.
+     ============================================================ -->
 <section id="erhaeltlich-als" style="background:var(--bg-panel);">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Direkt im Shop</span>
-      <h2>Deine Motive zum Mitnehmen</h2>
-      <p>Postkarten, Poster und Sticker — jedes Motiv direkt anfragbar. Staffelpreise ab 3 Postkarten bzw. 2 Postern.</p>
+    <div class="rubrik">
+      <h2 class="rubrik-label">Mitnehmen</h2>
+      <a class="rubrik-link" href="produkte-bestellen.html">Alle Motive im Shop →</a>
     </div>
 
-    <div class="product-grid">
-      <a href="produkte-bestellen.html#motive" class="product-card" style="display:block; cursor:pointer;">
-        <div class="frame">
-          <img loading="lazy" src="bilder/postkarten.jpg" alt="Postkarten-Beispiel Entenküken">
-          <span class="fmt-tag">10 × 15 CM<b>Postkarte</b></span>
+    <div class="mitnehmen-grid">
+      <a class="mn-karte" href="produkte-bestellen.html#motive">
+        <div class="mn-bild"><img loading="lazy" src="bilder/postkarten.jpg" alt="Postkarten mit Naturmotiven"></div>
+        <div class="mn-body">
+          <span class="mn-format">10 × 15 cm</span>
+          <h3 class="mn-name">Postkarte</h3>
+          <span class="mn-preis">2,50 €<small>ab 3 Stück je 2,00 € · ab 5 je 1,80 €</small></span>
         </div>
       </a>
 
-      <a href="produkte-bestellen.html#motive" class="product-card" style="display:block; cursor:pointer;">
-        <div class="frame">
-          <img loading="lazy" src="bilder/prints.jpg" alt="Poster-Beispiel schwarze Katze">
-          <span class="fmt-tag">A4<b>Poster</b></span>
+      <a class="mn-karte" href="produkte-bestellen.html#motive">
+        <div class="mn-bild"><img loading="lazy" src="bilder/prints.jpg" alt="Gerahmter A4-Druck einer Naturaufnahme"></div>
+        <div class="mn-body">
+          <span class="mn-format">A4</span>
+          <h3 class="mn-name">Poster</h3>
+          <span class="mn-preis">15,00 €<small>ab 2 Stück je 10,00 €</small></span>
         </div>
       </a>
 
-      <a href="produkte-bestellen.html#sticker" class="product-card" style="display:block; cursor:pointer;">
-        <div class="frame">
-          <img loading="lazy" src="bilder/sticker.jpg" alt="Illustrative Sticker als Beispielbild">
-          <span class="fmt-tag">Sticker · Lesezeichen<b>Sticker</b></span>
+      <a class="mn-karte" href="produkte-bestellen.html#sticker">
+        <div class="mn-bild"><img loading="lazy" src="bilder/sticker.jpg" alt="Sticker und Lesezeichen mit Naturmotiven"></div>
+        <div class="mn-body">
+          <span class="mn-format">Selbst geplottet</span>
+          <h3 class="mn-name">Sticker &amp; Lesezeichen</h3>
+          <span class="mn-preis">auf Anfrage<small>Kleinserien, wechselnde Motive</small></span>
         </div>
       </a>
-
     </div>
 
-    <p style="text-align:center; max-width:56ch; margin:0 auto; color:var(--text-muted); font-size:.88rem;">
-      Du hättest ein Motiv lieber auf einer Tasse, einer Cap oder einem Beutel? Alles außer Kleidung lässt sich meist umsetzen — <a href="produkte-bestellen.html#merch" style="color:var(--accent-soft);">frag deinen Wunsch einfach an</a>.
+    <p style="margin:1.8rem 0 0;">
+      <a class="btn btn-fill" href="produkte-bestellen.html">Motiv aussuchen</a>
     </p>
 
-    <div style="text-align:center; margin-top:2.5rem;">
-      <a class="btn btn-fill" href="produkte-bestellen.html">Zum Shop</a>
+    <!-- Alles, was nur Information ist, liegt eingeklappt: -->
+    <div class="info-folds">
+      <details class="info-fold">
+        <summary>So läuft eine Bestellung ab</summary>
+        <div class="fold-body">
+          <ol class="fold-steps">
+            <li><b>Motiv und Menge wählen</b> — Postkarte, Poster A4 oder digitaler Download.</li>
+            <li><b>Zur Anfrage hinzufügen</b> — kein Kauf-Button, keine Kasse.</li>
+            <li><b>Ich melde mich</b> mit Preis, Versand oder Abholung und Zahlungsweg, meist in 2–3 Tagen.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="info-fold">
+        <summary>Staffelpreise &amp; Versand</summary>
+        <div class="fold-body">
+          <p>Gezählt wird über <b>alle Motive zusammen</b>, Postkarten und Poster getrennt. Du kannst also frei mischen.</p>
+          <div class="staffel-cols">
+            <div>
+              <span class="staffel-titel">Postkarten</span>
+              <ul>
+                <li><b>1–2 Stück</b> · je 2,50 €</li>
+                <li><b>ab 3 Stück</b> · je 2,00 €</li>
+                <li><b>ab 5 Stück</b> · je 1,80 €</li>
+              </ul>
+            </div>
+            <div>
+              <span class="staffel-titel">Poster A4</span>
+              <ul>
+                <li><b>1 Stück</b> · 15,00 €</li>
+                <li><b>ab 2 Stück</b> · je 10,00 €</li>
+              </ul>
+            </div>
+          </div>
+          <p class="fold-note">Alle Preise zzgl. Versand. Digitale Downloads sind versandkostenfrei. Details in den <a href="agb.html">AGB &amp; der Widerrufsbelehrung</a>.</p>
+        </div>
+      </details>
+
+      <details class="info-fold">
+        <summary>Ein Motiv auf Tasse, Beutel oder Untersetzer?</summary>
+        <div class="fold-body">
+          <p>Frag einfach an — fast alles, was kein Kleidungsstück ist, lässt sich umsetzen. Bei Kleidung sage ich Nein: Größen und Passform führen zu so vielen Rücksendungen, dass ich das als Ein-Mann-Betrieb nicht stemmen kann.</p>
+          <p><a href="produkte-bestellen.html#merch">Wunsch ins Anfrageformular schreiben →</a></p>
+        </div>
+      </details>
+
+      <details class="info-fold">
+        <summary>Auch erhältlich bei Displate, Spreadshirt &amp; Artheroes</summary>
+        <div class="fold-body">
+          <p>Ausgewählte Motive gibt es dort als Metallposter beziehungsweise auf fremd gefertigten Produkten. Direkt bei mir bestellt bleibt allerdings mehr beim Fotografen — und du bekommst einen Ansprechpartner statt einer Plattform.</p>
+          <p>
+            <a href="https://displate.com/artist/skarvaan" target="_blank" rel="noopener">Displate</a> ·
+            <a href="https://www.spreadshirt.de/shop/user/skarvaan+naturdesign/" target="_blank" rel="noopener">Spreadshirt</a> ·
+            <a href="https://bgnaturfotografie.artheroes.de/de" target="_blank" rel="noopener">Artheroes</a>
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     GESCHICHTEN-BAND
+     ============================================================
+     Schmaler Querverweis statt eigener Sektion. Wichtig für alle,
+     die über den QR-Code einer Postkarte oder eines Lesezeichens
+     kommen und wissen wollen, wo sie gelandet sind.
+     ============================================================ -->
+<section style="padding:0;">
+  <div class="wrap">
+    <div class="band">
+      <div class="band-text">
+        <h2>Zu jedem Motiv gehört ein Moment.</h2>
+        <p>Wie die Aufnahme entstanden ist, was für ein Tier da sitzt und wo genau — das steht bei den Geschichten. Postkarte oder Lesezeichen mit QR-Code in der Hand? Genau dorthin führt der Code.</p>
+      </div>
+      <a class="btn btn-outline" href="geschichten.html">Geschichten lesen</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     ÜBER MICH
+     ============================================================ -->
+<section id="ueber-mich">
+  <div class="wrap">
+    <div class="rubrik">
+      <p class="rubrik-label">Über mich</p>
+      <a class="rubrik-link" href="https://www.instagram.com/bg.naturfotografie/" target="_blank" rel="noopener">Instagram →</a>
     </div>
 
-    <div style="text-align:center; margin-top:1.6rem;">
-      <p style="font-size:.8rem; color:var(--text-muted); margin-bottom:.7rem;">Auch erhältlich auf</p>
-      <div style="display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap;">
-        <a class="btn btn-outline" href="https://displate.com/artist/skarvaan" target="_blank" rel="noopener">Displate</a>
-        <a class="btn btn-outline" href="https://www.spreadshirt.de/shop/user/skarvaan+naturdesign/" target="_blank" rel="noopener">Spreadshirt</a>
-        <a class="btn btn-outline" href="https://bgnaturfotografie.artheroes.de/de" target="_blank" rel="noopener">Artheroes</a>
+    <div class="ueber-grid">
+      <img loading="lazy" src="bilder/profile.jpg" alt="Benedict Gertz" class="ueber-portrait">
+
+      <div class="ueber-text">
+        <h2>Die Natur im Jetzt und Hier.</h2>
+        <p class="gross">Ich fotografiere die Tiere unserer Heimat ruhig und ehrlich. Für die besonderen Momente braucht es keine weite Reise — ein paar Schritte vor die Haustür reichen.</p>
+        <p>Benedict Gertz, Halstenbek. Ehrenamtlicher Beisitzer beim NABU vor Ort. Aus einzelnen Aufnahmen entstehen daneben künstlerische Arbeiten — das ist die Serie <a href="galerie-reduktion.html">Reduktion</a>.</p>
+
+        <div class="info-folds">
+          <details class="info-fold">
+            <summary>Wie ich fotografiere</summary>
+            <div class="fold-body">
+              <p>Ich halte den Abstand, der nötig ist, um die Tiere nicht zu stressen. <b>Ich platziere kein Futter und locke keine Tiere an.</b> Die Bilder entstehen spontan im Moment, ohne etwas zu erzwingen — deshalb dauert manches Motiv auch mal ein paar Monate.</p>
+              <p class="fold-note">Auf der <a href="karte.html">Karte</a> sind empfindliche Orte bewusst nur als weicher Fleck eingezeichnet, nicht metergenau.</p>
+            </div>
+          </details>
+
+          <details class="info-fold">
+            <summary>Schwerpunkte &amp; Orte</summary>
+            <div class="fold-body">
+              <p>Vögel und heimische Tierwelt, vor allem im Kreis Pinneberg und im Hamburger Westen.</p>
+              <div class="tags">
+                <span class="tag">Halstenbek</span>
+                <span class="tag">Schenefeld</span>
+                <span class="tag">Klövensteen</span>
+                <span class="tag">Hamburger Westen</span>
+                <span class="tag">Schleswig-Holstein</span>
+              </div>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ ÜBER MICH ============ -->
-<section class="about" id="ueber-mich">
-  <div class="about-intro">
-    <span class="eyebrow">Über mich</span>
-    <h2>Die Natur im Jetzt und Hier genießen.</h2>
-    <p>Ich fotografiere die Tiere und Pflanzen unserer Heimat ehrlich, ruhig und mit
-      einem Blick für die besonderen Momente des Alltäglichen. Die Natur ist
-      allgegenwärtig um uns herum. Statt weiten Reisen reicht es, sich nur ein paar
-      Schritte vor die Haustür zu begeben. Neben authentischer Naturfotografie
-      entstehen aus ausgewählten Bildern zudem künstlerische Arbeiten, die meine
-      persönliche und kreative Sicht auf die Natur zeigen.</p>
-  </div>
 
-  <div class="about-pyramid">
-    <img loading="lazy" src="bilder/profile.jpg" alt="Benedict Gertz" class="profile-img">
-    <h3 class="profile-name">Benedict Gertz</h3>
-
-    <div class="info-row">
-      <div class="info-card">
-        <span class="info-label">Schwerpunkte</span>
-        <div class="tags">
-          <span class="tag">Vögel</span>
-          <span class="tag">heimische Tierwelt</span>
-          <span class="tag">Natur</span>
-        </div>
-      </div>
-      <div class="info-card">
-        <span class="info-label">Standorte</span>
-         <div class="tags">
-          <span class="tag">Halstenbek</span>
-          <span class="tag">Schenefeld</span>
-          <span class="tag">Schleswig-Holstein</span>
-          <span class="tag">Hamburg</span>
-          <span class="tag">Norddeutschland</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-card info-card--wide">
-      <span class="info-label">Tierschutz-Hinweis</span>
-      <p class="info-value">Ich halte den nötigen Abstand, um die Tiere nicht zu
-        stressen. Ich platziere kein Futter und locke keine Tiere an.
-        Meine Fotografien entstehen spontan im Moment, ohne etwas zu erzwingen.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TERMINE / MARKTSTÄNDE ============ -->
+<!-- ============================================================
+     TERMINE / MARKTSTÄNDE
+     ============================================================
+     WEITERE TERMINE: einfach ein <li> nach demselben Muster
+     ergänzen. Vergangene Termine löschen, damit oben immer der
+     nächste steht.
+     ============================================================ -->
 <section id="termine" style="background:var(--bg-panel);">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Vor Ort</span>
-      <h2>Termine im Norden</h2>
-      <p>Meine Drucke und Postkarten gibt es auch zum Anschauen und direkt Mitnehmen auf regionalen Märkten und Veranstaltungen.</p>
+    <div class="rubrik">
+      <h2 class="rubrik-label">Vor Ort</h2>
+      <a class="rubrik-link" href="fuer-veranstalter.html">Infos für Veranstalter →</a>
     </div>
 
-    <div class="termine-grid">
-      <div class="status-card">
-        <span class="status-badge"><span class="dot"></span>Nächster Termin</span>
-        <!-- WEITERE TERMINE: einfach ein <li> nach dem gleichen Muster ergänzen.
-             Vergangene Termine löschen, damit oben immer der nächste steht. -->
-        <ul class="termin-liste">
-          <li>
-            <span class="termin-datum">Sa · 19.09.2026</span>
-            <span class="termin-ort"><b>Halstenbeker Herbstfest</b><br>Halstenbek, Kreis Pinneberg</span>
-          </li>
-        </ul>
-        <p class="termin-note">Weitere Märkte für Herbst und Advent sind angefragt — sobald etwas fest ist, steht es hier zuerst.</p>
-      </div>
+    <span class="status-badge"><span class="dot"></span>Nächster Termin</span>
 
-      <div class="interest-card">
-        <h3>Markt oder Veranstaltung?</h3>
-        <p>Du organisierst etwas in der Region und suchst einen Naturfotografen vor Ort? Auf der Veranstalter-Seite stehen Sortiment, Standmaße und Ausstattung kompakt zusammen.</p>
-        <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
-          <a class="btn btn-fill" href="fuer-veranstalter.html">Infos für Veranstalter</a>
-          <a class="btn btn-outline" href="produkte-bestellen.html?anliegen=markt#kontakt-anfrage">Termin anfragen</a>
+    <ul class="termin-liste">
+      <li>
+        <span class="termin-datum">Sa · 19.09.2026</span>
+        <span class="termin-ort"><b>Halstenbeker Herbstfest</b><br><span>Halstenbek, Kreis Pinneberg</span></span>
+      </li>
+    </ul>
+
+    <p class="termin-note">Weitere Märkte für Herbst und Advent sind angefragt — sobald etwas fest ist, steht es hier zuerst.</p>
+
+    <div class="info-folds">
+      <details class="info-fold">
+        <summary>Du organisierst einen Markt?</summary>
+        <div class="fold-body">
+          <p>Pavillon 3 × 3 m, komplett eigenständig, kein Stromanschluss nötig. Sortiment, Standmaße und Ausstattung stehen kompakt auf der Veranstalter-Seite.</p>
+          <p>
+            <a href="fuer-veranstalter.html">Infos für Veranstalter</a> ·
+            <a href="produkte-bestellen.html?anliegen=markt#kontakt-anfrage">Termin anfragen</a>
+          </p>
         </div>
-      </div>
+      </details>
     </div>
   </div>
 </section>
 
-<!-- ============ KONTAKT ============ -->
-<section id="kontakt" style="background:var(--bg-panel);">
+
+<!-- ============================================================
+     KONTAKT
+     ============================================================ -->
+<section id="kontakt">
   <div class="wrap">
+    <div class="rubrik">
+      <p class="rubrik-label">Kontakt</p>
+      <a class="rubrik-link" href="produkte-bestellen.html#kontakt-anfrage">Bestellung oder Lizenz? Formular im Shop →</a>
+    </div>
+
     <div class="contact-grid">
       <div>
-        <span class="eyebrow">Kontakt</span>
-        <h2>Anfragen, Anregungen und Austausch</h2>
-        <p style="color:var(--text-muted); max-width:40ch;">Ob Feedback, Kooperation oder ein einfaches Hallo.
-        Ich freue mich auf deine Nachricht.</p>
-        <p style="color:var(--text-muted); max-width:40ch; font-size:.85rem;">Postkarten, Poster &amp; Sticker findest du direkt im <a href="produkte-bestellen.html" style="color:var(--accent-soft);">Shop</a>. Für Bildlizenzen, Marktanfragen, einen Tassen-/Merchwunsch oder ein Motiv, das dort noch fehlt, gibt's <a href="produkte-bestellen.html#kontakt-anfrage" style="color:var(--accent-soft);">dort ein eigenes kurzes Formular</a>.</p>
-
+        <h2 style="font-size:clamp(1.5rem,2.8vw,2rem);">Schreib mir.</h2>
+        <p style="color:var(--text-muted); max-width:38ch;">Feedback, Kooperation oder ein einfaches Hallo. Antwort meist innerhalb von 2–3 Tagen.</p>
         <div class="socials">
           <a href="https://www.instagram.com/bg.naturfotografie/" target="_blank" rel="noopener">Instagram</a>
         </div>
       </div>
+
       <div>
         <form action="https://formspree.io/f/mzdldepl" method="POST">
           <input type="hidden" name="_subject" value="[Kontakt] Neue Nachricht — BG Naturfotografie">
@@ -498,12 +506,12 @@
             <label for="nachricht">Nachricht <span aria-hidden="true">*</span></label>
             <textarea id="nachricht" name="nachricht" required></textarea>
           </div>
-          <div style="display:flex; align-items:flex-start; gap:.6rem; margin:1rem 0 0;">
+          <div style="display:flex; align-items:flex-start; gap:.6rem; margin:.4rem 0 0;">
             <input type="checkbox" id="kontakt-datenschutz" name="Datenschutz" value="gelesen und akzeptiert" required style="width:auto; margin-top:.25rem; flex-shrink:0;">
-            <label for="kontakt-datenschutz" style="font-size:.84rem; color:var(--text-muted); line-height:1.5;">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener" style="color:var(--accent-soft);">Datenschutzerkl&auml;rung</a> gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung meiner Nachricht gespeichert werden. <span aria-hidden="true">*</span></label>
+            <label for="kontakt-datenschutz" style="font-size:.84rem; color:var(--text-muted); line-height:1.5;">Ich habe die <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a> gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung meiner Nachricht gespeichert werden. <span aria-hidden="true">*</span></label>
           </div>
           <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer;">Nachricht senden</button>
-          <span class="response-note"><span class="dot2"></span>Antwort meist innerhalb von 2–3 Tagen · <span aria-hidden="true">*</span> Pflichtangaben</span>
+          <span class="response-note"><span class="dot2"></span><span aria-hidden="true">*</span> Pflichtangaben</span>
         </form>
       </div>
     </div>
@@ -513,9 +521,130 @@
 <footer>
   <div class="wrap">
     <span>© 2026 BG Naturfotografie</span>
-    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="karte.html">Karte</a> &middot; <a href="fuer-veranstalter.html">F&uuml;r Veranstalter</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
+    <span><a href="produkte-bestellen.html">Shop</a> &middot; <a href="geschichten.html">Geschichten</a> &middot; <a href="karte.html">Karte</a> &middot; <a href="#termine">Termine</a> &middot; <a href="#kontakt">Kontakt</a> &middot; <a href="fuer-veranstalter.html">F&uuml;r Veranstalter</a> &middot; <a href="impressum.html">Impressum</a> &middot; <a href="datenschutz.html">Datenschutz</a> &middot; <a href="agb.html">AGB &amp; Widerruf</a></span>
   </div>
 </footer>
 
+<!-- galerie-daten.js liefert die Bilder für Bühne und Serien-Kacheln -->
+<script src="galerie-daten.js" defer></script>
+<script>
+/* ============================================================
+   STARTSEITE — BÜHNE UND SERIEN-KACHELN BEFÜLLEN
+   ============================================================
+   Beides zieht seine Bilder aus GALERIE_BILDER (galerie-daten.js).
+   Du pflegst also weiterhin nur diese eine Datei; die Startseite
+   aktualisiert sich von selbst mit.
+
+   Läuft das Skript nicht (JavaScript aus, Datei fehlt), bleibt
+   einfach das im HTML stehende Bild sichtbar — die Seite ist
+   dann schlichter, aber vollständig benutzbar.
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof GALERIE_BILDER === 'undefined') return;
+
+  /* ---- kleine Helfer ---- */
+
+  // HTML aus einer Beschriftung entfernen ("<b>Reiher</b> · Winter" -> "Reiher · Winter")
+  function ohneHtml(str) {
+    var div = document.createElement('div');
+    div.innerHTML = str || '';
+    return div.textContent || '';
+  }
+
+  // Fisher-Yates: mischt eine Kopie der Liste, jede Reihenfolge gleich wahrscheinlich
+  function gemischt(liste) {
+    var a = liste.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  /* ============================================================
+     1) SERIEN-KACHELN
+     ============================================================
+     Für jede Kachel ein zufälliges Bild aus der passenden Serie,
+     dazu die tatsächliche Anzahl der Motive. */
+  document.querySelectorAll('.serie[data-serie]').forEach(function (kachel) {
+    var serie = kachel.getAttribute('data-serie');
+    var bilder = GALERIE_BILDER.filter(function (b) { return b.kategorie === serie; });
+    if (!bilder.length) return;
+
+    var treffer = bilder[Math.floor(Math.random() * bilder.length)];
+    var img = kachel.querySelector('img');
+    if (img) {
+      img.src = treffer.bild;
+      img.alt = treffer.alt || ohneHtml(treffer.beschriftung);
+    }
+
+    var anzahl = kachel.querySelector('[data-anzahl]');
+    if (anzahl) anzahl.textContent = bilder.length + ' Motive';
+  });
+
+  /* ============================================================
+     2) BÜHNE
+     ============================================================
+     Bevorzugt Motive, die als Postkarte auf Lager liegen — die
+     Startseite zeigt damit genau das, was auch zu haben ist.
+     Gibt es davon zu wenige, wird mit allen anderen aufgefüllt. */
+  var ANZAHL_BUEHNE = 5;      // wie viele Motive rotieren
+  var WECHSEL_MS    = 6500;   // Standzeit pro Bild in Millisekunden
+
+  var aufLager = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte === true; });
+  var rest     = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte !== true; });
+  var auswahl  = gemischt(aufLager).concat(gemischt(rest)).slice(0, ANZAHL_BUEHNE);
+  if (!auswahl.length) return;
+
+  var behaelter = document.getElementById('buehne-bilder');
+  var notiz     = document.getElementById('buehne-notiz');
+  var elSerie   = document.getElementById('buehne-serie');
+  var elOrt     = document.getElementById('buehne-ort');
+  var elZaehler = document.getElementById('buehne-zaehler');
+  if (!behaelter || !notiz) return;
+
+  // Bild-Ebenen anlegen (das erste sofort sichtbar, damit nichts blinkt)
+  behaelter.innerHTML = '';
+  var ebenen = auswahl.map(function (motiv, i) {
+    var div = document.createElement('div');
+    div.className = 'buehne-bild' + (i === 0 ? ' ist-sichtbar' : '');
+    var img = document.createElement('img');
+    img.src = motiv.bild;
+    img.alt = i === 0 ? (motiv.alt || '') : '';   // nur das erste Bild wird vorgelesen
+    // Erst das sichtbare Bild laden, die übrigen im Hintergrund nachziehen
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.setAttribute('fetchpriority', i === 0 ? 'high' : 'low');
+    div.appendChild(img);
+    behaelter.appendChild(div);
+    return div;
+  });
+
+  // Beschriftung und Ziel der Feldnotiz auf das Motiv Nr. i setzen
+  function zeigeNotiz(i) {
+    var motiv = auswahl[i];
+    elSerie.textContent = motiv.kategorie;
+    elOrt.textContent = (motiv.ort && motiv.ort.label) ? motiv.ort.label : ohneHtml(motiv.beschriftung);
+    notiz.href = 'geschichte.html?id=' + encodeURIComponent(motiv.id);
+    if (elZaehler) {
+      elZaehler.textContent = ('0' + (i + 1)).slice(-2) + ' / ' + ('0' + auswahl.length).slice(-2);
+    }
+  }
+
+  zeigeNotiz(0);
+
+  // Wer im Betriebssystem "Bewegung reduzieren" eingestellt hat,
+  // bekommt ein Standbild statt eines Wechsels.
+  var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (ruhig.matches || auswahl.length < 2) return;
+
+  var aktuell = 0;
+  setInterval(function () {
+    ebenen[aktuell].classList.remove('ist-sichtbar');
+    aktuell = (aktuell + 1) % ebenen.length;
+    ebenen[aktuell].classList.add('ist-sichtbar');
+    zeigeNotiz(aktuell);
+  }, WECHSEL_MS);
+});
+</script>
 </body>
 </html>
