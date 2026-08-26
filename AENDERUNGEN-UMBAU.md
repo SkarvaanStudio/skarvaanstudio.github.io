@@ -21,6 +21,7 @@ Serien-Kachel.
 ```
 styles.css
 index.html
+startseite-bilder.js   <-- NEU
 geschichte.html
 geschichte.js
 geschichten.html
@@ -43,6 +44,31 @@ unten), inhaltlich ist dort nichts angefasst. `galerie-daten.js`,
 `produkte-daten.js`, `gallery.js`, `geschichten.js`, `karte.js`,
 `qr-werkzeug.js` und der Ordner `schriften/` bleiben unverändert —
 die musst du nicht neu hochladen.
+
+---
+
+## Nachtrag 26.08. — deine fünf Punkte
+
+1. **Bühnenbilder wählst du jetzt selbst** — in der neuen Datei
+   `startseite-bilder.js`. Dort trägst du Motiv-IDs ein, legst die
+   Reihenfolge fest und stellst pro Bild den Bildausschnitt ein.
+   Alles ist in der Datei erklärt. Leere Liste = Automatik wie
+   bisher.
+2. **Der Text über den Bühnenbildern liegt in einem eigenen
+   Kasten** (dunkel, leicht weichgezeichnet, orange Kante links).
+   Er ist damit auch auf Schnee oder hellem Himmel lesbar.
+3. **Die Galerie-Seiten sind auf deine alte Aufteilung zurück:**
+   vier Spalten am PC, drei ab 900 px, drei ab 600 px zwei, und die
+   Bildunterschrift steht wieder unter dem Foto statt darauf.
+4. **Die Bestell-Mechanik ist von der Startseite verschwunden.**
+   Die Aufklapper "So läuft eine Bestellung ab" und "Staffelpreise
+   & Versand" sind raus — die Preise stehen ohnehin an den
+   Kacheln, alles Weitere steht im Shop.
+5. **Der Schleier ist weg.** Ich hatte die Bühnenbilder mit
+   `brightness(.8)` abgedunkelt, damit die Schrift lesbar bleibt.
+   Durch den Textkasten aus Punkt 2 braucht es das nicht mehr —
+   die Fotos laufen jetzt unbearbeitet. Auch die Serien-Kacheln
+   sind von 72 % auf 92 % Helligkeit hoch.
 
 ---
 

@@ -164,10 +164,10 @@
      Serie und Aufnahmeort des gerade gezeigten Bildes und führt
      per Klick direkt zu dessen Geschichte.
 
-     Bilder und Orte kommen aus galerie-daten.js — du musst hier
-     NICHTS pflegen. Gezeigt werden bevorzugt Motive, die du als
-     Postkarte auf Lager hast (bereitsPostkarte: true), damit die
-     Startseite genau das zeigt, was man auch kaufen kann.
+     WELCHE BILDER HIER LAUFEN, STEHT IN startseite-bilder.js.
+     Dort trägst du die Motiv-IDs ein und kannst pro Bild auch den
+     Bildausschnitt festlegen. Serie, Aufnahmeort und der Link zur
+     Geschichte kommen weiterhin automatisch aus galerie-daten.js.
 
      Das Bild unten im HTML ist der Notfall-Stand für den Fall,
      dass JavaScript aus ist — dann bleibt es einfach stehen.
@@ -180,6 +180,7 @@
   </div>
 
   <div class="wrap buehne-inner">
+   <div class="buehne-text">
     <span class="eyebrow">Naturfotografie · Halstenbek · Schleswig-Holstein</span>
     <h1>Wildes Leben<br><em>vor der Haustür.</em></h1>
 
@@ -196,6 +197,7 @@
       <a class="btn btn-fill" href="#galerie">Galerie ansehen</a>
       <a class="btn btn-outline" href="produkte-bestellen.html">Postkarten &amp; Poster</a>
     </div>
+   </div>
   </div>
 
   <span class="buehne-zaehler" id="buehne-zaehler" aria-hidden="true"></span>
@@ -304,42 +306,6 @@
 
     <!-- Alles, was nur Information ist, liegt eingeklappt: -->
     <div class="info-folds">
-      <details class="info-fold">
-        <summary>So läuft eine Bestellung ab</summary>
-        <div class="fold-body">
-          <ol class="fold-steps">
-            <li><b>Motiv und Menge wählen</b> — Postkarte, Poster A4 oder digitaler Download.</li>
-            <li><b>Zur Anfrage hinzufügen</b> — kein Kauf-Button, keine Kasse.</li>
-            <li><b>Ich melde mich</b> mit Preis, Versand oder Abholung und Zahlungsweg, meist in 2–3 Tagen.</li>
-          </ol>
-        </div>
-      </details>
-
-      <details class="info-fold">
-        <summary>Staffelpreise &amp; Versand</summary>
-        <div class="fold-body">
-          <p>Gezählt wird über <b>alle Motive zusammen</b>, Postkarten und Poster getrennt. Du kannst also frei mischen.</p>
-          <div class="staffel-cols">
-            <div>
-              <span class="staffel-titel">Postkarten</span>
-              <ul>
-                <li><b>1–2 Stück</b> · je 2,50 €</li>
-                <li><b>ab 3 Stück</b> · je 2,00 €</li>
-                <li><b>ab 5 Stück</b> · je 1,80 €</li>
-              </ul>
-            </div>
-            <div>
-              <span class="staffel-titel">Poster A4</span>
-              <ul>
-                <li><b>1 Stück</b> · 15,00 €</li>
-                <li><b>ab 2 Stück</b> · je 10,00 €</li>
-              </ul>
-            </div>
-          </div>
-          <p class="fold-note">Alle Preise zzgl. Versand. Digitale Downloads sind versandkostenfrei. Details in den <a href="agb.html">AGB &amp; der Widerrufsbelehrung</a>.</p>
-        </div>
-      </details>
-
       <details class="info-fold">
         <summary>Ein Motiv auf Tasse, Beutel oder Untersetzer?</summary>
         <div class="fold-body">
@@ -525,8 +491,10 @@
   </div>
 </footer>
 
-<!-- galerie-daten.js liefert die Bilder für Bühne und Serien-Kacheln -->
+<!-- galerie-daten.js liefert alle Motive,
+     startseite-bilder.js bestimmt, welche davon oben durchlaufen -->
 <script src="galerie-daten.js" defer></script>
+<script src="startseite-bilder.js" defer></script>
 <script>
 /* ============================================================
    STARTSEITE — BÜHNE UND SERIEN-KACHELN BEFÜLLEN
@@ -585,15 +553,46 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ============================================================
      2) BÜHNE
      ============================================================
-     Bevorzugt Motive, die als Postkarte auf Lager liegen — die
-     Startseite zeigt damit genau das, was auch zu haben ist.
-     Gibt es davon zu wenige, wird mit allen anderen aufgefüllt. */
-  var ANZAHL_BUEHNE = 5;      // wie viele Motive rotieren
-  var WECHSEL_MS    = 6500;   // Standzeit pro Bild in Millisekunden
+     Welche Motive hier laufen, steht in startseite-bilder.js.
+     Dort trägst du Motiv-IDs ein und kannst pro Bild auch den
+     Bildausschnitt festlegen ("ausschnitt").
 
-  var aufLager = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte === true; });
-  var rest     = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte !== true; });
-  var auswahl  = gemischt(aufLager).concat(gemischt(rest)).slice(0, ANZAHL_BUEHNE);
+     Ist diese Datei leer oder fehlt sie, sucht sich die Seite wie
+     bisher automatisch Motive aus, die du als Postkarte auf Lager
+     hast. */
+
+  var WECHSEL_MS = 7000;   // Standzeit je Bild, aus der Auswahldatei
+  if (typeof STARTSEITE_WECHSEL_SEKUNDEN === 'number' && STARTSEITE_WECHSEL_SEKUNDEN > 0) {
+    WECHSEL_MS = STARTSEITE_WECHSEL_SEKUNDEN * 1000;
+  }
+
+  var auswahl = [];
+
+  if (typeof STARTSEITE_BILDER !== 'undefined' && STARTSEITE_BILDER.length) {
+    // --- Deine Auswahl, in genau dieser Reihenfolge ---
+    STARTSEITE_BILDER.forEach(function (eintrag) {
+      var motiv = GALERIE_BILDER.filter(function (b) { return b.id === eintrag.id; })[0];
+      if (!motiv) {
+        // Tippfehler in der ID sollen nicht stillschweigend verschwinden
+        console.warn('startseite-bilder.js: Motiv "' + eintrag.id + '" steht nicht in galerie-daten.js');
+        return;
+      }
+      // Kopie anlegen, damit der Bildausschnitt nur hier gilt und
+      // galerie-daten.js unberührt bleibt
+      auswahl.push({
+        id: motiv.id, bild: motiv.bild, alt: motiv.alt,
+        beschriftung: motiv.beschriftung, kategorie: motiv.kategorie,
+        ort: motiv.ort, ausschnitt: eintrag.ausschnitt
+      });
+    });
+  }
+
+  if (!auswahl.length) {
+    // --- Automatik: bevorzugt, was als Postkarte auf Lager liegt ---
+    var aufLager = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte === true; });
+    var rest     = GALERIE_BILDER.filter(function (b) { return b.bereitsPostkarte !== true; });
+    auswahl = gemischt(aufLager).concat(gemischt(rest)).slice(0, 5);
+  }
   if (!auswahl.length) return;
 
   var behaelter = document.getElementById('buehne-bilder');
@@ -611,6 +610,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var img = document.createElement('img');
     img.src = motiv.bild;
     img.alt = i === 0 ? (motiv.alt || '') : '';   // nur das erste Bild wird vorgelesen
+    // Bildausschnitt aus startseite-bilder.js, z.B. 'center 30%'
+    if (motiv.ausschnitt) img.style.objectPosition = motiv.ausschnitt;
     // Erst das sichtbare Bild laden, die übrigen im Hintergrund nachziehen
     img.loading = i === 0 ? 'eager' : 'lazy';
     img.setAttribute('fetchpriority', i === 0 ? 'high' : 'low');

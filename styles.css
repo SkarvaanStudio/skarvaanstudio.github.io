@@ -210,7 +210,7 @@ section{padding:5rem 0; scroll-margin-top:64px;}
    nicht dauerhaft oben stehen. */
 .nav{
   position:fixed; top:0; left:0; right:0; z-index:50;
-  background:rgba(14,17,12,0.72);
+  background:rgba(14,17,12,0.84);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
 }
@@ -280,28 +280,47 @@ section{padding:5rem 0; scroll-margin-top:64px;}
 .buehne-bild.ist-sichtbar{ opacity:1; }
 .buehne-bild img{
   width:100%; height:100%;
+  /* cover = das Bild füllt die Fläche und wird dabei beschnitten.
+     Welcher Teil stehen bleibt, legst du pro Motiv in
+     startseite-bilder.js über "ausschnitt" fest. */
   object-fit:cover;
-  /* leicht abgedunkelt, damit die Schrift darüber ruhig bleibt —
-     in der Galerie sieht man die Bilder dann unbearbeitet */
-  filter:saturate(.92) brightness(.8);
+  object-position:center;
+  /* KEIN Filter: das Foto läuft unbearbeitet. Lesbar bleibt die
+     Schrift durch den Kasten (.buehne-text) darunter. */
 }
-/* Verlauf von unten, damit Überschrift und Notiz immer lesbar
-   sind, egal wie hell das Foto gerade ist. */
+/* Nur noch ein zarter Verlauf am unteren Rand, damit der Zähler
+   rechts unten nicht auf hellem Himmel verschwindet. */
 .buehne::after{
-  content:""; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(
-    to top,
-    rgba(14,17,12,.94) 0%,
-    rgba(14,17,12,.70) 26%,
-    rgba(14,17,12,.18) 58%,
-    rgba(14,17,12,.44) 100%);
+  content:""; position:absolute; left:0; right:0; bottom:0; height:22%;
+  pointer-events:none;
+  background:linear-gradient(to top, rgba(14,17,12,.55), transparent);
 }
 .buehne-inner{ position:relative; z-index:2; width:100%; }
+
+/* Der Kasten hinter Überschrift, Feldnotiz und Knöpfen. Ersetzt
+   die frühere Abdunklung des ganzen Fotos: Der Text liegt auf
+   einer eigenen Fläche und bleibt damit auf jedem Motiv lesbar —
+   auch auf Schnee oder hellem Himmel. */
+.buehne-text{
+  display:inline-block;
+  max-width:min(46rem, 100%);
+  padding:1.7rem 2rem 1.9rem;
+  background:rgba(11,14,9,.80);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+  border-left:2px solid var(--accent);
+}
+/* Browser ohne backdrop-filter bekommen einfach mehr Deckkraft */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .buehne-text{ background:rgba(11,14,9,.92); }
+}
+@media (max-width:760px){
+  .buehne-text{ padding:1.3rem 1.4rem 1.5rem; }
+}
 .buehne h1{
   font-size:clamp(2.6rem, 7.6vw, 5.6rem);
   max-width:13ch;
   margin:.15em 0 1.1rem;
-  text-shadow:0 2px 24px rgba(0,0,0,.45);
 }
 .buehne h1 em{ color:var(--accent-soft); font-style:italic; font-weight:400; }
 
@@ -313,7 +332,7 @@ section{padding:5rem 0; scroll-margin-top:64px;}
   display:inline-flex; align-items:center; gap:.6rem;
   padding:.45rem 0;
   border-bottom:1px solid var(--line-strong);
-  margin-bottom:2rem;
+  margin-bottom:1.7rem;
   transition:border-color .2s, color .2s;
 }
 .buehne-notiz:hover{ color:var(--accent-soft); border-color:var(--accent); }
@@ -321,14 +340,17 @@ section{padding:5rem 0; scroll-margin-top:64px;}
 .buehne-notiz .trenner{ color:var(--text-muted); }
 .buehne-notiz .pfeil{ opacity:.6; }
 
-.buehne-aktionen{ display:flex; gap:.7rem; flex-wrap:wrap; }
+.buehne-aktionen{ display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:0; }
 
 /* Zähler rechts unten: zeigt, dass sich das Bild bewegt, ohne
    dass ein Pfeil-Karussell nötig wäre. */
 .buehne-zaehler{
   position:absolute; right:1.6rem; bottom:3.4rem; z-index:2;
   font-family:'JetBrains Mono', monospace; font-size:.7rem;
-  letter-spacing:.16em; color:var(--text-muted);
+  letter-spacing:.16em; color:var(--text-light);
+  /* eigene kleine Fläche, sonst verschwindet er auf hellen Fotos */
+  background:rgba(11,14,9,.7);
+  padding:.3rem .7rem;
 }
 @media (max-width:760px){
   .buehne{ padding-top:6rem; }
@@ -367,10 +389,10 @@ section{padding:5rem 0; scroll-margin-top:64px;}
   width:100%; height:100%;
   object-fit:cover;
   transition:transform .9s cubic-bezier(.2,.7,.3,1), filter .5s;
-  filter:brightness(.72) saturate(.9);
+  filter:brightness(.92);
 }
 .serie:hover img,
-.serie:focus-visible img{ transform:scale(1.035); filter:brightness(.88) saturate(1); }
+.serie:focus-visible img{ transform:scale(1.035); filter:brightness(1); }
 .serie-text{
   position:absolute; left:0; right:0; bottom:0;
   padding:1.5rem 1.6rem;
@@ -630,50 +652,49 @@ textarea{min-height:120px; resize:vertical;}
    MASONRY-GALERIE (Serien-Unterseiten)
    ============================================================
    Echtes Masonry über CSS-Spalten: behält das Seitenverhältnis,
-   schneidet also nichts weg. Die Fugen sind eng, damit die Wand
-   als Ganzes wirkt statt als Sammlung von Kärtchen.
+   schneidet also nichts weg. Vier Spalten am PC, drei ab 900 px,
+   zwei ab 600 px. Die Bildunterschrift steht unter dem Foto.
    ============================================================ */
 .masonry{
-  column-count:3;
-  column-gap:6px;
-  margin-top:1.5rem;
+  column-count:4;
+  column-gap:8px;
+  margin-top:2rem;
 }
 .m-item{
-  margin:0 0 6px;
+  margin:0 0 8px;
   break-inside:avoid;
   -webkit-column-break-inside:avoid;
   position:relative;
-  border-radius:var(--radius-foto);
+  border-radius:var(--radius);
   overflow:hidden;
+  border:1px solid rgba(237,231,214,0.08);
   background:var(--bg-panel);
 }
 .m-item img{
-  width:100%; height:auto; display:block;
+  width:100%;
+  height:auto;
+  display:block;
   cursor:zoom-in;
-  transition:opacity .25s ease;
+  transition:opacity .2s ease;
 }
-.m-item img:hover{opacity:.86;}
+.m-item img:hover{opacity:.9;}
 
-/* Bildunterschrift liegt auf dem Bild und erscheint beim
-   Darüberfahren. Auf Touch-Geräten (kein Hover) bleibt sie
-   dauerhaft sichtbar — siehe Media-Query weiter unten. */
+/* Bildunterschrift steht wieder UNTER dem Foto statt darauf —
+   so ist sie immer lesbar und verdeckt nichts. */
 .m-item figcaption{
-  position:absolute; left:0; right:0; bottom:0;
-  padding:2.2rem .8rem .7rem;
+  padding:.75rem .9rem;
   font-family:'JetBrains Mono', monospace;
-  font-size:.72rem; letter-spacing:.02em;
-  color:var(--text-light);
-  background:linear-gradient(to top, rgba(14,17,12,.9), transparent);
-  opacity:0; transition:opacity .25s ease;
-  pointer-events:none;
+  font-size:.75rem;
+  letter-spacing:.02em;
+  color:var(--text-muted);
 }
-.m-item:hover figcaption,
-.m-item:focus-within figcaption{ opacity:1; }
 .m-item figcaption b{color:var(--accent-soft); font-weight:500;}
 
-@media (hover:none){ .m-item figcaption{ opacity:1; } }
-@media (max-width:900px){ .masonry{column-count:2;} }
-@media (max-width:520px){ .masonry{column-count:1; column-gap:0;} }
+@media (max-width:900px){ .masonry{column-count:3;} }
+@media (max-width:600px){
+  .masonry{column-count:2; column-gap:8px;}
+  .m-item{margin-bottom:8px;}
+}
 
 /* Die beiden Ecksymbole: Shop (rechts) und Geschichte (links).
    Werden von gallery.js erzeugt — Klassennamen bitte so lassen. */
