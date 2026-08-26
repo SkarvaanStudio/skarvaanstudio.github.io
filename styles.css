@@ -362,60 +362,116 @@ section{padding:5rem 0; scroll-margin-top:64px;}
 
 
 /* ============================================================
-   SERIEN (Galerie-Einstieg auf der Startseite)
+   GALERIE AUF DER STARTSEITE
    ============================================================
-   Vier große Bildkacheln statt vier Textblöcken mit je drei
-   Vorschaubildern. Jede Kachel führt direkt in die vollständige
-   Serie. Das Vorschaubild wird per Zufall aus der jeweiligen
-   Serie gezogen (Skript unten in index.html) — die Startseite
-   sieht bei jedem Besuch etwas anders aus, ohne dass du
-   irgendetwas pflegen musst.
+   Vier Kategorieblöcke, je ein hohes Bild links und zwei
+   querformatige rechts. Die Höhe des Rasters wird aus der
+   Seitenbreite berechnet, damit die drei Bilder immer sauber
+   aneinander abschließen — der Faktor 1.25 am Ende bestimmt,
+   wie hoch der Block im Verhältnis zur Breite ist.
+
+   Bilder tauschst du direkt im HTML (index.html, Abschnitt
+   id="galerie") aus.
    ============================================================ */
-.serien{
+
+/* Sprungleiste zu den vier Kategorien */
+.cat-nav{
+  display:flex; gap:1.5rem; flex-wrap:wrap;
+  font-family:'JetBrains Mono', monospace; font-size:.78rem;
+  letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:3rem; padding-bottom:1.2rem;
+  border-bottom:1px solid var(--line);
+}
+.cat-nav a{color:var(--text-muted);}
+.cat-nav a:hover{color:var(--accent-soft);}
+
+.cat-block{margin-bottom:5rem; scroll-margin-top:90px;}
+.cat-block:last-of-type{margin-bottom:0;}
+.cat-block h3{font-size:1.5rem;}
+.cat-block .cat-desc{color:var(--text-muted); max-width:48ch; margin-bottom:2rem;}
+
+.grid{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:2px;                       /* fast fugenlos, wie ein Kontaktbogen */
+  grid-template-columns: 1.08fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap:24px;
+  align-items:stretch;
+  margin-top:2rem;
+  /* Breite des Inhaltsbereichs minus Fuge, halbiert, mal 1.25 */
+  height: calc(((min(1240px, 100vw - 3.2rem) - 24px) / 2) * 1.25);
 }
-.serie{
+
+.card{
   position:relative;
-  scroll-margin-top:80px;
-  display:block;
-  aspect-ratio:4/3;
   overflow:hidden;
-  background:var(--bg-panel);
-  color:var(--text-light);
+  min-height:0;
+  border-radius:var(--radius);
+  border:1px solid rgba(237,231,214,0.08);
+  /* schräge Streifen als Platzhalter, solange ein Bild lädt */
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--bg-panel) 0 14px,
+      var(--bg-panel-2) 14px 28px
+    );
 }
-.serie img{
+
+/* Das hohe Bild links füllt beide Zeilen */
+.card.hero{ grid-row: span 2 / span 2; min-height:0; }
+
+/* Das zweite Querformat rutscht in die rechte Spalte */
+.card.side:nth-of-type(3){ grid-column-start:2; }
+
+.card img{
+  position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover;
-  transition:transform .9s cubic-bezier(.2,.7,.3,1), filter .5s;
-  filter:brightness(.92);
+  object-fit:cover; display:block;
 }
-.serie:hover img,
-.serie:focus-visible img{ transform:scale(1.035); filter:brightness(1); }
-.serie-text{
+
+.card .tag{
   position:absolute; left:0; right:0; bottom:0;
-  padding:1.5rem 1.6rem;
-  background:linear-gradient(to top, rgba(14,17,12,.88), transparent);
-}
-.serie-name{
-  font-family:'Fraunces', serif; font-weight:450;
-  font-size:clamp(1.4rem, 2.6vw, 2rem);
-  margin:0;
-  color:var(--text-light);
-}
-.serie-zeile{
+  padding:.8rem 1rem;
   font-family:'JetBrains Mono', monospace;
-  font-size:.72rem; letter-spacing:.05em;
-  color:var(--text-muted);
-  margin:.4rem 0 0;
-  display:flex; gap:.7rem; align-items:center; flex-wrap:wrap;
+  font-size:.75rem;
+  color:var(--text-light);
+  background:none;
+  z-index:2;
 }
-.serie-zeile .anzahl{ color:var(--accent-soft); }
-@media (max-width:760px){
-  .serien{ grid-template-columns:1fr; }
-  .serie{ aspect-ratio:3/2; }
+/* Verlauf hinter der Beschriftung, damit sie auf hellen Bildern
+   lesbar bleibt, ohne das ganze Foto abzudunkeln. */
+.card .tag::before{
+  content:""; position:absolute; left:0; right:0; bottom:0;
+  height:90px;
+  background:linear-gradient(
+    to top,
+    rgba(14,17,12,.92) 0%,
+    rgba(14,17,12,.55) 40%,
+    rgba(14,17,12,.20) 70%,
+    transparent 100%);
+  z-index:-1;
 }
+.card .tag b{ color:var(--accent-soft); font-weight:500; }
+
+/* Ab Tablet-Breite untereinander und ungeschnitten — auf einem
+   schmalen Bildschirm wirkt das Raster sonst gequetscht. */
+@media (max-width:900px){
+  .grid{ display:block; height:auto; }
+  .card, .card.hero, .card.side{
+    display:block; height:auto; min-height:0;
+    aspect-ratio:unset; margin-bottom:20px;
+    background:none; border:none; overflow:visible;
+  }
+  .card img, .card.hero img, .card.side img{
+    position:static;
+    width:100%; height:auto;
+    object-fit:contain; display:block;
+    border:1px solid rgba(237,231,214,0.08);
+    border-radius:var(--radius);
+  }
+}
+
+/* "Mehr entdecken" unter jedem Block */
+.cat-more{ margin-top:1.8rem; }
 
 
 /* ============================================================
@@ -1182,7 +1238,6 @@ details:focus-visible, [tabindex]:focus-visible{
     transition-duration:.01ms !important;
     scroll-behavior:auto !important;
   }
-  .serie:hover img{ transform:none !important; }
 }
 
 /* Nur für Screenreader */

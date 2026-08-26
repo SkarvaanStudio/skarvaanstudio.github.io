@@ -57,9 +57,12 @@ die musst du nicht neu hochladen.
 2. **Der Text über den Bühnenbildern liegt in einem eigenen
    Kasten** (dunkel, leicht weichgezeichnet, orange Kante links).
    Er ist damit auch auf Schnee oder hellem Himmel lesbar.
-3. **Die Galerie-Seiten sind auf deine alte Aufteilung zurück:**
-   vier Spalten am PC, drei ab 900 px, drei ab 600 px zwei, und die
-   Bildunterschrift steht wieder unter dem Foto statt darauf.
+3. **Die Galerie ist komplett auf deine alte Aufteilung zurück.**
+   Auf der Startseite wieder die vier Kategorieblöcke mit dem hohen
+   Bild links und den zwei Querformaten rechts — mit genau deiner
+   ursprünglichen Bildauswahl und Beschriftung. Auf den
+   Serien-Seiten wieder vier Spalten am PC, drei ab 900 px, zwei ab
+   600 px, Bildunterschrift unter dem Foto.
 4. **Die Bestell-Mechanik ist von der Startseite verschwunden.**
    Die Aufklapper "So läuft eine Bestellung ab" und "Staffelpreise
    & Versand" sind raus — die Preise stehen ohnehin an den
@@ -91,11 +94,9 @@ Weiter unten:
 
 - **Die vier Einstiegs-Textkarten sind ersatzlos gestrichen.** Sie
   haben erklärt, was die Seite auch ohne Erklärung zeigt.
-- **Galerie**: statt vier Textblöcken mit je drei Vorschaubildern
-  jetzt vier große Bildkacheln. Das Vorschaubild zieht das Skript
-  zufällig aus der jeweiligen Serie, die Motivzahl kommt
-  automatisch dazu. Kein Pflegeaufwand, und die Seite sieht bei
-  jedem Besuch etwas anders aus.
+- **Galerie**: unverändert gegenüber vorher — deine vier
+  Kategorieblöcke. Nur der große zentrierte Abschnittskopf ist
+  einer schmalen Rubrikzeile gewichen.
 - **Mitnehmen**: drei Kacheln mit **echten Preisen direkt am Bild**
   (2,50 € / 15,00 €) statt Preisen zwei Klicks später.
 - **Über mich**: von einem langen Absatz plus Infokarten auf drei

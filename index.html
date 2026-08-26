@@ -205,54 +205,97 @@
 
 
 <!-- ============================================================
-     SERIEN — der Galerie-Einstieg
+     GALERIE
      ============================================================
-     Vier Bildkacheln statt vier Textblöcken. Das Vorschaubild
-     zieht das Skript unten zufällig aus der jeweiligen Serie.
+     Vier Kategorieblöcke: links das hohe Bild, rechts die zwei
+     querformatigen. Bilder und Beschriftungen stehen direkt hier
+     im HTML — zum Tauschen einfach src, alt und den Text im
+     <span class="tag"> ändern.
      ============================================================ -->
 <section id="galerie">
   <div class="wrap">
     <div class="rubrik">
-      <h2 class="rubrik-label">Serien</h2>
+      <h2 class="rubrik-label">Galerie</h2>
       <a class="rubrik-link" href="karte.html">Alle Aufnahmeorte auf der Karte →</a>
     </div>
 
-    <div class="serien" id="serien-raster">
-      <!-- data-serie steuert, aus welcher Kategorie das Skript ein
-           zufälliges Vorschaubild zieht. Die Bilder im HTML sind
-           der Stand ohne JavaScript. -->
-      <a class="serie" id="teichleben" href="galerie-teichleben.html" data-serie="Teichleben">
-        <img loading="lazy" src="bilder/teichleben-01.jpg" alt="Entenküken schaut frontal in die Kamera">
-        <div class="serie-text">
-          <h3 class="serie-name">Teichleben</h3>
-          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Am Wasser nebenan</p>
-        </div>
-      </a>
-
-      <a class="serie" id="gartenleben" href="galerie-gartenleben.html" data-serie="Gartenleben">
-        <img loading="lazy" src="bilder/gartenleben-01.jpg" alt="Singdrossel singend im Tannengrün">
-        <div class="serie-text">
-          <h3 class="serie-name">Gartenleben</h3>
-          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Meisen, Finken &amp; Co.</p>
-        </div>
-      </a>
-
-      <a class="serie" id="waldleben" href="galerie-waldleben.html" data-serie="Waldleben">
-        <img loading="lazy" src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera">
-        <div class="serie-text">
-          <h3 class="serie-name">Waldleben</h3>
-          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Eichhörnchen, Specht, Moor</p>
-        </div>
-      </a>
-
-      <a class="serie" id="reduktion" href="galerie-reduktion.html" data-serie="Reduktion">
-        <img loading="lazy" src="bilder/reduktion-01.jpg" alt="Silhouette zweier Stare auf einem Ast">
-        <div class="serie-text">
-          <h3 class="serie-name">Reduktion</h3>
-          <p class="serie-zeile"><span class="anzahl" data-anzahl></span> Auf das Nötigste gekürzt</p>
-        </div>
-      </a>
+    <div class="cat-nav">
+      <a href="#teichleben">→ Teichleben</a>
+      <a href="#gartenleben">→ Gartenleben</a>
+      <a href="#waldleben">→ Waldleben</a>
+      <a href="#reduktion">→ Reduktion</a>
     </div>
+
+    <!-- ---- Kategorie: Teichleben ---- -->
+    <div class="cat-block" id="teichleben">
+      <h3>Teichleben</h3>
+      <p class="cat-desc">Schwimmend, putzend, schlafend — das Leben am kühlen Gewässer nebenan.</p>
+      <div class="grid">
+       <div class="card hero"><img src="bilder/teichleben-01.jpg" alt="Entenküken schaut frontal in die Kamera"><span class="tag"><b>Entenküken</b> · Nahaufnahme</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/teichleben-02.jpg" alt="Gänseküken schläft auf der Wiese"><span class="tag"><b>Gänseküken</b> · bei Gänseblümchen</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/teichleben-03.jpg" alt="Ente breitet die Flügel auf dem Wasser aus"><span class="tag"><b>Stockente</b> · Flügelzauber</span></div>
+      </div>
+      <div class="cat-more">
+        <a class="btn btn-outline" href="galerie-teichleben.html">Mehr entdecken</a>
+      </div>
+    </div>
+
+    <!-- ---- Kategorie: Gartenleben ---- -->
+    <div class="cat-block" id="gartenleben">
+      <h3>Gartenleben</h3>
+      <p class="cat-desc">Rotkehlchen, Meisen, Gimpel &amp; Co. im Wechsel der Jahreszeiten.</p>
+      <div class="grid">
+       <div class="card hero"><img src="bilder/gartenleben-01.jpg" alt="Singdrossel singend im Tannengrün"><span class="tag"><b>Singdrossel</b> · grüner Gesang</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/gartenleben/junger_moench.jpg" alt="junge Mönchgrasmücke im Geäst mit Kirschen"><span class="tag"><b>Mönchgrasmücke</b> · Frühlingssnack</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/gartenleben-03.jpg" alt="Kohlmeise zwischen grünen Zweigen im Baum"><span class="tag"><b>Kohlmeise</b> · frech versteckt</span></div>
+      </div>
+      <div class="cat-more">
+        <a class="btn btn-outline" href="galerie-gartenleben.html">Mehr entdecken</a>
+      </div>
+    </div>
+
+    <!-- ---- Kategorie: Waldleben ---- -->
+    <div class="cat-block" id="waldleben">
+      <h3>Waldleben</h3>
+      <p class="cat-desc">Eichhörnchen, Specht &amp; Co. im grünen Lebensraum.</p>
+      <div class="grid">
+       <div class="card hero"><img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera"><span class="tag"><b>Eichhörnchen</b> · planend</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/waldleben-02.jpg" alt="Buntspecht schaut aus einer Baumhöhle"><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
+       <div class="card side"><img src="bilder/waldleben/sleepy_squirrel.jpg" alt="Eichhörnchen sitzt müde und entspannt auf einem Ast" loading="lazy"><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
+      </div>
+      <div class="cat-more">
+        <a class="btn btn-outline" href="galerie-waldleben.html">Mehr entdecken</a>
+      </div>
+    </div>
+
+    <!-- ---- Kategorie: Pflanzenwelt (noch stillgelegt) ---- -->
+    <!--<div class="cat-block" id="pflanzenwelt">
+      <h3>Pflanzenwelt</h3>
+      <p class="cat-desc">Blüten, Blätter und Bäume. Die farbenfrohe Natur um uns herum.</p>
+      <div class="grid">
+       <div class="card hero"><img src="bilder/pflanzenwelt-01.jpg" alt=""><span class="tag"><b>Eichhörnchen</b> · planend</span></div>
+       <div class="card side"><img src="bilder/pflanzenwelt-02.jpg" alt=""><span class="tag"><b>Buntspecht</b> · aus Baumhöhle</span></div>
+       <div class="card side"><img src="bilder/pflanzenwelt-03.jpg" alt=""><span class="tag"><b>Eichhörnchen</b> · in sich ruhend</span></div>
+      </div>
+      <div class="cat-more">
+        <a class="btn btn-outline" href="galerie-pflanzenwelt.html">Mehr entdecken</a>
+      </div>
+    </div>-->
+
+    <!-- ---- Kategorie: Reduktion ---- -->
+    <div class="cat-block" id="reduktion">
+      <h3>Reduktion — Natur neu betrachtet</h3>
+      <p class="cat-desc">Echte Naturfotografie, reduziert, neu interpretiert und bewusst anders gesehen.</p>
+      <div class="grid">
+       <div class="card hero"><img src="bilder/reduktion-01.jpg" alt="Silhouette zweier Stare auf einem Ast. Schwarz vor grauem Hintergrund"><span class="tag"><b>Star-Silhouette</b> · Reduktion und Detail</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/reduktion-02.jpg" alt="farbenfrohe Singdrossel auf ausgegrauten Ästen"><span class="tag"><b>Singdrossel</b> · der letzte Apfel</span></div>
+       <div class="card side"><img loading="lazy" src="bilder/reduktion-03.jpg" alt="Blässhuhn auf dunklem Wasser mit Spiegelung"><span class="tag"><b>Blässhuhn</b> · dunkle Spiegelung</span></div>
+      </div>
+      <div class="cat-more">
+        <a class="btn btn-outline" href="galerie-reduktion.html">Mehr entdecken</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -497,11 +540,11 @@
 <script src="startseite-bilder.js" defer></script>
 <script>
 /* ============================================================
-   STARTSEITE — BÜHNE UND SERIEN-KACHELN BEFÜLLEN
+   STARTSEITE — BÜHNENBILDER OBEN
    ============================================================
-   Beides zieht seine Bilder aus GALERIE_BILDER (galerie-daten.js).
-   Du pflegst also weiterhin nur diese eine Datei; die Startseite
-   aktualisiert sich von selbst mit.
+   Welche Motive oben durchlaufen, steht in startseite-bilder.js.
+   Serie, Aufnahmeort und der Link zur Geschichte kommen aus
+   galerie-daten.js.
 
    Läuft das Skript nicht (JavaScript aus, Datei fehlt), bleibt
    einfach das im HTML stehende Bild sichtbar — die Seite ist
@@ -530,28 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================================
-     1) SERIEN-KACHELN
-     ============================================================
-     Für jede Kachel ein zufälliges Bild aus der passenden Serie,
-     dazu die tatsächliche Anzahl der Motive. */
-  document.querySelectorAll('.serie[data-serie]').forEach(function (kachel) {
-    var serie = kachel.getAttribute('data-serie');
-    var bilder = GALERIE_BILDER.filter(function (b) { return b.kategorie === serie; });
-    if (!bilder.length) return;
-
-    var treffer = bilder[Math.floor(Math.random() * bilder.length)];
-    var img = kachel.querySelector('img');
-    if (img) {
-      img.src = treffer.bild;
-      img.alt = treffer.alt || ohneHtml(treffer.beschriftung);
-    }
-
-    var anzahl = kachel.querySelector('[data-anzahl]');
-    if (anzahl) anzahl.textContent = bilder.length + ' Motive';
-  });
-
-  /* ============================================================
-     2) BÜHNE
+     BÜHNE
      ============================================================
      Welche Motive hier laufen, steht in startseite-bilder.js.
      Dort trägst du Motiv-IDs ein und kannst pro Bild auch den
