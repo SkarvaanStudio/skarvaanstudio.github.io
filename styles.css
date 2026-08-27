@@ -483,7 +483,7 @@ section{padding:5rem 0; scroll-margin-top:64px;}
    ============================================================ */
 .mitnehmen-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
   gap:1.2rem;
 }
 .mn-karte{
@@ -496,8 +496,21 @@ section{padding:5rem 0; scroll-margin-top:64px;}
   transition:border-color .2s;
 }
 .mn-karte:hover{ border-color:var(--accent); color:var(--text-light); }
-.mn-bild{ aspect-ratio:4/3; overflow:hidden; background:var(--bg-panel-2); }
-.mn-bild img{ width:100%; height:100%; object-fit:cover; }
+/* Die drei Produktfotos haben sehr unterschiedliche Formate: der
+   Postkartenfächer ist breit, das gerahmte Poster hochkant, die
+   Sticker liegen frei. Deshalb:
+     contain  = das ganze Bild ist zu sehen, nichts wird beschnitten
+     1/1      = mehr Höhe als vorher, das Bild wird also größer
+   Vorher stand hier cover + 4/3 — das hat den Fächer an den Seiten
+   und das Poster oben und unten abgeschnitten. */
+.mn-bild{
+  aspect-ratio:1/1;
+  overflow:hidden;
+  background:var(--bg-panel-2);
+  display:flex; align-items:center; justify-content:center;
+  padding:.7rem;
+}
+.mn-bild img{ width:100%; height:100%; object-fit:contain; }
 .mn-body{
   padding:1.1rem 1.2rem 1.3rem;
   display:flex; flex-direction:column; gap:.3rem; flex-grow:1;

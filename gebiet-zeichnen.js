@@ -19,10 +19,11 @@
 
   var karte = L.map('zeichen-karte').setView([53.65, 9.85], 11); // Hamburg/Umland als Startausschnitt
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap-Mitwirkende &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 18,
+  /* Kacheln über OpenStreetMap statt CARTO — CARTO verlangt seit
+     August 2026 einen API-Schlüssel und watermarkt sonst die Karte. */
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap-Mitwirkende',
+    maxZoom: 19,
     className: 'karte-kacheln'
   }).addTo(karte);
 

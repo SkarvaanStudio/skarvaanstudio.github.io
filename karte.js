@@ -48,11 +48,23 @@
 
   L.control.zoom({ position: 'bottomright' }).addTo(karte);
 
-  // ---- Warme, gedämpfte Kacheln passend zum Farbschema ----
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 18,
+  /* ---- Kartenkacheln ----
+     Bis August 2026 kamen die Kacheln von CARTO. CARTO verlangt
+     dafür inzwischen einen API-Schlüssel und legt unangemeldeten
+     Anfragen ein "API KEY REQUIRED" quer über die Karte — deshalb
+     laufen sie jetzt direkt über OpenStreetMap: kein Schlüssel,
+     kein Konto, keine Kosten.
+
+     Die Farbgebung macht ohnehin die CSS-Klasse "karte-kacheln"
+     (siehe styles.css) — dort stellst du Sättigung und Helligkeit
+     ein, nicht hier.
+
+     Falls die Karte irgendwann sehr viel besucht wird: OpenStreetMap
+     bittet bei hoher Last darum, einen eigenen Kachel-Dienst zu
+     nutzen. Bei deinen Zahlen ist das weit entfernt. */
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende',
+    maxZoom: 19,
     className: 'karte-kacheln'
   }).addTo(karte);
 
