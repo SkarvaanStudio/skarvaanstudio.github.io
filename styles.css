@@ -356,6 +356,65 @@ section{padding:5rem 0; scroll-margin-top:64px;}
   .buehne{ padding-top:6rem; }
   .buehne-zaehler{ display:none; }
 }
+
+/* ============================================================
+   BREITE, FLACHE BILDSCHIRME (Laptop, normaler Monitor)
+   ============================================================
+   Das Problem: Die Bühne ist immer so breit wie das Fenster und
+   so hoch wie der Bildschirm. Auf einem Laptop (z. B. 1920 × 900)
+   ist dieses Fenster viel breiter als ein Foto im 3:2-Format —
+   und weil das Bild die Fläche komplett füllt (object-fit:cover),
+   bleibt nur ein schmaler Streifen aus der Bildmitte übrig. Auf
+   dem Handy und auf hohen Bildschirmen passiert das nicht, weil
+   die Fläche dort viel näher am Bildformat liegt.
+
+   Ganz wegzaubern lässt sich das bei einem randlosen Bild nicht.
+   Was hier passiert: Der Textkasten wird kleiner und rückt nach
+   unten, damit er nicht die halbe Bühne einnimmt und mehr vom
+   Foto sichtbar bleibt. Dazu kommt oben ein zarter Verlauf, damit
+   das Menü nicht im Motiv hängt.
+
+   Greift ab 1000px Breite, aber nur wenn das Fenster gleichzeitig
+   flach ist (höchstens 900px hoch) — also genau in dem Fall, der
+   dich stört. Hohe Bildschirme und Handys bleiben unverändert.
+   ============================================================ */
+@media (min-width:1000px) and (max-height:900px){
+  .buehne{ padding:6.5rem 0 2.4rem; }
+
+  /* Kleinere Überschrift: nimmt spürbar weniger Höhe weg */
+  .buehne h1{
+    font-size:clamp(2.1rem, 3.6vw, 3.3rem);
+    margin:.1em 0 .8rem;
+  }
+  /* Schmalerer, flacherer Kasten */
+  .buehne-text{
+    max-width:34rem;
+    padding:1.25rem 1.6rem 1.4rem;
+  }
+  .buehne-notiz{ margin-bottom:1.1rem; font-size:.74rem; }
+  .buehne .eyebrow{ font-size:.68rem; }
+
+  /* Verlauf oben: das Menü liegt sonst direkt im Motiv */
+  .buehne::before{
+    content:""; position:absolute; left:0; right:0; top:0; height:24%;
+    pointer-events:none; z-index:1;
+    background:linear-gradient(to bottom, rgba(14,17,12,.6), transparent);
+  }
+  /* Unterer Verlauf etwas flacher, sonst wirkt die Bühne gedrückt */
+  .buehne::after{ height:34%; }
+
+  .buehne-zaehler{ bottom:2.4rem; }
+}
+
+/* Sehr flache Fenster (z. B. kleines Laptop-Display): noch etwas
+   kompakter, damit unter dem Kasten Luft bleibt. */
+@media (min-width:1000px) and (max-height:740px){
+  .buehne{ padding:5.5rem 0 2rem; }
+  .buehne h1{ font-size:clamp(1.9rem, 3vw, 2.7rem); margin-bottom:.65rem; }
+  .buehne-text{ max-width:30rem; padding:1.1rem 1.4rem 1.2rem; }
+  .buehne-notiz{ margin-bottom:.9rem; }
+}
+
 @media (prefers-reduced-motion:reduce){
   .buehne-bild{ transition:none; }
 }
