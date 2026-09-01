@@ -173,18 +173,13 @@
      dass JavaScript aus ist — dann bleibt es einfach stehen.
      ============================================================ -->
 <header class="buehne" id="top">
-  <div class="buehne-bilder" id="buehne-bilder">
-    <div class="buehne-bild ist-sichtbar">
-      <img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera" width="1600" height="1067">
-    </div>
-  </div>
-
   <div class="wrap buehne-inner">
    <div class="buehne-text">
     <span class="eyebrow">Naturfotografie · Halstenbek · Schleswig-Holstein</span>
     <h1>Wildes Leben<br><em>vor der Haustür.</em></h1>
 
-    <!-- Feldnotiz: Text und Ziel werden vom Skript unten gesetzt -->
+    <!-- Feldnotiz: gehört zur großen Kachel und wechselt mit ihr.
+         Text und Ziel setzt das Skript unten. -->
     <a class="buehne-notiz" id="buehne-notiz" href="geschichten.html">
       <span class="buehne-serie" id="buehne-serie">Waldleben</span>
       <span class="trenner" aria-hidden="true">·</span>
@@ -198,9 +193,28 @@
       <a class="btn btn-outline" href="produkte-bestellen.html">Postkarten &amp; Poster</a>
     </div>
    </div>
-  </div>
 
-  <span class="buehne-zaehler" id="buehne-zaehler" aria-hidden="true"></span>
+   <!-- ============================================================
+        COLLAGE
+        ============================================================
+        Vier Kacheln liegen fest im HTML, das Stylesheet blendet je
+        nach Fensterbreite zwei, drei oder vier davon ein. Welches
+        Motiv in welcher Kachel landet, würfelt das Skript unten bei
+        jedem Seitenaufruf neu — das Raster bleibt aber immer gleich,
+        damit es nicht beliebig wirkt.
+
+        Kachel 1 ist die große. Ohne JavaScript bleibt das hier
+        eingetragene Startbild stehen.
+        ============================================================ -->
+   <div class="buehne-collage" id="buehne-collage">
+     <div class="buehne-kachel">
+       <img src="bilder/waldleben-01.jpg" alt="Eichhörnchen schaut frontal in die Kamera" width="1600" height="1067">
+     </div>
+     <div class="buehne-kachel"></div>
+     <div class="buehne-kachel"></div>
+     <div class="buehne-kachel"></div>
+   </div>
+  </div>
 </header>
 
 
@@ -617,55 +631,118 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   if (!auswahl.length) return;
 
-  var behaelter = document.getElementById('buehne-bilder');
+  var behaelter = document.getElementById('buehne-collage');
   var notiz     = document.getElementById('buehne-notiz');
   var elSerie   = document.getElementById('buehne-serie');
   var elOrt     = document.getElementById('buehne-ort');
-  var elZaehler = document.getElementById('buehne-zaehler');
   if (!behaelter || !notiz) return;
 
-  // Bild-Ebenen anlegen (das erste sofort sichtbar, damit nichts blinkt)
-  behaelter.innerHTML = '';
-  var ebenen = auswahl.map(function (motiv, i) {
-    var div = document.createElement('div');
-    div.className = 'buehne-bild' + (i === 0 ? ' ist-sichtbar' : '');
-    var img = document.createElement('img');
-    img.src = motiv.bild;
-    img.alt = i === 0 ? (motiv.alt || '') : '';   // nur das erste Bild wird vorgelesen
-    // Bildausschnitt aus startseite-bilder.js, z.B. 'center 30%'
-    if (motiv.ausschnitt) img.style.objectPosition = motiv.ausschnitt;
-    // Erst das sichtbare Bild laden, die übrigen im Hintergrund nachziehen
-    img.loading = i === 0 ? 'eager' : 'lazy';
-    img.setAttribute('fetchpriority', i === 0 ? 'high' : 'low');
-    div.appendChild(img);
-    behaelter.appendChild(div);
-    return div;
+  /* ============================================================
+     COLLAGE FÜLLEN
+     ============================================================
+     Die vier Kacheln stehen fest im HTML. Jede bekommt hier zwei
+     Bildebenen übereinander: eine sichtbare und eine, die im
+     Hintergrund auf den nächsten Wechsel wartet. Dadurch blendet
+     ein Motivwechsel weich über, statt hart umzuspringen.
+
+     Damit nie zweimal dasselbe Motiv gleichzeitig zu sehen ist,
+     merkt sich "belegt", was gerade wo hängt.
+     ============================================================ */
+  var kacheln = Array.prototype.slice.call(behaelter.querySelectorAll('.buehne-kachel'));
+
+  /* Genug Motive? Sonst die Liste so lange wiederholen, bis alle
+     Kacheln etwas haben — sonst bliebe eine leer. */
+  while (auswahl.length && auswahl.length < kacheln.length) {
+    auswahl = auswahl.concat(auswahl);
+  }
+
+  var reihenfolge = gemischt(auswahl);
+  var belegt = [];   // je Kachel: welches Motiv hängt dort gerade
+
+  kacheln.forEach(function (kachel, i) {
+    var motiv = reihenfolge[i % reihenfolge.length];
+    belegt[i] = motiv;
+
+    kachel.innerHTML = '';
+    /* Ebene A: sichtbar. Ebene B: liegt darüber und ist ausgeblendet. */
+    ['a', 'b'].forEach(function (rolle) {
+      var img = document.createElement('img');
+      if (rolle === 'a') {
+        img.src = motiv.bild;
+        /* Nur das große Motiv wird vorgelesen — die übrigen sind
+           Dekoration und würden die Vorlesereihenfolge zumüllen. */
+        img.alt = (i === 0) ? (motiv.alt || '') : '';
+        img.loading = (i === 0) ? 'eager' : 'lazy';
+        img.setAttribute('fetchpriority', (i === 0) ? 'high' : 'low');
+        if (motiv.ausschnitt) { img.style.objectPosition = motiv.ausschnitt; }
+      } else {
+        img.alt = '';
+        img.className = 'ist-weg';
+        img.loading = 'lazy';
+      }
+      kachel.appendChild(img);
+    });
   });
 
-  // Beschriftung und Ziel der Feldnotiz auf das Motiv Nr. i setzen
-  function zeigeNotiz(i) {
-    var motiv = auswahl[i];
+  /* Feldnotiz gehört immer zur großen Kachel (Nummer 1). */
+  function zeigeNotiz(motiv) {
     elSerie.textContent = motiv.kategorie;
     elOrt.textContent = (motiv.ort && motiv.ort.label) ? motiv.ort.label : ohneHtml(motiv.beschriftung);
     notiz.href = 'geschichte.html?id=' + encodeURIComponent(motiv.id);
-    if (elZaehler) {
-      elZaehler.textContent = ('0' + (i + 1)).slice(-2) + ' / ' + ('0' + auswahl.length).slice(-2);
-    }
   }
 
-  zeigeNotiz(0);
+  zeigeNotiz(belegt[0]);
 
-  // Wer im Betriebssystem "Bewegung reduzieren" eingestellt hat,
-  // bekommt ein Standbild statt eines Wechsels.
+  /* Wer im Betriebssystem "Bewegung reduzieren" eingestellt hat,
+     bekommt eine feste Collage ohne Wechsel. */
   var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (ruhig.matches || auswahl.length < 2) return;
+  if (ruhig.matches || auswahl.length <= kacheln.length) return;
 
-  var aktuell = 0;
+  /* ============================================================
+     SANFTER WECHSEL
+     ============================================================
+     Es wechselt immer nur EINE Kachel, nicht die ganze Collage —
+     das wirkt ruhig statt hektisch. Welche, geht reihum.
+     ============================================================ */
+  var dran = 0;
+
+  /* Nächstes Motiv, das gerade nirgends hängt */
+  function naechstesMotiv() {
+    var frei = auswahl.filter(function (m) { return belegt.indexOf(m) === -1; });
+    var topf = frei.length ? frei : auswahl;
+    return topf[Math.floor(Math.random() * topf.length)];
+  }
+
   setInterval(function () {
-    ebenen[aktuell].classList.remove('ist-sichtbar');
-    aktuell = (aktuell + 1) % ebenen.length;
-    ebenen[aktuell].classList.add('ist-sichtbar');
-    zeigeNotiz(aktuell);
+    /* Nur sichtbare Kacheln wechseln — die ausgeblendeten sieht
+       ja niemand, das wäre verschwendete Ladezeit. */
+    var sichtbare = kacheln.filter(function (k) {
+      return getComputedStyle(k).display !== 'none';
+    });
+    if (!sichtbare.length) { return; }
+
+    var kachel = sichtbare[dran % sichtbare.length];
+    dran++;
+
+    var index = kacheln.indexOf(kachel);
+    var motiv = naechstesMotiv();
+    var ebenen = kachel.querySelectorAll('img');
+    var sichtbar = ebenen[0].classList.contains('ist-weg') ? ebenen[1] : ebenen[0];
+    var wartend  = (sichtbar === ebenen[0]) ? ebenen[1] : ebenen[0];
+
+    /* Erst laden, dann überblenden — sonst blitzt kurz nichts auf. */
+    wartend.onload = function () {
+      wartend.classList.remove('ist-weg');
+      sichtbar.classList.add('ist-weg');
+      belegt[index] = motiv;
+      if (index === 0) {
+        wartend.alt = motiv.alt || '';
+        sichtbar.alt = '';
+        zeigeNotiz(motiv);
+      }
+    };
+    wartend.style.objectPosition = motiv.ausschnitt || 'center';
+    wartend.src = motiv.bild;
   }, WECHSEL_MS);
 });
 </script>

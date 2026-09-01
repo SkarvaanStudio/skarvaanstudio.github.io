@@ -264,67 +264,46 @@ section{padding:5rem 0; scroll-margin-top:64px;}
    ============================================================ */
 .buehne{
   position:relative;
-  min-height:100svh;                /* svh: kein Sprung, wenn auf dem
-                                       Handy die Adressleiste einfährt */
-  display:flex; align-items:flex-end;
-  overflow:hidden;
-  padding:8rem 0 3.4rem;
+  padding:9.5rem 0 4.5rem;
   background:var(--bg-deep);
+  overflow:hidden;
 }
-.buehne-bilder{ position:absolute; inset:0; }
-.buehne-bild{
-  position:absolute; inset:0;
-  opacity:0;
-  transition:opacity 1.6s ease;
-}
-.buehne-bild.ist-sichtbar{ opacity:1; }
-.buehne-bild img{
-  width:100%; height:100%;
-  /* cover = das Bild füllt die Fläche und wird dabei beschnitten.
-     Welcher Teil stehen bleibt, legst du pro Motiv in
-     startseite-bilder.js über "ausschnitt" fest. */
-  object-fit:cover;
-  object-position:center;
-  /* KEIN Filter: das Foto läuft unbearbeitet. Lesbar bleibt die
-     Schrift durch den Kasten (.buehne-text) darunter. */
-}
-/* Nur noch ein zarter Verlauf am unteren Rand, damit der Zähler
-   rechts unten nicht auf hellem Himmel verschwindet. */
-.buehne::after{
-  content:""; position:absolute; left:0; right:0; bottom:0; height:22%;
-  pointer-events:none;
-  background:linear-gradient(to top, rgba(14,17,12,.55), transparent);
-}
-.buehne-inner{ position:relative; z-index:2; width:100%; }
 
-/* Der Kasten hinter Überschrift, Feldnotiz und Knöpfen. Ersetzt
-   die frühere Abdunklung des ganzen Fotos: Der Text liegt auf
-   einer eigenen Fläche und bleibt damit auf jedem Motiv lesbar —
-   auch auf Schnee oder hellem Himmel. */
-.buehne-text{
-  display:inline-block;
-  max-width:min(46rem, 100%);
-  padding:1.7rem 2rem 1.9rem;
-  background:rgba(11,14,9,.80);
-  backdrop-filter:blur(7px);
-  -webkit-backdrop-filter:blur(7px);
-  border-left:2px solid var(--accent);
+/* Textspalte links, Collage rechts. Auf schmalen Geräten stapelt
+   sich beides untereinander (Text zuerst). */
+.buehne-inner{
+  position:relative; z-index:2; width:100%;
+  display:grid; gap:2.4rem; align-items:center;
 }
-/* Browser ohne backdrop-filter bekommen einfach mehr Deckkraft */
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .buehne-text{ background:rgba(11,14,9,.92); }
+@media (min-width:900px){
+  .buehne-inner{
+    grid-template-columns:minmax(0,1.02fr) minmax(0,1.05fr);
+    gap:3.2rem;
+  }
+  .buehne{ padding:10rem 0 5rem; }
+}
+
+/* Der Text liegt jetzt auf dem ruhigen Seitenhintergrund und nicht
+   mehr auf dem Foto — die dunkle Kastenfläche mit Weichzeichner
+   braucht es deshalb nicht mehr. Der Akzentstrich links bleibt als
+   Wiedererkennung. */
+.buehne-text{
+  border-left:2px solid var(--accent);
+  padding-left:1.6rem;
 }
 @media (max-width:760px){
-  .buehne-text{ padding:1.3rem 1.4rem 1.5rem; }
+  .buehne{ padding:7rem 0 3rem; }
+  .buehne-text{ padding-left:1.1rem; }
 }
 .buehne h1{
-  font-size:clamp(2.6rem, 7.6vw, 5.6rem);
+  font-size:clamp(2.3rem, 5vw, 4rem);
   max-width:13ch;
   margin:.15em 0 1.1rem;
 }
 .buehne h1 em{ color:var(--accent-soft); font-style:italic; font-weight:400; }
 
-/* Die Feldnotiz unter der Überschrift */
+/* Die Feldnotiz unter der Überschrift — gehört zum großen Motiv
+   der Collage und wechselt mit ihm. */
 .buehne-notiz{
   font-family:'JetBrains Mono', monospace;
   font-size:.78rem; letter-spacing:.05em;
@@ -342,81 +321,77 @@ section{padding:5rem 0; scroll-margin-top:64px;}
 
 .buehne-aktionen{ display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:0; }
 
-/* Zähler rechts unten: zeigt, dass sich das Bild bewegt, ohne
-   dass ein Pfeil-Karussell nötig wäre. */
-.buehne-zaehler{
-  position:absolute; right:1.6rem; bottom:3.4rem; z-index:2;
-  font-family:'JetBrains Mono', monospace; font-size:.7rem;
-  letter-spacing:.16em; color:var(--text-light);
-  /* eigene kleine Fläche, sonst verschwindet er auf hellen Fotos */
-  background:rgba(11,14,9,.7);
-  padding:.3rem .7rem;
-}
-@media (max-width:760px){
-  .buehne{ padding-top:6rem; }
-  .buehne-zaehler{ display:none; }
-}
-
 /* ============================================================
-   BREITE, FLACHE BILDSCHIRME (Laptop, normaler Monitor)
+   COLLAGE
    ============================================================
-   Das Problem: Die Bühne ist immer so breit wie das Fenster und
-   so hoch wie der Bildschirm. Auf einem Laptop (z. B. 1920 × 900)
-   ist dieses Fenster viel breiter als ein Foto im 3:2-Format —
-   und weil das Bild die Fläche komplett füllt (object-fit:cover),
-   bleibt nur ein schmaler Streifen aus der Bildmitte übrig. Auf
-   dem Handy und auf hohen Bildschirmen passiert das nicht, weil
-   die Fläche dort viel näher am Bildformat liegt.
+   Statt eines randlosen Riesenbildes mehrere kleine Kacheln.
+   Vorteil: Jede Kachel ist annähernd quadratisch, dadurch wird
+   kaum noch etwas weggeschnitten — genau das Problem, das das
+   bildschirmfüllende Foto auf breiten, flachen Monitoren hatte.
 
-   Ganz wegzaubern lässt sich das bei einem randlosen Bild nicht.
-   Was hier passiert: Der Textkasten wird kleiner und rückt nach
-   unten, damit er nicht die halbe Bühne einnimmt und mehr vom
-   Foto sichtbar bleibt. Dazu kommt oben ein zarter Verlauf, damit
-   das Menü nicht im Motiv hängt.
+   Das Raster ist bewusst FEST, nur die Motive wechseln zufällig.
+   Wie viele Kacheln zu sehen sind, hängt an der Fensterbreite:
 
-   Greift ab 1000px Breite, aber nur wenn das Fenster gleichzeitig
-   flach ist (höchstens 900px hoch) — also genau in dem Fall, der
-   dich stört. Hohe Bildschirme und Handys bleiben unverändert.
+     unter 560px   2 Kacheln
+     560–1399px    3 Kacheln
+     ab 1400px     4 Kacheln
+
+   Die Kacheln liegen alle im HTML, überzählige werden per CSS
+   ausgeblendet. Die Reihenfolge im HTML ist zugleich die
+   Wichtigkeit: Kachel 1 ist immer die große.
    ============================================================ */
-@media (min-width:1000px) and (max-height:900px){
-  .buehne{ padding:6.5rem 0 2.4rem; }
+.buehne-collage{
+  display:grid;
+  gap:.7rem;
+  /* Zwei Reihen gleicher Höhe; die Gesamthöhe ergibt sich aus dem
+     Seitenverhältnis, damit die Collage nie ins Riesenhafte wächst. */
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  grid-template-rows:repeat(2, minmax(0,1fr));
+  aspect-ratio:16/11;
+}
+.buehne-kachel{
+  position:relative; overflow:hidden;
+  border-radius:var(--radius);
+  background:var(--bg-panel);
+}
+/* Zwei Bildebenen pro Kachel: eine sichtbar, eine wartet im
+   Hintergrund auf den nächsten Wechsel. So blendet der Tausch
+   weich über, statt hart umzuspringen. */
+.buehne-kachel img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  transition:opacity 1.2s ease;
+}
+.buehne-kachel img.ist-weg{ opacity:0; }
 
-  /* Kleinere Überschrift: nimmt spürbar weniger Höhe weg */
-  .buehne h1{
-    font-size:clamp(2.1rem, 3.6vw, 3.3rem);
-    margin:.1em 0 .8rem;
-  }
-  /* Schmalerer, flacherer Kasten */
-  .buehne-text{
-    max-width:34rem;
-    padding:1.25rem 1.6rem 1.4rem;
-  }
-  .buehne-notiz{ margin-bottom:1.1rem; font-size:.74rem; }
-  .buehne .eyebrow{ font-size:.68rem; }
+/* --- unter 560px: nur zwei Kacheln, nebeneinander --- */
+.buehne-kachel:nth-child(3),
+.buehne-kachel:nth-child(4){ display:none; }
+.buehne-collage{ grid-template-rows:minmax(0,1fr); aspect-ratio:16/9; }
 
-  /* Verlauf oben: das Menü liegt sonst direkt im Motiv */
-  .buehne::before{
-    content:""; position:absolute; left:0; right:0; top:0; height:24%;
-    pointer-events:none; z-index:1;
-    background:linear-gradient(to bottom, rgba(14,17,12,.6), transparent);
+/* --- ab 560px: drei Kacheln, große links --- */
+@media (min-width:560px){
+  .buehne-collage{
+    grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+    grid-template-rows:repeat(2, minmax(0,1fr));
+    aspect-ratio:16/11;
   }
-  /* Unterer Verlauf etwas flacher, sonst wirkt die Bühne gedrückt */
-  .buehne::after{ height:34%; }
-
-  .buehne-zaehler{ bottom:2.4rem; }
+  .buehne-kachel:nth-child(1){ grid-row:span 2; }
+  .buehne-kachel:nth-child(3){ display:block; }
 }
 
-/* Sehr flache Fenster (z. B. kleines Laptop-Display): noch etwas
-   kompakter, damit unter dem Kasten Luft bleibt. */
-@media (min-width:1000px) and (max-height:740px){
-  .buehne{ padding:5.5rem 0 2rem; }
-  .buehne h1{ font-size:clamp(1.9rem, 3vw, 2.7rem); margin-bottom:.65rem; }
-  .buehne-text{ max-width:30rem; padding:1.1rem 1.4rem 1.2rem; }
-  .buehne-notiz{ margin-bottom:.9rem; }
+/* --- ab 1400px: vier Kacheln, breiter Streifen unten rechts --- */
+@media (min-width:1400px){
+  .buehne-collage{
+    grid-template-columns:minmax(0,1.45fr) minmax(0,.85fr) minmax(0,.85fr);
+    aspect-ratio:16/12;
+  }
+  .buehne-kachel:nth-child(4){ display:block; grid-column:2 / span 2; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .buehne-bild{ transition:none; }
+  .buehne-kachel img{ transition:none; }
 }
 
 
