@@ -75,6 +75,46 @@ const STAFFEL = {
 const MAX_MENGE = 50;
 
 /* ------------------------------------------------------------
+   VERSANDKOSTEN — Pauschalen, keine Echtzeit-Berechnung.
+
+   Warum Pauschalen? Du musst dem Kunden VOR dem Absenden einer
+   verbindlichen Bestellung den Gesamtpreis inkl. Versand nennen
+   (§ 312j BGB). Du musst aber NICHT centgenau das echte Porto
+   abrechnen — eine realistische Pauschale ist völlig üblich und
+   zulässig. Mal zahlst du drauf, mal bleibt was übrig.
+
+   Welche Stufe genommen wird, entscheidet der Warenkorb:
+     - enthält mindestens ein Poster  -> 'gross'   (steife Verpackung)
+     - mehr als kleinMaxStueck Teile  -> 'mittel'
+     - sonst                          -> 'klein'
+   Reine Download-Bestellungen bekommen gar keinen Versand.
+
+   Ändern willst du das hier: einfach die Zahlen anpassen. Wenn du
+   z. B. den versandkostenfreien Einkauf abschaffen willst, setze
+   kostenlosAb auf null.
+   ------------------------------------------------------------- */
+const VERSAND = {
+  /* Ab diesem Warenwert (ohne Versand) entfällt der Versand. */
+  kostenlosAb: 30.00,
+
+  /* Bis zu dieser Stückzahl gilt die kleine Stufe (nur Kleinteile). */
+  kleinMaxStueck: 5,
+
+  stufen: {
+    klein:  { preis: 1.80, label: 'Warensendung / Großbrief' },
+    mittel: { preis: 2.90, label: 'Maxibrief' },
+    gross:  { preis: 4.50, label: 'Maxibrief / Päckchen (mit A4-Poster)' }
+  }
+};
+
+/* ------------------------------------------------------------
+   ABHOLUNG — Text, der bei "Abholung in Halstenbek" erscheint.
+   Bewusst ohne genaue Adresse: den Treffpunkt machst du per Mail
+   aus, sobald die Bestellung da ist.
+   ------------------------------------------------------------- */
+const ABHOLUNG_HINWEIS = 'Kein Versand, kein Versandkostenanteil. Den Übergabe­termin machen wir per Mail aus.';
+
+/* ------------------------------------------------------------
    STICKER & LESEZEICHEN
    Schema pro Eintrag:
    {

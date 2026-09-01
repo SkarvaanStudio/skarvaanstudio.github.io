@@ -393,6 +393,70 @@
   .shop-form-wrap h2{ font-size:1.4rem; margin-bottom:.3rem; }
   .shop-form-wrap .form-lead{ color:var(--text-muted); font-size:.92rem; margin:0 0 1.6rem; }
   .after-submit-note{ font-size:.8rem; color:var(--text-muted); margin-top:.6rem; }
+
+  /* ============================================================
+     WAHL-KACHELN (Bestellart / Lieferart / Zahlweg)
+     ============================================================
+     Optisch identisch aufgebaut, damit der Kunde die drei
+     Entscheidungen als eine zusammenhängende Strecke liest.
+     Technisch sind es echte Radio-Buttons — das <input> liegt
+     unsichtbar unter dem <label>, damit Tastatur und
+     Screenreader normal funktionieren.
+     ============================================================ */
+  .wahl-block{ margin:0 0 1.5rem; }
+  .wahl-block > .wahl-titel{
+    display:block; font-family:'JetBrains Mono', monospace;
+    font-size:.7rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-muted); margin:0 0 .6rem;
+  }
+  .wahl-optionen{ display:flex; flex-wrap:wrap; gap:.6rem; }
+  .wahl-opt{
+    flex:1 1 14rem; position:relative;
+    display:flex; flex-direction:column; gap:.15rem;
+    padding:.85rem 1rem; cursor:pointer;
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:var(--radius);
+    transition:border-color .2s, background .2s;
+  }
+  .wahl-opt:hover{ border-color:var(--accent); }
+  /* Das echte Eingabefeld verschwindet optisch, bleibt aber
+     bedienbar und fokussierbar. */
+  .wahl-opt input{
+    position:absolute; opacity:0; width:0; height:0; margin:0;
+  }
+  .wahl-opt .opt-name{ font-size:.9rem; color:var(--text-light); }
+  .wahl-opt .opt-sub{ font-size:.78rem; color:var(--text-muted); line-height:1.35; }
+  /* Ausgewählter Zustand */
+  .wahl-opt:has(input:checked){
+    border-color:var(--accent); background:rgba(201,124,61,0.12);
+  }
+  .wahl-opt:has(input:checked) .opt-name{ color:var(--accent-soft); }
+  /* Sichtbarer Fokusrahmen für Tastaturbedienung */
+  .wahl-opt:has(input:focus-visible){ outline:2px solid var(--accent-soft); outline-offset:2px; }
+
+  /* Blöcke, die je nach Auswahl ein- und ausgeblendet werden. */
+  [data-wenn]{ display:none; }
+  [data-wenn].sichtbar{ display:block; }
+
+  /* Adressfelder: als normaler Block statt Aufklapper, sobald sie
+     zur Pflicht werden (verbindliche Bestellung mit Versand). */
+  .adress-block{
+    margin:0 0 1.5rem; padding:1rem 1.2rem;
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  .adress-block > .wahl-titel{
+    display:block; font-family:'JetBrains Mono', monospace;
+    font-size:.7rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-muted); margin:0 0 .3rem;
+  }
+
+  /* Kostenzeile "Versand" in der Summenübersicht */
+  .summe-zeile.versand-frei span:last-child{ color:#7fae86; }
+  .versand-hinweis{
+    font-size:.78rem; color:var(--text-muted); margin:.5rem 0 0;
+  }
+  .versand-hinweis b{ color:var(--accent-soft); font-weight:400; }
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="f4f909bb-06ff-41f6-933c-db0c0deac7b4"></script>
 <script>
@@ -587,16 +651,85 @@
     <!-- novalidate: die Prüfung macht das Script unten, damit die
          Fehlermeldungen in jedem Browser gleich und auf Deutsch sind. -->
     <form action="https://formspree.io/f/xvzejbje" method="POST" id="anfrage-form" novalidate>
-      <h2 id="kontakt-anfrage">Kurze Anfrage</h2>
-      <p class="form-lead">Bestellwunsch, Marktanfrage, Bildlizenz oder fehlendes Motiv — eine kurze Nachricht genügt. Ich melde mich mit Preis, Versand oder Abholung und Zahlungsweg.</p>
+      <h2 id="kontakt-anfrage">Deine Bestellung</h2>
+      <p class="form-lead" id="form-lead">Bestellwunsch, Marktanfrage, Bildlizenz oder fehlendes Motiv — eine kurze Nachricht genügt. Ich melde mich mit Preis, Versand oder Abholung und Zahlungsweg.</p>
 
       <div class="auswahl-liste-wrap">
         <h3>Deine Auswahl</h3>
         <ul class="auswahl-liste" id="auswahl-liste"></ul>
-        <p class="auswahl-leer" id="auswahl-leer">Noch nichts ausgewählt — klick bei den Produkten oben auf „+ Zur Anfrage hinzufügen“, oder schreib direkt unten dein Anliegen.</p>
+        <p class="auswahl-leer" id="auswahl-leer">Noch nichts ausgewählt — klick bei den Produkten oben auf „+ In den Warenkorb“, oder schreib direkt unten dein Anliegen.</p>
         <div class="auswahl-summe" id="auswahl-summe"></div>
       </div>
       <input type="hidden" name="Ausgewählte Produkte" id="auswahl-hidden-field" value="">
+
+      <!-- ============================================================
+           1. BESTELLART — der wichtigste Schalter im Formular.
+           Er entscheidet, welche Felder danach Pflicht werden und
+           wie der Absende-Button heißt.
+
+           "anfrage"     = unverbindlich, wie bisher. Adresse optional.
+           "verbindlich" = echte Bestellung. Bei Versand ist die
+                           Adresse Pflicht, dazu kommt ein Zahlweg
+                           und die AGB-/Widerrufs-Bestätigung.
+           ============================================================ -->
+      <div class="wahl-block" id="bestellart-block" style="display:none;">
+        <span class="wahl-titel">Wie möchtest du weitermachen?</span>
+        <div class="wahl-optionen">
+          <label class="wahl-opt">
+            <input type="radio" name="Bestellart" value="Unverbindliche Anfrage" data-art="anfrage" checked>
+            <span class="opt-name">Unverbindlich anfragen</span>
+            <span class="opt-sub">Ich melde mich mit Proforma-Rechnung und allen Details. Noch nichts verbindlich.</span>
+          </label>
+          <label class="wahl-opt">
+            <input type="radio" name="Bestellart" value="Verbindliche Bestellung" data-art="verbindlich">
+            <span class="opt-name">Verbindlich bestellen</span>
+            <span class="opt-sub">Direkt bestellen — du bekommst sofort die Zusammenfassung und den Zahlungsweg per Mail.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           2. LIEFERART — steuert die Versandkosten und ob eine
+           Adresse gebraucht wird. Bei reinen Downloads wird dieser
+           Block automatisch ausgeblendet.
+           ============================================================ -->
+      <div class="wahl-block" id="lieferart-block" style="display:none;">
+        <span class="wahl-titel">Versand oder Abholung?</span>
+        <div class="wahl-optionen">
+          <label class="wahl-opt">
+            <input type="radio" name="Lieferart" value="Versand" data-liefer="versand" checked>
+            <span class="opt-name">Versand</span>
+            <span class="opt-sub" id="versand-opt-sub">Verpackt und verschickt aus Halstenbek.</span>
+          </label>
+          <label class="wahl-opt">
+            <input type="radio" name="Lieferart" value="Abholung in Halstenbek" data-liefer="abholung">
+            <span class="opt-name">Abholung in Halstenbek</span>
+            <span class="opt-sub">Kein Versand — Termin machen wir per Mail aus.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           3. ZAHLWEG — nur bei verbindlicher Bestellung.
+           Barzahlung erscheint ausschließlich bei Abholung, weil
+           Bargeld per Post schlicht nicht funktioniert. Das
+           schaltet das Script unten um.
+           ============================================================ -->
+      <div class="wahl-block" data-wenn="verbindlich" id="zahlweg-block">
+        <span class="wahl-titel">Zahlungsweg</span>
+        <div class="wahl-optionen">
+          <label class="wahl-opt">
+            <input type="radio" name="Zahlweg" value="PayPal oder Überweisung (vorab)" data-zahl="vorab" checked>
+            <span class="opt-name">PayPal / Überweisung</span>
+            <span class="opt-sub">Du bekommst die Zahlungsdaten per Mail. Versand nach Zahlungseingang.</span>
+          </label>
+          <label class="wahl-opt" id="zahlweg-bar">
+            <input type="radio" name="Zahlweg" value="Barzahlung bei Abholung" data-zahl="bar">
+            <span class="opt-name">Barzahlung bei Abholung</span>
+            <span class="opt-sub">Passend wäre schön — Wechselgeld habe ich aber dabei.</span>
+          </label>
+        </div>
+      </div>
 
       <div class="chips" id="anliegen-chips">
         <button type="button" class="chip" data-text="Bestellanfrage" data-key="bestellung">Bestellanfrage</button>
@@ -627,31 +760,43 @@
       </div>
 
       <!-- ============================================================
-           ADRESSE — komplett freiwillig. Eingeklappt, damit das
-           Formular kurz bleibt; wer sie angibt, bekommt gleich den
-           passenden Versandpreis genannt statt einer Rückfrage.
+           ADRESSE
+           ============================================================
+           Zwei Zustände, das Script schaltet um:
+
+           a) Unverbindliche Anfrage  -> eingeklappter Aufklapper,
+              alles freiwillig (wie bisher).
+           b) Verbindliche Bestellung + Versand -> aufgeklappt und
+              Pflicht, weil ohne Adresse kein Paket rausgeht.
+
+           Bei Abholung und bei reinen Downloads verschwindet der
+           Block komplett — dann braucht ihn niemand.
            ============================================================ -->
-      <details class="adress-fold">
-        <summary>Lieferadresse schon mitgeben <span class="optional-tag">optional</span></summary>
+      <details class="adress-fold" id="adress-fold">
+        <summary id="adress-summary">Lieferadresse schon mitgeben <span class="optional-tag">optional</span></summary>
         <div class="fold-body">
-          <p class="adress-note">Freiwillig — hilft mir nur dabei, dir direkt den richtigen Versandpreis zu nennen, statt noch einmal nachzufragen. Ohne Adresse geht die Anfrage genauso raus.</p>
-          <div>
-            <label for="af-strasse">Straße &amp; Hausnummer</label>
+          <p class="adress-note" id="adress-note">Freiwillig — hilft mir nur dabei, dir direkt den richtigen Versandpreis zu nennen, statt noch einmal nachzufragen. Ohne Adresse geht die Anfrage genauso raus.</p>
+          <div data-feld>
+            <label for="af-strasse">Straße &amp; Hausnummer <abbr class="pflicht" title="Pflichtangabe" data-pflicht-stern hidden>*</abbr></label>
             <input type="text" id="af-strasse" name="Straße und Hausnummer" autocomplete="street-address">
+            <p class="feld-fehler" id="af-strasse-fehler"></p>
           </div>
           <div class="adress-zeile">
-            <div>
-              <label for="af-plz">PLZ</label>
+            <div data-feld>
+              <label for="af-plz">PLZ <abbr class="pflicht" title="Pflichtangabe" data-pflicht-stern hidden>*</abbr></label>
               <input type="text" id="af-plz" name="PLZ" autocomplete="postal-code" inputmode="numeric">
+              <p class="feld-fehler" id="af-plz-fehler"></p>
             </div>
-            <div>
-              <label for="af-ort">Ort</label>
+            <div data-feld>
+              <label for="af-ort">Ort <abbr class="pflicht" title="Pflichtangabe" data-pflicht-stern hidden>*</abbr></label>
               <input type="text" id="af-ort" name="Ort" autocomplete="address-level2">
+              <p class="feld-fehler" id="af-ort-fehler"></p>
             </div>
           </div>
-          <div>
-            <label for="af-land">Land</label>
+          <div data-feld>
+            <label for="af-land">Land <abbr class="pflicht" title="Pflichtangabe" data-pflicht-stern hidden>*</abbr></label>
             <input type="text" id="af-land" name="Land" value="Deutschland" autocomplete="country-name">
+            <p class="feld-fehler" id="af-land-fehler"></p>
           </div>
         </div>
       </details>
@@ -665,10 +810,34 @@
       </div>
       <p class="feld-fehler" id="af-datenschutz-fehler"></p>
 
+      <!-- Nur bei verbindlicher Bestellung: AGB und Widerrufsbelehrung
+           müssen vor Vertragsschluss bestätigt werden. Bei der
+           unverbindlichen Anfrage wird dieser Block ausgeblendet UND
+           das required entfernt (macht das Script). -->
+      <div data-wenn="verbindlich" id="agb-check-block">
+        <div class="feld-check" data-feld>
+          <input type="checkbox" id="af-agb" name="AGB und Widerruf" value="gelesen und akzeptiert">
+          <label for="af-agb">Ich habe die <a href="agb.html" target="_blank" rel="noopener">AGB und die Widerrufsbelehrung</a> gelesen und akzeptiere sie. <abbr class="pflicht" title="Pflichtangabe">*</abbr></label>
+        </div>
+        <p class="feld-fehler" id="af-agb-fehler"></p>
+      </div>
+
       <p class="form-fehler-sammel" id="af-fehler-sammel" role="alert"></p>
 
-      <button class="btn btn-fill" type="submit" style="border:none; cursor:pointer; margin-top:1rem;">Anfrage senden</button>
-      <p class="after-submit-note">Antwort meist innerhalb von 2–3 Tagen · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben</p>
+      <!-- Beschriftung wechselt je nach Bestellart. Bei einer
+           verbindlichen Bestellung muss auf dem Button unmissver-
+           ständlich stehen, dass sie kostenpflichtig ist (§ 312j
+           Abs. 3 BGB, "Button-Lösung") — deshalb der feste Text
+           "Zahlungspflichtig bestellen". Bitte nicht in etwas
+           Nettes wie "Los geht's" umbenennen. -->
+      <button class="btn btn-fill" type="submit" id="af-submit" style="border:none; cursor:pointer; margin-top:1rem;">Anfrage senden</button>
+      <p class="after-submit-note" id="af-submit-note">Antwort meist innerhalb von 2–3 Tagen · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben</p>
+
+      <!-- Formspree schickt dem Kunden nur dann eine Bestätigungsmail,
+           wenn ein Feld namens "email" (klein geschrieben) mitkommt.
+           Das Sichtbare heißt "E-Mail" (schöner in deiner Mail), also
+           spiegelt das Script den Wert hierher. -->
+      <input type="hidden" name="email" id="af-email-spiegel" value="">
     </form>
   </div>
 </section>
@@ -753,6 +922,62 @@
     return null;
   }
 
+  /* ============================================================
+     VERSANDKOSTEN
+     ============================================================
+     Downloads zählen nicht mit — die gehen per Mail raus und
+     lösen keinen Versand aus. Alles andere ist "körperliche Ware".
+     ============================================================ */
+
+  /* Stückzahl aller Dinge, die tatsächlich verschickt werden müssen */
+  function physischeStueck() {
+    return auswahl.reduce(function (n, pos) {
+      return n + (pos.typ === 'download' ? 0 : pos.menge);
+    }, 0);
+  }
+
+  /* Welche Versandstufe passt zum aktuellen Warenkorb?
+     Rückgabe: null (nichts zu verschicken) oder Schlüssel aus VERSAND.stufen */
+  function versandStufe() {
+    if (!physischeStueck()) { return null; }
+    /* Poster brauchen eine steife Verpackung -> immer die große Stufe */
+    if (gesamtMenge('poster') > 0) { return 'gross'; }
+    return (physischeStueck() > VERSAND.kleinMaxStueck) ? 'mittel' : 'klein';
+  }
+
+  /* Tatsächlich zu zahlender Versand — berücksichtigt die
+     Versandkostenfrei-Grenze und die gewählte Lieferart. */
+  function versandKosten(warenwert, lieferart) {
+    if (lieferart === 'abholung') { return 0; }
+    var stufe = versandStufe();
+    if (!stufe) { return 0; }
+    if (VERSAND.kostenlosAb !== null && warenwert >= VERSAND.kostenlosAb) { return 0; }
+    return VERSAND.stufen[stufe].preis;
+  }
+
+  /* ============================================================
+     AKTUELLER ZUSTAND DES FORMULARS
+     ============================================================
+     Wird an mehreren Stellen gebraucht (Summe, Pflichtfelder,
+     Button-Text), deshalb einmal zentral abgefragt statt überall
+     einzeln im DOM gestochert.
+     ============================================================ */
+  function bestellZustand() {
+    var artEl = document.querySelector('input[name="Bestellart"]:checked');
+    var liefEl = document.querySelector('input[name="Lieferart"]:checked');
+    var zahlEl = document.querySelector('input[name="Zahlweg"]:checked');
+    var stueck = physischeStueck();
+    var lieferart = liefEl ? liefEl.getAttribute('data-liefer') : 'versand';
+    /* Reine Download-Bestellung: Lieferart ist gegenstandslos. */
+    if (!stueck) { lieferart = 'digital'; }
+    return {
+      art: artEl ? artEl.getAttribute('data-art') : 'anfrage',
+      lieferart: lieferart,
+      zahlweg: zahlEl ? zahlEl.getAttribute('data-zahl') : 'vorab',
+      hatPhysisches: stueck > 0
+    };
+  }
+
   function positionHinzufuegen(pos) {
     var vorhanden = findePosition(pos.key);
     if (vorhanden) {
@@ -778,6 +1003,11 @@
 
   /* Ein Update-Durchlauf: Karten, Liste, Badge, Formularfeld */
   function auswahlGeaendert() {
+    /* Reihenfolge zählt: erst das Formular in den richtigen Zustand
+       bringen (Lieferart kann sich durch einen leeren Korb ändern),
+       dann die Liste zeichnen — die braucht den aktuellen Zustand
+       für die Versandzeile. */
+    formularAnpassen();
     renderAuswahlListe();
     alleKartenAktualisieren();
   }
@@ -793,7 +1023,7 @@
   function renderKaufSlot(key) {
     var drin = !!findePosition(key);
     return '<button type="button" class="btn-hinzufuegen' + (drin ? ' ist-drin' : '') + '" data-key="' + escapeHtml(key) + '">' +
-      (drin ? 'In deiner Auswahl – entfernen' : '+ Zur Anfrage hinzufügen') + '</button>';
+      (drin ? 'Im Warenkorb – entfernen' : '+ In den Warenkorb') + '</button>';
   }
 
   /* ---------- Auswahl-Liste im Anfrageformular ---------- */
@@ -865,20 +1095,70 @@
       hinweise += '<p class="naechste-stufe">↑ Noch ' + naechste.fehlt + ' ' + was + ' mehr und du zahlst je ' + euro(naechste.proStueck) + '.</p>';
     });
 
+    /* ---- Versandzeile ----
+       Sie hängt an der gewählten Lieferart, deshalb wird sie hier
+       mitgerechnet und nicht erst beim Absenden. */
+    var zustand = bestellZustand();
+    var versand = versandKosten(gesamt, zustand.lieferart);
+    var gesamtMitVersand = gesamt + versand;
+    var versandZeile = '';
+    var versandHinweis = '';
+
+    if (zustand.lieferart === 'abholung') {
+      versandZeile = '<span class="summe-zeile versand-frei"><span>Abholung in Halstenbek</span><span>0,00 €</span></span>';
+    } else if (zustand.hatPhysisches) {
+      var stufe = versandStufe();
+      if (versand === 0) {
+        versandZeile = '<span class="summe-zeile versand-frei"><span>Versand</span><span>geschenkt</span></span>';
+        versandHinweis = '<p class="versand-hinweis">Versandkostenfrei ab ' + euro(VERSAND.kostenlosAb) + ' Warenwert — erreicht.</p>';
+      } else {
+        versandZeile = '<span class="summe-zeile"><span>Versand · ' + escapeHtml(VERSAND.stufen[stufe].label) + '</span><span>' + euro(versand) + '</span></span>';
+        var fehlt = VERSAND.kostenlosAb - gesamt;
+        if (VERSAND.kostenlosAb !== null && fehlt > 0) {
+          versandHinweis = '<p class="versand-hinweis">Noch <b>' + euro(fehlt) + '</b> bis zum versandkostenfreien Einkauf.</p>';
+        }
+      }
+    }
+
+    var schlussHinweis = (zustand.art === 'verbindlich')
+      ? '<p class="summe-hinweis">Verbindlicher Gesamtpreis. Es kommen keine weiteren Kosten dazu.</p>'
+      : '<p class="summe-hinweis">Richtwert — den genauen Betrag bestätige ich dir in meiner Antwort.</p>';
+
     summeEl.innerHTML = zeilen +
-      '<span class="summe-zeile gesamt"><span>Zwischensumme</span><span>' + euro(gesamt) + '</span></span>' +
+      '<span class="summe-zeile"><span>Zwischensumme</span><span>' + euro(gesamt) + '</span></span>' +
+      versandZeile +
+      '<span class="summe-zeile gesamt"><span>Gesamt</span><span>' + euro(gesamtMitVersand) + '</span></span>' +
+      versandHinweis +
       hinweise +
-      '<p class="summe-hinweis">Richtwert ohne Versand — den genauen Betrag bestätige ich dir in meiner Antwort.</p>';
+      schlussHinweis;
 
     var stueckGesamt = auswahl.reduce(function (n, pos) { return n + pos.menge; }, 0);
     badge.classList.add('sichtbar');
-    badgeText.textContent = stueckGesamt + (stueckGesamt === 1 ? ' Stück' : ' Stück') + ' · ' + euro(gesamt);
+    badgeText.textContent = stueckGesamt + (stueckGesamt === 1 ? ' Stück' : ' Stück') + ' · ' + euro(gesamtMitVersand);
 
-    /* Textfassung für die Formspree-Mail */
-    hiddenField.value = auswahl.map(function (pos) {
+    /* ---- Textfassung für die Mail ----
+       Bewusst ausführlich: Diese Zeilen sind das, was du später in
+       die Proforma-Rechnung überträgst bzw. bei einer verbindlichen
+       Bestellung als Bestellbeleg brauchst. */
+    var text = auswahl.map(function (pos) {
       var einzel = stueckPreis(pos.typ, gesamtMenge(pos.typ), pos);
       return pos.menge + '× ' + pos.motiv + ' — ' + pos.bezeichnung + ' (je ' + euro(einzel) + ' = ' + euro(einzel * pos.menge) + ')';
-    }).join('\n') + '\n\nZwischensumme (Richtwert, ohne Versand): ' + euro(gesamt);
+    }).join('\n');
+
+    text += '\n\nZwischensumme: ' + euro(gesamt);
+    if (zustand.lieferart === 'abholung') {
+      text += '\nVersand: entfällt (Abholung in Halstenbek)';
+    } else if (zustand.hatPhysisches) {
+      text += '\nVersand: ' + euro(versand) +
+        (versand === 0 ? ' (versandkostenfrei ab ' + euro(VERSAND.kostenlosAb) + ')'
+                       : ' (' + VERSAND.stufen[versandStufe()].label + ')');
+    } else {
+      text += '\nVersand: entfällt (nur digitale Downloads)';
+    }
+    text += '\nGesamt: ' + euro(gesamtMitVersand);
+    text += '\n\nKleinunternehmer nach § 19 UStG — es wird keine Umsatzsteuer ausgewiesen.';
+
+    hiddenField.value = text;
   }
 
   /* ---------- Klick-Delegation ---------- */
@@ -1352,6 +1632,153 @@
     });
   }
 
+  /* ============================================================
+     FORMULAR AN DIE AUSWAHL ANPASSEN
+     ============================================================
+     Eine einzige Funktion, die nach jeder Änderung durchläuft und
+     das Formular in den passenden Zustand bringt:
+
+       - Bestellart-Block erscheint erst, wenn etwas im Korb liegt
+       - Lieferart verschwindet bei reinen Downloads
+       - Barzahlung gibt es nur bei Abholung
+       - Adresse wird bei "verbindlich + Versand" zur Pflicht
+       - Button heißt je nachdem "Anfrage senden" oder
+         "Zahlungspflichtig bestellen"
+
+     Wichtig: Pflichtfelder werden über das required-Attribut
+     gesteuert. Die Prüfung weiter unten sammelt einfach alles mit
+     [required] ein — dadurch muss dort nichts angefasst werden.
+     ============================================================ */
+  function formularAnpassen() {
+    var z = bestellZustand();
+    var hatAuswahl = auswahl.length > 0;
+
+    /* --- Bestellart nur zeigen, wenn es etwas zu bestellen gibt --- */
+    var bestellartBlock = document.getElementById('bestellart-block');
+    bestellartBlock.style.display = hatAuswahl ? '' : 'none';
+    /* Leerer Korb -> immer zurück auf "Anfrage", sonst könnte eine
+       verbindliche Bestellung ohne Ware abgeschickt werden. */
+    if (!hatAuswahl) {
+      var anfrageRadio = document.querySelector('input[name="Bestellart"][data-art="anfrage"]');
+      if (anfrageRadio) { anfrageRadio.checked = true; }
+      z = bestellZustand();
+    }
+
+    /* --- Lieferart: entfällt bei reinen Downloads --- */
+    document.getElementById('lieferart-block').style.display =
+      (hatAuswahl && z.hatPhysisches) ? '' : 'none';
+
+    /* --- Blöcke, die nur zur verbindlichen Bestellung gehören --- */
+    document.querySelectorAll('[data-wenn="verbindlich"]').forEach(function (el) {
+      el.classList.toggle('sichtbar', hatAuswahl && z.art === 'verbindlich');
+    });
+
+    /* --- Barzahlung nur bei Abholung anbieten --- */
+    var barLabel = document.getElementById('zahlweg-bar');
+    var barRadio = barLabel.querySelector('input');
+    var barMoeglich = (z.lieferart === 'abholung');
+    barLabel.style.display = barMoeglich ? '' : 'none';
+    /* Stand "bar" noch drin, obwohl gerade auf Versand gewechselt
+       wurde? Dann zurück auf Vorkasse — sonst wäre eine unmögliche
+       Kombination gewählt. */
+    if (!barMoeglich && barRadio.checked) {
+      document.querySelector('input[name="Zahlweg"][data-zahl="vorab"]').checked = true;
+      z = bestellZustand();
+    }
+
+    /* --- Adresse: Sichtbarkeit und Pflicht --- */
+    var adressFold = document.getElementById('adress-fold');
+    var adressPflicht = (z.art === 'verbindlich' && z.lieferart === 'versand');
+    var adressNoetig = (z.lieferart === 'versand' && z.hatPhysisches && hatAuswahl);
+
+    adressFold.style.display = adressNoetig ? '' : 'none';
+    if (adressPflicht) {
+      adressFold.open = true;
+      adressFold.classList.add('ist-pflicht');
+      document.getElementById('adress-summary').innerHTML =
+        'Lieferadresse <abbr class="pflicht" title="Pflichtangabe">*</abbr>';
+      document.getElementById('adress-note').textContent =
+        'Ohne vollständige Adresse kann ich das Paket nicht auf den Weg bringen.';
+    } else {
+      adressFold.classList.remove('ist-pflicht');
+      document.getElementById('adress-summary').innerHTML =
+        'Lieferadresse schon mitgeben <span class="optional-tag">optional</span>';
+      document.getElementById('adress-note').textContent =
+        'Freiwillig — hilft mir nur dabei, dir direkt den richtigen Versandpreis zu nennen, statt noch einmal nachzufragen. Ohne Adresse geht die Anfrage genauso raus.';
+    }
+
+    /* required an den Adressfeldern setzen bzw. entfernen */
+    ['af-strasse', 'af-plz', 'af-ort', 'af-land'].forEach(function (id) {
+      var feld = document.getElementById(id);
+      if (adressPflicht) {
+        feld.setAttribute('required', '');
+        feld.setAttribute('aria-required', 'true');
+      } else {
+        feld.removeAttribute('required');
+        feld.removeAttribute('aria-required');
+      }
+    });
+    /* Die Sternchen an den Adress-Labels mitschalten */
+    document.querySelectorAll('[data-pflicht-stern]').forEach(function (stern) {
+      stern.hidden = !adressPflicht;
+    });
+
+    /* --- AGB-Häkchen nur bei verbindlicher Bestellung Pflicht --- */
+    var agbFeld = document.getElementById('af-agb');
+    if (hatAuswahl && z.art === 'verbindlich') {
+      agbFeld.setAttribute('required', '');
+      agbFeld.setAttribute('aria-required', 'true');
+    } else {
+      agbFeld.removeAttribute('required');
+      agbFeld.removeAttribute('aria-required');
+    }
+
+    /* --- Button, Einleitung und Fußnote --- */
+    var submitBtn = document.getElementById('af-submit');
+    var lead = document.getElementById('form-lead');
+    var note = document.getElementById('af-submit-note');
+
+    if (hatAuswahl && z.art === 'verbindlich') {
+      /* Pflichttext nach § 312j BGB — bitte so lassen. */
+      submitBtn.textContent = 'Zahlungspflichtig bestellen';
+      lead.textContent = (z.lieferart === 'abholung')
+        ? 'Du bestellst verbindlich zur Abholung in Halstenbek. Nach dem Absenden bekommst du sofort eine Bestätigung mit allen Angaben, danach machen wir den Übergabetermin aus.'
+        : 'Du bestellst verbindlich mit Versand. Nach dem Absenden bekommst du sofort eine Bestätigung mit allen Angaben und dem Zahlungsweg.';
+      note.innerHTML = (z.zahlweg === 'bar')
+        ? 'Bezahlt wird bar bei der Übergabe · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben'
+        : 'Zahlungsdaten kommen per Mail · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben';
+    } else {
+      submitBtn.textContent = 'Anfrage senden';
+      lead.textContent = hatAuswahl
+        ? 'Unverbindlich — ich melde mich mit Proforma-Rechnung, Versand- bzw. Abholoption und Zahlungsweg zurück.'
+        : 'Bestellwunsch, Marktanfrage, Bildlizenz oder fehlendes Motiv — eine kurze Nachricht genügt. Ich melde mich mit Preis, Versand oder Abholung und Zahlungsweg.';
+      note.innerHTML = 'Antwort meist innerhalb von 2–3 Tagen · <abbr class="pflicht" title="Pflichtangabe">*</abbr> Pflichtangaben';
+    }
+
+    /* Der Versandhinweis in der Lieferart-Kachel zeigt den Preis
+       gleich mit an — spart eine Rückfrage. */
+    var versandSub = document.getElementById('versand-opt-sub');
+    if (versandSub && z.hatPhysisches) {
+      var stufe = versandStufe();
+      versandSub.textContent = stufe
+        ? 'Verpackt und verschickt aus Halstenbek · ' + euro(VERSAND.stufen[stufe].preis) +
+          (VERSAND.kostenlosAb !== null ? ', ab ' + euro(VERSAND.kostenlosAb) + ' geschenkt' : '')
+        : 'Verpackt und verschickt aus Halstenbek.';
+    }
+  }
+
+  /* Auf jede Änderung an den drei Radiogruppen reagieren. */
+  function setupBestellSchalter() {
+    ['Bestellart', 'Lieferart', 'Zahlweg'].forEach(function (gruppe) {
+      document.querySelectorAll('input[name="' + gruppe + '"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          formularAnpassen();
+          renderAuswahlListe();   /* Versandzeile in der Summe neu rechnen */
+        });
+      });
+    });
+  }
+
   /* ---------- Anfrageformular: Anliegen-Chips + Subject-Prefix ---------- */
   function setupAnfrageForm() {
     var chipsWrap = document.getElementById('anliegen-chips');
@@ -1401,7 +1828,12 @@
       'af-name': 'Bitte trag deinen Namen ein.',
       'af-email': 'Bitte trag eine gültige E-Mail-Adresse ein (z. B. name@beispiel.de) — sonst kann ich dir nicht antworten.',
       'af-nachricht': 'Bitte schreib kurz, worum es geht.',
-      'af-datenschutz': 'Bitte bestätige die Datenschutzerklärung.'
+      'af-datenschutz': 'Bitte bestätige die Datenschutzerklärung.',
+      'af-agb': 'Bitte bestätige AGB und Widerrufsbelehrung — ohne das kann ich die Bestellung nicht annehmen.',
+      'af-strasse': 'Bitte trag Straße und Hausnummer ein.',
+      'af-plz': 'Bitte trag die Postleitzahl ein.',
+      'af-ort': 'Bitte trag den Ort ein.',
+      'af-land': 'Bitte trag das Land ein.'
     };
 
     function fehlerZeigen(feld, text) {
@@ -1438,11 +1870,15 @@
       return Array.prototype.slice.call(form.querySelectorAll('[required]'));
     }
 
-    /* Fehler verschwinden, sobald jemand das Feld korrigiert */
-    pflichtfelder().forEach(function (feld) {
+    /* Fehler verschwinden, sobald jemand das Feld korrigiert.
+       Bewusst auf ALLE Felder gelegt, nicht nur auf die, die beim
+       Laden Pflicht sind: Adresse und AGB werden ja erst später
+       zur Pflicht, wenn jemand auf "verbindlich bestellen"
+       umschaltet — die bräuchten sonst keinen Listener. */
+    form.querySelectorAll('input, textarea, select').forEach(function (feld) {
       ['input', 'change', 'blur'].forEach(function (ereignis) {
         feld.addEventListener(ereignis, function () {
-          if (feldIstOk(feld)) { fehlerLoeschen(feld); }
+          if (feld.hasAttribute('required') && feldIstOk(feld)) { fehlerLoeschen(feld); }
         });
       });
     });
@@ -1472,6 +1908,10 @@
 
       sammelEl.classList.remove('sichtbar');
 
+      /* E-Mail in das versteckte Feld spiegeln — davon hängt ab, ob
+         Formspree dem Kunden die Bestätigungsmail schickt. */
+      document.getElementById('af-email-spiegel').value = document.getElementById('af-email').value.trim();
+
       // Falls eine Auswahl besteht, aber noch kein Chip aktiv gewählt
       // wurde: automatisch "Bestellanfrage" setzen und die
       // ausgewählten Produkte oben in die Nachricht einfügen.
@@ -1479,8 +1919,35 @@
       if (auswahl.length && !hatAktivenChip) {
         activate(chipsWrap.querySelector('[data-key="bestellung"]'));
       }
+
+      var z = bestellZustand();
+
+      /* Betreff so setzen, dass du im Postfach auf einen Blick
+         siehst, ob etwas verbindlich bestellt wurde oder nur
+         angefragt ist. */
+      if (auswahl.length && z.art === 'verbindlich') {
+        subjectEl.value = '[BESTELLUNG] ' +
+          (z.lieferart === 'abholung' ? 'Abholung' : 'Versand') +
+          ' — BG Naturfotografie';
+      }
+
       if (auswahl.length) {
-        var block = 'Ausgewählte Produkte:\n' + document.getElementById('auswahl-hidden-field').value + '\n\n';
+        /* Kopfzeile mit den Eckdaten, danach die Positionen.
+           Genau diese Angaben brauchst du für Proforma bzw.
+           Rechnung — deshalb stehen sie gesammelt oben. */
+        var kopf = 'Art: ' + (z.art === 'verbindlich' ? 'VERBINDLICHE BESTELLUNG' : 'Unverbindliche Anfrage') + '\n';
+        if (z.hatPhysisches) {
+          kopf += 'Lieferung: ' + (z.lieferart === 'abholung' ? 'Abholung in Halstenbek' : 'Versand') + '\n';
+        } else {
+          kopf += 'Lieferung: entfällt (nur digitale Downloads)\n';
+        }
+        if (z.art === 'verbindlich') {
+          kopf += 'Zahlweg: ' + (z.zahlweg === 'bar' ? 'bar bei Abholung' : 'PayPal oder Überweisung (vorab)') + '\n';
+        }
+
+        var block = kopf + '\nAusgewählte Produkte:\n' +
+          document.getElementById('auswahl-hidden-field').value + '\n\n';
+
         if (nachrichtEl.value.indexOf('Ausgewählte Produkte:') === -1) {
           nachrichtEl.value = block + nachrichtEl.value;
         }
@@ -1524,6 +1991,8 @@
   renderMotivFilter();
   renderMotivBereich();
   renderStickerGrid();
+  setupBestellSchalter();   /* muss vor formularAnpassen() laufen */
+  formularAnpassen();
   renderAuswahlListe();
   badgeBeobachten();
   setupAnfrageForm();
